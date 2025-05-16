@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:17.5
+    container_name: postgres
+    ports:
+      - '14000:5432'
+    environment:
+      POSTGRES_PASSWORD: 123mudar
+      POSTGRES_USER: 123mudar
+      POSTGRES_DB: 123mudar
+
+  redis:
+    image: redis:8.0.1
+    container_name: redis
+    ports:
+      - "6600:6379"
