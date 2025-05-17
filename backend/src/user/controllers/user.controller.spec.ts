@@ -4,6 +4,9 @@ import * as request from 'supertest';
 import { UserController } from './user.controller';
 import { UserService } from '../services/user.service';
 import { Module } from '@nestjs/common';
+import { QueryFailedError } from 'typeorm';
+import { QueryFailedErrorFilter } from '../../shared/filters/query-failed-error.filter';
+import { HttpExceptionFilter } from '../../shared/filters/http-exception.filter';
 
 describe('UserController', () => {
   let app: INestApplication;
@@ -17,7 +20,7 @@ describe('UserController', () => {
     controllers: [UserController],
     providers: [{ provide: UserService, useValue: mockUserService }],
   })
-  class TestModule {}
+  class TestModule { }
 
   beforeAll(async () => {
     const moduleRef: TestingModule = await Test.createTestingModule({
@@ -26,6 +29,10 @@ describe('UserController', () => {
 
     app = moduleRef.createNestApplication();
     app.useGlobalPipes(new ValidationPipe());
+    app.useGlobalFilters(
+      new HttpExceptionFilter(),
+      new QueryFailedErrorFilter(),
+    );
 
     userService = moduleRef.get<UserService>(UserService) as jest.Mocked<UserService>;
 
@@ -86,5 +93,35 @@ describe('UserController', () => {
       });
 
     expect(userService.create).not.toHaveBeenCalled();
+  });
+
+  it('createUser_WhenUserAlreadyExists_Throws409Conflict', async () => {
+    // Arrange
+    const dto = {
+      username: 'existinguser',
+      email: 'existing@example.com',
+      password: '123456',
+    };
+
+    const error = new QueryFailedError('mock query', [], new Error());
+    (error as any).driverError = {
+      code: '23505',
+      constraint: 'UQ_78a916df40e02a9deb1c4b75edb',
+    };
+
+    userService.create.mockRejectedValue(error);
+
+    // Act & Assert
+    await request(app.getHttpServer())
+      .post('/user')
+      .send(dto)
+      .expect(409);
+
+    expect(userService.create).toHaveBeenCalledWith(
+      dto.username,
+      dto.email,
+      dto.password,
+    );
+    expect(userService.create).toHaveBeenCalledTimes(1);
   });
 });

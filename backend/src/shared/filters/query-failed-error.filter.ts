@@ -16,18 +16,20 @@ export class QueryFailedErrorFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
 
-    const pgError = exception as any;
+    const driverError = (exception as any).driverError || {};
+    const code = driverError.code;
+    const constraint = driverError.constraint;
+
     let status = HttpStatus.INTERNAL_SERVER_ERROR;
     let message = 'Unexpected database error';
 
-    const constraint = pgError.constraint;
-    if (pgError.code === '23505' && constraint && constraintMessages[constraint]) {
+    if (code === '23505') {
       status = HttpStatus.CONFLICT;
-      message = constraintMessages[constraint];
+      message = constraintMessages[constraint] ?? 'Resource already exists.';
     }
 
     this.logger.error(
-      `HTTP ${status} | ${request.method} ${request.url} | Exception name: ${exception.name} | Message: ${message} | ${exception.message} | Driver error: ${exception.driverError} | Query: ${exception.query}`
+      `HTTP ${status} | ${request.method} ${request.url} | Exception name: ${exception.name} | Message: ${message} | ${exception.message} | Driver error: ${JSON.stringify(driverError)}`
     );
 
     response.status(status).json({
