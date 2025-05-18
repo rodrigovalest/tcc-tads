@@ -1,42 +1,39 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { UnauthorizedError } from '../errors/unauthorized.error';
-import { UserPayload } from '../models/UserPayload';
 import { User } from '../../user/entities/user.entity';
 import { UserService } from '../../user/services/user.service';
-import { AuthResponseDto } from '../dtos/auth-response.dto';
+import { IUserJwtPayload } from '../models/user-jwt-payload.interface';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly userService: UserService,
+    private readonly configService: ConfigService,
   ) {}
 
-  async login(user: User): Promise<AuthResponseDto> {
-    const payload: UserPayload = {
-      sub: user.id,
-      email: user.email,
-      name: user.username,
-    };
+  async login(email: string, password: string): Promise<string> {
+    const user: User | null = await this.userService.findByEmail(email);
 
-    return {
-      access_token: this.jwtService.sign(payload),
-      token_type: 'bearer',
-      expires_in: 86400 
-    };
-  }
-
-  async validateUser(email: string, password: string): Promise<User> {
-    const user = await this.userService.findByEmail(email);
-
-    if (user && (await bcrypt.compare(password, user.password))) {
-      await this.userService.updateLastLogin(user.id);
-      const { password: _, ...userWithoutPassword } = user;
-      return userWithoutPassword as User;
+    if (!user) {
+      throw new UnauthorizedException('Email address or password provided is incorrect.');
     }
 
-    throw new UnauthorizedError('Email address or password provided is incorrect.');
+    if (!await bcrypt.compare(password, user.password)) {
+      throw new UnauthorizedException('Email address or password provided is incorrect.');
+    }
+
+    const payload: IUserJwtPayload = {
+      sub: user.id,
+      email: user.email,
+      username: user.username,
+    };
+
+    return this.jwtService.sign(
+      payload, 
+      { secret: this.configService.get<string>('JWT_SECRET', '123mudar') }
+    );
   }
 }

@@ -1,50 +1,35 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication, ValidationPipe, UnauthorizedException, BadRequestException } from '@nestjs/common';
+import { INestApplication, UnauthorizedException, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import { AuthController } from './auth.controller';
 import { AuthService } from '../services/auth.service';
-import { LocalAuthGuard } from '../guards/local-auth.guard';
+import { Module } from '@nestjs/common';
 import { HttpExceptionFilter } from '../../shared/filters/http-exception.filter';
 
-const mockAuthService = {
-  login: jest.fn(),
-};
-
-class MockLocalAuthGuard {
-  canActivate(context) {
-    const req = context.switchToHttp().getRequest();
-
-    if (!req.body.email || !req.body.password) {
-      throw new BadRequestException('Email and password are required');
-    }
-    if (req.body.email === 'invalid@example.com' || req.body.password === 'wrongpassword') {
-      throw new UnauthorizedException('Email address or password provided is incorrect.');
-    }
-    req.user = { id: 1, email: req.body.email, username: 'testuser' };
-    return true;
-  }
-}
-
-describe('AuthController (e2e)', () => {
+describe('AuthController', () => {
   let app: INestApplication;
+  let authService: jest.Mocked<AuthService>;
+
+  const mockAuthService = {
+    login: jest.fn(),
+  };
+
+  @Module({
+    controllers: [AuthController],
+    providers: [{ provide: AuthService, useValue: mockAuthService }],
+  })
+  class TestModule {}
 
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      controllers: [AuthController],
-      providers: [{ provide: AuthService, useValue: mockAuthService }],
-    })
-      .overrideGuard(LocalAuthGuard)
-      .useClass(MockLocalAuthGuard)
-      .compile();
+    const moduleRef: TestingModule = await Test.createTestingModule({
+      imports: [TestModule],
+    }).compile();
 
-    app = moduleFixture.createNestApplication();
-
-    app.useGlobalPipes(new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      transform: true,
-    }));
+    app = moduleRef.createNestApplication();
+    app.useGlobalPipes(new ValidationPipe());
     app.useGlobalFilters(new HttpExceptionFilter());
+
+    authService = moduleRef.get<AuthService>(AuthService) as jest.Mocked<AuthService>;
 
     await app.init();
   });
@@ -57,50 +42,62 @@ describe('AuthController (e2e)', () => {
     await app.close();
   });
 
-  it('/login (POST) - sucesso com credenciais válidas', async () => {
-    const loginDto = { email: 'test@example.com', password: 'validPassword' };
-    const expectedResponse = {
-      access_token: 'jwt-token',
-      token_type: 'bearer',
-      expires_in: 86400,
+  it('/login (POST) - successful login returns token', async () => {
+    // Arrange
+    const dto = {
+      email: 'user@example.com',
+      password: 'password123',
     };
 
-    mockAuthService.login.mockResolvedValue(expectedResponse);
+    const token = 'mocked.jwt.token';
+    authService.login.mockResolvedValue(token);
 
+    // Act & Assert
     const response = await request(app.getHttpServer())
       .post('/login')
-      .send(loginDto)
+      .send(dto)
       .expect(200);
 
-    expect(response.body).toEqual(expectedResponse);
-    expect(mockAuthService.login).toHaveBeenCalledWith({
-      id: 1,
-      email: loginDto.email,
-      username: 'testuser',
+    expect(response.body).toEqual({
+      access_token: token,
+      token_type: 'Bearer',
     });
+
+    expect(authService.login).toHaveBeenCalledWith(dto.email, dto.password);
+    expect(authService.login).toHaveBeenCalledTimes(1);
   });
 
-  it('/login (POST) - falha por credenciais inválidas', async () => {
-    const loginDto = { email: 'invalid@example.com', password: 'wrongpassword' };
+  it('/login (POST) - invalid data returns 400', async () => {
+    // Arrange
+    const dto = {
+      email: 'invalid-email',
+      password: '',
+    };
 
-    const response = await request(app.getHttpServer())
+    // Act & Assert
+    await request(app.getHttpServer())
       .post('/login')
-      .send(loginDto)
-      .expect(401);
-
-    expect(response.body.message).toBe('Email address or password provided is incorrect.');
-    expect(mockAuthService.login).not.toHaveBeenCalled();
-  });
-
-  it('/login (POST) - falha por falta de credenciais', async () => {
-    const loginDto = {};
-
-    const response = await request(app.getHttpServer())
-      .post('/login')
-      .send(loginDto)
+      .send(dto)
       .expect(400);
 
-    expect(response.body.message).toBe('Email and password are required');
-    expect(mockAuthService.login).not.toHaveBeenCalled();
+    expect(authService.login).not.toHaveBeenCalled();
+  });
+
+  it('/login (POST) - failed login returns 401', async () => {
+    // Arrange
+    const dto = {
+      email: 'user@example.com',
+      password: 'wrongpassword',
+    };
+
+    authService.login.mockRejectedValue(new UnauthorizedException('Unauthorized'));
+
+    // Act & Assert
+    await request(app.getHttpServer())
+      .post('/login')
+      .send(dto)
+      .expect(401);
+
+    expect(authService.login).toHaveBeenCalledWith(dto.email, dto.password);
   });
 });
