@@ -21,4 +21,18 @@ export class UserService {
       hashedPassword,
     ));
   }
+  
+  async findByEmail(email: string): Promise<User | null> {
+    return this.userRepository.findOne({ where: { email } });
+  }
+
+  async findById(id: number): Promise<User | null> {
+    return this.userRepository.findOne({ where: { id } });
+  }
+
+  async updateLastLogin(id: number): Promise<void> {
+    await this.userRepository.update(id, {
+      lastLoginAt: new Date(),
+    });
+  }
 }
