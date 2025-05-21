@@ -11,7 +11,8 @@ export class UserController {
     return this.userService.create(
       createUserDto.username,
       createUserDto.email,
-      createUserDto.password
+      createUserDto.password,
+      createUserDto.nationality
     );
   }
 }
