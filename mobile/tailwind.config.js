@@ -17,6 +17,15 @@ module.exports = {
         appBlack: "#191919"
       },
     },
+    fontFamily: {
+      "nunito-extralight": ["nunito-extralight"],
+      "nunito-light": ["nunito-light"],
+      "nunito": ["nunito-regular"],
+      "nunito-medium": ["nunito-medium"],
+      "nunito-semibold": ["nunito-semibold"],
+      "nunito-bold": ["nunito-bold"],
+      "nunito-extrabold": ["nunito-extrabold"],
+    },
   },
   plugins: [],
 }

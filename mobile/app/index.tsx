@@ -5,7 +5,9 @@ export default function Index() {
     <View
       className="flex h-full items-center justify-center bg-appBgWhite"
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+      <Text className="font-nunito-bold">
+        Edit app/index.tsx to edit this screen
+      </Text>
     </View>
   );
 }
