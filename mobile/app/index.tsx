@@ -1,3 +1,4 @@
+import { Link } from "expo-router";
 import { Text, View } from "react-native";
 
 export default function Index() {
@@ -8,6 +9,8 @@ export default function Index() {
       <Text className="font-nunito-bold">
         Edit app/index.tsx to edit this screen
       </Text>
+
+      <Link href={"/(private)/(tabs)/matches"}>Matches</Link>
     </View>
   );
 }
