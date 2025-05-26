@@ -7,6 +7,7 @@ import { Module } from '@nestjs/common';
 import { QueryFailedError } from 'typeorm';
 import { QueryFailedErrorFilter } from '../../shared/filters/query-failed-error.filter';
 import { HttpExceptionFilter } from '../../shared/filters/http-exception.filter';
+import { CountryCode } from '../entities/country-code.enum';
 
 describe('UserController', () => {
   let app: INestApplication;
@@ -53,6 +54,7 @@ describe('UserController', () => {
       username: 'tralalero',
       email: 'tralalero@example.com',
       password: '123456',
+      nationality: 'BR'
     };
 
     // Act
@@ -66,6 +68,7 @@ describe('UserController', () => {
       dto.username,
       dto.email,
       dto.password,
+      CountryCode.Brazil
     );
     expect(userService.create).toHaveBeenCalledTimes(1);
   });
@@ -76,6 +79,7 @@ describe('UserController', () => {
       username: 'lirili',
       email: 'email-invalido',
       password: '123',
+      nationality: 'nationality invalid'
     };
 
     // Act & Assert
@@ -88,6 +92,7 @@ describe('UserController', () => {
           expect.arrayContaining([
             'email must be an email',
             'password must be longer than or equal to 6 characters',
+            'nationality must be a valid country code (e.g., BR, US)'
           ]),
         );
       });
@@ -101,6 +106,7 @@ describe('UserController', () => {
       username: 'existinguser',
       email: 'existing@example.com',
       password: '123456',
+      nationality: 'BR'
     };
 
     const error = new QueryFailedError('mock query', [], new Error());
@@ -121,6 +127,7 @@ describe('UserController', () => {
       dto.username,
       dto.email,
       dto.password,
+      CountryCode.Brazil
     );
     expect(userService.create).toHaveBeenCalledTimes(1);
   });

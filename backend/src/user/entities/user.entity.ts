@@ -1,4 +1,5 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { CountryCode } from "./country-code.enum";
 
 @Entity()
 export class User {
@@ -14,6 +15,9 @@ export class User {
   @Column({ nullable: false })
   password!: string;
 
+  @Column({ type: 'enum', enum: CountryCode, nullable: false })
+  nationality: CountryCode;
+
   @Column({ default: true })
   isActive: boolean;
 
@@ -26,9 +30,10 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  constructor(username: string, email: string, password: string) {
+  constructor(username: string, email: string, password: string, nationality: CountryCode) {
     this.username = username;
     this.email = email;
+    this.nationality = nationality;
     this.password = password;
     this.isActive = true;
   }

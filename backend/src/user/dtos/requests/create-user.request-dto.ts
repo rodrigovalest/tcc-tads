@@ -1,4 +1,5 @@
-import { IsDefined, IsEmail, IsNotEmpty, IsString, MinLength } from "class-validator";
+import { IsDefined, IsEmail, IsEnum, IsNotEmpty, IsString, MinLength } from "class-validator";
+import { CountryCode } from "../../entities/country-code.enum";
 
 export class CreateUserRequestDto {
   @IsDefined()
@@ -11,6 +12,10 @@ export class CreateUserRequestDto {
   @IsNotEmpty()
   @IsEmail()
   readonly email: string;
+
+  @IsDefined()
+  @IsEnum(CountryCode, { message: 'nationality must be a valid country code (e.g., BR, US)' })
+  readonly nationality: CountryCode;
 
   @IsDefined()
   @IsString()
