@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import {
   TextInput,
-  StyleSheet,
   View,
   Text,
   TouchableOpacity,
   KeyboardTypeOptions,
 } from "react-native";
-import { typography } from "../assets/typography";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { colors } from "../assets/colors";
+import { COLORS } from "../constants/colors";
 
 interface InputProps {
   label: string;
@@ -48,9 +46,15 @@ const Input: React.FC<InputProps> = ({
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={[styles.label, typography.text]}>{label}</Text>
-      <View style={[styles.inputContainer, error ? styles.inputError : null]}>
+    <View className="mb-4">
+      <Text className="mb-2 text-appBlack font-semibold text-xl pl-2.5">
+        {label}
+      </Text>
+      <View
+        className={`flex-row items-center border rounded-lg bg-appLightGrey ${
+          error ? "border-appMediumRed" : "border-black"
+        }`}
+      >
         <TextInput
           key={
             type === "password"
@@ -59,14 +63,13 @@ const Input: React.FC<InputProps> = ({
                 : "password-hidden"
               : "input"
           }
-          style={[
-            styles.input,
-            typography.body,
-            type === "password" && styles.inputWithIcon,
-          ]}
+          className={`flex-1 px-3 py-4 text-xl text-appDarkGrey ${
+            type === "password" ? "pr-10" : ""
+          }`}
           value={value}
           onChangeText={onChangeText}
           placeholder={placeholder}
+          placeholderTextColor={COLORS.appMediumGrey}
           secureTextEntry={type === "password" && !isPasswordVisible}
           keyboardType={getKeyboardType()}
           autoCapitalize={
@@ -78,65 +81,22 @@ const Input: React.FC<InputProps> = ({
         {type === "password" && (
           <TouchableOpacity
             onPress={togglePasswordVisibility}
-            style={styles.iconContainer}
+            className="absolute right-3 h-full justify-center items-center"
             testID="password-visibility-toggle"
           >
             <Icon
               name={isPasswordVisible ? "eye" : "eye-slash"}
               size={24}
-              color={colors.iconDefault}
+              color={COLORS.appMediumGrey}
             />
           </TouchableOpacity>
         )}
       </View>
-      {error ? <Text style={styles.errorText}>{error}</Text> : null}
+      {error ? (
+        <Text className="text-appMediumRed text-xs mt-1 ml-1">{error}</Text>
+      ) : null}
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: 16,
-  },
-  label: {
-    marginBottom: 8,
-    color: colors.black,
-    fontWeight: "600",
-    fontSize: 20,
-    paddingLeft: 10,
-  },
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: colors.inputBorder,
-    borderRadius: 10,
-    backgroundColor: colors.inputBackground,
-  },
-  input: {
-    flex: 1,
-    paddingHorizontal: 12,
-    paddingVertical: 14,
-  },
-  inputWithIcon: {
-    paddingRight: 40,
-  },
-  iconContainer: {
-    position: "absolute",
-    right: 12,
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  inputError: {
-    borderColor: colors.error,
-  },
-  errorText: {
-    color: colors.error,
-    fontSize: 12,
-    marginTop: 4,
-    marginLeft: 4,
-  },
-});
 
 export default Input;
