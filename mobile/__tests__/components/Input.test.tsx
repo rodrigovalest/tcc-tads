@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react-native";
+import { render, fireEvent, act } from "@testing-library/react-native";
 import Input from "../../components/Input";
 
 describe("Input", () => {
@@ -65,12 +65,16 @@ describe("Input", () => {
     expect(inputElement.props.secureTextEntry).toBe(false);
 
     const toggleButton = getByTestId("password-visibility-toggle");
-    fireEvent.press(toggleButton);
+    act(() => {
+      fireEvent.press(toggleButton);
+    });
 
     inputElement = getByPlaceholderText("Enter your password");
     expect(inputElement.props.secureTextEntry).toBe(true);
 
-    fireEvent.press(toggleButton);
+    act(() => {
+      fireEvent.press(toggleButton);
+    });
     inputElement = getByPlaceholderText("Enter your password");
     expect(inputElement.props.secureTextEntry).toBe(false);
   });

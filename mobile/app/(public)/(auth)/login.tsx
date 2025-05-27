@@ -4,7 +4,10 @@ import LoginForm from "@/components/LoginForm";
 
 export default function Login() {
   return (
-    <SafeAreaView className="w-full h-full bg-appBgWhite">
+    <SafeAreaView
+      className="w-full h-full bg-appBgWhite"
+      testID="login-screen-safe-area-view"
+    >
       <LoginForm />
     </SafeAreaView>
   );

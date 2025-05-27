@@ -2,10 +2,9 @@ import axios from "axios";
 import ILoginRequest from "@/models/requests/login-request";
 import ILoginResponse from "@/models/responses/login-response";
 
-const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL;
-
 const authService = {
   login: async (data: ILoginRequest): Promise<ILoginResponse> => {
+    const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL;
     const response = await axios.post<ILoginResponse>(
       `${API_BASE_URL}/login`,
       data

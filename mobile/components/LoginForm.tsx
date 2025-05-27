@@ -69,6 +69,7 @@ const LoginForm: React.FC = () => {
         bgColor="bg-black"
         bgColorActivate="bg-gray-700"
         borderColor="border-black"
+        testID="login-button"
       />
       <Text className="text-center text-2xl text-black font-medium mb-4">
         or
@@ -88,6 +89,7 @@ const LoginForm: React.FC = () => {
         iconLeft="google"
         iconLeftColor="black"
         iconLeftColorActivate="white"
+        testID="google-login-button"
       />
       <Button
         title="Create an account"

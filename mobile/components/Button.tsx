@@ -24,6 +24,7 @@ interface ButtonProps {
   iconLeftColorActivate?: string;
   iconRightColor?: string;
   iconRightColorActivate?: string;
+  testID?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -47,6 +48,7 @@ const Button: React.FC<ButtonProps> = ({
   iconLeftColorActivate = "white",
   iconRightColor = "black",
   iconRightColorActivate = "white",
+  testID,
 }) => {
   const [isPressed, setIsPressed] = useState(false);
 
@@ -82,9 +84,13 @@ const Button: React.FC<ButtonProps> = ({
       activeOpacity={1}
       accessibilityRole="button"
       accessibilityState={{ disabled: disabled || loading }}
+      testID={testID}
     >
       {loading ? (
-        <ActivityIndicator color={COLORS.appBlack} />
+        <ActivityIndicator
+          color={COLORS.appBlack}
+          testID="button-activity-indicator"
+        />
       ) : (
         <View className="flex flex-row items-center justify-between w-full">
           {iconLeft ? (
