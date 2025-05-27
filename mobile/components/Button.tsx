@@ -32,10 +32,10 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   loading = false,
   className = "",
-  textColor = "white",
+  textColor = "text-white",
   bgColor = "bg-white",
   bgColorActivate = "bg-black",
-  textColorActivate = "white",
+  textColorActivate = "text-white",
   borderColor = "border-black",
   borderColorActivate = "border-gray-500",
   textSize = "base",
@@ -79,7 +79,7 @@ const Button: React.FC<ButtonProps> = ({
       disabled={disabled || loading}
       className={`py-3.5 px-4 rounded-lg items-center justify-center border-2 ${className} ${currentBorderColor} 
       ${currentBgColor} ${disabled || loading ? "opacity-50" : ""}`}
-      activeOpacity={1} // Use 1 to make background color change the primary feedback
+      activeOpacity={1}
       accessibilityRole="button"
       accessibilityState={{ disabled: disabled || loading }}
     >
@@ -100,7 +100,7 @@ const Button: React.FC<ButtonProps> = ({
           )}
           <View className="flex-1 items-center justify-center">
             <Text
-              className={`font-semibold text-center text-${textSize} text-${currentTextColor}`}
+              className={`font-semibold text-center ${textSize} ${currentTextColor}`}
             >
               {title}
             </Text>

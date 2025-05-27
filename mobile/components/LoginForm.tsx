@@ -13,6 +13,8 @@ const LoginForm: React.FC = () => {
     setPassword,
     emailError,
     passwordError,
+    isLoading,
+    apiError,
     handleEmailBlur,
     handlePasswordBlur,
     handleLogin,
@@ -50,15 +52,20 @@ const LoginForm: React.FC = () => {
         error={passwordError}
         onBlur={handlePasswordBlur}
       />
+      {apiError ? (
+        <Text className="text-appMediumRed text-sm mb-2 text-center">
+          {apiError}
+        </Text>
+      ) : null}
       <Button
         title="Login"
         onPress={handleLogin}
         className="mb-4"
-        disabled={!email || !password}
-        loading={false}
+        disabled={!email || !password || isLoading}
+        loading={isLoading}
         textSize="2xl"
-        textColor="white"
-        textColorActivate="white"
+        textColor="text-white"
+        textColorActivate="text-white"
         bgColor="bg-black"
         bgColorActivate="bg-gray-700"
         borderColor="border-black"
@@ -70,9 +77,9 @@ const LoginForm: React.FC = () => {
         title="Login with Google"
         onPress={handleGoogleLogin}
         className="mb-4"
-        loading={false}
-        textColor="black"
-        textColorActivate="white"
+        loading={isLoading}
+        textColor="text-black"
+        textColorActivate="text-white"
         textSize="2xl"
         bgColor="bg-white"
         bgColorActivate="bg-black"
@@ -87,8 +94,8 @@ const LoginForm: React.FC = () => {
         onPress={handleSignUp}
         className="mb-4"
         textSize="2xl"
-        textColor="black"
-        textColorActivate="white"
+        textColor="text-black"
+        textColorActivate="text-white"
         bgColor="bg-white"
         bgColorActivate="bg-black"
         borderColor="border-appLightGrey"
