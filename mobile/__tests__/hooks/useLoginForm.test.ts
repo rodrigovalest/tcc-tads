@@ -1,219 +1,269 @@
 import { renderHook, act } from "@testing-library/react-native";
 import { useLoginForm } from "../../hooks/useLoginForm";
-import authService from "../../services/auth-service";
 import { router } from "expo-router";
+import useAuthStore, { AuthState } from "../../store/auth-store";
+import * as yup from "yup";
+import ILoginRequest from "../../models/requests/login-request";
+import { UseFormReturn } from "react-hook-form";
 
-jest.mock("../../services/auth-service");
+// Mock dependencies
 jest.mock("expo-router", () => ({
   router: {
     replace: jest.fn(),
   },
 }));
 
+const mockAuthStoreLoginFn = jest.fn();
+const mockLogoutFn = jest.fn(); // Added for completeness if other tests use it
+const mockRestoreSessionFn = jest.fn(); // Added for completeness
+
+// Define the initial state for the mock store
+const mockInitialAuthState: AuthState = {
+  user: null,
+  token: null,
+  isAuthenticated: false,
+  userProfile: null,
+  isLoading: false,
+  error: null,
+  login: mockAuthStoreLoginFn,
+  logout: mockLogoutFn,
+  restoreSession: mockRestoreSessionFn,
+};
+
+// Use a mutable variable to hold the current state of the mock store
+let mockCurrentAuthState: AuthState = { ...mockInitialAuthState };
+
+jest.mock("../../store/auth-store", () => {
+  // This is the mock implementation for the useAuthStore hook
+  const mockHook = (selector?: (state: AuthState) => any) => {
+    if (selector) {
+      return selector(mockCurrentAuthState);
+    }
+    return mockCurrentAuthState;
+  };
+
+  // Mock static methods if your application or other tests use them
+  mockHook.getState = () => mockCurrentAuthState;
+  mockHook.setState = (
+    updater: Partial<AuthState> | ((state: AuthState) => Partial<AuthState>)
+  ) => {
+    const updates =
+      typeof updater === "function" ? updater(mockCurrentAuthState) : updater;
+    mockCurrentAuthState = { ...mockCurrentAuthState, ...updates };
+  };
+
+  return {
+    __esModule: true,
+    // Ensure the default export is a jest.fn() wrapping our mockHook logic.
+    // This allows Jest to track calls to useAuthStore itself if needed.
+    default: jest.fn(mockHook),
+  };
+});
+
+// This will hold the actual onValid handler (handleLogin from the hook)
+let capturedOnValidHandler: (data: ILoginRequest) => Promise<void>;
+
+// This is the mock for the function returned by RHF's handleSubmit(onValid)
+// e.g., what `result.current.handleSubmit` will be in the tests.
+const mockRHFReturnedSubmitFunction = jest.fn(
+  async (dataOrEvent?: ILoginRequest | React.BaseSyntheticEvent) => {
+    if (capturedOnValidHandler) {
+      // If dataOrEvent is ILoginRequest, call handler with it.
+      // This simulates RHF calling the onValid handler with form data.
+      if (
+        dataOrEvent &&
+        typeof dataOrEvent === "object" &&
+        "email" in dataOrEvent &&
+        "password" in dataOrEvent
+      ) {
+        return capturedOnValidHandler(dataOrEvent as ILoginRequest);
+      }
+      // If it's an event or undefined, RHF would extract data.
+      // This mock doesn't fully simulate that, but our tests will pass data directly.
+    }
+  }
+);
+
+jest.mock("react-hook-form", () => {
+  const actualRHF = jest.requireActual("react-hook-form");
+  return {
+    ...actualRHF,
+    useForm: jest.fn(
+      (
+        options?: any
+      ): Partial<UseFormReturn<ILoginRequest, any, undefined>> => ({
+        control: {} as any, // Mocked control
+        handleSubmit: jest
+          .fn()
+          .mockImplementation(
+            (onValid: (data: ILoginRequest) => Promise<void>) => {
+              capturedOnValidHandler = onValid; // Capture the actual handleLogin
+              return mockRHFReturnedSubmitFunction; // Return our mock for the (e?) => Promise<void> function
+            }
+          ),
+        formState: { errors: {}, isSubmitting: false } as any, // Mocked formState
+        setError: jest.fn(),
+        clearErrors: jest.fn(),
+        // Add any other methods from useForm that your hook might use
+        watch: jest.fn(),
+        setValue: jest.fn(),
+      })
+    ),
+  };
+});
+
+const loginSchema = yup.object().shape({
+  email: yup.string().email("Email inválido").required("Email é obrigatório"),
+  password: yup
+    .string()
+    .min(6, "Senha deve ter pelo menos 6 caracteres")
+    .required("Senha é obrigatória"),
+});
+
 describe("useLoginForm", () => {
-  const mockAuthService = authService as jest.Mocked<typeof authService>;
   const mockRouterReplace = router.replace as jest.Mock;
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    jest.clearAllMocks(); // This will clear mockAuthStoreLoginFn, mockLogoutFn, etc.
+
+    // Reset the mock store state to its initial values before each test
+    mockCurrentAuthState = {
+      ...mockInitialAuthState,
+      // Re-assign mock functions to ensure they are the cleared Jest mocks
+      login: mockAuthStoreLoginFn,
+      logout: mockLogoutFn,
+      restoreSession: mockRestoreSessionFn,
+    };
+
+    // The default export of useAuthStore is already a jest.fn() due to the mock structure.
+    // Its implementation is set to call mockHook which uses currentMockAuthState.
+    // No need to call (useAuthStore as jest.Mock).mockImplementation(...) here
+    // unless a specific test needs to override the entire hook's behavior.
   });
 
-  it("should update email and password fields and clear errors", () => {
+  it("should initialize with default values", () => {
+    const { result } = renderHook(() => useLoginForm());
+
+    expect(result.current.apiError).toBeNull();
+    expect(result.current.isLoading).toBe(false);
+    expect(result.current.errors).toEqual({}); // from formState
+    expect(typeof result.current.control).toBe("object");
+    expect(typeof result.current.handleSubmit).toBe("function");
+    expect(typeof result.current.handleGoogleLogin).toBe("function");
+    expect(typeof result.current.handleSignUp).toBe("function");
+  });
+
+  it("handleSignUp should navigate to register screen", () => {
     const { result } = renderHook(() => useLoginForm());
 
     act(() => {
-      result.current.setEmail("test");
-      result.current.setPassword("123");
-    });
-    act(() => {
-      result.current.handleEmailBlur();
-      result.current.handlePasswordBlur();
+      result.current.handleSignUp();
     });
 
-    expect(result.current.emailError).not.toBe("");
-    expect(result.current.passwordError).not.toBe("");
-
-    act(() => {
-      result.current.setEmail("test@example.com");
-      result.current.setPassword("password123");
-    });
-
-    expect(result.current.email).toBe("test@example.com");
-    expect(result.current.password).toBe("password123");
-    expect(result.current.emailError).toBe("");
-    expect(result.current.passwordError).toBe("");
+    expect(mockRouterReplace).toHaveBeenCalledWith("/(public)/(auth)/register");
   });
 
-  describe("Validation", () => {
-    it("should set emailError for invalid email", () => {
-      const { result } = renderHook(() => useLoginForm());
-      act(() => result.current.setEmail("invalidemail"));
-      act(() => result.current.handleEmailBlur());
-      expect(result.current.emailError).toBe("Email inválido");
+  it("handleLogin should call storeLogin and handle success", async () => {
+    mockAuthStoreLoginFn.mockResolvedValueOnce(undefined);
+
+    const { result } = renderHook(() => useLoginForm());
+    const loginData: ILoginRequest = {
+      email: "test@example.com",
+      password: "password123",
+    };
+
+    await act(async () => {
+      await (result.current.handleSubmit as any)(loginData);
     });
 
-    it("should set passwordError for short password", () => {
-      const { result } = renderHook(() => useLoginForm());
-      act(() => result.current.setPassword("123"));
-      act(() => result.current.handlePasswordBlur());
-      expect(result.current.passwordError).toBe(
-        "Senha deve ter pelo menos 6 caracteres"
-      );
-    });
-
-    it("should not set errors for valid email and password", () => {
-      const { result } = renderHook(() => useLoginForm());
-      act(() => result.current.setEmail("valid@example.com"));
-      act(() => result.current.setPassword("validpassword"));
-      act(() => {
-        result.current.handleEmailBlur();
-        result.current.handlePasswordBlur();
-      });
-      expect(result.current.emailError).toBe("");
-      expect(result.current.passwordError).toBe("");
-    });
+    expect(mockAuthStoreLoginFn).toHaveBeenCalledWith(loginData);
+    expect(result.current.apiError).toBeNull();
+    expect(result.current.isLoading).toBe(false); // Should be false after completion
   });
 
-  describe("handleLogin", () => {
-    it("should successfully login and navigate", async () => {
-      mockAuthService.login.mockResolvedValueOnce({
-        access_token: "fake-access-token",
-        token_type: "Bearer",
-      });
-      const { result } = renderHook(() => useLoginForm());
+  it("handleLogin should set apiError on storeLogin failure", async () => {
+    const errorMessage = "Invalid credentials";
+    mockAuthStoreLoginFn.mockRejectedValueOnce(new Error(errorMessage));
 
-      act(() => {
-        result.current.setEmail("test@example.com");
-        result.current.setPassword("password123");
-      });
+    const { result } = renderHook(() => useLoginForm());
+    const loginData: ILoginRequest = {
+      email: "wrong@example.com",
+      password: "wrongpassword",
+    };
 
-      await act(async () => {
-        await result.current.handleLogin();
-      });
+    await act(async () => {
+      await (result.current.handleSubmit as any)(loginData);
+    });
 
-      expect(result.current.isLoading).toBe(false);
-      expect(mockAuthService.login).toHaveBeenCalledWith({
+    expect(mockAuthStoreLoginFn).toHaveBeenCalledWith(loginData);
+    expect(result.current.apiError).toBe(errorMessage);
+    expect(result.current.isLoading).toBe(false);
+  });
+
+  it("handleGoogleLogin should set apiError as it is not implemented", async () => {
+    const { result } = renderHook(() => useLoginForm());
+
+    await act(async () => {
+      await result.current.handleGoogleLogin();
+    });
+
+    expect(result.current.apiError).toBe(
+      "Google login is not implemented yet."
+    );
+    expect(result.current.isLoading).toBe(false);
+  });
+
+  // Tests for yup schema validation
+  describe("Login Schema Validation", () => {
+    it("should require email and password", () => {
+      // No async
+      try {
+        loginSchema.validateSync({}, { abortEarly: false }); // Explicit abortEarly: false
+        throw new Error("ValidationError was not thrown for empty object"); // Should not reach here
+      } catch (e: any) {
+        expect(e.name).toBe("ValidationError");
+        expect(e.inner).toBeInstanceOf(Array);
+        expect(e.inner.length).toBe(2); // Both fields are required
+        const messages = e.inner.map((err: any) => err.message).sort();
+        expect(messages).toEqual([
+          "Email é obrigatório",
+          "Senha é obrigatória",
+        ]);
+      }
+    });
+
+    it("should require a valid email", () => {
+      // No async
+      try {
+        loginSchema.validateSyncAt("email", { email: "invalid" }); // Use validateSyncAt
+        throw new Error("ValidationError was not thrown for invalid email"); // Should not reach here
+      } catch (e: any) {
+        expect(e.name).toBe("ValidationError");
+        expect(e.message).toBe("Email inválido");
+      }
+    });
+
+    it("should require password to be at least 6 characters", () => {
+      // No async
+      try {
+        // Use validateSyncAt for password, providing a valid email to avoid unrelated errors
+        loginSchema.validateSyncAt("password", {
+          email: "test@example.com",
+          password: "123",
+        });
+        throw new Error("ValidationError was not thrown for short password"); // Should not reach here
+      } catch (e: any) {
+        expect(e.name).toBe("ValidationError");
+        expect(e.message).toBe("Senha deve ter pelo menos 6 caracteres");
+      }
+    });
+
+    it("should pass with valid data", async () => {
+      const validData = {
         email: "test@example.com",
         password: "password123",
-      });
-      expect(mockRouterReplace).toHaveBeenCalledWith(
-        "/(private)/(tabs)/matches"
-      );
-      expect(result.current.apiError).toBeNull();
-    });
-
-    it("should set apiError on login failure", async () => {
-      const errorMessage = "Invalid credentials";
-      mockAuthService.login.mockRejectedValueOnce({
-        response: { data: { message: errorMessage } },
-      });
-      const { result } = renderHook(() => useLoginForm());
-
-      act(() => {
-        result.current.setEmail("test@example.com");
-        result.current.setPassword("password123");
-      });
-
-      await act(async () => {
-        await result.current.handleLogin();
-      });
-
-      expect(result.current.isLoading).toBe(false);
-      expect(mockAuthService.login).toHaveBeenCalled();
-      expect(result.current.apiError).toBe(errorMessage);
-      expect(mockRouterReplace).not.toHaveBeenCalled();
-    });
-
-    it("should set validation errors and not call API if form is invalid", async () => {
-      const { result } = renderHook(() => useLoginForm());
-
-      act(() => {
-        result.current.setEmail("invalid");
-        result.current.setPassword("123");
-      });
-
-      await act(async () => {
-        await result.current.handleLogin();
-      });
-
-      expect(result.current.isLoading).toBe(false);
-      expect(result.current.emailError).toBe("Email inválido");
-      expect(result.current.passwordError).toBe(
-        "Senha deve ter pelo menos 6 caracteres"
-      );
-      expect(mockAuthService.login).not.toHaveBeenCalled();
-      expect(mockRouterReplace).not.toHaveBeenCalled();
-    });
-  });
-
-  describe("handleGoogleLogin", () => {
-    it("should attempt Google login and set apiError for not implemented", async () => {
-      const { result } = renderHook(() => useLoginForm());
-
-      await act(async () => {
-        await result.current.handleGoogleLogin();
-      });
-
-      expect(result.current.isLoading).toBe(false);
-      expect(result.current.apiError).toBe(
-        "Google login is not implemented yet."
-      );
-    });
-  });
-
-  describe("handleSignUp", () => {
-    it("should navigate on handleSignUp", () => {
-      const { result } = renderHook(() => useLoginForm());
-
-      act(() => {
-        result.current.handleSignUp();
-      });
-
-      expect(mockRouterReplace).toHaveBeenCalledWith(
-        "/(private)/(tabs)/matches"
-      );
-    });
-  });
-
-  describe("Blur Handlers", () => {
-    it("handleEmailBlur should validate if formSubmitted or email has value", () => {
-      const { result } = renderHook(() => useLoginForm());
-      act(() => result.current.handleEmailBlur());
-      expect(result.current.emailError).toBe("");
-
-      act(() => result.current.setEmail("invalid"));
-      act(() => result.current.handleEmailBlur());
-      expect(result.current.emailError).toBe("Email inválido");
-
-      act(() => result.current.setEmail(""));
-      act(() => result.current.setPassword("123"));
-      act(() => {
-        result.current.handleLogin();
-      });
-
-      act(() => result.current.handleEmailBlur());
-      expect(result.current.emailError).toBe("Email é obrigatório");
-    });
-
-    it("handlePasswordBlur should validate if formSubmitted or password has value", () => {
-      const { result } = renderHook(() => useLoginForm());
-      act(() => result.current.handlePasswordBlur());
-      expect(result.current.passwordError).toBe("");
-
-      act(() => result.current.setPassword("123"));
-      act(() => result.current.handlePasswordBlur());
-      expect(result.current.passwordError).toBe(
-        "Senha deve ter pelo menos 6 caracteres"
-      );
-
-      act(() => result.current.setEmail("valid@email.com"));
-      act(() => result.current.setPassword(""));
-      act(() => {
-        result.current.handleLogin();
-      });
-
-      act(() => result.current.handlePasswordBlur());
-      expect(result.current.passwordError).toBe("Senha é obrigatória");
+      };
+      await expect(loginSchema.validate(validData)).resolves.toEqual(validData);
     });
   });
 });

@@ -4,20 +4,15 @@ import { useLoginForm } from "../hooks/useLoginForm";
 import Input from "./Input";
 import Button from "./Button";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Controller } from "react-hook-form";
 
 const LoginForm: React.FC = () => {
   const {
-    email,
-    password,
-    setEmail,
-    setPassword,
-    emailError,
-    passwordError,
+    control,
+    handleSubmit,
+    errors,
     isLoading,
     apiError,
-    handleEmailBlur,
-    handlePasswordBlur,
-    handleLogin,
     handleGoogleLogin,
     handleSignUp,
   } = useLoginForm();
@@ -34,34 +29,50 @@ const LoginForm: React.FC = () => {
           Log in or sign up
         </Text>
       </View>
-      <Input
-        label="Email *  "
-        value={email}
-        onChangeText={setEmail}
-        placeholder="Enter your email"
-        type="email"
-        error={emailError}
-        onBlur={handleEmailBlur}
+
+      <Controller
+        control={control}
+        name="email"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            label="Email *"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            placeholder="Enter your email"
+            type="email"
+            error={errors.email?.message || undefined}
+          />
+        )}
       />
-      <Input
-        label="Password *"
-        value={password}
-        onChangeText={setPassword}
-        placeholder="Enter your password"
-        type="password"
-        error={passwordError}
-        onBlur={handlePasswordBlur}
+
+      <Controller
+        control={control}
+        name="password"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            label="Password *"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            placeholder="Enter your password"
+            type="password"
+            error={errors.password?.message || undefined}
+          />
+        )}
       />
+
       {apiError ? (
         <Text className="text-appMediumRed text-sm mb-2 text-center">
           {apiError}
         </Text>
       ) : null}
+
       <Button
         title="Login"
-        onPress={handleLogin}
+        onPress={handleSubmit}
         className="mb-4"
-        disabled={!email || !password || isLoading}
+        disabled={isLoading || Object.keys(errors).length > 0}
         loading={isLoading}
         textSize="2xl"
         textColor="text-white"

@@ -1,87 +1,52 @@
-import { useState } from "react";
 import { router } from "expo-router";
-import authService from "../services/auth-service";
-import ILoginRequest from "../models/requests/login-request";
+import useAuthStore, { AuthState } from "@/store/auth-store";
+import ILoginRequest from "@/models/requests/login-request";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
+
+const loginSchema = yup.object().shape({
+  email: yup.string().email("Email inválido").required("Email é obrigatório"),
+  password: yup
+    .string()
+    .min(6, "Senha deve ter pelo menos 6 caracteres")
+    .required("Senha é obrigatória"),
+});
 
 export const useLoginForm = () => {
-  const [email, _setEmail] = useState("");
-  const [password, _setPassword] = useState("");
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setError,
+    clearErrors,
+  } = useForm<ILoginRequest>({
+    resolver: yupResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [formSubmitted, setFormSubmitted] = useState(false);
-
+  const storeLogin = useAuthStore((state: AuthState) => state.login);
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
 
-  const setEmail = (text: string) => {
-    _setEmail(text);
-    if (emailError) {
-      setEmailError("");
-    }
-  };
-
-  const setPassword = (text: string) => {
-    _setPassword(text);
-    if (passwordError) {
-      setPasswordError("");
-    }
-  };
-
-  const validateEmail = () => {
-    if (!email.trim()) {
-      setEmailError("Email é obrigatório");
-      return false;
-    } else if (!/^\S+@\S+\.\S+$/.test(email)) {
-      setEmailError("Email inválido");
-      return false;
-    }
-    return true;
-  };
-
-  const validatePassword = () => {
-    if (!password.trim()) {
-      setPasswordError("Senha é obrigatória");
-      return false;
-    } else if (password.length < 6) {
-      setPasswordError("Senha deve ter pelo menos 6 caracteres");
-      return false;
-    }
-    return true;
-  };
-
-  const validateForm = () => {
-    const isEmailValid = validateEmail();
-    const isPasswordValid = validatePassword();
-    return isEmailValid && isPasswordValid;
-  };
-
-  const handleLogin = async () => {
-    setFormSubmitted(true);
+  const handleLogin = async (data: ILoginRequest) => {
     setApiError(null);
-
-    if (validateForm()) {
-      setIsLoading(true);
-      try {
-        const loginData: ILoginRequest = { email: email, password: password };
-        const response = await authService.login(loginData);
-        console.log("Login successful:", response);
-
-        /// TODO: Update global auth state (e.g., using Zustand)
-        // e.g., authStore.setAuth(response.token, response.user);
-        router.replace("/(private)/(tabs)/matches");
-      } catch (error: any) {
-        console.error("Login failed:", error);
-        const message =
-          error.response?.data?.message ||
-          error.message ||
-          "Login failed. Please check your credentials and try again.";
-        setApiError(message);
-      } finally {
-        setIsLoading(false);
-      }
-    } else {
-      console.log("Form has validation errors");
+    clearErrors();
+    setIsLoading(true);
+    try {
+      await storeLogin(data);
+      console.log("Login attempt successful via useAuthStore");
+    } catch (error: any) {
+      console.error("Error during handleLogin:", error);
+      const message =
+        error.message || "An unexpected error occurred during login.";
+      setApiError(message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -90,6 +55,7 @@ export const useLoginForm = () => {
     setIsLoading(true);
     try {
       console.log("Google login attempt");
+      // Implement Google login logic here
       throw new Error("Google login is not implemented yet.");
     } catch (error: any) {
       console.error("Google login failed:", error);
@@ -104,35 +70,18 @@ export const useLoginForm = () => {
   };
 
   const handleSignUp = () => {
-    // Sign up navigation logic will be implemented later
     console.log("Navigate to sign up");
-    router.replace("/(private)/(tabs)/matches");
-  };
-
-  const handleEmailBlur = () => {
-    if (formSubmitted || email.trim()) {
-      validateEmail();
-    }
-  };
-
-  const handlePasswordBlur = () => {
-    if (formSubmitted || password.trim()) {
-      validatePassword();
-    }
+    router.replace("/(public)/(auth)/register");
   };
 
   return {
-    email,
-    password,
-    setEmail,
-    setPassword,
-    emailError,
-    passwordError,
-    isLoading,
+    control,
+    handleSubmit: handleSubmit(handleLogin),
+    errors,
+    isLoading: isLoading || isSubmitting,
     apiError,
-    handleEmailBlur,
-    handlePasswordBlur,
-    handleLogin,
+    setApiError,
+    clearErrors,
     handleGoogleLogin,
     handleSignUp,
   };

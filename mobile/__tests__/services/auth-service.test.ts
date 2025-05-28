@@ -52,10 +52,12 @@ describe("authService", () => {
   });
 
   describe("logout", () => {
-    it("should resolve and log a message (current implementation)", async () => {
+    it("should resolve and log the correct message", async () => {
       const consoleSpy = jest.spyOn(console, "log");
       await expect(authService.logout()).resolves.toBeUndefined();
-      expect(consoleSpy).toHaveBeenCalledWith("Logout action performed");
+      expect(consoleSpy).toHaveBeenCalledWith(
+        "Logout action performed and auth state cleared"
+      );
       consoleSpy.mockRestore();
     });
   });

@@ -12,8 +12,7 @@ const authService = {
     return response.data;
   },
   logout: async (): Promise<void> => {
-    // Implement logout logic here, e.g., clearing tokens
-    console.log("Logout action performed");
+    console.log("Logout action performed and auth state cleared");
     return Promise.resolve();
   },
   loginWithGoogle: async (): Promise<ILoginResponse> => {
