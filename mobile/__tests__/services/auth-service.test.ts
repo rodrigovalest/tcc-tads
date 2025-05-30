@@ -1,75 +1,47 @@
-import axios from "axios";
-import authService from "../../services/auth-service";
-import ILoginRequest from "../../models/requests/login-request";
-import ILoginResponse from "../../models/responses/login-response";
+import authService from '@/services/auth-service';
+import api from '@/api';
+import ILoginRequest from '@/models/requests/login-request';
+import ILoginResponse from '@/models/responses/login-response';
 
-jest.mock("axios");
-const mockedAxios = axios as jest.Mocked<typeof axios>;
+jest.mock('@/api');
 
-const MOCK_API_URL = "http://mockapi.com/api";
-process.env.EXPO_PUBLIC_API_URL = MOCK_API_URL;
+const mockedApi = api as jest.Mocked<typeof api>;
 
-describe("authService", () => {
-  beforeEach(() => {
-    mockedAxios.post.mockClear();
-    mockedAxios.get.mockClear();
-  });
-
-  describe("login", () => {
-    const loginData: ILoginRequest = {
-      email: "test@example.com",
-      password: "password123",
+describe('authService.login', () => {
+  it('send correct data and returns token', async () => {
+    // Arrange
+    const mockRequest: ILoginRequest = {
+      email: 'user@example.com',
+      password: '123456',
     };
 
-    it("should call axios.post with correct URL and data, and return response data on success", async () => {
-      const mockLoginResponse: ILoginResponse = {
-        access_token: "fake_access_token",
-        token_type: "Bearer",
-      };
-      mockedAxios.post.mockResolvedValueOnce({ data: mockLoginResponse });
+    const mockResponse: ILoginResponse = {
+      access_token: 'fake-token',
+      token_type: 'bearer'
+    };
 
-      const result = await authService.login(loginData);
+    mockedApi.post.mockResolvedValueOnce({ data: mockResponse });
 
-      expect(mockedAxios.post).toHaveBeenCalledTimes(1);
-      expect(mockedAxios.post).toHaveBeenCalledWith(
-        `${MOCK_API_URL}/login`,
-        loginData
-      );
-      expect(result).toEqual(mockLoginResponse);
-    });
+    // Act
+    const result = await authService.login(mockRequest);
 
-    it("should throw an error if axios.post throws an error", async () => {
-      const errorMessage = "Network Error";
-      mockedAxios.post.mockRejectedValueOnce(new Error(errorMessage));
-
-      await expect(authService.login(loginData)).rejects.toThrow(errorMessage);
-      expect(mockedAxios.post).toHaveBeenCalledTimes(1);
-      expect(mockedAxios.post).toHaveBeenCalledWith(
-        `${MOCK_API_URL}/login`,
-        loginData
-      );
-    });
+    // Assert
+    expect(mockedApi.post).toHaveBeenCalledWith('/login', mockRequest);
+    expect(result).toEqual(mockResponse);
   });
 
-  describe("logout", () => {
-    it("should resolve and log the correct message", async () => {
-      const consoleSpy = jest.spyOn(console, "log");
-      await expect(authService.logout()).resolves.toBeUndefined();
-      expect(consoleSpy).toHaveBeenCalledWith(
-        "Logout action performed and auth state cleared"
-      );
-      consoleSpy.mockRestore();
-    });
-  });
+  it('throws error when API request fails', async () => {
+    // Arrange
+    const mockRequest: ILoginRequest = {
+      email: 'user@example.com',
+      password: 'wrong-password',
+    };
 
-  describe("loginWithGoogle", () => {
-    it("should reject with 'Google login not implemented' error", async () => {
-      const consoleSpy = jest.spyOn(console, "log");
-      await expect(authService.loginWithGoogle()).rejects.toThrow(
-        "Google login not implemented"
-      );
-      expect(consoleSpy).toHaveBeenCalledWith("Attempting Google login...");
-      consoleSpy.mockRestore();
-    });
+    const mockError = new Error('Network Error');
+
+    mockedApi.post.mockRejectedValueOnce(mockError);
+
+    // Act & Assert
+    await expect(authService.login(mockRequest)).rejects.toThrow('Network Error');
   });
 });

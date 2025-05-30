@@ -2,6 +2,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, Image } from "react-native";
 import LoginForm from "@/components/LoginForm";
 import Button from "../../../components/Button";
+import { router } from "expo-router";
 
 export default function Login() {
   const handleGoogleLogin = () => {
@@ -9,7 +10,7 @@ export default function Login() {
   }
 
   const handleSignUp = () => {
-    throw new Error('Handle sign up not implemented yet');
+    router.replace('/(public)/(auth)/register');
   }
 
   return (
