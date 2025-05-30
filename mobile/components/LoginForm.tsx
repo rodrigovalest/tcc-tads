@@ -1,35 +1,42 @@
 import React from "react";
-import { View, Text, Image } from "react-native";
-import { useLoginForm } from "../hooks/useLoginForm";
+import { View, Text } from "react-native";
 import Input from "./Input";
 import Button from "./Button";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Controller } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useLogin } from "@/hooks/useLogin";
+import ILoginRequest from "@/models/requests/login-request";
+
+const loginSchema = yup.object().shape({
+  email: yup.string().email("Email inválido").required("Email is required"),
+  password: yup
+    .string()
+    .min(6, "Password must have at least 6 characters")
+    .required("Password is required"),
+});
 
 const LoginForm: React.FC = () => {
+  const { mutate: onLogin, isPending } = useLogin();
+
   const {
     control,
     handleSubmit,
-    errors,
-    isLoading,
-    apiError,
-    handleGoogleLogin,
-    handleSignUp,
-  } = useLoginForm();
+    formState: { errors },
+  } = useForm<ILoginRequest>({
+    resolver: yupResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = (data: ILoginRequest) => {
+    onLogin(data);
+  };
 
   return (
-    <SafeAreaView className="flex h-full justify-center px-8">
-      <View className="mb-4">
-        <Image
-          source={require("../assets/images/calle-dog-icon.png")}
-          className="w-24 h-24 mx-auto"
-        />
-        <Text className="text-6xl text-center font-bold">Calle</Text>
-        <Text className="text-4xl text-center font-medium">
-          Log in or sign up
-        </Text>
-      </View>
-
+    <View className="flex justify-center">
       <Controller
         control={control}
         name="email"
@@ -41,7 +48,7 @@ const LoginForm: React.FC = () => {
             onBlur={onBlur}
             placeholder="Enter your email"
             type="email"
-            error={errors.email?.message || undefined}
+            error={errors.email?.message}
           />
         )}
       />
@@ -57,23 +64,15 @@ const LoginForm: React.FC = () => {
             onBlur={onBlur}
             placeholder="Enter your password"
             type="password"
-            error={errors.password?.message || undefined}
+            error={errors.password?.message}
           />
         )}
       />
 
-      {apiError ? (
-        <Text className="text-appMediumRed text-sm mb-2 text-center">
-          {apiError}
-        </Text>
-      ) : null}
-
       <Button
-        title="Login"
-        onPress={handleSubmit}
-        className="mb-4"
-        disabled={isLoading || Object.keys(errors).length > 0}
-        loading={isLoading}
+        title={isPending ? "Loading..." : "Login"}
+        onPress={handleSubmit(onSubmit)}
+        disabled={isPending}
         textSize="2xl"
         textColor="text-white"
         textColorActivate="text-white"
@@ -82,39 +81,7 @@ const LoginForm: React.FC = () => {
         borderColor="border-black"
         testID="login-button"
       />
-      <Text className="text-center text-2xl text-black font-medium mb-4">
-        or
-      </Text>
-      <Button
-        title="Login with Google"
-        onPress={handleGoogleLogin}
-        className="mb-4"
-        loading={isLoading}
-        textColor="text-black"
-        textColorActivate="text-white"
-        textSize="2xl"
-        bgColor="bg-white"
-        bgColorActivate="bg-black"
-        borderColor="border-appLightGrey"
-        borderColorActivate="border-black"
-        iconLeft="google"
-        iconLeftColor="black"
-        iconLeftColorActivate="white"
-        testID="google-login-button"
-      />
-      <Button
-        title="Create an account"
-        onPress={handleSignUp}
-        className="mb-4"
-        textSize="2xl"
-        textColor="text-black"
-        textColorActivate="text-white"
-        bgColor="bg-white"
-        bgColorActivate="bg-black"
-        borderColor="border-appLightGrey"
-        borderColorActivate="border-black"
-      />
-    </SafeAreaView>
+    </View>
   );
 };
 

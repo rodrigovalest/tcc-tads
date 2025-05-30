@@ -4,6 +4,8 @@ import { useFonts } from "expo-font";
 import useAuthStore from "@/store/auth-store";
 
 import "../global.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Toast from "react-native-toast-message";
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -16,14 +18,14 @@ export default function RootLayout() {
     "nunito-extrabold": require("../assets/fonts/nunito/Nunito-ExtraBold.ttf"),
   });
 
-  const authStoreIsLoading = useAuthStore((state) => state.isLoading);
-  const restoreSession = useAuthStore((state) => state.restoreSession);
+  const queryClient = new QueryClient();
+
+  const authStoreIsLoading = useAuthStore((state) => state.loading);
+  const restoreAuthSession = useAuthStore((state) => state.restore);
 
   useEffect(() => {
-    restoreSession().catch((err) => {
-      console.log("RootLayout: Failed to restore session on mount", err);
-    });
-  }, [restoreSession]);
+    restoreAuthSession();
+  }, [restoreAuthSession]);
 
   useEffect(() => {
     if (fontsLoaded) {
@@ -35,5 +37,10 @@ export default function RootLayout() {
     return null;
   }
 
-  return <Slot />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Slot />
+      <Toast />
+    </QueryClientProvider>
+  );
 }

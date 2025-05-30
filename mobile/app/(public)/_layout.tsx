@@ -3,10 +3,10 @@ import useAuthStore from "@/store/auth-store";
 import { ActivityIndicator, View } from "react-native";
 
 export default function PublicLayout() {
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const authStoreIsLoading = useAuthStore((state) => state.isLoading);
+  const authUser = useAuthStore((state) => state.user);
+  const authLoading = useAuthStore((state) => state.loading);
 
-  if (authStoreIsLoading) {
+  if (authLoading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <ActivityIndicator size="large" />
@@ -14,10 +14,7 @@ export default function PublicLayout() {
     );
   }
 
-  if (isAuthenticated) {
-    console.log(
-      "PublicLayout: User is authenticated, redirecting to private area."
-    );
+  if (authUser) {
     return <Redirect href="/(private)/(tabs)/matches" />;
   }
 
