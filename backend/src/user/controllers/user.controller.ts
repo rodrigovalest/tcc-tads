@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
 import { CreateUserRequestDto } from '../dtos/requests/create-user.request-dto';
 import { UserService } from '../services/user.service';
 
@@ -12,7 +12,7 @@ export class UserController {
       createUserDto.username,
       createUserDto.email,
       createUserDto.password,
-      createUserDto.nationality
+      createUserDto.nationality,
     );
   }
 }
