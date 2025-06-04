@@ -28,7 +28,7 @@ const Input: React.FC<InputProps> = ({
   error,
   onBlur,
 }) => {
-  const [isPasswordVisible, setIsPasswordVisible] = useState(true);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const getKeyboardType = (): KeyboardTypeOptions | undefined => {
     switch (type) {
