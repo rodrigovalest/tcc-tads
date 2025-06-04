@@ -3,21 +3,27 @@ import { Text, View } from "react-native";
 import { useLocalSearchParams, router } from "expo-router";
 import Button from "@/components/Button";
 import LanguageSelector from "@/components/LanguageSelector";
+import PlayerModeSelector from "@/components/PlayerModeSelector";
 import { useLanguageSelection } from "@/hooks/useLanguageSelection";
+import { GAME_MODES_DATA } from "@/utils/gameModesData";
 
 export default function LanguageSelection() {
-  const { gameMode, isGroup } = useLocalSearchParams();
-  const isGroupMode = isGroup === "true";
+  const { gameMode } = useLocalSearchParams();
+
+  const gameData = GAME_MODES_DATA.find((mode) => mode.title === gameMode);
+  const availablePlayerTypes = gameData?.playerTypes || ["solo"];
 
   const {
     languages,
     selectedLanguage,
+    selectedPlayerType,
     title,
     buttonText,
     isButtonEnabled,
     handleLanguageSelect,
+    handlePlayerTypeSelect,
     handleStartGame,
-  } = useLanguageSelection(isGroupMode);
+  } = useLanguageSelection(availablePlayerTypes);
 
   const handleBack = () => {
     router.back();
@@ -51,6 +57,11 @@ export default function LanguageSelection() {
             Modo: {gameMode}
           </Text>
         </View>
+        <PlayerModeSelector
+          availablePlayerTypes={availablePlayerTypes}
+          selectedPlayerType={selectedPlayerType}
+          onPlayerTypeSelect={handlePlayerTypeSelect}
+        />
         <View className="px-6 pb-6">
           <Button
             title={buttonText}
@@ -61,7 +72,7 @@ export default function LanguageSelection() {
             borderColor="border-black"
             bgColorActivate="bg-gray-800"
             className="py-4"
-            iconRight={isGroupMode ? "search" : "play"}
+            iconRight={selectedPlayerType === "solo" ? "play" : "search"}
             iconRightSize={20}
             iconRightColor="white"
           />
