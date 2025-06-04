@@ -31,7 +31,6 @@ const LanguageSelector = ({
           onPress={() => setIsDropdownOpen(!isDropdownOpen)}
           activeOpacity={0.7}
         >
-          {" "}
           {selectedLanguage ? (
             <View className="flex-row items-center">
               <View className="mr-3">
@@ -71,7 +70,6 @@ const LanguageSelector = ({
                   onPress={() => handleLanguageSelect(language)}
                   activeOpacity={0.7}
                 >
-                  {" "}
                   <View className="mr-3">
                     <FlagDisplay countryCode={language.flag} size={28} />
                   </View>

@@ -60,11 +60,9 @@ const GameModeCard = ({ mode, width = 160 }: GameModeCardProps) => {
             borderRadius: 12,
           }}
           className="border border-black border-2"
-          resizeMode="cover"        />
-        <View
-          className="absolute top-2 left-2 flex-row" 
-          style={{ gap: 4 }}
-        >
+          resizeMode="cover"
+        />
+        <View className="absolute top-2 left-2 flex-row" style={{ gap: 4 }}>
           {mode.playerTypes.map((playerType, index) => (
             <View
               key={`${playerType}-${index}`}

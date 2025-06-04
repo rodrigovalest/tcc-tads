@@ -31,14 +31,16 @@ const SearchAndFilter = ({
     { key: "duo", label: "Dupla", icon: "user-friends" },
     { key: "group", label: "Grupo", icon: "users" },
   ];
-  
-  return (<View className="px-6 mb-4">
+
+  return (
+    <View className="px-6 mb-4">
       <View className="mb-4">
         <SearchInput
           placeholder="Pesquisar modos de jogo..."
           value={searchQuery}
           onChangeText={onSearchChange}
-        />      </View>
+        />
+      </View>
 
       <View className="flex-row justify-between">
         {filters.map((filter) => (

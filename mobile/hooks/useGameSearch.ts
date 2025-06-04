@@ -7,12 +7,14 @@ export const useGameSearch = (gameModes: GameMode[]) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState<FilterType>("all");
 
-  const filteredGameModes = useMemo(() => {    let filtered = gameModes;
+  const filteredGameModes = useMemo(() => {
+    let filtered = gameModes;
 
     if (searchQuery.trim()) {
       filtered = filtered.filter((mode) =>
         mode.title.toLowerCase().includes(searchQuery.toLowerCase())
-      );    }
+      );
+    }
 
     if (selectedFilter !== "all") {
       filtered = filtered.filter((mode) =>

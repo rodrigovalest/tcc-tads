@@ -20,7 +20,7 @@ export const SUPPORTED_LANGUAGES: LanguageConfig[] = [
   {
     code: "en-GB",
     name: "English",
-    countryCode: "gb", 
+    countryCode: "gb",
     emoji: "🇬🇧",
     svgComponent: require("@/assets/images/flags_svg/gb.svg").default,
   },
@@ -28,35 +28,41 @@ export const SUPPORTED_LANGUAGES: LanguageConfig[] = [
     code: "es-ES",
     name: "Español",
     countryCode: "es",
-    emoji: "🇪🇸", 
+    emoji: "🇪🇸",
     svgComponent: require("@/assets/images/flags_svg/es.svg").default,
   },
 ];
 
-export function getLanguageByCountryCode(countryCode: string): LanguageConfig | null {
-  return SUPPORTED_LANGUAGES.find(lang => lang.countryCode.toLowerCase() === countryCode.toLowerCase()) || null;
+export function getLanguageByCountryCode(
+  countryCode: string
+): LanguageConfig | null {
+  return (
+    SUPPORTED_LANGUAGES.find(
+      (lang) => lang.countryCode.toLowerCase() === countryCode.toLowerCase()
+    ) || null
+  );
 }
 
 export function getLanguageByCode(languageCode: string): LanguageConfig | null {
-  return SUPPORTED_LANGUAGES.find(lang => lang.code === languageCode) || null;
+  return SUPPORTED_LANGUAGES.find((lang) => lang.code === languageCode) || null;
 }
 
 export interface FlagDisplay {
-  type: 'svg' | 'emoji' | 'none';
+  type: "svg" | "emoji" | "none";
   svgComponent?: React.FC<SvgProps>;
   emoji?: string;
 }
 
 export function getFlagDisplay(countryCode: string): FlagDisplay {
   const language = getLanguageByCountryCode(countryCode);
-  
+
   if (language) {
-    return { 
-      type: 'svg', 
+    return {
+      type: "svg",
       svgComponent: language.svgComponent,
-      emoji: language.emoji 
+      emoji: language.emoji,
     };
   }
-  
-  return { type: 'none' };
+
+  return { type: "none" };
 }

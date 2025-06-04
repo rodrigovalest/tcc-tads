@@ -21,7 +21,9 @@ export const useLanguageSelection = (isGroupMode: boolean = false) => {
   }));
 
   const getTitle = () => {
-    return isGroupMode ? "Find people who speak the selected language" : "Play to Challenge yourself!";
+    return isGroupMode
+      ? "Find people who speak the selected language"
+      : "Play to Challenge yourself!";
   };
 
   const getButtonText = () => {

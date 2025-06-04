@@ -5,9 +5,12 @@ import { GAME_MODES_DATA, determineIsGroupMode } from "@/utils/gameModesData";
 export const useMatches = () => {
   const router = useRouter();
 
-  const navigateToLanguageSelection = (gameMode: string, playerTypes: PlayerType[]) => {
+  const navigateToLanguageSelection = (
+    gameMode: string,
+    playerTypes: PlayerType[]
+  ) => {
     const isGroup = determineIsGroupMode(playerTypes);
-    
+
     router.push({
       pathname: "/(private)/language-selection",
       params: {
