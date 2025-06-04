@@ -23,8 +23,8 @@ const LanguageSelector = ({
   };
   return (
     <View className="px-6">
-      <View className="relative">
-        <TouchableOpacity
+      <View className="relative">        <TouchableOpacity
+          testID="language-selector-dropdown"
           className={`flex-row items-center justify-between p-4 bg-white border-2 border-black ${
             isDropdownOpen ? "rounded-t-xl rounded-b-none" : "rounded-xl"
           }`}

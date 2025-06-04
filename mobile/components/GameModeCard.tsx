@@ -43,16 +43,16 @@ const GameModeCard = ({ mode, width = 160 }: GameModeCardProps) => {
         return "user";
     }
   };
-
   return (
     <TouchableOpacity
+      testID="game-mode-card"
       className="mb-4 rounded-2xl"
       style={{ width: cardWidth }}
       activeOpacity={0.7}
       onPress={mode.onPress}
-    >
-      <View className="items-center relative">
+    >      <View className="items-center relative">
         <Image
+          testID="game-mode-image"
           source={mode.image}
           style={{
             width: cardWidth,

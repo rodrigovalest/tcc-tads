@@ -29,6 +29,54 @@ jest.mock('expo-router', () => ({
   useLocalSearchParams: jest.fn(),
 }));
 
+// Mock react-native-vector-icons
+jest.mock("react-native-vector-icons/FontAwesome", () => "Icon");
+jest.mock("react-native-vector-icons/FontAwesome5", () => "Icon");
+jest.mock("react-native-vector-icons/MaterialIcons", () => "Icon");
+
+// Mock SVG components
+jest.mock("react-native-svg", () => ({
+  SvgProps: {},
+  Svg: "Svg",
+  Circle: "Circle",
+  Ellipse: "Ellipse",
+  G: "G",
+  Text: "Text",
+  TSpan: "TSpan",
+  TextPath: "TextPath",
+  Path: "Path",
+  Polygon: "Polygon",
+  Polyline: "Polyline",
+  Line: "Line",
+  Rect: "Rect",
+  Use: "Use",
+  Image: "Image",
+  Symbol: "Symbol",
+  Defs: "Defs",
+  LinearGradient: "LinearGradient",
+  RadialGradient: "RadialGradient",
+  Stop: "Stop",
+  ClipPath: "ClipPath",
+  Pattern: "Pattern",
+  Mask: "Mask",
+}));
+
+// Mock flag SVG files
+jest.mock("@/assets/images/flags_svg/br.svg", () => ({
+  default: () => "BrazilFlag",
+}));
+
+jest.mock("@/assets/images/flags_svg/gb.svg", () => ({
+  default: () => "UKFlag",
+}));
+
+jest.mock("@/assets/images/flags_svg/es.svg", () => ({
+  default: () => "SpainFlag",
+}));
+
+// Mock image assets
+jest.mock("@/assets/images/calle-dog-icon.png", () => "mock-calle-dog-icon");
+
 // Suppress console warnings for tests
 const originalConsoleWarn = console.warn;
 const originalConsoleError = console.error;
