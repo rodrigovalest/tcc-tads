@@ -132,13 +132,12 @@ describe("LanguageSelection screen", () => {
     });
     mockUseLanguageSelection.mockReturnValue(defaultHookReturn);
   });
-
   it("renders correctly with all components", () => {
     const { getByText, getByTestId } = render(<LanguageSelection />);
 
     expect(getByText("Select Language")).toBeTruthy();
-    expect(getByText("Modo: Conversation Practice")).toBeTruthy();
-    expect(getByTestId("button-voltar")).toBeTruthy();
+    expect(getByText("Mode: Conversation Practice")).toBeTruthy();
+    expect(getByTestId("button-back")).toBeTruthy();
     expect(getByTestId("button-start-practice")).toBeTruthy();
     expect(getByTestId("language-selector")).toBeTruthy();
     expect(getByTestId("player-mode-selector")).toBeTruthy();
@@ -146,7 +145,7 @@ describe("LanguageSelection screen", () => {
 
   it("calls router.back when back button is pressed", () => {
     const { getByTestId } = render(<LanguageSelection />);
-    const backButton = getByTestId("button-voltar");
+    const backButton = getByTestId("button-back");
 
     fireEvent.press(backButton);
 
@@ -248,8 +247,7 @@ describe("LanguageSelection screen", () => {
     });
 
     const { getByText } = render(<LanguageSelection />);
-
     expect(getByText("Choose Your Language")).toBeTruthy();
-    expect(getByText("Modo: Conversation Practice")).toBeTruthy();
+    expect(getByText("Mode: Conversation Practice")).toBeTruthy();
   });
 });

@@ -11,7 +11,7 @@ interface GameModesProps {
   title?: string;
 }
 
-const GameModes = ({ modes, title = "Modos de Jogo" }: GameModesProps) => {
+const GameModes = ({ modes, title = "Game Modes" }: GameModesProps) => {
   const { scrollViewPaddingBottom } = useTabBarHeight();
   const {
     searchQuery,
@@ -48,10 +48,10 @@ const GameModes = ({ modes, title = "Modos de Jogo" }: GameModesProps) => {
         {filteredGameModes.length === 0 ? (
           <View className="flex-1 justify-center items-center py-12">
             <Text className="text-gray-500 text-lg text-center">
-              Nenhum modo de jogo encontrado
+              No game mode found
             </Text>
             <Text className="text-gray-400 text-sm text-center mt-2">
-              Tente ajustar sua pesquisa ou filtros
+              Try adjusting your search or filters
             </Text>
           </View>
         ) : (

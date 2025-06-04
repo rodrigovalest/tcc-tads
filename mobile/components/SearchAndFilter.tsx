@@ -26,17 +26,17 @@ const SearchAndFilter = ({
   onFilterChange,
 }: SearchAndFilterProps) => {
   const filters: FilterItem[] = [
-    { key: "all", label: "Todos", icon: "th" },
+    { key: "all", label: "All", icon: "th" },
     { key: "solo", label: "Solo", icon: "user" },
-    { key: "duo", label: "Dupla", icon: "user-friends" },
-    { key: "group", label: "Grupo", icon: "users" },
+    { key: "duo", label: "Duo", icon: "user-friends" },
+    { key: "group", label: "Group", icon: "users" },
   ];
 
   return (
     <View className="px-6 mb-4">
       <View className="mb-4">
         <SearchInput
-          placeholder="Pesquisar modos de jogo..."
+          placeholder="Search game modes..."
           value={searchQuery}
           onChangeText={onSearchChange}
         />

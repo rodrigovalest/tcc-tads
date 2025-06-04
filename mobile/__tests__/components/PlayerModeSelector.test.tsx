@@ -20,8 +20,8 @@ describe("PlayerModeSelector", () => {
     );
 
     expect(getByText("Solo")).toBeTruthy();
-    expect(getByText("Dupla")).toBeTruthy();
-    expect(getByText("Grupo")).toBeTruthy();
+    expect(getByText("Duo")).toBeTruthy();
+    expect(getByText("Group")).toBeTruthy();
   });
 
   it("should render title", () => {
@@ -33,7 +33,7 @@ describe("PlayerModeSelector", () => {
       />
     );
 
-    expect(getByText("Modo de Jogo")).toBeTruthy();
+    expect(getByText("Game Mode")).toBeTruthy();
   });
 
   it("should highlight selected player type", () => {
@@ -72,8 +72,7 @@ describe("PlayerModeSelector", () => {
         onPlayerTypeSelect={mockOnPlayerTypeSelect}
       />
     );
-
-    const duoButton = getByText("Dupla");
+    const duoButton = getByText("Duo");
     fireEvent.press(duoButton);
 
     expect(mockOnPlayerTypeSelect).not.toHaveBeenCalled();
@@ -87,10 +86,9 @@ describe("PlayerModeSelector", () => {
         onPlayerTypeSelect={mockOnPlayerTypeSelect}
       />
     );
-
     const soloButton = getByText("Solo");
-    const duoButton = getByText("Dupla");
-    const groupButton = getByText("Grupo");
+    const duoButton = getByText("Duo");
+    const groupButton = getByText("Group");
 
     expect(soloButton).toBeTruthy();
     expect(duoButton).toBeTruthy();
@@ -105,10 +103,9 @@ describe("PlayerModeSelector", () => {
         onPlayerTypeSelect={mockOnPlayerTypeSelect}
       />
     );
-
     const soloButton = getByText("Solo");
-    const duoButton = getByText("Dupla");
-    const groupButton = getByText("Grupo");
+    const duoButton = getByText("Duo");
+    const groupButton = getByText("Group");
 
     fireEvent.press(soloButton);
     expect(mockOnPlayerTypeSelect).toHaveBeenCalledWith("solo");
@@ -140,13 +137,11 @@ describe("PlayerModeSelector", () => {
         onPlayerTypeSelect={mockOnPlayerTypeSelect}
       />
     );
-
-    const groupButton = getByText("Grupo");
+    const groupButton = getByText("Group");
     fireEvent.press(groupButton);
 
     expect(mockOnPlayerTypeSelect).toHaveBeenCalledWith("group");
   });
-
   it("should change selection when different option is pressed", () => {
     const { getByText } = render(
       <PlayerModeSelector
@@ -156,7 +151,7 @@ describe("PlayerModeSelector", () => {
       />
     );
 
-    const duoButton = getByText("Dupla");
+    const duoButton = getByText("Duo");
     fireEvent.press(duoButton);
 
     expect(mockOnPlayerTypeSelect).toHaveBeenCalledWith("duo");

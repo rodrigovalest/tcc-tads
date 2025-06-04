@@ -110,22 +110,21 @@ describe("useLanguageSelection", () => {
     );
     expect(groupResult.current.title).toBe("Find people to play with!");
   });
-
   it("should return correct button text for different player types", () => {
     const { result: soloResult } = renderHook(() =>
       useLanguageSelection(["solo"])
     );
-    expect(soloResult.current.buttonText).toBe("Jogar");
+    expect(soloResult.current.buttonText).toBe("Play");
 
     const { result: duoResult } = renderHook(() =>
       useLanguageSelection(["duo"])
     );
-    expect(duoResult.current.buttonText).toBe("Encontrar dupla");
+    expect(duoResult.current.buttonText).toBe("Find duo");
 
     const { result: groupResult } = renderHook(() =>
       useLanguageSelection(["group"])
     );
-    expect(groupResult.current.buttonText).toBe("Encontrar grupo");
+    expect(groupResult.current.buttonText).toBe("Find group");
   });
 
   it("should handle start game action", () => {
@@ -144,9 +143,8 @@ describe("useLanguageSelection", () => {
     act(() => {
       result.current.handleStartGame();
     });
-
     expect(mockConsoleLog).toHaveBeenCalledWith(
-      "Iniciando jogo solo com idioma: English"
+      "Starting solo game with language: English"
     );
   });
 

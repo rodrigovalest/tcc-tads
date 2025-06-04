@@ -13,7 +13,6 @@ export function useLogout() {
       try {
         await authService.logout();
       } catch (error) {
-        // Always logout from store even if service call fails
         logout();
         throw error;
       }

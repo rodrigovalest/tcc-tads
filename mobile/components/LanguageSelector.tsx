@@ -42,7 +42,7 @@ const LanguageSelector = ({
               </Text>
             </View>
           ) : (
-            <Text className="text-lg text-gray-500">Selecione um idioma</Text>
+            <Text className="text-lg text-gray-500">Select a language</Text>
           )}
           <Icon
             name={isDropdownOpen ? "chevron-up" : "chevron-down"}

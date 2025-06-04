@@ -38,7 +38,7 @@ export default function LanguageSelection() {
       <View className="flex-1">
         <View className="flex-row items-center justify-between px-6 py-4">
           <Button
-            title="Voltar"
+            title="Back"
             onPress={handleBack}
             bgColor="bg-transparent"
             textColor="text-black"
@@ -54,7 +54,7 @@ export default function LanguageSelection() {
             {title}
           </Text>
           <Text className="text-base text-center text-gray-600 mb-8">
-            Modo: {gameMode}
+            Mode: {gameMode}
           </Text>
         </View>
         <PlayerModeSelector

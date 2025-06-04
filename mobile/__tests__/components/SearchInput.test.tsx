@@ -24,7 +24,7 @@ describe("SearchInput", () => {
       <SearchInput value="" onChangeText={mockOnChangeText} />
     );
 
-    expect(getByPlaceholderText("Pesquisar...")).toBeTruthy();
+    expect(getByPlaceholderText("Search...")).toBeTruthy();
   });
 
   it("should render with custom placeholder", () => {
@@ -46,18 +46,16 @@ describe("SearchInput", () => {
 
     expect(getByDisplayValue("current text")).toBeTruthy();
   });
-
   it("should call onChangeText when text changes", () => {
     const { getByPlaceholderText } = render(
       <SearchInput value="" onChangeText={mockOnChangeText} />
     );
 
-    const input = getByPlaceholderText("Pesquisar...");
+    const input = getByPlaceholderText("Search...");
     fireEvent.changeText(input, "new text");
 
     expect(mockOnChangeText).toHaveBeenCalledWith("new text");
   });
-
   it("should call onBlur when provided and input loses focus", () => {
     const { getByPlaceholderText } = render(
       <SearchInput
@@ -67,18 +65,17 @@ describe("SearchInput", () => {
       />
     );
 
-    const input = getByPlaceholderText("Pesquisar...");
+    const input = getByPlaceholderText("Search...");
     fireEvent(input, "blur");
 
     expect(mockOnBlur).toHaveBeenCalledTimes(1);
   });
-
   it("should not crash when onBlur is not provided", () => {
     const { getByPlaceholderText } = render(
       <SearchInput value="" onChangeText={mockOnChangeText} />
     );
 
-    const input = getByPlaceholderText("Pesquisar...");
+    const input = getByPlaceholderText("Search...");
     expect(() => fireEvent(input, "blur")).not.toThrow();
   });
 
@@ -89,13 +86,12 @@ describe("SearchInput", () => {
 
     expect(UNSAFE_root).toBeTruthy();
   });
-
   it("should handle empty value", () => {
     const { getByPlaceholderText } = render(
       <SearchInput value="" onChangeText={mockOnChangeText} />
     );
 
-    const input = getByPlaceholderText("Pesquisar...");
+    const input = getByPlaceholderText("Search...");
     expect(input.props.value).toBe("");
   });
 
@@ -109,7 +105,6 @@ describe("SearchInput", () => {
 
     expect(getByDisplayValue(longText)).toBeTruthy();
   });
-
   it("should handle special characters in search", () => {
     const specialText = "!@#$%^&*()_+-=[]{}|;:,.<>?";
 
@@ -117,18 +112,17 @@ describe("SearchInput", () => {
       <SearchInput value="" onChangeText={mockOnChangeText} />
     );
 
-    const input = getByPlaceholderText("Pesquisar...");
+    const input = getByPlaceholderText("Search...");
     fireEvent.changeText(input, specialText);
 
     expect(mockOnChangeText).toHaveBeenCalledWith(specialText);
   });
-
   it("should handle multiple text changes", () => {
     const { getByPlaceholderText } = render(
       <SearchInput value="" onChangeText={mockOnChangeText} />
     );
 
-    const input = getByPlaceholderText("Pesquisar...");
+    const input = getByPlaceholderText("Search...");
 
     fireEvent.changeText(input, "a");
     fireEvent.changeText(input, "ab");
@@ -139,33 +133,30 @@ describe("SearchInput", () => {
     expect(mockOnChangeText).toHaveBeenNthCalledWith(2, "ab");
     expect(mockOnChangeText).toHaveBeenNthCalledWith(3, "abc");
   });
-
   it("should have proper accessibility properties", () => {
     const { getByPlaceholderText } = render(
       <SearchInput value="" onChangeText={mockOnChangeText} />
     );
 
-    const input = getByPlaceholderText("Pesquisar...");
+    const input = getByPlaceholderText("Search...");
     expect(input.props.autoCapitalize).toBe("none");
   });
-
   it("should clear text when empty string is provided", () => {
     const { getByPlaceholderText } = render(
       <SearchInput value="some text" onChangeText={mockOnChangeText} />
     );
 
-    const input = getByPlaceholderText("Pesquisar...");
+    const input = getByPlaceholderText("Search...");
     fireEvent.changeText(input, "");
 
     expect(mockOnChangeText).toHaveBeenCalledWith("");
   });
-
   it("should handle rapid typing", () => {
     const { getByPlaceholderText } = render(
       <SearchInput value="" onChangeText={mockOnChangeText} />
     );
 
-    const input = getByPlaceholderText("Pesquisar...");
+    const input = getByPlaceholderText("Search...");
 
     // Simulate rapid typing
     const text = "hello world";

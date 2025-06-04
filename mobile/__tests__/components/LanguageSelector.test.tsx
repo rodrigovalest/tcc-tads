@@ -39,7 +39,7 @@ describe("LanguageSelector", () => {
       />
     );
 
-    expect(getByText("Selecione um idioma")).toBeTruthy();
+    expect(getByText("Select a language")).toBeTruthy();
   });
 
   it("should render selected language", () => {
@@ -138,7 +138,7 @@ describe("LanguageSelector", () => {
       />
     );
 
-    expect(getByText("Selecione um idioma")).toBeTruthy();
+    expect(getByText("Select a language")).toBeTruthy();
   });
   it("should display flag for selected language", () => {
     const { queryByText } = render(

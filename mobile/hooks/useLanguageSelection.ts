@@ -29,9 +29,8 @@ export const useLanguageSelection = (
     flag: lang.countryCode,
     code: lang.code,
   }));
-
   const getTitle = () => {
-    if (!selectedPlayerType) return "Selecione o modo de jogo";
+    if (!selectedPlayerType) return "Select game mode";
 
     switch (selectedPlayerType) {
       case "solo":
@@ -44,19 +43,18 @@ export const useLanguageSelection = (
         return "Select game mode";
     }
   };
-
   const getButtonText = () => {
-    if (!selectedPlayerType) return "Selecionar";
+    if (!selectedPlayerType) return "Select";
 
     switch (selectedPlayerType) {
       case "solo":
-        return "Jogar";
+        return "Play";
       case "duo":
-        return "Encontrar dupla";
+        return "Find duo";
       case "group":
-        return "Encontrar grupo";
+        return "Find group";
       default:
-        return "Continuar";
+        return "Continue";
     }
   };
 
@@ -70,18 +68,16 @@ export const useLanguageSelection = (
 
   const handleStartGame = () => {
     if (!selectedLanguage || !selectedPlayerType) return;
-
     const actionMap = {
-      solo: "Iniciando jogo solo",
-      duo: "Procurando dupla",
-      group: "Criando grupo",
-    };
-
-    // Aqui você pode adicionar a lógica para iniciar o jogo
-    // Seja indo para tela de carregamento, chamando uma API, etc.
+      solo: "Starting solo game",
+      duo: "Looking for duo",
+      group: "Creating group",
+    }; 
+    // Here you can add the logic to start the game
+    // Either going to loading screen, calling an API, etc.
 
     console.log(
-      `${actionMap[selectedPlayerType]} com idioma: ${selectedLanguage.name}`
+      `${actionMap[selectedPlayerType]} with language: ${selectedLanguage.name}`
     );
   };
 

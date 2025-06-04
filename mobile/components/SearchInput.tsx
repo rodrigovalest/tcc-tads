@@ -11,7 +11,7 @@ interface SearchInputProps {
 }
 
 const SearchInput: React.FC<SearchInputProps> = ({
-  placeholder = "Pesquisar...",
+  placeholder = "Search...",
   value,
   onChangeText,
   onBlur,

@@ -54,19 +54,17 @@ describe("GameModes", () => {
       onPress: jest.fn(),
     },
   ];
-
   it("should render with default title", () => {
     const { getByText } = render(<GameModes modes={mockGameModes} />);
 
-    expect(getByText("Modos de Jogo")).toBeTruthy();
+    expect(getByText("Game Modes")).toBeTruthy();
   });
-
   it("should render with custom title", () => {
     const { getByText } = render(
-      <GameModes modes={mockGameModes} title="Jogos Personalizados" />
+      <GameModes modes={mockGameModes} title="Custom Games" />
     );
 
-    expect(getByText("Jogos Personalizados")).toBeTruthy();
+    expect(getByText("Custom Games")).toBeTruthy();
   });
 
   it("should render SearchAndFilter component", () => {
@@ -81,11 +79,10 @@ describe("GameModes", () => {
     const gameCards = getAllByTestId("game-mode-card");
     expect(gameCards).toHaveLength(3);
   });
-
   it("should handle empty modes array", () => {
     const { getByText } = render(<GameModes modes={[]} />);
 
-    expect(getByText("Modos de Jogo")).toBeTruthy();
+    expect(getByText("Game Modes")).toBeTruthy();
   });
   it("should render with single game mode", () => {
     const singleMode = [mockGameModes[0]];
@@ -132,7 +129,7 @@ describe("GameModes - No Results", () => {
   it("should show no results message when filteredGameModes is empty", () => {
     const { getByText } = render(<GameModes modes={[]} />);
 
-    expect(getByText("Nenhum modo de jogo encontrado")).toBeTruthy();
-    expect(getByText("Tente ajustar sua pesquisa ou filtros")).toBeTruthy();
+    expect(getByText("No game mode found")).toBeTruthy();
+    expect(getByText("Try adjusting your search or filters")).toBeTruthy();
   });
 });

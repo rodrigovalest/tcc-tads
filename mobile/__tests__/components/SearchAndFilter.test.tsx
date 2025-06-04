@@ -57,10 +57,10 @@ describe("SearchAndFilter", () => {
       />
     );
 
-    expect(getByText("Todos")).toBeTruthy();
+    expect(getByText("All")).toBeTruthy();
     expect(getByText("Solo")).toBeTruthy();
-    expect(getByText("Dupla")).toBeTruthy();
-    expect(getByText("Grupo")).toBeTruthy();
+    expect(getByText("Duo")).toBeTruthy();
+    expect(getByText("Group")).toBeTruthy();
   });
 
   it("should highlight selected filter", () => {
@@ -138,10 +138,10 @@ describe("SearchAndFilter", () => {
 
       // Verify filter button exists and can be pressed
       const filterLabels = {
-        all: "Todos",
+        all: "All",
         solo: "Solo",
-        duo: "Dupla",
-        group: "Grupo",
+        duo: "Duo",
+        group: "Group",
       };
 
       const filterButton = getByText(filterLabels[filter]);
@@ -163,13 +163,13 @@ describe("SearchAndFilter", () => {
     fireEvent.press(getByText("Solo"));
     expect(mockOnFilterChange).toHaveBeenCalledWith("solo");
 
-    fireEvent.press(getByText("Dupla"));
+    fireEvent.press(getByText("Duo"));
     expect(mockOnFilterChange).toHaveBeenCalledWith("duo");
 
-    fireEvent.press(getByText("Grupo"));
+    fireEvent.press(getByText("Group"));
     expect(mockOnFilterChange).toHaveBeenCalledWith("group");
 
-    fireEvent.press(getByText("Todos"));
+    fireEvent.press(getByText("All"));
     expect(mockOnFilterChange).toHaveBeenCalledWith("all");
   });
 
@@ -184,7 +184,7 @@ describe("SearchAndFilter", () => {
     );
 
     const soloFilter = getByText("Solo");
-    const duoFilter = getByText("Dupla");
+    const duoFilter = getByText("Duo");
 
     fireEvent.press(soloFilter);
     fireEvent.press(duoFilter);

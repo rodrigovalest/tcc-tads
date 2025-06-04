@@ -22,16 +22,15 @@ const PlayerModeSelector = ({
 }: PlayerModeSelectorProps) => {
   const playerModeOptions: PlayerModeOption[] = [
     { type: "solo", label: "Solo", icon: "user" },
-    { type: "duo", label: "Dupla", icon: "user-friends" },
-    { type: "group", label: "Grupo", icon: "users" },
+    { type: "duo", label: "Duo", icon: "user-friends" },
+    { type: "group", label: "Group", icon: "users" },
   ];
 
   return (
     <View className="px-6 mb-6">
       <Text className="text-lg font-semibold text-gray-800 mb-3 text-center">
-        Modo de Jogo
+        Game Mode
       </Text>
-
       <View className="flex-row bg-gray-100 rounded-full p-1">
         {playerModeOptions.map((option, index) => {
           const isAvailable = availablePlayerTypes.includes(option.type);
