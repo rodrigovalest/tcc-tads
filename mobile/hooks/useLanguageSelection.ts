@@ -77,6 +77,9 @@ export const useLanguageSelection = (
       group: "Criando grupo",
     };
 
+    // Aqui você pode adicionar a lógica para iniciar o jogo
+    // Seja indo para tela de carregamento, chamando uma API, etc.
+
     console.log(
       `${actionMap[selectedPlayerType]} com idioma: ${selectedLanguage.name}`
     );

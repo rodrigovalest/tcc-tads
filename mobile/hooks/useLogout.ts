@@ -11,7 +11,13 @@ export function useLogout() {
 
   return useMutation<void, ApiError, void>({
     mutationFn: async () => {
-      await authService.logout();
+      try {
+        await authService.logout();
+      } catch (error) {
+        // Always logout from store even if service call fails
+        logout();
+        throw error;
+      }
       logout();
     },
 
