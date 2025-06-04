@@ -1,10 +1,10 @@
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import LanguageSelector from '@/components/LanguageSelector';
+import React from "react";
+import { render, fireEvent } from "@testing-library/react-native";
+import LanguageSelector from "@/components/LanguageSelector";
 
 // Mock FlagDisplay component
-jest.mock('@/components/FlagDisplay', () => {
-  const { Text } = require('react-native');
+jest.mock("@/components/FlagDisplay", () => {
+  const { Text } = require("react-native");
   return function MockFlagDisplay({ countryCode }: { countryCode: string }) {
     return <Text>{`Flag-${countryCode}`}</Text>;
   };
@@ -17,11 +17,11 @@ interface Language {
   code: string;
 }
 
-describe('LanguageSelector', () => {
+describe("LanguageSelector", () => {
   const mockLanguages: Language[] = [
-    { id: '1', name: 'Português', flag: 'br', code: 'pt-BR' },
-    { id: '2', name: 'English', flag: 'gb', code: 'en-GB' },
-    { id: '3', name: 'Español', flag: 'es', code: 'es-ES' },
+    { id: "1", name: "Português", flag: "br", code: "pt-BR" },
+    { id: "2", name: "English", flag: "gb", code: "en-GB" },
+    { id: "3", name: "Español", flag: "es", code: "es-ES" },
   ];
 
   const mockOnLanguageSelect = jest.fn();
@@ -30,7 +30,7 @@ describe('LanguageSelector', () => {
     jest.clearAllMocks();
   });
 
-  it('should render with placeholder when no language is selected', () => {
+  it("should render with placeholder when no language is selected", () => {
     const { getByText } = render(
       <LanguageSelector
         languages={mockLanguages}
@@ -39,10 +39,10 @@ describe('LanguageSelector', () => {
       />
     );
 
-    expect(getByText('Selecione um idioma')).toBeTruthy();
+    expect(getByText("Selecione um idioma")).toBeTruthy();
   });
 
-  it('should render selected language', () => {
+  it("should render selected language", () => {
     const { getByText } = render(
       <LanguageSelector
         languages={mockLanguages}
@@ -51,9 +51,9 @@ describe('LanguageSelector', () => {
       />
     );
 
-    expect(getByText('Português')).toBeTruthy();
+    expect(getByText("Português")).toBeTruthy();
   });
-  it('should open dropdown when pressed', () => {
+  it("should open dropdown when pressed", () => {
     const { getByText, getByTestId } = render(
       <LanguageSelector
         languages={mockLanguages}
@@ -62,14 +62,14 @@ describe('LanguageSelector', () => {
       />
     );
 
-    const dropdown = getByTestId('language-selector-dropdown');
+    const dropdown = getByTestId("language-selector-dropdown");
     fireEvent.press(dropdown);
 
-    expect(getByText('Português')).toBeTruthy();
-    expect(getByText('English')).toBeTruthy();
-    expect(getByText('Español')).toBeTruthy();
+    expect(getByText("Português")).toBeTruthy();
+    expect(getByText("English")).toBeTruthy();
+    expect(getByText("Español")).toBeTruthy();
   });
-  it('should select language when option is pressed', () => {
+  it("should select language when option is pressed", () => {
     const { getByText, getByTestId } = render(
       <LanguageSelector
         languages={mockLanguages}
@@ -79,16 +79,16 @@ describe('LanguageSelector', () => {
     );
 
     // Open dropdown
-    const dropdown = getByTestId('language-selector-dropdown');
+    const dropdown = getByTestId("language-selector-dropdown");
     fireEvent.press(dropdown);
 
     // Select a language
-    const portugueseOption = getByText('Português');
+    const portugueseOption = getByText("Português");
     fireEvent.press(portugueseOption);
 
     expect(mockOnLanguageSelect).toHaveBeenCalledWith(mockLanguages[0]);
   });
-  it('should close dropdown after selecting language', () => {
+  it("should close dropdown after selecting language", () => {
     const { getByText, getByTestId, queryByText } = render(
       <LanguageSelector
         languages={mockLanguages}
@@ -98,16 +98,16 @@ describe('LanguageSelector', () => {
     );
 
     // Open dropdown
-    const dropdown = getByTestId('language-selector-dropdown');
+    const dropdown = getByTestId("language-selector-dropdown");
     fireEvent.press(dropdown);
 
     // Select a language
-    const englishOption = getByText('English');
+    const englishOption = getByText("English");
     fireEvent.press(englishOption);
 
     expect(mockOnLanguageSelect).toHaveBeenCalledWith(mockLanguages[1]);
   });
-  it('should toggle dropdown open/close state', () => {
+  it("should toggle dropdown open/close state", () => {
     const { getByTestId, queryByText } = render(
       <LanguageSelector
         languages={mockLanguages}
@@ -116,20 +116,20 @@ describe('LanguageSelector', () => {
       />
     );
 
-    const dropdown = getByTestId('language-selector-dropdown');
+    const dropdown = getByTestId("language-selector-dropdown");
 
     // Initially closed
-    expect(queryByText('Português')).toBeNull();
+    expect(queryByText("Português")).toBeNull();
 
     // Open dropdown
     fireEvent.press(dropdown);
-    expect(queryByText('Português')).toBeTruthy();
+    expect(queryByText("Português")).toBeTruthy();
 
     // Close dropdown
     fireEvent.press(dropdown);
   });
 
-  it('should handle empty languages array', () => {
+  it("should handle empty languages array", () => {
     const { getByText } = render(
       <LanguageSelector
         languages={[]}
@@ -138,9 +138,9 @@ describe('LanguageSelector', () => {
       />
     );
 
-    expect(getByText('Selecione um idioma')).toBeTruthy();
+    expect(getByText("Selecione um idioma")).toBeTruthy();
   });
-  it('should display flag for selected language', () => {
+  it("should display flag for selected language", () => {
     const { queryByText } = render(
       <LanguageSelector
         languages={mockLanguages}
@@ -150,9 +150,9 @@ describe('LanguageSelector', () => {
     );
 
     // Check that the FlagDisplay component is rendered (mocked as Flag-br)
-    expect(queryByText('Flag-br')).toBeTruthy();
+    expect(queryByText("Flag-br")).toBeTruthy();
   });
-  it('should display flags for all languages in dropdown', () => {
+  it("should display flags for all languages in dropdown", () => {
     const { getByText, getByTestId } = render(
       <LanguageSelector
         languages={mockLanguages}
@@ -162,14 +162,14 @@ describe('LanguageSelector', () => {
     );
 
     // Open dropdown
-    const dropdown = getByTestId('language-selector-dropdown');
+    const dropdown = getByTestId("language-selector-dropdown");
     fireEvent.press(dropdown);
 
-    expect(getByText('Flag-br')).toBeTruthy();
-    expect(getByText('Flag-gb')).toBeTruthy();
-    expect(getByText('Flag-es')).toBeTruthy();
+    expect(getByText("Flag-br")).toBeTruthy();
+    expect(getByText("Flag-gb")).toBeTruthy();
+    expect(getByText("Flag-es")).toBeTruthy();
   });
-  it('should highlight selected language in dropdown', () => {
+  it("should highlight selected language in dropdown", () => {
     const { getByTestId } = render(
       <LanguageSelector
         languages={mockLanguages}
@@ -179,15 +179,15 @@ describe('LanguageSelector', () => {
     );
 
     // Open dropdown
-    const dropdown = getByTestId('language-selector-dropdown');
+    const dropdown = getByTestId("language-selector-dropdown");
     fireEvent.press(dropdown);
 
     // The selected language should be highlighted (this would need visual testing in practice)
     expect(dropdown).toBeTruthy();
   });
-  it('should handle single language', () => {
+  it("should handle single language", () => {
     const singleLanguage = [mockLanguages[0]];
-    
+
     const { getByText, getByTestId } = render(
       <LanguageSelector
         languages={singleLanguage}
@@ -197,9 +197,9 @@ describe('LanguageSelector', () => {
     );
 
     // Open dropdown
-    const dropdown = getByTestId('language-selector-dropdown');
+    const dropdown = getByTestId("language-selector-dropdown");
     fireEvent.press(dropdown);
 
-    expect(getByText('Português')).toBeTruthy();
+    expect(getByText("Português")).toBeTruthy();
   });
 });

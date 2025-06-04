@@ -25,7 +25,9 @@
       "!**/node_modules/**",
       "!**/*.d.ts"
     ],
-    "coverageDirectory": "coverage"
+    "coverageDirectory": "coverage",
+    "forceExit": true,
+    "detectOpenHandles": true
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",

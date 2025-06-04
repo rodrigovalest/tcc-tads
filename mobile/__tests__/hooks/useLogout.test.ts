@@ -20,10 +20,13 @@ describe("useLogout", () => {
   let queryClient: QueryClient;
   let mockLogout: jest.Mock;
   let mockReplace: jest.Mock;
-
-  const wrapper = ({ children }: { children: React.ReactNode }) =>
-    React.createElement(QueryClientProvider, { client: queryClient }, children);
-
+  const createTestWrapper = (client: QueryClient) => {
+    const TestWrapper = ({ children }: { children: React.ReactNode }) => {
+      const Provider = QueryClientProvider;
+      return Provider({ client, children });
+    };
+    return TestWrapper;
+  };
   beforeEach(() => {
     queryClient = new QueryClient({
       defaultOptions: {
@@ -41,10 +44,17 @@ describe("useLogout", () => {
     jest.clearAllMocks();
   });
 
+  afterEach(() => {
+    queryClient.clear();
+    queryClient.getQueryCache().clear();
+    queryClient.getMutationCache().clear();
+  });
   it("should logout successfully", async () => {
     mockedAuthService.logout.mockResolvedValue(undefined);
 
-    const { result } = renderHook(() => useLogout(), { wrapper });
+    const { result } = renderHook(() => useLogout(), {
+      wrapper: createTestWrapper(queryClient),
+    });
 
     result.current.mutate();
 
@@ -56,12 +66,13 @@ describe("useLogout", () => {
     expect(mockLogout).toHaveBeenCalled();
     expect(mockReplace).toHaveBeenCalledWith("/(public)/(auth)/login");
   });
-
   it("should handle logout error", async () => {
     const mockError = { status: 500, message: "Server error" };
     mockedAuthService.logout.mockRejectedValue(mockError);
 
-    const { result } = renderHook(() => useLogout(), { wrapper });
+    const { result } = renderHook(() => useLogout(), {
+      wrapper: createTestWrapper(queryClient),
+    });
 
     result.current.mutate();
 
@@ -73,12 +84,13 @@ describe("useLogout", () => {
     expect(mockLogout).toHaveBeenCalled();
     expect(mockReplace).not.toHaveBeenCalled();
   });
-
   it("should call logout even when service fails", async () => {
     const mockError = { status: 401, message: "Unauthorized" };
     mockedAuthService.logout.mockRejectedValue(mockError);
 
-    const { result } = renderHook(() => useLogout(), { wrapper });
+    const { result } = renderHook(() => useLogout(), {
+      wrapper: createTestWrapper(queryClient),
+    });
 
     result.current.mutate();
 

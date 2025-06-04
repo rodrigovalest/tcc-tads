@@ -21,12 +21,18 @@ jest.mock('react-native-safe-area-context', () => ({
     right: 0,
   })),
   SafeAreaProvider: ({ children }) => children,
+  SafeAreaView: 'SafeAreaView',
 }));
 
 // Mock expo-router
 jest.mock('expo-router', () => ({
   useRouter: jest.fn(),
   useLocalSearchParams: jest.fn(),
+}));
+
+// Mock react-native-css-interop
+jest.mock('react-native-css-interop', () => ({
+  cssInterop: (Component) => Component,
 }));
 
 // Mock react-native-vector-icons
@@ -89,4 +95,13 @@ beforeAll(() => {
 afterAll(() => {
   console.warn = originalConsoleWarn;
   console.error = originalConsoleError;
+});
+
+// Clean up after each test to prevent memory leaks
+afterEach(() => {
+  jest.clearAllMocks();
+  // Force garbage collection if available
+  if (global.gc) {
+    global.gc();
+  }
 });

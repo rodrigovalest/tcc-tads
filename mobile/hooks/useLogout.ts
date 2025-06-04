@@ -1,4 +1,3 @@
-// hooks/useLogout.ts
 import { useMutation } from "@tanstack/react-query";
 import authService from "@/services/auth-service";
 import useAuthStore from "@/store/auth-store";

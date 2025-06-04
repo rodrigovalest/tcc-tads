@@ -50,7 +50,8 @@ const GameModeCard = ({ mode, width = 160 }: GameModeCardProps) => {
       style={{ width: cardWidth }}
       activeOpacity={0.7}
       onPress={mode.onPress}
-    >      <View className="items-center relative">
+    >
+      <View className="items-center relative">
         <Image
           testID="game-mode-image"
           source={mode.image}

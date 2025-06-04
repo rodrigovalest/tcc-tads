@@ -1,19 +1,19 @@
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import SearchAndFilter from '@/components/SearchAndFilter';
+import React from "react";
+import { render, fireEvent } from "@testing-library/react-native";
+import SearchAndFilter from "@/components/SearchAndFilter";
 
 // Mock SearchInput component
-jest.mock('@/components/SearchInput', () => {
-  return function MockSearchInput({ 
-    placeholder, 
-    value, 
-    onChangeText 
+jest.mock("@/components/SearchInput", () => {
+  return function MockSearchInput({
+    placeholder,
+    value,
+    onChangeText,
   }: {
     placeholder?: string;
     value: string;
     onChangeText: (text: string) => void;
   }) {
-    const { TextInput } = require('react-native');
+    const { TextInput } = require("react-native");
     return (
       <TextInput
         placeholder={placeholder}
@@ -25,7 +25,7 @@ jest.mock('@/components/SearchInput', () => {
   };
 });
 
-describe('SearchAndFilter', () => {
+describe("SearchAndFilter", () => {
   const mockOnSearchChange = jest.fn();
   const mockOnFilterChange = jest.fn();
 
@@ -33,7 +33,7 @@ describe('SearchAndFilter', () => {
     jest.clearAllMocks();
   });
 
-  it('should render search input with placeholder', () => {
+  it("should render search input with placeholder", () => {
     const { getByTestId } = render(
       <SearchAndFilter
         searchQuery=""
@@ -43,11 +43,11 @@ describe('SearchAndFilter', () => {
       />
     );
 
-    const searchInput = getByTestId('search-input');
+    const searchInput = getByTestId("search-input");
     expect(searchInput).toBeTruthy();
   });
 
-  it('should render all filter buttons', () => {
+  it("should render all filter buttons", () => {
     const { getByText } = render(
       <SearchAndFilter
         searchQuery=""
@@ -57,13 +57,13 @@ describe('SearchAndFilter', () => {
       />
     );
 
-    expect(getByText('Todos')).toBeTruthy();
-    expect(getByText('Solo')).toBeTruthy();
-    expect(getByText('Dupla')).toBeTruthy();
-    expect(getByText('Grupo')).toBeTruthy();
+    expect(getByText("Todos")).toBeTruthy();
+    expect(getByText("Solo")).toBeTruthy();
+    expect(getByText("Dupla")).toBeTruthy();
+    expect(getByText("Grupo")).toBeTruthy();
   });
 
-  it('should highlight selected filter', () => {
+  it("should highlight selected filter", () => {
     const { getByText } = render(
       <SearchAndFilter
         searchQuery=""
@@ -73,11 +73,11 @@ describe('SearchAndFilter', () => {
       />
     );
 
-    const soloFilter = getByText('Solo');
+    const soloFilter = getByText("Solo");
     expect(soloFilter).toBeTruthy();
   });
 
-  it('should call onFilterChange when filter is pressed', () => {
+  it("should call onFilterChange when filter is pressed", () => {
     const { getByText } = render(
       <SearchAndFilter
         searchQuery=""
@@ -87,13 +87,13 @@ describe('SearchAndFilter', () => {
       />
     );
 
-    const soloFilter = getByText('Solo');
+    const soloFilter = getByText("Solo");
     fireEvent.press(soloFilter);
 
-    expect(mockOnFilterChange).toHaveBeenCalledWith('solo');
+    expect(mockOnFilterChange).toHaveBeenCalledWith("solo");
   });
 
-  it('should call onSearchChange when search input changes', () => {
+  it("should call onSearchChange when search input changes", () => {
     const { getByTestId } = render(
       <SearchAndFilter
         searchQuery=""
@@ -103,13 +103,13 @@ describe('SearchAndFilter', () => {
       />
     );
 
-    const searchInput = getByTestId('search-input');
-    fireEvent.changeText(searchInput, 'test query');
+    const searchInput = getByTestId("search-input");
+    fireEvent.changeText(searchInput, "test query");
 
-    expect(mockOnSearchChange).toHaveBeenCalledWith('test query');
+    expect(mockOnSearchChange).toHaveBeenCalledWith("test query");
   });
 
-  it('should display current search query', () => {
+  it("should display current search query", () => {
     const { getByTestId } = render(
       <SearchAndFilter
         searchQuery="current search"
@@ -119,14 +119,14 @@ describe('SearchAndFilter', () => {
       />
     );
 
-    const searchInput = getByTestId('search-input');
-    expect(searchInput.props.value).toBe('current search');
+    const searchInput = getByTestId("search-input");
+    expect(searchInput.props.value).toBe("current search");
   });
 
-  it('should handle all filter types', () => {
-    const filters = ['all', 'solo', 'duo', 'group'] as const;
-    
-    filters.forEach(filter => {
+  it("should handle all filter types", () => {
+    const filters = ["all", "solo", "duo", "group"] as const;
+
+    filters.forEach((filter) => {
       const { getByText } = render(
         <SearchAndFilter
           searchQuery=""
@@ -138,10 +138,10 @@ describe('SearchAndFilter', () => {
 
       // Verify filter button exists and can be pressed
       const filterLabels = {
-        all: 'Todos',
-        solo: 'Solo',
-        duo: 'Dupla',
-        group: 'Grupo'
+        all: "Todos",
+        solo: "Solo",
+        duo: "Dupla",
+        group: "Grupo",
       };
 
       const filterButton = getByText(filterLabels[filter]);
@@ -149,7 +149,7 @@ describe('SearchAndFilter', () => {
     });
   });
 
-  it('should switch between filters', () => {
+  it("should switch between filters", () => {
     const { getByText } = render(
       <SearchAndFilter
         searchQuery=""
@@ -160,20 +160,20 @@ describe('SearchAndFilter', () => {
     );
 
     // Test clicking different filters
-    fireEvent.press(getByText('Solo'));
-    expect(mockOnFilterChange).toHaveBeenCalledWith('solo');
+    fireEvent.press(getByText("Solo"));
+    expect(mockOnFilterChange).toHaveBeenCalledWith("solo");
 
-    fireEvent.press(getByText('Dupla'));
-    expect(mockOnFilterChange).toHaveBeenCalledWith('duo');
+    fireEvent.press(getByText("Dupla"));
+    expect(mockOnFilterChange).toHaveBeenCalledWith("duo");
 
-    fireEvent.press(getByText('Grupo'));
-    expect(mockOnFilterChange).toHaveBeenCalledWith('group');
+    fireEvent.press(getByText("Grupo"));
+    expect(mockOnFilterChange).toHaveBeenCalledWith("group");
 
-    fireEvent.press(getByText('Todos'));
-    expect(mockOnFilterChange).toHaveBeenCalledWith('all');
+    fireEvent.press(getByText("Todos"));
+    expect(mockOnFilterChange).toHaveBeenCalledWith("all");
   });
 
-  it('should handle multiple rapid filter changes', () => {
+  it("should handle multiple rapid filter changes", () => {
     const { getByText } = render(
       <SearchAndFilter
         searchQuery=""
@@ -183,20 +183,20 @@ describe('SearchAndFilter', () => {
       />
     );
 
-    const soloFilter = getByText('Solo');
-    const duoFilter = getByText('Dupla');
+    const soloFilter = getByText("Solo");
+    const duoFilter = getByText("Dupla");
 
     fireEvent.press(soloFilter);
     fireEvent.press(duoFilter);
     fireEvent.press(soloFilter);
 
     expect(mockOnFilterChange).toHaveBeenCalledTimes(3);
-    expect(mockOnFilterChange).toHaveBeenNthCalledWith(1, 'solo');
-    expect(mockOnFilterChange).toHaveBeenNthCalledWith(2, 'duo');
-    expect(mockOnFilterChange).toHaveBeenNthCalledWith(3, 'solo');
+    expect(mockOnFilterChange).toHaveBeenNthCalledWith(1, "solo");
+    expect(mockOnFilterChange).toHaveBeenNthCalledWith(2, "duo");
+    expect(mockOnFilterChange).toHaveBeenNthCalledWith(3, "solo");
   });
 
-  it('should handle empty search query', () => {
+  it("should handle empty search query", () => {
     const { getByTestId } = render(
       <SearchAndFilter
         searchQuery=""
@@ -206,7 +206,7 @@ describe('SearchAndFilter', () => {
       />
     );
 
-    const searchInput = getByTestId('search-input');
-    expect(searchInput.props.value).toBe('');
+    const searchInput = getByTestId("search-input");
+    expect(searchInput.props.value).toBe("");
   });
 });

@@ -22,10 +22,13 @@ describe("useLogin", () => {
   let queryClient: QueryClient;
   let mockLogin: jest.Mock;
   let mockReplace: jest.Mock;
-
-  const wrapper = ({ children }: { children: React.ReactNode }) =>
-    React.createElement(QueryClientProvider, { client: queryClient }, children);
-
+  const createTestWrapper = (client: QueryClient) => {
+    const TestWrapper = ({ children }: { children: React.ReactNode }) => {
+      const Provider = QueryClientProvider;
+      return Provider({ client, children });
+    };
+    return TestWrapper;
+  };
   beforeEach(() => {
     queryClient = new QueryClient({
       defaultOptions: {
@@ -43,6 +46,11 @@ describe("useLogin", () => {
     jest.clearAllMocks();
   });
 
+  afterEach(() => {
+    queryClient.clear();
+    queryClient.getQueryCache().clear();
+    queryClient.getMutationCache().clear();
+  });
   it("should login successfully", async () => {
     const mockResponse = {
       access_token: "test-token",
@@ -51,7 +59,9 @@ describe("useLogin", () => {
     };
     mockedAuthService.login.mockResolvedValue(mockResponse);
 
-    const { result } = renderHook(() => useLogin(), { wrapper });
+    const { result } = renderHook(() => useLogin(), {
+      wrapper: createTestWrapper(queryClient),
+    });
 
     result.current.mutate({ email: "test@test.com", password: "password" });
 
@@ -71,12 +81,13 @@ describe("useLogin", () => {
       position: "top",
     });
   });
-
   it("should handle login error", async () => {
     const mockError = { status: 401, message: "Invalid credentials" };
     mockedAuthService.login.mockRejectedValue(mockError);
 
-    const { result } = renderHook(() => useLogin(), { wrapper });
+    const { result } = renderHook(() => useLogin(), {
+      wrapper: createTestWrapper(queryClient),
+    });
 
     result.current.mutate({
       email: "test@test.com",
@@ -96,12 +107,13 @@ describe("useLogin", () => {
     expect(mockLogin).not.toHaveBeenCalled();
     expect(mockReplace).not.toHaveBeenCalled();
   });
-
   it("should handle network error", async () => {
     const mockError = { status: 500, message: null };
     mockedAuthService.login.mockRejectedValue(mockError);
 
-    const { result } = renderHook(() => useLogin(), { wrapper });
+    const { result } = renderHook(() => useLogin(), {
+      wrapper: createTestWrapper(queryClient),
+    });
 
     result.current.mutate({ email: "test@test.com", password: "password" });
 
