@@ -1,5 +1,5 @@
 import React from "react";
-import { Text } from "react-native";
+import { getLanguageByCountryCode } from "@/constants/languages";
 
 interface FlagIconProps {
   countryCode: string;
@@ -7,27 +7,20 @@ interface FlagIconProps {
 }
 
 const FlagIcon: React.FC<FlagIconProps> = ({ countryCode, size = 24 }) => {
-  const getFlagEmoji = (code: string): string => {
-    const flagEmojis: Record<string, string> = {
-      br: "🇧🇷", // Brasil
-      gb: "🇬🇧", // Reino Unido
-      es: "🇪🇸", // Espanha
-      us: "🇺🇸", // Estados Unidos
-      fr: "🇫🇷", // França
-      de: "🇩🇪", // Alemanha
-      it: "🇮🇹", // Itália
-      jp: "🇯🇵", // Japão
-      kr: "🇰🇷", // Coreia do Sul
-      cn: "🇨🇳", // China
-    };
+  const language = getLanguageByCountryCode(countryCode);
 
-    return flagEmojis[code.toLowerCase()] || "🏳️";
-  };
+  if (!language) {
+    return null;
+  }
+
+  const FlagComponent = language.svgComponent;
 
   return (
-    <Text style={{ fontSize: size, lineHeight: size + 4 }}>
-      {getFlagEmoji(countryCode)}
-    </Text>
+    <FlagComponent
+      width={size}
+      height={size}
+      style={{ width: size, height: size }}
+    />
   );
 };
 

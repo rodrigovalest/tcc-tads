@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { SUPPORTED_LANGUAGES } from "@/constants/languages";
 
 export interface Language {
   id: string;
@@ -10,11 +11,14 @@ export interface Language {
 export const useLanguageSelection = (isGroupMode: boolean = false) => {
   const [selectedLanguage, setSelectedLanguage] = useState<Language | null>(
     null
-  );  const languages: Language[] = [
-    { id: "1", name: "Português", flag: "br", code: "pt-BR" },
-    { id: "2", name: "English", flag: "gb", code: "en-GB" },
-    { id: "3", name: "Español", flag: "es", code: "es-ES" },
-  ];
+  );
+
+  const languages: Language[] = SUPPORTED_LANGUAGES.map((lang, index) => ({
+    id: (index + 1).toString(),
+    name: lang.name,
+    flag: lang.countryCode,
+    code: lang.code,
+  }));
 
   const getTitle = () => {
     return isGroupMode ? "Find people who speak the selected language" : "Play to Challenge yourself!";

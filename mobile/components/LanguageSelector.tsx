@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Text, View, TouchableOpacity, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Language } from "@/hooks/useLanguageSelection";
-import FlagIcon from "@/components/FlagIcon";
+import FlagDisplay from "@/components/FlagDisplay";
 
 interface LanguageSelectorProps {
   languages: Language[];
@@ -31,10 +31,11 @@ const LanguageSelector = ({
           onPress={() => setIsDropdownOpen(!isDropdownOpen)}
           activeOpacity={0.7}
         >
+          {" "}
           {selectedLanguage ? (
             <View className="flex-row items-center">
               <View className="mr-3">
-                <FlagIcon countryCode={selectedLanguage.flag} size={32} />
+                <FlagDisplay countryCode={selectedLanguage.flag} size={32} />
               </View>
               <Text className="text-lg font-semibold text-black">
                 {selectedLanguage.name}
@@ -43,7 +44,6 @@ const LanguageSelector = ({
           ) : (
             <Text className="text-lg text-gray-500">Selecione um idioma</Text>
           )}
-
           <Icon
             name={isDropdownOpen ? "chevron-up" : "chevron-down"}
             size={16}
@@ -53,7 +53,7 @@ const LanguageSelector = ({
 
         {isDropdownOpen && (
           <View className="absolute top-full left-0 right-0 bg-white border-2 border-t-0 border-black rounded-b-xl z-50">
-            <ScrollView 
+            <ScrollView
               className="max-h-64"
               showsVerticalScrollIndicator={false}
               nestedScrollEnabled={true}
@@ -62,13 +62,18 @@ const LanguageSelector = ({
                 <TouchableOpacity
                   key={language.id}
                   className={`flex-row items-center p-4 ${
-                    index !== languages.length - 1 ? "border-b border-gray-200" : ""
-                  } ${selectedLanguage?.id === language.id ? "bg-gray-50" : ""}`}
+                    index !== languages.length - 1
+                      ? "border-b border-gray-200"
+                      : ""
+                  } ${
+                    selectedLanguage?.id === language.id ? "bg-gray-50" : ""
+                  }`}
                   onPress={() => handleLanguageSelect(language)}
                   activeOpacity={0.7}
                 >
+                  {" "}
                   <View className="mr-3">
-                    <FlagIcon countryCode={language.flag} size={28} />
+                    <FlagDisplay countryCode={language.flag} size={28} />
                   </View>
                   <Text className="text-lg font-medium text-gray-800 flex-1">
                     {language.name}
