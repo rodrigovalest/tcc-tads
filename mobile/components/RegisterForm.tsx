@@ -1,46 +1,16 @@
 import React, { useState, useMemo } from "react";
-import { View, ScrollView } from "react-native";
+import { View } from "react-native";
+import { Controller } from "react-hook-form";
+import { COUNTRIES } from "@/constants/countries";
 import Input from "./Input";
 import Button from "./Button";
-import { Controller, useForm } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useRegister } from "@/hooks/useRegister";
-import IRegisterRequest from "@/models/requests/register-request";
-import DropDownPicker from "react-native-dropdown-picker";
-import { COUNTRIES } from "@/constants/countries";
-import { COLORS } from "@/constants/colors";
-
-const registerSchema = yup.object().shape({
-  username: yup.string().required("Username is required"),
-  email: yup.string().email("Invalid email").required("Email is required"),
-  password: yup
-    .string()
-    .min(6, "Password must have at least 6 characters")
-    .required("Password is required"),
-  nationality: yup.string().required("Nationality is required"),
-});
+import Dropdown from "./Dropdown";
+import { useRegisterForm } from "@/hooks/useRegisterForm";
 
 const RegisterForm: React.FC = () => {
-  const { mutate: onRegister, isPending } = useRegister();
-
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IRegisterRequest>({
-    resolver: yupResolver(registerSchema),
-    defaultValues: {
-      username: "",
-      email: "",
-      password: "",
-      nationality: "",
-    },
-  });
+  const { control, handleSubmit, formState: { errors }, onSubmit, isSubmitting } = useRegisterForm();
 
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-
   const items = useMemo(
     () =>
       Object.entries(COUNTRIES).map(([code, name]) => ({
@@ -50,12 +20,8 @@ const RegisterForm: React.FC = () => {
     []
   );
 
-  const onSubmit = (data: IRegisterRequest) => {
-    onRegister(data);
-  };
-
   return (
-    <View className="flex justify-center z-0">
+    <View className="flex justify-center z-0 ">
       <Controller
         control={control}
         name="username"
@@ -70,7 +36,6 @@ const RegisterForm: React.FC = () => {
           />
         )}
       />
-
       <Controller
         control={control}
         name="email"
@@ -86,7 +51,6 @@ const RegisterForm: React.FC = () => {
           />
         )}
       />
-
       <Controller
         control={control}
         name="password"
@@ -102,62 +66,25 @@ const RegisterForm: React.FC = () => {
           />
         )}
       />
-
       <Controller
         control={control}
         name="nationality"
         render={({ field: { onChange, value } }) => (
-          <DropDownPicker
-            open={open}
+          <Dropdown
+            label="Nationality *"
             value={value}
+            onChange={onChange}
             items={items}
+            error={errors.nationality?.message}
+            open={open}
             setOpen={setOpen}
-            setValue={(callback) => {
-              const newValue =
-                typeof callback === "function" ? callback(value) : callback;
-              onChange(newValue);
-            }}
-            setItems={() => {}}
-            searchable={true}
-            placeholder="Select your nationality *"
-            searchPlaceholder="Search nationality..."
-            listMode="MODAL"
-            showArrowIcon={false}
-            modalProps={{
-              animationType: "slide",
-            }}
-            modalContentContainerStyle={{
-              paddingTop: 20,
-            }}
-            style={{
-              marginBottom: 16,
-              backgroundColor: COLORS.appLightGrey, 
-              borderColor: 'black',
-              borderWidth: 1,
-              borderRadius: 8,
-              minHeight: 56,
-              paddingVertical: 16,
-              paddingHorizontal: 12,
-            }}
-            textStyle={{
-              color: COLORS.appDarkGrey,
-              fontSize: 20,
-            }}
-            placeholderStyle={{
-              color: COLORS.appMediumGrey,
-              fontSize: 20,
-            }}
-            dropDownContainerStyle={{
-              backgroundColor: COLORS.appLightGrey,
-              borderColor: 'black',
-            }}
           />
         )}
       />
       <Button
-        title={isPending ? "Loading..." : "Register"}
+        title={isSubmitting ? "Loading..." : "Register"}
         onPress={handleSubmit(onSubmit)}
-        disabled={isPending}
+        disabled={isSubmitting}
         textSize="2xl"
         textColor="text-white"
         textColorActivate="text-white"

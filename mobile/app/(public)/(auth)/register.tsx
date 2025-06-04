@@ -14,7 +14,7 @@ export default function Register() {
       className="w-full h-full bg-appBgWhite px-8"
       testID="register-screen-safe-area-view"
     >
-      <View className="mt-6 mb-8">
+      <View className="mt-4 mb-8">
         <Image
           source={require("@/assets/images/calle-dog-icon.png")}
           className="w-20 h-20 mx-auto"
@@ -27,13 +27,11 @@ export default function Register() {
         </Text>
       </View>
 
-      {/* Envolve o formulário em um container com zIndex alto */}
       <View style={{ zIndex: 1000 }}>
         <RegisterForm />
       </View>
 
-      {/* Define zIndex menor para os elementos que vêm depois */}
-      <View className="mt-4" style={{ zIndex: 0 }}>
+      <View className="mt-2" style={{ zIndex: 0 }}>
         <Text className="text-center text-2xl text-black font-medium mb-4">
           or
         </Text>

@@ -30,7 +30,7 @@ const Input: React.FC<InputProps> = ({
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const getKeyboardType = (): KeyboardTypeOptions | undefined => {
+  const getKeyboardType = (): KeyboardTypeOptions => {
     switch (type) {
       case "numeric":
         return "numeric";
@@ -46,7 +46,7 @@ const Input: React.FC<InputProps> = ({
   };
 
   return (
-    <View className="mb-4">
+    <View className="mb-0">
       <Text className="mb-2 text-appBlack font-semibold text-xl pl-2.5">
         {label}
       </Text>
@@ -92,9 +92,13 @@ const Input: React.FC<InputProps> = ({
           </TouchableOpacity>
         )}
       </View>
-      {error ? (
-        <Text className="text-appMediumRed text-xs mt-1 ml-1">{error}</Text>
-      ) : null}
+      <View className="min-h-[18px] mt-1 ml-1">
+        {error ? (
+          <Text className="text-appMediumRed text-xs">{error}</Text>
+        ) : (
+          <Text className="text-transparent text-xs">placeholder</Text>
+        )}
+      </View>
     </View>
   );
 };
