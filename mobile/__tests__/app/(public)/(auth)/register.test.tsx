@@ -9,9 +9,7 @@ jest.mock('expo-router', () => ({
   },
 }));
 
-jest.mock('@/components/RegisterForm', () => () => {
-  return <></>;
-});
+jest.mock('@/components/RegisterForm', () => () => <></>);
 
 describe('Register screen', () => {
   it('renders logo, texts and buttons', () => {
@@ -20,14 +18,14 @@ describe('Register screen', () => {
     expect(getByTestId('register-screen-safe-area-view')).toBeTruthy();
     expect(getByText('Calle')).toBeTruthy();
     expect(getByText('Create an account')).toBeTruthy();
-    expect(getByText('Login')).toBeTruthy();
+    expect(getByText('Register with Google')).toBeTruthy();
   });
 
-  it('navigates to login screen when pressing "Login"', () => {
-    const { getByText } = render(<Register />);
-    const loginButton = getByText('Login');
+  it('navigates to login screen when pressing back button', () => {
+    const { getByTestId } = render(<Register />);
+    const backButton = getByTestId('go-to-login-button');
 
-    fireEvent.press(loginButton);
+    fireEvent.press(backButton);
 
     expect(router.replace).toHaveBeenCalledWith('/(public)/(auth)/login');
   });
