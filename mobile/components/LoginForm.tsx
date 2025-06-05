@@ -9,7 +9,7 @@ import { useLogin } from "@/hooks/useLogin";
 import ILoginRequest from "@/models/requests/login-request";
 
 const loginSchema = yup.object().shape({
-  email: yup.string().email("Email inválido").required("Email is required"),
+  email: yup.string().email("Invalid email").required("Email is required"),
   password: yup
     .string()
     .min(6, "Password must have at least 6 characters")

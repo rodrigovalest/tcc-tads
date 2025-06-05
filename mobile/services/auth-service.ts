@@ -1,11 +1,11 @@
-import api from '@/api';
+import api from "@/api";
 import ILoginRequest from "@/models/requests/login-request";
 import ILoginResponse from "@/models/responses/login-response";
 import IRegisterRequest from "@/models/requests/register-request";
 
 const authService = {
   login: async (data: ILoginRequest): Promise<ILoginResponse> => {
-    const response = await api.post<ILoginResponse>('/login', data);
+    const response = await api.post<ILoginResponse>("/login", data);
     return response.data;
   },
 

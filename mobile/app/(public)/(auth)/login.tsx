@@ -1,7 +1,7 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, Image } from "react-native";
 import LoginForm from "@/components/LoginForm";
-import Button from "../../../components/Button";
+import Button from "@/components/Button";
 import { router } from "expo-router";
 
 export default function Login() {
