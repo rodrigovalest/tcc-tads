@@ -11,6 +11,9 @@
   },
   "jest": {
     "preset": "jest-expo",
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest.setup.js"
+    ],
     "collectCoverage": true,
     "collectCoverageFrom": [
       "app/**/*.{js,jsx,ts,tsx}",
@@ -22,7 +25,9 @@
       "!**/node_modules/**",
       "!**/*.d.ts"
     ],
-    "coverageDirectory": "coverage"
+    "coverageDirectory": "coverage",
+    "forceExit": true,
+    "detectOpenHandles": true
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",

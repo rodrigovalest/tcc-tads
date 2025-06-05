@@ -1,7 +1,7 @@
-import { create } from 'zustand';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import IJwtUser from '@/models/interfaces/jwt-token-user';
-import { jwtDecode } from 'jwt-decode';
+import { create } from "zustand";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import IJwtUser from "@/models/interfaces/jwt-token-user";
+import { jwtDecode } from "jwt-decode";
 
 type AuthState = {
   user: IJwtUser | null;
@@ -20,19 +20,22 @@ const useAuthStore = create<AuthState>((set) => ({
   login: async (token: string) => {
     const decoded: IJwtUser = jwtDecode(token);
     await AsyncStorage.multiSet([
-      ['user', JSON.stringify(decoded)],
-      ['token', token],
+      ["user", JSON.stringify(decoded)],
+      ["token", token],
     ]);
     set({ user: decoded, token });
   },
 
   logout: async () => {
-    await AsyncStorage.multiRemove(['user', 'token']);
+    await AsyncStorage.multiRemove(["user", "token"]);
     set({ user: null, token: null });
   },
 
   restore: async () => {
-    const [[, userData], [, token]] = await AsyncStorage.multiGet(['user', 'token']);
+    const [[, userData], [, token]] = await AsyncStorage.multiGet([
+      "user",
+      "token",
+    ]);
     if (userData && token) {
       set({ user: JSON.parse(userData), token });
     }
