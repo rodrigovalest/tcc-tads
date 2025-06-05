@@ -62,7 +62,7 @@ describe("Input", () => {
     );
     let inputElement = getByPlaceholderText("Enter your password");
 
-    expect(inputElement.props.secureTextEntry).toBe(false);
+    expect(inputElement.props.secureTextEntry).toBe(true);
 
     const toggleButton = getByTestId("password-visibility-toggle");
     act(() => {
@@ -70,13 +70,13 @@ describe("Input", () => {
     });
 
     inputElement = getByPlaceholderText("Enter your password");
-    expect(inputElement.props.secureTextEntry).toBe(true);
+    expect(inputElement.props.secureTextEntry).toBe(false);
 
     act(() => {
       fireEvent.press(toggleButton);
     });
     inputElement = getByPlaceholderText("Enter your password");
-    expect(inputElement.props.secureTextEntry).toBe(false);
+    expect(inputElement.props.secureTextEntry).toBe(true);
   });
 
   it("does not render visibility toggle for non-password inputs", () => {
