@@ -8,7 +8,13 @@ import Dropdown from "./Dropdown";
 import { useRegisterForm } from "@/hooks/useRegisterForm";
 
 const RegisterForm: React.FC = () => {
-  const { control, handleSubmit, formState: { errors }, onSubmit, isSubmitting } = useRegisterForm();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    onSubmit,
+    isSubmitting,
+  } = useRegisterForm();
 
   const [open, setOpen] = useState(false);
   const items = useMemo(
@@ -21,7 +27,7 @@ const RegisterForm: React.FC = () => {
   );
 
   return (
-    <View className="flex justify-center z-0 ">
+    <View className="flex justify-center z-0">
       <Controller
         control={control}
         name="username"
@@ -63,6 +69,21 @@ const RegisterForm: React.FC = () => {
             placeholder="Enter your password"
             type="password"
             error={errors.password?.message}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="confirmPassword"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            label="Confirm Password *"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            placeholder="Confirm your password"
+            type="password"
+            error={errors.confirmPassword?.message}
           />
         )}
       />

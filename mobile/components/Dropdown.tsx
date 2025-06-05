@@ -23,16 +23,8 @@ const Dropdown: React.FC<DropdownProps> = ({
   setOpen,
 }) => {
   return (
-    <View className="mb-4 z-10">
-      <Text
-        style={{
-          color: "black",
-          fontSize: 20,
-          fontWeight: "600",
-          marginBottom: 8,
-          paddingLeft: 10,
-        }}
-      >
+    <View className="mb-0">
+      <Text className="mb-2 text-appBlack font-semibold text-xl pl-2.5">
         {label}
       </Text>
 
@@ -58,7 +50,6 @@ const Dropdown: React.FC<DropdownProps> = ({
           paddingTop: 20,
         }}
         style={{
-          marginBottom: 16,
           backgroundColor: COLORS.appLightGrey,
           borderColor: error ? "#DC2626" : "black",
           borderWidth: 1,
@@ -81,17 +72,13 @@ const Dropdown: React.FC<DropdownProps> = ({
         }}
       />
 
-      <Text
-        style={{
-          marginTop: -8,
-          marginLeft: 6,
-          color: "#DC2626",
-          fontSize: 12,
-          minHeight: 18,
-        }}
-      >
-        {error || " "}
-      </Text>
+      <View className="min-h-[18px] mt-1 ml-1">
+        {error ? (
+          <Text className="text-appMediumRed text-xs">{error}</Text>
+        ) : (
+          <Text className="text-transparent text-xs">placeholder</Text>
+        )}
+      </View>
     </View>
   );
 };

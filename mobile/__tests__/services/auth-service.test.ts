@@ -3,10 +3,6 @@ import api from '@/api';
 import ILoginRequest from '@/models/requests/login-request';
 import ILoginResponse from '@/models/responses/login-response';
 import IRegisterRequest from '@/models/requests/register-request';
-import authService from "@/services/auth-service";
-import api from "@/api";
-import ILoginRequest from "@/models/requests/login-request";
-import ILoginResponse from "@/models/responses/login-response";
 
 jest.mock("@/api");
 
