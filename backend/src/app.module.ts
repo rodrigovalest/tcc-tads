@@ -4,11 +4,18 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MatchmakingModule } from './matchmaking/matchmaking.module';
+import { RedisModule } from '@nestjs-modules/ioredis';
+import { MatchModule } from './match/match.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+
+    EventEmitterModule.forRoot(),
+    
     UserModule,
+    
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
@@ -23,8 +30,19 @@ import { MatchmakingModule } from './matchmaking/matchmaking.module';
       }),
       inject: [ConfigService],
     }),
+
+    RedisModule.forRootAsync({
+      useFactory: () => ({
+        type: 'single',
+        url: 'redis://localhost:6600',
+      }),
+    }),
+
     AuthModule,
+    
     MatchmakingModule,
+    
+    MatchModule,
   ],
   controllers: [],
   providers: [],
