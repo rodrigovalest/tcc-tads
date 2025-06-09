@@ -1,87 +1,81 @@
-import { InjectRedis } from "@nestjs-modules/ioredis";
-import { Injectable } from "@nestjs/common";
-import Redis from "ioredis";
-import { GameLanguage } from "src/match/entities/game-language.enum";
-import { GameMode } from "src/match/entities/game-mode.enum";
-import { GameType } from "src/match/entities/game-type.enum";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { GameLanguage } from 'src/match/entities/game-language.enum';
+import { GameMode } from 'src/match/entities/game-mode.enum';
+import { GameType } from 'src/match/entities/game-type.enum';
+import { UserQueue } from '../entities/user-queue.entity';
 
 @Injectable()
 export class QueueService {
-  constructor(@InjectRedis() private readonly redis: Redis) {}
-
-  private getQueueKey(gameMode: GameMode, gameType: GameType, language: GameLanguage): string {
-    return `queue:${gameMode}:${gameType}:${language}`;
-  }
-
-  private getUserKey(userId: number): string {
-    return `queue:user:${userId}`;
-  }
+  constructor(
+    @InjectRepository(UserQueue)
+    private readonly userQueueRepository: Repository<UserQueue>,
+  ) {}
 
   async enqueue(
-    userId: number, 
+    userId: number,
+    socketId: string,
     gameMode: GameMode,
-    gameType: GameType, 
-    language: GameLanguage
+    gameType: GameType,
+    gameLanguage: GameLanguage,
   ): Promise<void> {
-    const userKey = this.getUserKey(userId);
+    await this.userQueueRepository.delete({ userId });
 
-    if (await this.redis.get(userKey)) {
-      await this.removeUser(userId);
-    }
+    const entry = this.userQueueRepository.create({
+      userId,
+      socketId,
+      gameMode,
+      gameType,
+      gameLanguage,
+    });
 
-    const queueKey = this.getQueueKey(gameMode, gameType, language);
-    const score = Date.now();
-
-    await Promise.all([
-      this.redis.zadd(queueKey, score, userId.toString()),
-      this.redis.set(this.getUserKey(userId), queueKey),
-    ]);
+    await this.userQueueRepository.save(entry);
   }
 
-  async removeUser(userId: number): Promise<void> {
-    const userKey = this.getUserKey(userId);
-    const queueKey = await this.redis.get(userKey);
-
-    if (queueKey) {
-      await Promise.all([
-        this.redis.zrem(queueKey, userId.toString()),
-        this.redis.del(userKey),
-      ]);
-    }
+  async removeUserBySocketId(
+    socketId: string
+  ): Promise<void> {
+    await this.userQueueRepository.delete({ socketId });
   }
 
-  async getQueueSize(gameMode: GameMode, gameType: GameType, language: GameLanguage): Promise<number> {
-    const queueKey = this.getQueueKey(gameMode, gameType, language);
-    return await this.redis.zcard(queueKey);
+  async getQueueSize(
+    gameMode: GameMode,
+    gameType: GameType,
+    gameLanguage: GameLanguage,
+  ): Promise<number> {
+    return this.userQueueRepository.count({
+      where: { gameMode, gameType, gameLanguage },
+    });
   }
 
   async getAllFromQueue(
     gameMode: GameMode,
     gameType: GameType,
-    language: GameLanguage
-  ): Promise<number[]> {
-    const queueKey = this.getQueueKey(gameMode, gameType, language);
-    const members = await this.redis.zrange(queueKey, 0, -1);
-
-    return members.map(Number);
+    gameLanguage: GameLanguage,
+  ): Promise<UserQueue[]> {
+    return await this.userQueueRepository.find({
+      where: { gameMode, gameType, gameLanguage },
+      order: { joinedAt: 'ASC' },
+    });
   }
 
   async dequeueUsers(
     gameMode: GameMode,
     gameType: GameType,
-    language: GameLanguage,
+    gameLanguage: GameLanguage,
     count: number,
-  ): Promise<number[]> {
-    const queueKey = this.getQueueKey(gameMode, gameType, language);
-    const users = await this.redis.zrange(queueKey, 0, count - 1);
+  ): Promise<UserQueue[]> {
+    const users = await this.userQueueRepository.find({
+      where: { gameMode, gameType, gameLanguage },
+      order: { joinedAt: 'ASC' },
+      take: count,
+    });
 
     if (users.length > 0) {
-      await Promise.all([
-        this.redis.zrem(queueKey, ...users),
-        ...users.map((id) => this.redis.del(this.getUserKey(Number(id)))),
-      ]);
+      await this.userQueueRepository.remove(users);
     }
 
-    return users.map((id) => parseInt(id, 10));
+    return users;
   }
 }

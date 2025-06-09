@@ -23,6 +23,7 @@ export class MatchmakingService {
 
   async enqueueAndTryStart(
     userId: number, 
+    socketId: string,
     gameMode: GameMode,
     gameType: GameType, 
     language: GameLanguage
@@ -30,23 +31,21 @@ export class MatchmakingService {
     this.logger.log(`Enqueue requested by user ${userId} for ${gameMode}-${gameType}-${language}`);
 
     await this.queueService.enqueue(
-      userId, gameMode, gameType, language
+      userId, socketId, gameMode, gameType, language
     );
 
     const queueSize = await this.queueService.getQueueSize(gameMode, gameType, language);
     const requiredPlayers = this.playersNeeded[gameType];
 
-    console.log(await this.queueService.getAllFromQueue(gameMode, gameType, language));
-
     if (queueSize >= requiredPlayers) {
-      const userIds = await this.queueService.dequeueUsers(gameMode, gameType, language, requiredPlayers);
+      const users = await this.queueService.dequeueUsers(gameMode, gameType, language, requiredPlayers);
       
-      this.logger.log(`Starting match with users: ${userIds.join(', ')}`);
+      this.logger.log(`Starting match with users: ${users.map(u => `${u.userId}`).join(', ')}`);
 
       // await this.matchService.createMatch(userIds, gameMode, gameType, language);
 
       this.eventEmitter.emit('match.started', {
-        userIds,
+        users,
         gameMode,
         gameType,
         language,
@@ -54,7 +53,7 @@ export class MatchmakingService {
     }
   }
 
-  async handleDisconnect(userId: number): Promise<void> {
-    await this.queueService.removeUser(userId);
+  async handleDisconnect(socketId: string): Promise<void> {
+    this.queueService.removeUserBySocketId(socketId);
   }
 }

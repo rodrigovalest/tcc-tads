@@ -12,6 +12,7 @@ import { OnEvent } from '@nestjs/event-emitter';
 import { GameLanguage } from 'src/match/entities/game-language.enum';
 import { GameMode } from 'src/match/entities/game-mode.enum';
 import { GameType } from 'src/match/entities/game-type.enum';
+import { UserQueue } from '../entities/user-queue.entity';
 
 @UsePipes(new WsValidationPipe())
 @UseFilters(new WsExceptionFilter())
@@ -24,9 +25,6 @@ export class MatchmakingGateway implements OnGatewayDisconnect {
 
   @WebSocketServer() server: Server;
 
-  private readonly clientIdToUserId = new Map<string, number>();
-  private readonly userIdToSocket = new Map<number, Socket>();
-
   @UseGuards(JwtWsAuthGuard)
   @SubscribeMessage('enqueue')
   async enqueue(
@@ -34,11 +32,9 @@ export class MatchmakingGateway implements OnGatewayDisconnect {
     @MessageBody() messageDto: EnqueueMessageDto,
     @ConnectedSocket() client: Socket
   ) {
-    this.clientIdToUserId.set(client.id, user.sub);
-    this.userIdToSocket.set(user.sub, client);
-    
     await this.matchmakingService.enqueueAndTryStart(
       user.sub,
+      client.id,
       messageDto.gameMode,
       messageDto.gameType,
       messageDto.language
@@ -46,26 +42,26 @@ export class MatchmakingGateway implements OnGatewayDisconnect {
   }
 
   async handleDisconnect(client: Socket) {
-    const userId = this.clientIdToUserId.get(client.id);
-    if (!userId) return;
-
-    this.clientIdToUserId.delete(client.id);
-    this.userIdToSocket.delete(userId);
-
-    await this.matchmakingService.handleDisconnect(userId);
+    await this.matchmakingService.handleDisconnect(client.id);
   }
 
   @OnEvent('match.started')
   handleMatchStarted(payload: {
-    userIds: number[],
+    users: UserQueue [],
     gameMode: GameMode,
     gameType: GameType,
     language: GameLanguage,
   }) {
-    payload.userIds.forEach(userId => {
-      const socket = this.userIdToSocket.get(userId);
+    payload.users.forEach(user => {
+      const socket = this.server.sockets.sockets.get(user.socketId);
+
       if (socket) {
-        socket.emit('match-started', payload);
+        socket.emit('match-started', {
+          message: 'starting game',
+          gameMode: payload.gameMode,
+          gameType: payload.gameType,
+          language: payload.language,
+        });
       }
     });
   }
