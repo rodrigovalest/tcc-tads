@@ -28,11 +28,19 @@ export class JwtWsAuthGuard implements CanActivate {
   }
 
   private extractTokenFromHeader(client: Socket): string {
-    const authHeader = client.handshake.auth.token;
-    if (!authHeader) throw new WsException('Missing Authorization header');
+    const rawToken =
+      client.handshake.auth?.token ||
+      client.handshake.headers?.authorization;
 
-    const [scheme, token] = authHeader.split(' ');
-    if (scheme !== 'Bearer' || !token) throw new WsException('Invalid token format');
+    if (!rawToken) {
+      throw new WsException('Missing Authorization token');
+    }
+
+    const [scheme, token] = rawToken.split(' ');
+
+    if (scheme !== 'Bearer' || !token) {
+      throw new WsException('Invalid token format');
+    }
 
     return token;
   }

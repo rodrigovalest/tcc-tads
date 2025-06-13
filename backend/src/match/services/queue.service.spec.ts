@@ -3,9 +3,9 @@ import { QueueService } from './queue.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { UserQueue } from '../entities/user-queue.entity';
 import { Repository } from 'typeorm';
-import { MatchLanguage } from '../../match/entities/match-language.enum';
-import { MatchMode } from '../../match/entities/match-mode.enum';
-import { MatchFormat } from '../../match/entities/match-format.enum';
+import { MatchLanguage } from '../entities/match-language.enum';
+import { MatchMode } from '../entities/match-mode.enum';
+import { MatchFormat } from '../entities/match-format.enum';
 
 const mockUserQueueRepository = () => ({
   delete: jest.fn(),

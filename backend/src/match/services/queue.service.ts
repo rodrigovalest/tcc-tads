@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { MatchLanguage } from '../../match/entities/match-language.enum';
-import { MatchMode } from '../../match/entities/match-mode.enum';
-import { MatchFormat } from '../../match/entities/match-format.enum';
+import { MatchLanguage } from '../entities/match-language.enum';
+import { MatchMode } from '../entities/match-mode.enum';
+import { MatchFormat } from '../entities/match-format.enum';
 import { UserQueue } from '../entities/user-queue.entity';
 
 @Injectable()

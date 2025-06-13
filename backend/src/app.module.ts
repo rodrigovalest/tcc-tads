@@ -3,10 +3,10 @@ import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { MatchmakingModule } from './matchmaking/matchmaking.module';
 import { RedisModule } from '@nestjs-modules/ioredis';
 import { MatchModule } from './match/match.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { JustChillingModule } from './just-chilling/just-chilling.module';
 
 @Module({
   imports: [
@@ -40,9 +40,9 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 
     AuthModule,
     
-    MatchmakingModule,
-    
     MatchModule,
+    
+    JustChillingModule,
   ],
   controllers: [],
   providers: [],
