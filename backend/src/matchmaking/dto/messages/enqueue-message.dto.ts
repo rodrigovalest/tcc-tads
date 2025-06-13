@@ -1,19 +1,19 @@
 import { IsDefined, IsEnum } from "class-validator";
-import { GameLanguage } from "src/match/entities/game-language.enum";
-import { GameMode } from "src/match/entities/game-mode.enum";
-import { GameType } from "src/match/entities/game-type.enum";
+import { MatchLanguage } from "src/match/entities/match-language.enum";
+import { MatchMode } from "src/match/entities/match-mode.enum";
+import { MatchFormat } from "src/match/entities/match-format.enum";
 
 export class EnqueueMessageDto {
 
   @IsDefined()
-  @IsEnum(GameMode, { message: 'game mode must be valid (e.g., JUST_CHILLING)' })
-  readonly gameMode: GameMode;
+  @IsEnum(MatchMode, { message: 'game mode must be valid (e.g., just_chilling)' })
+  readonly matchMode: MatchMode;
 
   @IsDefined()
-  @IsEnum(GameLanguage, { message: 'language must be a valid game language (e.g., EN, PT, ES)' })
-  readonly language: GameLanguage;
+  @IsEnum(MatchLanguage, { message: 'language must be a valid game language (e.g., en, pt, es)' })
+  readonly matchLanguage: MatchLanguage;
 
   @IsDefined()
-  @IsEnum(GameType, { message: 'game type must be a valid type (e.g., SOLO, DUO, GROUP)' })
-  readonly gameType: GameType;
+  @IsEnum(MatchFormat, { message: 'game type must be a valid type (e.g., solo, duo, group)' })
+  readonly matchFormat: MatchFormat;
 }

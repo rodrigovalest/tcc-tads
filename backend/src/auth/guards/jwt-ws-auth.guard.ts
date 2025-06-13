@@ -28,7 +28,7 @@ export class JwtWsAuthGuard implements CanActivate {
   }
 
   private extractTokenFromHeader(client: Socket): string {
-    const authHeader = client.handshake.headers['authorization'];
+    const authHeader = client.handshake.auth.token;
     if (!authHeader) throw new WsException('Missing Authorization header');
 
     const [scheme, token] = authHeader.split(' ');

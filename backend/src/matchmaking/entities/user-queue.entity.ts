@@ -1,6 +1,6 @@
-import { GameLanguage } from "src/match/entities/game-language.enum";
-import { GameMode } from "src/match/entities/game-mode.enum";
-import { GameType } from "src/match/entities/game-type.enum";
+import { MatchLanguage } from '../../match/entities/match-language.enum';
+import { MatchMode } from '../../match/entities/match-mode.enum';
+import { MatchFormat } from '../../match/entities/match-format.enum';
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
@@ -15,23 +15,23 @@ export class UserQueue {
   @Column({ unique: true, nullable: false })
   socketId!: string;
 
-  @Column({ type: 'enum', enum: GameMode, nullable: false })
-  gameMode!: GameMode;
+  @Column({ type: 'enum', enum: MatchMode, nullable: false })
+  matchMode!: MatchMode;
 
-  @Column({ type: 'enum', enum: GameType, nullable: false })
-  gameType!: GameType;
+  @Column({ type: 'enum', enum: MatchFormat, nullable: false })
+  matchFormat!: MatchFormat;
   
-  @Column({ type: 'enum', enum: GameLanguage, nullable: false })
-  gameLanguage!: GameLanguage;
+  @Column({ type: 'enum', enum: MatchLanguage, nullable: false })
+  matchLanguage!: MatchLanguage;
 
   @CreateDateColumn()
   joinedAt: Date;
 
-  constructor (userId: number, socketId: string, gameMode: GameMode, gameType: GameType, gameLanguage: GameLanguage) {
+  constructor (userId: number, socketId: string, matchMode: MatchMode, matchFormat: MatchFormat, matchLanguage: MatchLanguage) {
     this.userId = userId;
     this.socketId = socketId;
-    this.gameMode = gameMode;
-    this.gameType = gameType;
-    this.gameLanguage = gameLanguage;
+    this.matchMode = matchMode;
+    this.matchFormat = matchFormat;
+    this.matchLanguage = matchLanguage;
   }
 }

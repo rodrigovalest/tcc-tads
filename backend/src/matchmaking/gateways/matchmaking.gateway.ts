@@ -9,9 +9,9 @@ import { EnqueueMessageDto } from '../dto/messages/enqueue-message.dto';
 import { WsValidationPipe } from 'src/shared/pipes/WsValidationPipe';
 import { Server, Socket } from 'socket.io';
 import { OnEvent } from '@nestjs/event-emitter';
-import { GameLanguage } from 'src/match/entities/game-language.enum';
-import { GameMode } from 'src/match/entities/game-mode.enum';
-import { GameType } from 'src/match/entities/game-type.enum';
+import { MatchLanguage } from 'src/match/entities/match-language.enum';
+import { MatchMode } from 'src/match/entities/match-mode.enum';
+import { MatchFormat } from 'src/match/entities/match-format.enum';
 import { UserQueue } from '../entities/user-queue.entity';
 
 @UsePipes(new WsValidationPipe())
@@ -35,9 +35,9 @@ export class MatchmakingGateway implements OnGatewayDisconnect {
     await this.matchmakingService.enqueueAndTryStart(
       user.sub,
       client.id,
-      messageDto.gameMode,
-      messageDto.gameType,
-      messageDto.language
+      messageDto.matchMode,
+      messageDto.matchFormat,
+      messageDto.matchLanguage
     );
   }
 
@@ -48,9 +48,9 @@ export class MatchmakingGateway implements OnGatewayDisconnect {
   @OnEvent('match.started')
   handleMatchStarted(payload: {
     users: UserQueue [],
-    gameMode: GameMode,
-    gameType: GameType,
-    language: GameLanguage,
+    matchMode: MatchMode,
+    matchFormat: MatchFormat,
+    language: MatchLanguage,
   }) {
     payload.users.forEach(user => {
       const socket = this.server.sockets.sockets.get(user.socketId);
@@ -58,8 +58,8 @@ export class MatchmakingGateway implements OnGatewayDisconnect {
       if (socket) {
         socket.emit('match-started', {
           message: 'starting game',
-          gameMode: payload.gameMode,
-          gameType: payload.gameType,
+          gameMode: payload.matchMode,
+          gameType: payload.matchFormat,
           language: payload.language,
         });
       }

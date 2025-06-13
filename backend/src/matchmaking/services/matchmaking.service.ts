@@ -1,8 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { QueueService } from './queue.service';
-import { GameLanguage } from 'src/match/entities/game-language.enum';
-import { GameMode } from 'src/match/entities/game-mode.enum';
-import { GameType } from 'src/match/entities/game-type.enum';
+import { MatchLanguage } from 'src/match/entities/match-language.enum';
+import { MatchMode } from 'src/match/entities/match-mode.enum';
+import { MatchFormat } from 'src/match/entities/match-format.enum';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
@@ -15,30 +15,30 @@ export class MatchmakingService {
 
   private readonly logger = new Logger(MatchmakingService.name, { timestamp: true })
 
-  private readonly playersNeeded: Record<GameType, number> = {
-    [GameType.SOLO]: 1,
-    [GameType.DUO]: 2,
-    [GameType.GROUP]: 4,
+  private readonly playersNeeded: Record<MatchFormat, number> = {
+    [MatchFormat.SOLO]: 1,
+    [MatchFormat.DUO]: 2,
+    [MatchFormat.GROUP]: 4,
   };
 
   async enqueueAndTryStart(
     userId: number, 
     socketId: string,
-    gameMode: GameMode,
-    gameType: GameType, 
-    language: GameLanguage
+    matchMode: MatchMode,
+    matchFormat: MatchFormat, 
+    language: MatchLanguage
   ): Promise<void> {
-    this.logger.log(`Enqueue requested by user ${userId} for ${gameMode}-${gameType}-${language}`);
+    this.logger.log(`Enqueue requested by user ${userId} for ${matchMode}-${matchFormat}-${language}`);
 
     await this.queueService.enqueue(
-      userId, socketId, gameMode, gameType, language
+      userId, socketId, matchMode, matchFormat, language
     );
 
-    const queueSize = await this.queueService.getQueueSize(gameMode, gameType, language);
-    const requiredPlayers = this.playersNeeded[gameType];
+    const queueSize = await this.queueService.getQueueSize(matchMode, matchFormat, language);
+    const requiredPlayers = this.playersNeeded[matchFormat];
 
     if (queueSize >= requiredPlayers) {
-      const users = await this.queueService.dequeueUsers(gameMode, gameType, language, requiredPlayers);
+      const users = await this.queueService.dequeueUsers(matchMode, matchFormat, language, requiredPlayers);
       
       this.logger.log(`Starting match with users: ${users.map(u => `${u.userId}`).join(', ')}`);
 
@@ -46,8 +46,8 @@ export class MatchmakingService {
 
       this.eventEmitter.emit('match.started', {
         users,
-        gameMode,
-        gameType,
+        matchMode,
+        matchFormat,
         language,
       });
     }

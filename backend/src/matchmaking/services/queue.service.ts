@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { GameLanguage } from 'src/match/entities/game-language.enum';
-import { GameMode } from 'src/match/entities/game-mode.enum';
-import { GameType } from 'src/match/entities/game-type.enum';
+import { MatchLanguage } from '../../match/entities/match-language.enum';
+import { MatchMode } from '../../match/entities/match-mode.enum';
+import { MatchFormat } from '../../match/entities/match-format.enum';
 import { UserQueue } from '../entities/user-queue.entity';
 
 @Injectable()
 export class QueueService {
+  
   constructor(
     @InjectRepository(UserQueue)
     private readonly userQueueRepository: Repository<UserQueue>,
@@ -16,18 +17,18 @@ export class QueueService {
   async enqueue(
     userId: number,
     socketId: string,
-    gameMode: GameMode,
-    gameType: GameType,
-    gameLanguage: GameLanguage,
+    matchMode: MatchMode,
+    matchFormat: MatchFormat,
+    matchLanguage: MatchLanguage,
   ): Promise<void> {
     await this.userQueueRepository.delete({ userId });
 
     const entry = this.userQueueRepository.create({
       userId,
       socketId,
-      gameMode,
-      gameType,
-      gameLanguage,
+      matchMode,
+      matchFormat,
+      matchLanguage,
     });
 
     await this.userQueueRepository.save(entry);
@@ -40,34 +41,34 @@ export class QueueService {
   }
 
   async getQueueSize(
-    gameMode: GameMode,
-    gameType: GameType,
-    gameLanguage: GameLanguage,
+    matchMode: MatchMode,
+    matchFormat: MatchFormat,
+    matchLanguage: MatchLanguage,
   ): Promise<number> {
     return this.userQueueRepository.count({
-      where: { gameMode, gameType, gameLanguage },
+      where: { matchMode, matchFormat, matchLanguage },
     });
   }
 
   async getAllFromQueue(
-    gameMode: GameMode,
-    gameType: GameType,
-    gameLanguage: GameLanguage,
+    matchMode: MatchMode,
+    matchFormat: MatchFormat,
+    matchLanguage: MatchLanguage,
   ): Promise<UserQueue[]> {
     return await this.userQueueRepository.find({
-      where: { gameMode, gameType, gameLanguage },
+      where: { matchMode, matchFormat, matchLanguage },
       order: { joinedAt: 'ASC' },
     });
   }
 
   async dequeueUsers(
-    gameMode: GameMode,
-    gameType: GameType,
-    gameLanguage: GameLanguage,
+    matchMode: MatchMode,
+    matchFormat: MatchFormat,
+    matchLanguage: MatchLanguage,
     count: number,
   ): Promise<UserQueue[]> {
     const users = await this.userQueueRepository.find({
-      where: { gameMode, gameType, gameLanguage },
+      where: { matchMode, matchFormat, matchLanguage },
       order: { joinedAt: 'ASC' },
       take: count,
     });
