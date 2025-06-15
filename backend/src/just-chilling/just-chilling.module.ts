@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { AuthModule } from 'src/auth/auth.module';
-import { JustChillingService } from './services/just-chilling.service';
+import { JustChillingDuoService } from './services/just-chilling-duo.service';
 import { MatchModule } from 'src/match/match.module';
-import { JustChillingGateway } from './gateways/just-chilling.gateway';
+import { JustChillingDuoGateway } from './gateways/just-chilling-duo.gateway';
 
 @Module({
   imports: [
@@ -10,8 +10,8 @@ import { JustChillingGateway } from './gateways/just-chilling.gateway';
     MatchModule
   ],
   providers: [
-    JustChillingService,
-    JustChillingGateway
+    JustChillingDuoService,
+    JustChillingDuoGateway
   ],
 })
 export class JustChillingModule {}
