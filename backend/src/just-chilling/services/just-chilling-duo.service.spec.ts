@@ -83,6 +83,7 @@ describe('JustChillingDuoService', () => {
         user1: mockUsers[0],
         user2: mockUsers[1],
         language,
+        roomId: expect.stringMatching(/^room-/),
       }
     );
   });

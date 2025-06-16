@@ -1,19 +1,18 @@
 import { UseFilters, UseGuards, UsePipes } from '@nestjs/common';
 import { WebSocketGateway, SubscribeMessage, MessageBody, ConnectedSocket, OnGatewayDisconnect, WebSocketServer } from '@nestjs/websockets';
-import { CurrentWsUser } from 'src/auth/decorators/current-ws-user.decorator';
-import { JwtWsAuthGuard } from 'src/auth/guards/jwt-ws-auth.guard';
-import { IUserJwtPayload } from 'src/auth/models/user-jwt-payload.interface';
-import { WsExceptionFilter } from 'src/shared/filters/ws-exception.filter';
-import { WsValidationPipe } from 'src/shared/pipes/WsValidationPipe';
+import { CurrentWsUser } from '../../auth/decorators/current-ws-user.decorator';
+import { JwtWsAuthGuard } from '../../auth/guards/jwt-ws-auth.guard';
+import { IUserJwtPayload } from '../../auth/models/user-jwt-payload.interface';
+import { WsExceptionFilter } from '../../shared/filters/ws-exception.filter';
+import { WsValidationPipe } from '../../shared/pipes/WsValidationPipe';
 import { Server, Socket } from 'socket.io';
 import { JustChillingDuoService } from '../services/just-chilling-duo.service';
-import { MatchFormat } from 'src/match/entities/match-format.enum';
+import { MatchFormat } from '../../match/entities/match-format.enum';
 import { MatchLanguage } from '../../match/entities/match-language.enum';
 import { MatchMode } from '../../match/entities/match-mode.enum';
 import { UserQueue } from '../../match/entities/user-queue.entity';
 import { EnqueueMessageDto } from '../dtos/messages/enqueue-message.dto';
 import { OnEvent } from '@nestjs/event-emitter';
-import { randomUUID } from 'crypto';
 
 @UsePipes(new WsValidationPipe())
 @UseFilters(new WsExceptionFilter())
@@ -91,21 +90,20 @@ export class JustChillingDuoGateway implements OnGatewayDisconnect {
     user1: UserQueue,
     user2: UserQueue,
     language: MatchLanguage,
+    roomId: string,
   }) {
-    const roomId = `match-${randomUUID()}`;
-
     const notifyUser = (user: UserQueue, isOfferer: boolean) => {
       const socket = this.server.sockets.sockets.get(user.socketId);
 
       if (socket) {
-        socket.join(roomId);
+        socket.join(payload.roomId);
 
         socket.emit('just-chilling:duo:match-started', {
           message: 'starting just chilling duo match',
           matchMode: MatchMode.JUST_CHILLING,
           matchFormat: MatchFormat.DUO,
           language: payload.language,
-          roomId: roomId,
+          roomId: payload.roomId,
           isOfferer: isOfferer,
         });
       }

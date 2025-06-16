@@ -1,5 +1,5 @@
 import { IsDefined, IsEnum } from "class-validator";
-import { MatchLanguage } from "src/match/entities/match-language.enum";
+import { MatchLanguage } from "../../../match/entities/match-language.enum";
 
 export class EnqueueMessageDto {
 

@@ -5,6 +5,7 @@ import { MatchMode } from '../../match/entities/match-mode.enum';
 import { MatchFormat } from '../../match/entities/match-format.enum';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { UserQueue } from '../../match/entities/user-queue.entity';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class JustChillingDuoService {
@@ -32,10 +33,13 @@ export class JustChillingDuoService {
 
       this.logger.log(`Starting just-chilling with users: ${users.map(u => `${u.userId}`).join(', ')}`);
 
+      const roomId = `room-${randomUUID()}`;
+
       this.eventEmitter.emit('just-chilling:duo:match-started', {
         user1: users[0],
         user2: users[1],
         language: language,
+        roomId
       });
     }
   }
