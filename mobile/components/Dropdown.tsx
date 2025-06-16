@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-import { COLORS } from "@/constants/colors";
+import { COLORS } from "../constants/colors";
 
 interface DropdownProps {
   label: string;

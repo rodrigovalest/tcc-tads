@@ -1,7 +1,7 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, Image } from "react-native";
-import LoginForm from "@/components/LoginForm";
-import Button from "@/components/Button";
+import LoginForm from "../../../components/LoginForm";
+import Button from "../../../components/Button";
 import { router } from "expo-router";
 
 export default function Login() {
@@ -20,7 +20,7 @@ export default function Login() {
     >
       <View className="mt-20 mb-8">
         <Image
-          source={require("@/assets/images/calle-dog-icon.png")}
+          source={require("../../../assets/images/calle-dog-icon.png")}
           className="w-24 h-24 mx-auto"
         />
 

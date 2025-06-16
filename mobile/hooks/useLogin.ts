@@ -1,9 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
-import authService from "@/services/auth-service";
-import useAuthStore from "@/store/auth-store";
-import ILoginResponse from "@/models/responses/login-response";
+import authService from "../services/auth-service";
+import useAuthStore from "../store/auth-store";
+import ILoginResponse from "../models/responses/login-response";
 import { useRouter } from "expo-router";
-import type { ApiError } from "@/api";
+import type { ApiError } from "../api";
 import Toast from "react-native-toast-message";
 
 export function useLogin() {

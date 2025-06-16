@@ -1,58 +1,58 @@
-import { useState, useMemo } from "react";
-import { GameMode, PlayerType } from "@/components/GameModeCard";
+// import { useState, useMemo } from "react";
+// import { GameMode, PlayerType } from "../components/GameModeCard";
 
-type FilterType = PlayerType | "all";
+// type FilterType = PlayerType | "all";
 
-export const useGameSearch = (gameModes: GameMode[]) => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedFilter, setSelectedFilter] = useState<FilterType>("all");
+// export const useGameSearch = (gameModes: GameMode[]) => {
+//   const [searchQuery, setSearchQuery] = useState("");
+//   const [selectedFilter, setSelectedFilter] = useState<FilterType>("all");
 
-  const filteredGameModes = useMemo(() => {
-    let filtered = gameModes;
+//   const filteredGameModes = useMemo(() => {
+//     let filtered = gameModes;
 
-    if (searchQuery.trim()) {
-      filtered = filtered.filter((mode) =>
-        mode.title.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
+//     if (searchQuery.trim()) {
+//       filtered = filtered.filter((mode) =>
+//         mode.title.toLowerCase().includes(searchQuery.toLowerCase())
+//       );
+//     }
 
-    if (selectedFilter !== "all") {
-      filtered = filtered.filter((mode) =>
-        mode.playerTypes.includes(selectedFilter)
-      );
-    }
+//     if (selectedFilter !== "all") {
+//       filtered = filtered.filter((mode) =>
+//         mode.playerTypes.includes(selectedFilter)
+//       );
+//     }
 
-    return filtered;
-  }, [gameModes, searchQuery, selectedFilter]);
+//     return filtered;
+//   }, [gameModes, searchQuery, selectedFilter]);
 
-  const handleSearchChange = (query: string) => {
-    setSearchQuery(query);
-  };
-  const handleFilterChange = (filter: FilterType) => {
-    setSelectedFilter(filter);
-  };
+//   const handleSearchChange = (query: string) => {
+//     setSearchQuery(query);
+//   };
+//   const handleFilterChange = (filter: FilterType) => {
+//     setSelectedFilter(filter);
+//   };
 
-  const clearSearch = () => {
-    setSearchQuery("");
-  };
+//   const clearSearch = () => {
+//     setSearchQuery("");
+//   };
 
-  const clearFilter = () => {
-    setSelectedFilter("all");
-  };
+//   const clearFilter = () => {
+//     setSelectedFilter("all");
+//   };
 
-  const clearAll = () => {
-    clearSearch();
-    clearFilter();
-  };
+//   const clearAll = () => {
+//     clearSearch();
+//     clearFilter();
+//   };
 
-  return {
-    searchQuery,
-    selectedFilter,
-    filteredGameModes,
-    handleSearchChange,
-    handleFilterChange,
-    clearSearch,
-    clearFilter,
-    clearAll,
-  };
-};
+//   return {
+//     searchQuery,
+//     selectedFilter,
+//     filteredGameModes,
+//     handleSearchChange,
+//     handleFilterChange,
+//     clearSearch,
+//     clearFilter,
+//     clearAll,
+//   };
+// };

@@ -1,17 +1,20 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View } from "react-native";
-import GameModes from "@/components/GameModes";
-import MatchesHeader from "@/components/MatchesHeader";
-import { useMatches } from "@/hooks/useMatches";
+import MatchesHeader from "../../../components/MatchesHeader";
+import { AVALIABLE_MATCH_MODES } from "../../../constants/available-match-modes";
+import AvailiableMatchModeCardComponent from "../../../components/AvailiableMatchModeCard";
 
 export default function Matches() {
-  const { gameModes } = useMatches();
-
   return (
     <SafeAreaView className="flex-1 bg-appBgWhite">
       <View className="flex-1">
         <MatchesHeader />
-        <GameModes modes={gameModes} />
+
+        {Object.values(AVALIABLE_MATCH_MODES).map((mode) => (
+          <View key={mode.matchMode}>
+            <AvailiableMatchModeCardComponent avaliableMatchMode={mode} />
+          </View>
+        ))}
       </View>
     </SafeAreaView>
   );

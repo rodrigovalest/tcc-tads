@@ -1,5 +1,5 @@
 import { Stack, Redirect } from "expo-router";
-import useAuthStore from "@/store/auth-store";
+import useAuthStore from "../../store/auth-store";
 import { ActivityIndicator, View } from "react-native";
 
 export default function PrivateLayout() {
