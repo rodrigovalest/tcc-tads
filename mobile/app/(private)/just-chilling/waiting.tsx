@@ -1,35 +1,31 @@
-// screens/TestVideoCallScreen.tsx
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { RTCView } from 'react-native-webrtc';
-import { useTestVideoCall } from '../../../hooks/useTestVideoCall';
+import { useRouter } from 'expo-router';
+import Spinner from '../../../components/Spinner';
+import React, { useEffect } from 'react';
+import { Text, Image, SafeAreaView } from 'react-native';
 
-export default function TestVideoCallScreen() {
-  const { localStream, remoteStream } = useTestVideoCall();
+export default function JustChillingWaiting() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      router.replace('/(private)/just-chilling/game');
+    }, 5000);
+
+    return () => clearTimeout(timeout);
+  }, []);
 
   return (
-    <View style={styles.container}>
-      <Text>Local Stream</Text>
-      {localStream && (
-        <RTCView
-          streamURL={localStream.toURL()}
-          style={styles.video}
-          objectFit="cover"
-        />
-      )}
-      <Text>Remote Stream</Text>
-      {remoteStream && (
-        <RTCView
-          streamURL={remoteStream.toURL()}
-          style={styles.video}
-          objectFit="cover"
-        />
-      )}
-    </View>
+    <SafeAreaView className='flex-1 bg-appBgWhite items-center justify-center px-6'>
+      <Image
+        source={require("../../../assets/images/calle-dog-icon.png")}
+        className="w-24 h-24 mb-4"
+      />
+
+      <Text className="text-2xl text-center pl-4 font-nunito-semibold mb-4">
+        Almost there... finding the best match for you!
+      </Text>
+
+      <Spinner />
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, gap: 10 },
-  video: { width: '100%', height: 200, backgroundColor: 'black' },
-});

@@ -19,8 +19,14 @@ const AvailiableMatchModeCardComponent = ({
   };
 
   return (
-    <TouchableOpacity onPress={onClick}>
-      <Image source={avaliableMatchMode.image} />
+    <TouchableOpacity 
+      onPress={onClick}
+    >
+      <Image 
+        source={avaliableMatchMode.image} 
+        resizeMode="stretch"
+        className="w-full h-full rounded-lg border-appDarkGrey border-2"  
+      />
     </TouchableOpacity>
   );
 }
