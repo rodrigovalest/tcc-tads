@@ -6,7 +6,7 @@ export type ApiError = {
 };
 
 const api = axios.create({
-  baseURL: process.env.EXPO_PUBLIC_API_URL ?? 'http://192.168.15.62:3000',
+  baseURL: process.env.EXPO_PUBLIC_API_URL ?? 'http://192.168.100.122:3000',
 });
 
 api.interceptors.response.use(

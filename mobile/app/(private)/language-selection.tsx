@@ -33,10 +33,10 @@ export default function LanguageSelection() {
   }
 
   const onPlay = () => {
-    if (!matchFormat || !matchLanguage)
+    if (!matchMode || !matchFormat || !matchLanguage)
       return;
 
-    router.replace('/(private)/just-chilling/waiting');
+    router.replace(`/(private)/${matchMode}/${matchFormat}/waiting`);
   }
 
   return (

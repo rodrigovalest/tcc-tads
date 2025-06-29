@@ -1,3 +1,3 @@
 export enum MatchMode {
-  JUST_CHILLING = 'just_chilling',
+  JUST_CHILLING = 'just-chilling',
 }

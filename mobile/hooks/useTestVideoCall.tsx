@@ -1,4 +1,3 @@
-// hooks/useTestVideoCall.ts
 import { useEffect, useRef, useState } from "react";
 import {
   RTCPeerConnection,
@@ -36,11 +35,33 @@ export function useTestVideoCall() {
     });
 
     (peer as any).ontrack = (event: any) => {
-      console.log('[JUST CHILLING] ontrack event:', event);
+      console.log('[JUST CHILLING] ontrack triggered');
 
-      if (event.streams && event.streams[0]) {
-        setRemoteStream(event.streams[0]);
+      const stream = event.streams?.[0];
+      if (!stream) {
+        console.warn('[JUST CHILLING] No stream in ontrack event');
+        return;
       }
+
+      const videoTracks = stream.getVideoTracks();
+      const audioTracks = stream.getAudioTracks();
+
+      console.log('[JUST CHILLING] Remote stream received');
+      console.log('> Video tracks count:', videoTracks.length);
+      videoTracks.forEach((t, i) => {
+        console.log(`> Video track [${i}]: id=${t.id}, enabled=${t.enabled}, readyState=${t.readyState}`);
+      });
+
+      console.log('> Audio tracks count:', audioTracks.length);
+      audioTracks.forEach((t, i) => {
+        console.log(`> Audio track [${i}]: id=${t.id}, enabled=${t.enabled}, readyState=${t.readyState}`);
+      });
+
+      if (videoTracks.length === 0) {
+        console.warn('[JUST CHILLING] No video tracks found in remote stream');
+      }
+
+      setRemoteStream(stream);
     };
 
     (peer as any).onicecandidate = (event: any) => {

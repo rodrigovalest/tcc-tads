@@ -1,4 +1,3 @@
-// stores/useMatchStore.ts
 import { create } from 'zustand';
 import { MatchFormat } from '../models/types/match-format.type';
 import { MatchLanguage } from '../models/types/match-language.type';
@@ -9,11 +8,13 @@ type MatchState = {
   matchFormat: MatchFormat | null;
   matchLanguage: MatchLanguage | null;
   roomId: string | null;
+  isOfferer: boolean | null;
 
   setMatchMode: (mode: MatchMode) => Promise<void>;
   setMatchFormat: (format: MatchFormat) => Promise<void>;
   setMatchLanguage: (language: MatchLanguage) => Promise<void>;
   setRoomId: (roomId: string) => Promise<void>;
+  setIsOfferer: (isOfferer: boolean) => Promise<void>;
   resetMatch: () => Promise<void>;
 };
 
@@ -21,7 +22,8 @@ const useMatchStore = create<MatchState>((set, get) => ({
   matchMode: null,
   matchFormat: null,
   matchLanguage: null,
-  roomId:null,
+  roomId: null,
+  isOfferer: null,
 
   setMatchMode: async (matchMode) => {
     set({ matchMode });
@@ -39,8 +41,12 @@ const useMatchStore = create<MatchState>((set, get) => ({
     set({ roomId });
   },
 
+  setIsOfferer: async (isOfferer: boolean) => {
+    set({ isOfferer });
+  },
+
   resetMatch: async () => {
-    set({ matchMode: null, matchFormat: null, matchLanguage: null, roomId: null });
+    set({ matchMode: null, matchFormat: null, matchLanguage: null, roomId: null, isOfferer: null });
   },
 }));
 

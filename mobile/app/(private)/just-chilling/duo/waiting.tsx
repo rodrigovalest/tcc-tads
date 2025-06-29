@@ -1,23 +1,15 @@
-import { useRouter } from 'expo-router';
-import Spinner from '../../../components/Spinner';
-import React, { useEffect } from 'react';
+import Spinner from '../../../../components/Spinner';
+import React from 'react';
 import { Text, Image, SafeAreaView } from 'react-native';
+import useMatchmaking from '../../../../hooks/useMatchmaking';
 
 export default function JustChillingWaiting() {
-  const router = useRouter();
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      router.replace('/(private)/just-chilling/game');
-    }, 5000);
-
-    return () => clearTimeout(timeout);
-  }, []);
+  useMatchmaking();
 
   return (
     <SafeAreaView className='flex-1 bg-appBgWhite items-center justify-center px-6'>
       <Image
-        source={require("../../../assets/images/calle-dog-icon.png")}
+        source={require("../../../../assets/images/calle-dog-icon.png")}
         className="w-24 h-24 mb-4"
       />
 

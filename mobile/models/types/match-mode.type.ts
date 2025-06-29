@@ -1,1 +1,1 @@
-export type MatchMode = 'just_chilling';
+export type MatchMode = 'just-chilling';
