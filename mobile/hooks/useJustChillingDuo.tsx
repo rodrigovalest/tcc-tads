@@ -18,7 +18,13 @@ const MEDIA_CONSTRAINTS: MediaStreamConstraints = {
 };
 
 const PEER_CONSTRAINTS = {
-  iceServers: [{ urls: ["stun:stun.l.google.com:19302"] }],
+  iceServers: [
+    {
+      urls: ["turn:192.168.0.101:3478"],
+      username: "webrtcuser",
+      credential: "webrctpass",
+    },
+  ],
 };
 
 const SESSION_CONSTRAINTS: RTCOfferOptions = {
@@ -69,12 +75,25 @@ const useJustChillingDuo = () => {
 
     pc.onicecandidate = (event: EventOnCandidate) => {
       if (event.candidate) {
-        console.log("[WebRTC] ICE candidate local gerado.", event.candidate);
+        console.log("[WebRTC] ICE candidate:", event.candidate);
+        console.log(
+          "[WebRTC] Tipo do candidato:",
+          event.candidate.candidate?.includes("typ relay")
+            ? "RELAY (via TURN)"
+            : event.candidate.candidate?.includes("typ srflx")
+            ? "STUN (reflexivo)"
+            : "HOST (local)"
+        );
+
         webSocketService.emit("just-chilling:duo:webrtc:ice-candidate", {
           roomId,
           candidate: event.candidate,
         });
       }
+    };
+
+    pc.oniceconnectionstatechange = () => {
+      console.log("[ICE] Estado ICE:", pc.connectionState);
     };
 
     if (isOfferer) {
@@ -155,6 +174,41 @@ const useJustChillingDuo = () => {
       console.log("[WebRTC] 🔴 Conexão finalizada e listeners removidos.");
     };
   }, [roomId]);
+
+  useEffect(() => {
+    let statsInterval: NodeJS.Timeout | null = null;
+
+    if (peerConnection.current) {
+      statsInterval = setInterval(() => {
+        peerConnection.current?.getStats().then(stats => {
+          stats.forEach(report => {
+            if (report.type === "inbound-rtp" && report.kind === "video") {
+              console.log("[WebRTC][STATS] 📦 Bytes recebidos (vídeo):", report.bytesReceived);
+              console.log("[WebRTC][STATS] 🎞️ Frames decodificados:", report.framesDecoded);
+              console.log("[WebRTC][STATS] 📈 Packets recebidos:", report.packetsReceived);
+            }
+
+            if (report.type === "track" && report.kind === "video") {
+              console.log("[WebRTC][STATS] 🧩 Track stats:", {
+                framesDecoded: report.framesDecoded,
+                framesDropped: report.framesDropped,
+                framesReceived: report.framesReceived,
+                frameWidth: report.frameWidth,
+                frameHeight: report.frameHeight,
+              });
+            }
+          });
+        }).catch(err => {
+          console.warn("[WebRTC][STATS] ❌ Erro ao obter stats:", err);
+        });
+      }, 5000); // a cada 2s
+    }
+
+    return () => {
+      if (statsInterval) clearInterval(statsInterval);
+    };
+  }, [remoteStream]);
+
 
   return {
     localStream,
