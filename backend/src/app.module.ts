@@ -3,7 +3,6 @@ import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { RedisModule } from '@nestjs-modules/ioredis';
 import { MatchModule } from './match/match.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { JustChillingModule } from './just-chilling/just-chilling.module';
@@ -29,13 +28,6 @@ import { JustChillingModule } from './just-chilling/just-chilling.module';
         synchronize: true,
       }),
       inject: [ConfigService],
-    }),
-
-    RedisModule.forRootAsync({
-      useFactory: () => ({
-        type: 'single',
-        url: 'redis://localhost:6600',
-      }),
     }),
 
     AuthModule,
