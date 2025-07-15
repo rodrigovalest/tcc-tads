@@ -28,12 +28,12 @@ export class JustChillingDuoGateway implements OnGatewayDisconnect {
   @UseGuards(JwtWsAuthGuard)
   @SubscribeMessage('just-chilling:duo:enqueue')
   async enqueue(
-    @CurrentWsUser() user: IUserJwtPayload,
+    @CurrentWsUser() loggedUser: IUserJwtPayload,
     @MessageBody() messageDto: EnqueueMessageDto,
     @ConnectedSocket() client: Socket
   ) {
     await this.justChillingDuoService.enqueueDuoFormatAndTryStart(
-      user.sub,
+      loggedUser,
       client.id,
       messageDto.matchLanguage
     );
@@ -92,7 +92,7 @@ export class JustChillingDuoGateway implements OnGatewayDisconnect {
     language: MatchLanguage,
     roomId: string,
   }) {
-    const notifyUser = (user: UserQueue, isOfferer: boolean) => {
+    const notifyUser = (user: UserQueue, isOfferer: boolean, pair: UserQueue) => {
       const socket = this.server.sockets.sockets.get(user.socketId);
 
       if (socket) {
@@ -100,16 +100,21 @@ export class JustChillingDuoGateway implements OnGatewayDisconnect {
 
         socket.emit('just-chilling:duo:match-started', {
           message: 'starting just chilling duo match',
+          timestamp: new Date().toISOString(),
           matchMode: MatchMode.JUST_CHILLING,
           matchFormat: MatchFormat.DUO,
           language: payload.language,
           roomId: payload.roomId,
           isOfferer: isOfferer,
+          buddy: {
+            username: pair.username,
+            nationality: pair.nationality,
+          }
         });
       }
     };
 
-    notifyUser(payload.user1, true);
-    notifyUser(payload.user2, false);
+    notifyUser(payload.user1, true, payload.user2);
+    notifyUser(payload.user2, false, payload.user1);
   }
 }

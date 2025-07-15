@@ -6,30 +6,29 @@ import { useRouter } from 'expo-router';
 import useJustChillingDuo from '../../../../hooks/useJustChillingDuo';
 import { RTCView } from 'react-native-webrtc';
 import { useEffect } from 'react';
+import useMatchStore from '../../../../store/match-store';
 
 export default function JustChillingDuoGame() {
   const { user: loggedUser } = useAuthStore();
+  const { buddy, resetMatch } = useMatchStore();
   const router = useRouter();
   const { localStream, remoteStream, start } = useJustChillingDuo();
-  const username = 'username';
 
   useEffect(() => {
     start();
   }, []);
 
-  const onMute = () => { }
+  const onMute = () => {}
 
-  const onVideoOff = () => { }
+  const onVideoOff = () => {}
 
   const onEndCall = () => {
+    resetMatch();
     router.replace('/(private)/(tabs)/matches');
   }
 
   return (
     <SafeAreaView className='w-full h-full bg-appBgWhite'>
-      {/* <View className='h-full bg-appMediumGrey'></View> */}
-
-
       {remoteStream && (
         <RTCView
           streamURL={remoteStream.toURL()}
@@ -41,7 +40,7 @@ export default function JustChillingDuoGame() {
       <Text
         className="absolute top-14 right-6 bg-appBgWhite rounded-3xl py-1 px-4 border-appBlack border-2 flex items-center justify-center text-lg font-nunito-semibold text-appBlack"
       >
-        {username}
+        {buddy!.username}
       </Text>
 
       <View className="absolute bottom-40 right-6 bg-appBgWhite w-40 h-48 rounded-2xl border-appBlack border-2 flex items-center justify-center">
@@ -57,7 +56,7 @@ export default function JustChillingDuoGame() {
         )}
 
         <Text className='text-lg font-nunito-semibold text-appBlack'>
-          {loggedUser!.username}
+          {loggedUser!.username} (you)
         </Text>
       </View>
 

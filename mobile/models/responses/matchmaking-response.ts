@@ -9,4 +9,8 @@ export default interface IMatchmakingResponse {
   language: MatchLanguage;
   roomId: string;
   isOfferer: boolean;
+  buddy: {
+    username: string;
+    nationality: string;
+  }
 }

@@ -6,6 +6,7 @@ import { MatchFormat } from '../../match/entities/match-format.enum';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { UserQueue } from '../../match/entities/user-queue.entity';
 import { randomUUID } from 'crypto';
+import { IUserJwtPayload } from 'src/auth/models/user-jwt-payload.interface';
 
 @Injectable()
 export class JustChillingDuoService {
@@ -18,13 +19,15 @@ export class JustChillingDuoService {
   private readonly logger = new Logger(JustChillingDuoService.name, { timestamp: true });
 
   async enqueueDuoFormatAndTryStart(
-    userId: number, 
+    user: IUserJwtPayload, 
     socketId: string,
     language: MatchLanguage
   ): Promise<void> {
-    this.logger.log(`Enqueue requested by user ${userId} for ${MatchMode.JUST_CHILLING}-${MatchFormat.DUO}-${language}`);
+    this.logger.log(`Enqueue requested by user ${user.sub} for ${MatchMode.JUST_CHILLING}-${MatchFormat.DUO}-${language}`);
 
-    await this.queueService.enqueue(userId, socketId, MatchMode.JUST_CHILLING, MatchFormat.DUO, language);
+    await this.queueService.enqueue(
+      user.sub, user.username, user.nationality, socketId, MatchMode.JUST_CHILLING, MatchFormat.DUO, language
+    );
 
     const queueSize = await this.queueService.getQueueSize(MatchMode.JUST_CHILLING, MatchFormat.DUO, language);
 

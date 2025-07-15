@@ -9,7 +9,7 @@ import IMatchmakingResponse from "../models/responses/matchmaking-response";
 const useMatchmaking = () => {
   const router = useRouter();
   const { token } = useAuthStore();
-  const { matchFormat, matchLanguage, matchMode, setRoomId, setIsOfferer, resetMatch } = useMatchStore();
+  const { matchFormat, matchLanguage, matchMode, setRoomId, setIsOfferer, resetMatch, setUserBuddy } = useMatchStore();
 
   useEffect(() => {
     if (!token || !matchFormat || !matchLanguage || !matchMode) {
@@ -49,6 +49,7 @@ const useMatchmaking = () => {
 
       setRoomId(data.roomId);
       setIsOfferer(data.isOfferer);
+      setUserBuddy(data.buddy);
       router.replace(`/(private)/${data.matchMode}/${matchFormat}/game`);
     });
 

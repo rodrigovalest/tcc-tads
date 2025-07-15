@@ -2,6 +2,7 @@ import { MatchLanguage } from '../../match/entities/match-language.enum';
 import { MatchMode } from '../../match/entities/match-mode.enum';
 import { MatchFormat } from '../../match/entities/match-format.enum';
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { CountryCode } from 'src/user/entities/country-code.enum';
 
 @Entity()
 export class UserQueue {
@@ -11,6 +12,12 @@ export class UserQueue {
 
   @Column({ unique: true, nullable: false })
   userId!: number;
+  
+  @Column({ nullable: false })
+  username!: string;
+
+  @Column({ type: 'enum', enum: CountryCode, nullable: false })
+  nationality: CountryCode;
 
   @Column({ unique: true, nullable: false })
   socketId!: string;
@@ -27,9 +34,11 @@ export class UserQueue {
   @CreateDateColumn()
   joinedAt: Date;
 
-  constructor (userId: number, socketId: string, matchMode: MatchMode, matchFormat: MatchFormat, matchLanguage: MatchLanguage) {
+  constructor (userId: number, username: string, nationality: CountryCode, socketId: string, matchMode: MatchMode, matchFormat: MatchFormat, matchLanguage: MatchLanguage) {
     this.userId = userId;
     this.socketId = socketId;
+    this.username = username;
+    this.nationality = nationality;
     this.matchMode = matchMode;
     this.matchFormat = matchFormat;
     this.matchLanguage = matchLanguage;

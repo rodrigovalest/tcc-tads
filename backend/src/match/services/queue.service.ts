@@ -5,6 +5,7 @@ import { MatchLanguage } from '../entities/match-language.enum';
 import { MatchMode } from '../entities/match-mode.enum';
 import { MatchFormat } from '../entities/match-format.enum';
 import { UserQueue } from '../entities/user-queue.entity';
+import { CountryCode } from 'src/user/entities/country-code.enum';
 
 @Injectable()
 export class QueueService {
@@ -16,6 +17,8 @@ export class QueueService {
 
   async enqueue(
     userId: number,
+    username: string,
+    nationality: CountryCode,
     socketId: string,
     matchMode: MatchMode,
     matchFormat: MatchFormat,
@@ -25,6 +28,8 @@ export class QueueService {
 
     const entry = this.userQueueRepository.create({
       userId,
+      username,
+      nationality,
       socketId,
       matchMode,
       matchFormat,
