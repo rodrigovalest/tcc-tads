@@ -15,7 +15,6 @@ const useMatchmaking = () => {
     if (!token || !matchFormat || !matchLanguage || !matchMode) {
       resetMatch();
       webSocketService.disconnect();
-      console.warn('[matchmaking] Missing token or matchmaking parameters, redirecting to matches page');
       router.replace("/(private)/(tabs)/matches");
       return;
     };
@@ -23,7 +22,6 @@ const useMatchmaking = () => {
     webSocketService.connect(token);
 
     webSocketService.on('disconnect', async () => {
-      console.log('[matchmaking ws disconnect]');
       webSocketService.disconnect();
       resetMatch();
       router.replace("/(private)/(tabs)/matches");
