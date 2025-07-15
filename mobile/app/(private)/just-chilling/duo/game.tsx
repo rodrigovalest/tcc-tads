@@ -12,18 +12,33 @@ export default function JustChillingDuoGame() {
   const { user: loggedUser } = useAuthStore();
   const { buddy, resetMatch } = useMatchStore();
   const router = useRouter();
-  const { localStream, remoteStream, start } = useJustChillingDuo();
+  const { 
+    localStream, 
+    remoteStream, 
+    start,
+    switchAudio,
+    switchVideo,
+    isMicMuted,
+    isVideoMuted 
+  } = useJustChillingDuo();
 
   useEffect(() => {
     start();
+
+    return () => {
+      resetMatch();
+    }
   }, []);
 
-  const onMute = () => {}
+  const onMute = () => {
+  switchAudio();
+  };
 
-  const onVideoOff = () => {}
+  const onVideoOff = () => {
+    switchVideo();
+  };
 
   const onEndCall = () => {
-    resetMatch();
     router.replace('/(private)/(tabs)/matches');
   }
 
@@ -44,7 +59,7 @@ export default function JustChillingDuoGame() {
       </Text>
 
       <View className="absolute bottom-40 right-6 bg-appBgWhite w-40 h-48 rounded-2xl border-appBlack border-2 flex items-center justify-center">
-        {localStream && (
+        {localStream && !isVideoMuted && (
           <View className='h-32 w-32 rounded-2xl border-appBlack border-2 mb-2 overflow-hidden bg-appBlack'>
             <RTCView
               streamURL={localStream.toURL()}
@@ -61,12 +76,26 @@ export default function JustChillingDuoGame() {
       </View>
 
       <View className="absolute bottom-0 left-0 right-0 bg-appBlack px-10 pt-8 pb-10 flex-row justify-between items-center rounded-t-3xl">
-        <TouchableOpacity className="bg-[#4F4F47] rounded-full p-4">
-          <Feather name="mic-off" size={26} color="#FEFBF4" />
+        <TouchableOpacity
+          className="bg-[#4F4F47] rounded-full p-4"
+          onPress={onMute}
+        >
+          <Feather
+            name={isMicMuted ? "mic" : "mic-off"}
+            size={26}
+            color="#FEFBF4"
+          />
         </TouchableOpacity>
 
-        <TouchableOpacity className="bg-[#4F4F47] rounded-full p-4">
-          <Feather name="video-off" size={26} color="#FEFBF4" />
+        <TouchableOpacity
+          className="bg-[#4F4F47] rounded-full p-4"
+          onPress={onVideoOff}
+        >
+          <Feather
+            name={isVideoMuted ? "video" : "video-off"}
+            size={26}
+            color="#FEFBF4"
+          />
         </TouchableOpacity>
 
         <TouchableOpacity className="bg-appMediumRed rounded-full p-4" onPress={onEndCall}>
