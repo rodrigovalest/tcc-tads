@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { MatchLanguage } from '../entities/match-language.enum';
 import { MatchMode } from '../entities/match-mode.enum';
 import { MatchFormat } from '../entities/match-format.enum';
+import { CountryCode } from '../../user/entities/country-code.enum';
 
 const mockUserQueueRepository = () => ({
   delete: jest.fn(),
@@ -42,16 +43,18 @@ describe('QueueService', () => {
   it('enqueue_WithValidInput_ShouldDeletePreviousAndSaveNewEntry', async () => {
     // Arrange
     const userId = 1;
+    const username = 'testusername';
+    const nationality = CountryCode.Brazil;
     const socketId = 'socket-123';
     const matchMode = MatchMode.JUST_CHILLING;
     const matchFormat = MatchFormat.SOLO;
     const matchLanguage = MatchLanguage.EN;
-    const mockEntry = { userId, socketId, matchMode, matchFormat, matchLanguage } as UserQueue;
+    const mockEntry = { userId, username, nationality, socketId, matchMode, matchFormat, matchLanguage } as UserQueue;
 
     userQueueRepository.create.mockReturnValue(mockEntry);
 
     // Act
-    await service.enqueue(userId, socketId, matchMode, matchFormat, matchLanguage);
+    await service.enqueue(userId, username, nationality, socketId, matchMode, matchFormat, matchLanguage);
 
     // Assert
     expect(userQueueRepository.delete).toHaveBeenCalledWith({ userId });

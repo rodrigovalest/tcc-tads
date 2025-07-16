@@ -6,6 +6,8 @@ import { MatchLanguage } from '../../match/entities/match-language.enum';
 import { MatchMode } from '../../match/entities/match-mode.enum';
 import { MatchFormat } from '../../match/entities/match-format.enum';
 import { UserQueue } from '../../match/entities/user-queue.entity';
+import { IUserJwtPayload } from '../../auth/models/user-jwt-payload.interface';
+import { CountryCode } from '../../user/entities/country-code.enum';
 
 describe('JustChillingDuoService', () => {
   let service: JustChillingDuoService;
@@ -48,7 +50,12 @@ describe('JustChillingDuoService', () => {
 
   it('enqueueDuoFormatAndTryStart_WithQueueSize2_ShouldEmitMatchStartedEvent', async () => {
     // Arrange
-    const userId = 42;
+    const user: IUserJwtPayload = {
+      sub: 1,
+      email: 'user@email.com',
+      username: 'user',
+      nationality: CountryCode.Afghanistan
+    };
     const socketId = 'socket-abc';
     const language = MatchLanguage.EN;
 
@@ -62,11 +69,11 @@ describe('JustChillingDuoService', () => {
     queueServiceMock.dequeueUsers.mockResolvedValue(mockUsers);
 
     // Act
-    await service.enqueueDuoFormatAndTryStart(userId, socketId, language);
+    await service.enqueueDuoFormatAndTryStart(user, socketId, language);
 
     // Assert
     expect(queueServiceMock.enqueue).toHaveBeenCalledWith(
-      userId, socketId, MatchMode.JUST_CHILLING, MatchFormat.DUO, language
+      user.sub, user.username, user.nationality, socketId, MatchMode.JUST_CHILLING, MatchFormat.DUO, language
     );
 
     expect(queueServiceMock.getQueueSize).toHaveBeenCalledWith(
@@ -90,7 +97,12 @@ describe('JustChillingDuoService', () => {
 
   it('enqueueDuoFormatAndTryStart_WithQueueSizeLessThan2_ShouldNotEmitMatchStartedEvent', async () => {
     // Arrange
-    const userId = 99;
+    const user: IUserJwtPayload = {
+      sub: 1,
+      email: 'user@email.com',
+      username: 'user',
+      nationality: CountryCode.Afghanistan
+    };
     const socketId = 'socket-def';
     const language = MatchLanguage.EN;
 
@@ -98,11 +110,11 @@ describe('JustChillingDuoService', () => {
     queueServiceMock.getQueueSize.mockResolvedValue(1);
 
     // Act
-    await service.enqueueDuoFormatAndTryStart(userId, socketId, language);
+    await service.enqueueDuoFormatAndTryStart(user, socketId, language);
 
     // Assert
     expect(queueServiceMock.enqueue).toHaveBeenCalledWith(
-      userId, socketId, MatchMode.JUST_CHILLING, MatchFormat.DUO, language
+      user.sub, user.username, user.nationality, socketId, MatchMode.JUST_CHILLING, MatchFormat.DUO, language
     );
     expect(queueServiceMock.getQueueSize).toHaveBeenCalledWith(
       MatchMode.JUST_CHILLING, MatchFormat.DUO, language

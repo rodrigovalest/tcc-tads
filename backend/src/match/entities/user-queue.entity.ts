@@ -2,7 +2,7 @@ import { MatchLanguage } from '../../match/entities/match-language.enum';
 import { MatchMode } from '../../match/entities/match-mode.enum';
 import { MatchFormat } from '../../match/entities/match-format.enum';
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { CountryCode } from 'src/user/entities/country-code.enum';
+import { CountryCode } from '../../user/entities/country-code.enum';
 
 @Entity()
 export class UserQueue {
