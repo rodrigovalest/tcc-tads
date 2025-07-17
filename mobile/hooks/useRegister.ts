@@ -24,8 +24,6 @@ export function useRegister() {
     },
 
     onError: (error: ApiError) => {
-      console.warn("[Register error]", error.status, error.message);
-
       Toast.show({
         type: "error",
         text1: "Registration error",
