@@ -13,14 +13,6 @@ const webSocketService = (() => {
           token: `Bearer ${jwtToken}`
         }
       });
-
-      socket.on("connect", () => {
-        console.log("Connected", socket?.id);
-      });
-
-      socket.on("disconnect", () => {
-        console.log("Disconnected");
-      });
     },
 
     emit(event: string, data: any) {
