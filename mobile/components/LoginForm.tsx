@@ -5,8 +5,8 @@ import Button from "./Button";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useLogin } from "@/hooks/useLogin";
-import ILoginRequest from "@/models/requests/login-request";
+import { useLogin } from "../hooks/useLogin";
+import ILoginRequest from "../models/requests/login-request";
 
 const loginSchema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),

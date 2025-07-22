@@ -1,8 +1,8 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useLogout } from "@/hooks/useLogout";
-import { COLORS } from "@/constants/colors";
+import { useLogout } from "../../../hooks/useLogout";
+import { COLORS } from "../../../constants/colors";
 
 export default function Settings() {
   const { mutate: logout, isPending } = useLogout();

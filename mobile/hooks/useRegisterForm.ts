@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRegister } from "./useRegister";
-import { registerSchema } from "@/schemas/register-schema";
+import { registerSchema } from "../schemas/register-schema";
 
 export interface IRegisterRequest {
   username: string;

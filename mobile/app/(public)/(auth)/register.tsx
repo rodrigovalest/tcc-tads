@@ -1,7 +1,7 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
-import RegisterForm from "@/components/RegisterForm";
-import Button from "@/components/Button";
+import RegisterForm from "../../../components/RegisterForm";
+import Button from "../../../components/Button";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -30,7 +30,7 @@ export default function Register() {
 
         <View className="mb-8">
           <Image
-            source={require("@/assets/images/calle-dog-icon.png")}
+            source={require("../../../assets/images/calle-dog-icon.png")}
             className="w-20 h-20 mx-auto"
           />
           <Text className="text-4xl text-center font-bold">Calle</Text>

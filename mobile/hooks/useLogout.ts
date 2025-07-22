@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
-import authService from "@/services/auth-service";
-import useAuthStore from "@/store/auth-store";
+import authService from "../services/auth-service";
+import useAuthStore from "../store/auth-store";
 import { useRouter } from "expo-router";
-import type { ApiError } from "@/api";
+import type { ApiError } from "../api";
 
 export function useLogout() {
   const logout = useAuthStore((s) => s.logout);

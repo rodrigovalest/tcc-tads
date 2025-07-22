@@ -15,21 +15,21 @@ export const SUPPORTED_LANGUAGES: LanguageConfig[] = [
     name: "Português",
     countryCode: "br",
     emoji: "🇧🇷",
-    svgComponent: require("@/assets/images/flags_svg/br.svg").default,
+    svgComponent: require("../assets/images/flags_svg/br.svg").default,
   },
   {
     code: "en-GB",
     name: "English",
     countryCode: "gb",
     emoji: "🇬🇧",
-    svgComponent: require("@/assets/images/flags_svg/gb.svg").default,
+    svgComponent: require("../assets/images/flags_svg/gb.svg").default,
   },
   {
     code: "es-ES",
     name: "Español",
     countryCode: "es",
     emoji: "🇪🇸",
-    svgComponent: require("@/assets/images/flags_svg/es.svg").default,
+    svgComponent: require("../assets/images/flags_svg/es.svg").default,
   },
 ];
 

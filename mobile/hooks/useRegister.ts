@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
-import authService from "@/services/auth-service";
+import authService from "../services/auth-service";
 import { useRouter } from "expo-router";
-import type { ApiError } from "@/api";
+import type { ApiError } from "../api";
 import Toast from "react-native-toast-message";
 
 export function useRegister() {
@@ -24,8 +24,6 @@ export function useRegister() {
     },
 
     onError: (error: ApiError) => {
-      console.warn("[Register error]", error.status, error.message);
-
       Toast.show({
         type: "error",
         text1: "Registration error",

@@ -6,7 +6,7 @@ export type ApiError = {
 };
 
 const api = axios.create({
-  baseURL: process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:3000',
+  baseURL: process.env.EXPO_PUBLIC_API_URL ?? 'http://192.168.0.101:3000',
 });
 
 api.interceptors.response.use(
@@ -17,6 +17,8 @@ api.interceptors.response.use(
       (error.response?.data as any)?.message ||
       error.message ||
       'Something went wrong';
+
+    console.error('[API Error]', error.toJSON());
 
     return Promise.reject({ status, message });
   }

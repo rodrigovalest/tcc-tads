@@ -1,11 +1,11 @@
 import React, { useState, useMemo } from "react";
 import { View } from "react-native";
 import { Controller } from "react-hook-form";
-import { COUNTRIES } from "@/constants/countries";
+import { COUNTRIES } from "../constants/countries";
 import Input from "./Input";
 import Button from "./Button";
 import Dropdown from "./Dropdown";
-import { useRegisterForm } from "@/hooks/useRegisterForm";
+import { useRegisterForm } from "../hooks/useRegisterForm";
 
 const RegisterForm: React.FC = () => {
   const {

@@ -3,11 +3,18 @@ import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MatchModule } from './match/match.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { JustChillingModule } from './just-chilling/just-chilling.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+
+    EventEmitterModule.forRoot(),
+    
     UserModule,
+    
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
@@ -22,7 +29,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       }),
       inject: [ConfigService],
     }),
+
     AuthModule,
+    
+    MatchModule,
+    
+    JustChillingModule,
   ],
   controllers: [],
   providers: [],

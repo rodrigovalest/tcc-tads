@@ -1,7 +1,7 @@
 import React from "react";
 import { Text } from "react-native";
 import FlagIcon from "./FlagIcon";
-import { getFlagDisplay } from "@/constants/languages";
+import { getFlagDisplay } from "../constants/languages";
 
 interface FlagDisplayProps {
   countryCode: string;

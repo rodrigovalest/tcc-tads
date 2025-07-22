@@ -1,5 +1,5 @@
 import React from "react";
-import { getLanguageByCountryCode } from "@/constants/languages";
+import { getLanguageByCountryCode } from "../constants/languages";
 
 interface FlagIconProps {
   countryCode: string;

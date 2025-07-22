@@ -1,11 +1,13 @@
 import { SplashScreen, Slot } from "expo-router";
 import { useEffect } from "react";
 import { useFonts } from "expo-font";
-import useAuthStore from "@/store/auth-store";
+import useAuthStore from "../store/auth-store";
 
 import "../global.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Toast from "react-native-toast-message";
+import { requestPermissions } from "../utils/request-permissions";
+import { Platform } from "react-native";
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -32,6 +34,14 @@ export default function RootLayout() {
       SplashScreen.hideAsync();
     }
   }, [fontsLoaded]);
+
+  useEffect(() => {
+    requestPermissions().then(granted => {
+      if (!granted) {
+        console.warn("Permissions not granted for camera and microphone.", Platform.OS, Platform.Version);
+      }
+    });
+  }, []);
 
   if (!fontsLoaded || authStoreIsLoading) {
     return null;

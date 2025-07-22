@@ -1,89 +1,97 @@
+import { Ionicons } from "@expo/vector-icons";
+import { AVALIABLE_MATCH_MODES } from "../../constants/available-match-modes";
+import IAvaliableMatchMode from "../../models/interfaces/avaliable_match_mode";
+import useMatchStore from "../../store/match-store";
+import { useRouter } from "expo-router";
+import { TouchableOpacity, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Text, View } from "react-native";
-import { useLocalSearchParams, router } from "expo-router";
-import Button from "@/components/Button";
-import LanguageSelector from "@/components/LanguageSelector";
-import PlayerModeSelector from "@/components/PlayerModeSelector";
-import { useLanguageSelection } from "@/hooks/useLanguageSelection";
-import { GAME_MODES_DATA } from "@/utils/gameModesData";
+import Button from "../../components/Button";
+import MatchFormatSelector from "../../components/MatchFormatSelector";
+import MatchLanguageSelector from "../../components/MatchLanguageSelector";
 
 export default function LanguageSelection() {
-  const { gameMode } = useLocalSearchParams();
-
-  const gameData = GAME_MODES_DATA.find((mode) => mode.title === gameMode);
-  const availablePlayerTypes = gameData?.playerTypes || ["solo"];
-
   const {
-    languages,
-    selectedLanguage,
-    selectedPlayerType,
-    title,
-    buttonText,
-    isButtonEnabled,
-    handleLanguageSelect,
-    handlePlayerTypeSelect,
-    handleStartGame,
-  } = useLanguageSelection(availablePlayerTypes);
+    matchMode,
+    matchFormat,
+    matchLanguage,
+    resetMatch,
+    setMatchLanguage,
+    setMatchFormat
+  } = useMatchStore();
+  const router = useRouter();
 
-  const handleBack = () => {
-    router.back();
-  };
+  if (!matchMode) {
+    router.replace('/(private)/(tabs)/matches');
+    return null;
+  }
 
-  const handleStart = () => {
-    handleStartGame();
-  };
+  const selectedMatchMode: IAvaliableMatchMode = AVALIABLE_MATCH_MODES[matchMode];
+
+  const onBack = async () => {
+    await resetMatch();
+    router.replace('/(private)/(tabs)/matches');
+  }
+
+  const onPlay = () => {
+    if (!matchMode || !matchFormat || !matchLanguage)
+      return;
+
+    router.replace(`/(private)/${matchMode}/${matchFormat}/waiting`);
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-appBgWhite">
-      <View className="flex-1">
-        <View className="flex-row items-center justify-between px-6 py-4">
-          <Button
-            title="Back"
-            onPress={handleBack}
-            bgColor="bg-transparent"
-            textColor="text-black"
-            borderColor="border-transparent"
-            className="py-2 px-3"
-            iconLeft="arrow-left"
-            iconLeftSize={20}
-            iconLeftColor="black"
-          />
-        </View>
-        <View className="px-6 pb-2">
-          <Text className="text-3xl font-bold text-center text-gray-800 mb-2">
-            {title}
-          </Text>
-          <Text className="text-base text-center text-gray-600 mb-8">
-            Mode: {gameMode}
-          </Text>
-        </View>
-        <PlayerModeSelector
-          availablePlayerTypes={availablePlayerTypes}
-          selectedPlayerType={selectedPlayerType}
-          onPlayerTypeSelect={handlePlayerTypeSelect}
+      <TouchableOpacity
+        className="w-full py-3 px-2 bg-appLightGrey"
+        onPress={onBack}
+      >
+        <Ionicons
+          name="chevron-back"
+          size={35}
         />
-        <View className="px-6 pb-6">
-          <Button
-            title={buttonText}
-            onPress={handleStart}
-            disabled={!isButtonEnabled}
-            bgColor="bg-black"
-            textColor="text-white"
-            borderColor="border-black"
-            bgColorActivate="bg-gray-800"
-            className="py-4"
-            iconRight={selectedPlayerType === "solo" ? "play" : "search"}
-            iconRightSize={20}
-            iconRightColor="white"
+      </TouchableOpacity>
+
+      <View className="px-6 mt-20">
+        <Text className="text-3xl font-nunito-bold text-appBlack mb-4">
+          Play to challenge yourself!
+        </Text>
+
+        <Text className="text-xl font-nunito-medium text-appBlack mb-8">
+          Game mode: {selectedMatchMode.title}
+        </Text>
+
+        <Text className="text-xl font-nunito-bold text-appBlack mb-2">
+          Match format
+        </Text>
+
+        <View className="mb-8">
+          <MatchFormatSelector 
+            avaliableMatchFormats={selectedMatchMode.matchFormat} 
+            selected={matchFormat}
+            onSelect={setMatchFormat} 
           />
         </View>
-        <View className="flex-1">
-          <LanguageSelector
-            languages={languages}
-            selectedLanguage={selectedLanguage}
-            onLanguageSelect={handleLanguageSelect}
+
+        <View className="mb-8">
+          <MatchLanguageSelector 
+            selected={matchLanguage}
+            onSelect={setMatchLanguage}
           />
         </View>
+
+        <Button
+          title={'Play'}
+          onPress={onPlay}
+          disabled={matchFormat === null || matchLanguage === null}
+          bgColor="bg-black"
+          textColor="text-white"
+          borderColor="border-black"
+          bgColorActivate="bg-gray-800"
+          className="py-4"
+          iconRight={"play"}
+          iconRightSize={20}
+          iconRightColor="white"
+        />
       </View>
     </SafeAreaView>
   );
