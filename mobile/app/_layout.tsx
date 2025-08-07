@@ -2,13 +2,16 @@ import { SplashScreen, Slot } from "expo-router";
 import { useEffect } from "react";
 import { useFonts } from "expo-font";
 import useAuthStore from "../store/auth-store";
+import useLanguageStore from "../store/language-store";
 
 import "../global.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Toast from "react-native-toast-message";
 import { requestPermissions } from "../utils/request-permissions";
 import { Platform } from "react-native";
-import I18nProvider from "../providers/I18nProvider";
+
+// Initialize i18n
+import "../lib/i18n";
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -25,10 +28,13 @@ export default function RootLayout() {
 
   const authStoreIsLoading = useAuthStore((state) => state.loading);
   const restoreAuthSession = useAuthStore((state) => state.restore);
+  const initializeLanguage = useLanguageStore((state) => state.initializeLanguage);
+  const languageIsLoading = useLanguageStore((state) => state.isLoading);
 
   useEffect(() => {
     restoreAuthSession();
-  }, [restoreAuthSession]);
+    initializeLanguage();
+  }, [restoreAuthSession, initializeLanguage]);
 
   useEffect(() => {
     if (fontsLoaded) {
@@ -44,16 +50,14 @@ export default function RootLayout() {
     });
   }, []);
 
-  if (!fontsLoaded || authStoreIsLoading) {
+  if (!fontsLoaded || authStoreIsLoading || languageIsLoading) {
     return null;
   }
 
   return (
     <QueryClientProvider client={queryClient}>
-      <I18nProvider>
-        <Slot />
-        <Toast />
-      </I18nProvider>
+      <Slot />
+      <Toast />
     </QueryClientProvider>
   );
 }

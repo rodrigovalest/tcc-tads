@@ -1,6 +1,6 @@
 import IAvaliableMatchMode from "../models/interfaces/avaliable_match_mode";
 import { MatchMode } from "../models/types/match-mode.type";
-import i18n from "../i18n/i18n";
+import { i18n } from "../lib/i18n";
 
 export const AVALIABLE_MATCH_MODES: Record<MatchMode, IAvaliableMatchMode> = {
   "just-chilling": {

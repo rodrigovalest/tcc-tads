@@ -1,5 +1,5 @@
 import { MatchLanguage } from "@/models/types/match-language.type";
-import i18n from "../i18n/i18n";
+import { i18n } from "../lib/i18n";
 
 export const AVALIABLE_MATCH_LANGUAGES: Record<MatchLanguage, string> = {
   en: 'English',

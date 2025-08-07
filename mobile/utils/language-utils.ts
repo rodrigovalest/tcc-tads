@@ -1,5 +1,5 @@
-import { AppLanguage } from '../store/language-store';
-import i18n from '../i18n/i18n';
+import { AppLanguage } from '../lib/i18n';
+import { i18n } from '../lib/i18n';
 
 export const getSupportedLanguages = (): Array<{
   code: AppLanguage;

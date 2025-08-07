@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Modal, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import useI18n from '../hooks/useI18n';
-import { AppLanguage } from '../store/language-store';
+import { AppLanguage } from '../lib/i18n';
 
 interface LanguageSelectorProps {
   showLabel?: boolean;
@@ -15,9 +15,8 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
   variant = 'full',
   onLanguageChange,
 }) => {
-  const { t, currentLanguage, changeLanguage, getAvailableLanguages } = useI18n();
+  const { t, currentLanguage, changeLanguage, availableLanguages } = useI18n();
   const [modalVisible, setModalVisible] = useState(false);
-  const availableLanguages = getAvailableLanguages();
 
   const handleLanguageSelect = async (language: AppLanguage) => {
     try {
