@@ -3,8 +3,12 @@ import { View, Text, Image } from "react-native";
 import LoginForm from "../../../components/LoginForm";
 import Button from "../../../components/Button";
 import { router } from "expo-router";
+import useI18n from "../../../hooks/useI18n";
+import LanguageSelector from "../../../components/LanguageSelector";
 
 export default function Login() {
+  const { t } = useI18n();
+
   const handleGoogleLogin = () => {
     throw new Error('Login google not implemented yet');
   }
@@ -18,6 +22,10 @@ export default function Login() {
       className="w-full h-full bg-appBgWhite px-8"
       testID="login-screen-safe-area-view"
     >
+      <View className="flex-row justify-end mt-4 mb-4">
+        <LanguageSelector variant="compact" showLabel={false} />
+      </View>
+
       <View className="mt-20 mb-8">
         <Image
           source={require("../../../assets/images/calle-dog-icon.png")}
@@ -29,18 +37,18 @@ export default function Login() {
         </Text>
 
         <Text className="text-4xl text-center font-medium font-nunito-medium">
-          Log in or sign up
+          {t('auth.loginOrSignUp')}
         </Text>
       </View>
 
       <LoginForm />
 
       <Text className="text-center text-2xl text-black font-medium my-8">
-        or
+        {t('auth.or')}
       </Text>
       
       <Button
-        title="Login with Google"
+        title={t('auth.loginWithGoogle')}
         onPress={handleGoogleLogin}
         className="mb-4"
         loading={false}
@@ -58,7 +66,7 @@ export default function Login() {
       />
       
       <Button
-        title="Create an account"
+        title={t('auth.createAccount')}
         onPress={handleSignUp}
         className="mb-4"
         textSize="2xl"

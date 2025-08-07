@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Toast from "react-native-toast-message";
 import { requestPermissions } from "../utils/request-permissions";
 import { Platform } from "react-native";
+import I18nProvider from "../providers/I18nProvider";
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -49,8 +50,10 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Slot />
-      <Toast />
+      <I18nProvider>
+        <Slot />
+        <Toast />
+      </I18nProvider>
     </QueryClientProvider>
   );
 }

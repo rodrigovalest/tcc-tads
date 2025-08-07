@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
 import { View } from "react-native";
 import { MatchLanguage } from "@/models/types/match-language.type";
-import { AVALIABLE_MATCH_LANGUAGES } from "../constants/avaliable-match-languages";
+import { getLocalizedMatchLanguages } from "../constants/avaliable-match-languages";
+import useI18n from "../hooks/useI18n";
 
 interface MatchLanguageSelectorProps {
   selected: MatchLanguage | null;
@@ -11,8 +12,10 @@ interface MatchLanguageSelectorProps {
 
 const MatchLanguageSelector = ({ selected, onSelect }: MatchLanguageSelectorProps) => {
   const [open, setOpen] = useState(false);
+  const { t } = useI18n();
 
-  const items = Object.entries(AVALIABLE_MATCH_LANGUAGES).map(
+  const localizedLanguages = getLocalizedMatchLanguages();
+  const items = Object.entries(localizedLanguages).map(
     ([value, label]): { label: string; value: MatchLanguage } => ({
       label: label as string,
       value: value as MatchLanguage,
@@ -30,7 +33,7 @@ const MatchLanguageSelector = ({ selected, onSelect }: MatchLanguageSelectorProp
           if (value) onSelect(value as MatchLanguage);
         }}
         items={items}
-        placeholder="Select language"
+        placeholder={t('match.selectLanguage')}
         style={{ borderColor: "#ccc" }}
         dropDownContainerStyle={{ borderColor: "#ccc" }}
       />

@@ -8,6 +8,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "../../components/Button";
 import MatchFormatSelector from "../../components/MatchFormatSelector";
 import MatchLanguageSelector from "../../components/MatchLanguageSelector";
+import useI18n from "../../hooks/useI18n";
+import Toast from "react-native-toast-message";
 
 export default function LanguageSelection() {
   const {
@@ -18,6 +20,7 @@ export default function LanguageSelection() {
     setMatchLanguage,
     setMatchFormat
   } = useMatchStore();
+  const { t } = useI18n();
   const router = useRouter();
 
   if (!matchMode) {
@@ -36,7 +39,18 @@ export default function LanguageSelection() {
     if (!matchMode || !matchFormat || !matchLanguage)
       return;
 
-    router.replace(`/(private)/${matchMode}/${matchFormat}/waiting`);
+    // Currently only 'just-chilling' with 'duo' format is supported
+    if (matchMode === 'just-chilling' && matchFormat === 'duo') {
+      router.replace('/(private)/just-chilling/duo/waiting');
+    } else {
+      // Show toast message for unsupported combinations
+      Toast.show({
+        type: 'info',
+        text1: t('match.formatNotSupported'),
+        text2: t('match.formatComingSoon'),
+        position: 'bottom',
+      });
+    }
   }
 
   return (
@@ -53,15 +67,15 @@ export default function LanguageSelection() {
 
       <View className="px-6 mt-20">
         <Text className="text-3xl font-nunito-bold text-appBlack mb-4">
-          Play to challenge yourself!
+          {t('match.playToChallenge')}
         </Text>
 
         <Text className="text-xl font-nunito-medium text-appBlack mb-8">
-          Game mode: {selectedMatchMode.title}
+          {t('match.gameMode')}: {selectedMatchMode.title}
         </Text>
 
         <Text className="text-xl font-nunito-bold text-appBlack mb-2">
-          Match format
+          {t('match.matchFormat')}
         </Text>
 
         <View className="mb-8">
@@ -80,7 +94,7 @@ export default function LanguageSelection() {
         </View>
 
         <Button
-          title={'Play'}
+          title={t('common.play')}
           onPress={onPlay}
           disabled={matchFormat === null || matchLanguage === null}
           bgColor="bg-black"

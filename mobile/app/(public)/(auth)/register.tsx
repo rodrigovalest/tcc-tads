@@ -4,8 +4,12 @@ import RegisterForm from "../../../components/RegisterForm";
 import Button from "../../../components/Button";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import useI18n from "../../../hooks/useI18n";
+import LanguageSelector from "../../../components/LanguageSelector";
 
 export default function Register() {
+  const { t } = useI18n();
+
   const handleLogin = () => {
     router.replace("/(public)/(auth)/login");
   };
@@ -24,9 +28,12 @@ export default function Register() {
         contentContainerStyle={{ paddingBottom: 40 }}
         keyboardShouldPersistTaps="handled"
       >
-        <TouchableOpacity onPress={handleLogin} className="mt-2" testID="go-to-login-button">
-          <Ionicons name="chevron-back" size={28} color="black" />
-        </TouchableOpacity>
+        <View className="flex-row justify-between items-center mt-2 mb-4">
+          <TouchableOpacity onPress={handleLogin} testID="go-to-login-button">
+            <Ionicons name="chevron-back" size={28} color="black" />
+          </TouchableOpacity>
+          <LanguageSelector variant="compact" showLabel={false} />
+        </View>
 
         <View className="mb-8">
           <Image
@@ -35,7 +42,7 @@ export default function Register() {
           />
           <Text className="text-4xl text-center font-bold">Calle</Text>
           <Text className="text-2xl text-center font-medium font-nunito-medium">
-            Create an account
+            {t('auth.createAccount')}
           </Text>
         </View>
 
@@ -45,7 +52,7 @@ export default function Register() {
 
         <View className="mt-4" style={{ zIndex: 0 }}>
           <Button
-            title="Register with Google"
+            title={t('auth.registerWithGoogle')}
             onPress={handleGoogleRegister}
             className="mb-2"
             loading={false}

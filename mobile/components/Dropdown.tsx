@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import { COLORS } from "../constants/colors";
+import useI18n from "../hooks/useI18n";
 
 interface DropdownProps {
   label: string;
@@ -22,6 +23,8 @@ const Dropdown: React.FC<DropdownProps> = ({
   open,
   setOpen,
 }) => {
+  const { t } = useI18n();
+  
   return (
     <View className="mb-0">
       <Text className="mb-2 text-appBlack font-semibold text-xl pl-2.5">
@@ -40,8 +43,8 @@ const Dropdown: React.FC<DropdownProps> = ({
         }}
         setItems={() => {}}
         searchable={true}
-        placeholder={`Select your ${label.toLowerCase()}`}
-        searchPlaceholder="Search nationality..."
+        placeholder={`${t('common.select')} ${label.toLowerCase()}`}
+        searchPlaceholder={`${t('common.search')}...`}
         listMode="MODAL"
         modalProps={{
           animationType: "slide",

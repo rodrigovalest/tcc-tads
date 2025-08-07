@@ -1,5 +1,6 @@
 import IAvaliableMatchMode from "../models/interfaces/avaliable_match_mode";
 import { MatchMode } from "../models/types/match-mode.type";
+import i18n from "../i18n/i18n";
 
 export const AVALIABLE_MATCH_MODES: Record<MatchMode, IAvaliableMatchMode> = {
   "just-chilling": {
@@ -8,4 +9,13 @@ export const AVALIABLE_MATCH_MODES: Record<MatchMode, IAvaliableMatchMode> = {
     matchMode: 'just-chilling',
     image: require('../assets/images/match_modes/just-chilling.png'),
   },
+};
+
+export const getLocalizedMatchModes = (): Record<MatchMode, IAvaliableMatchMode> => {
+  return {
+    "just-chilling": {
+      ...AVALIABLE_MATCH_MODES["just-chilling"],
+      title: i18n.t('match.matchModes.justChilling'),
+    },
+  };
 };
