@@ -17,7 +17,7 @@ describe('Register screen', () => {
 
     expect(getByTestId('register-screen-safe-area-view')).toBeTruthy();
     expect(getByText('Calle')).toBeTruthy();
-    expect(getByText('Create an account')).toBeTruthy();
+    expect(getByText('Create account')).toBeTruthy();
     expect(getByText('Register with Google')).toBeTruthy();
   });
 

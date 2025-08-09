@@ -37,6 +37,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
       <TouchableOpacity
         className="flex-row items-center justify-center px-3 py-2 bg-appLightGrey rounded-lg"
         onPress={() => setModalVisible(true)}
+        testID="language-selector-compact-trigger"
       >
         <Text className="text-lg mr-2">{currentLanguageData?.flag}</Text>
         <Text className="text-sm font-nunito-medium text-appDarkGrey">
@@ -54,6 +55,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
             className="flex-1 bg-black/50 justify-center items-center"
             activeOpacity={1}
             onPress={() => setModalVisible(false)}
+            testID="language-modal-backdrop"
           >
             <View className="bg-white rounded-lg p-4 w-4/5 max-w-sm">
               <Text className="text-lg font-nunito-bold text-appBlack mb-4 text-center">
@@ -69,6 +71,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
                       item.code === currentLanguage ? 'bg-appLightGrey' : 'bg-transparent'
                     }`}
                     onPress={() => handleLanguageSelect(item.code)}
+                    testID={`language-option-${item.code}`}
                   >
                     <Text className="text-2xl mr-3">{item.flag}</Text>
                     <Text className="text-base font-nunito-medium text-appBlack flex-1">
@@ -98,6 +101,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
       <TouchableOpacity
         className="flex-row items-center justify-between p-4 bg-appLightGrey rounded-lg"
         onPress={() => setModalVisible(true)}
+        testID="language-selector-trigger"
       >
         <View className="flex-row items-center">
           <Text className="text-2xl mr-3">{currentLanguageData?.flag}</Text>
@@ -118,6 +122,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
           className="flex-1 bg-black/50 justify-end"
           activeOpacity={1}
           onPress={() => setModalVisible(false)}
+          testID="language-modal-backdrop"
         >
           <View className="bg-white rounded-t-xl p-6">
             <View className="flex-row items-center justify-between mb-6">
@@ -127,6 +132,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
               <TouchableOpacity
                 onPress={() => setModalVisible(false)}
                 className="p-2"
+                testID="language-modal-close"
               >
                 <Ionicons name="close" size={24} color="#262B2A" />
               </TouchableOpacity>
@@ -141,6 +147,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
                     item.code === currentLanguage ? 'bg-appLightGrey' : 'bg-transparent'
                   }`}
                   onPress={() => handleLanguageSelect(item.code)}
+                  testID={`language-option-${item.code}`}
                 >
                   <Text className="text-2xl mr-4">{item.flag}</Text>
                   <Text className="text-lg font-nunito-medium text-appBlack flex-1">

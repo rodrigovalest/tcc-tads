@@ -44,5 +44,5 @@ export const formatLanguageDisplay = (code: AppLanguage, useNativeName = false) 
 };
 
 export const getDeviceLanguage = (): AppLanguage => {
-  return 'pt';
+  return 'en';
 };

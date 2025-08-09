@@ -59,7 +59,7 @@ describe("Dropdown component", () => {
     );
 
     expect(getByText("Country")).toBeTruthy();
-    expect(getByText("Select your country")).toBeTruthy();
+    expect(getByText("Select country")).toBeTruthy();
   });
 
   it("calls onChange when an option is selected", () => {

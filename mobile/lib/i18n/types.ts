@@ -14,11 +14,9 @@ export interface I18nConfig {
   storageKey: string;
 }
 
-// Type-safe translation keys (pode ser expandido futuramente)
 export type TranslationKeys = 
   | 'common.loading'
   | 'common.error'
   | 'auth.login'
   | 'auth.register'
-  // Add more as needed
   | string;

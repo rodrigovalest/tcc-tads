@@ -4,8 +4,8 @@ import { locales } from './locales';
 import type { I18nConfig } from './types';
 
 export const i18nConfig: I18nConfig = {
-  defaultLanguage: 'pt',
-  fallbackLanguage: 'en',
+  defaultLanguage: 'en',
+  fallbackLanguage: 'pt',
   supportedLanguages: ['pt', 'en', 'es'],
   storageKey: 'app_language',
 };
@@ -26,7 +26,6 @@ i18n
       escapeValue: false,
     },
     compatibilityJSON: 'v4',
-    // Better debugging in development
     debug: __DEV__,
   });
 

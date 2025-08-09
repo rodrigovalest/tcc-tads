@@ -39,25 +39,18 @@ export default function LanguageSelection() {
     if (!matchMode || !matchFormat || !matchLanguage)
       return;
 
-    // Currently only 'just-chilling' with 'duo' format is supported
-    if (matchMode === 'just-chilling' && matchFormat === 'duo') {
-      router.replace('/(private)/just-chilling/duo/waiting');
-    } else {
-      // Show toast message for unsupported combinations
-      Toast.show({
-        type: 'info',
-        text1: t('match.formatNotSupported'),
-        text2: t('match.formatComingSoon'),
-        position: 'bottom',
-      });
-    }
+    router.replace(`/(private)/${matchMode}/${matchFormat}/waiting`);
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-appBgWhite">
+    <SafeAreaView 
+      className="flex-1 bg-appBgWhite"
+      testID="language-selection-screen"
+    >
       <TouchableOpacity
         className="w-full py-3 px-2 bg-appLightGrey"
         onPress={onBack}
+        testID="back-button"
       >
         <Ionicons
           name="chevron-back"
