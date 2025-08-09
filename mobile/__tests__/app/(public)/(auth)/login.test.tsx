@@ -34,12 +34,12 @@ describe("Login screen", () => {
     expect(getByText("Calle")).toBeTruthy();
     expect(getByText("Log in or sign up")).toBeTruthy();
     expect(getByText("Login with Google")).toBeTruthy();
-    expect(getByText("Create an account")).toBeTruthy();
+    expect(getByText("Create account")).toBeTruthy();
   });
 
-  it('navigates to register screen when pressing "Create an account"', () => {
+  it('navigates to register screen when pressing "Create account"', () => {
     const { getByText } = render(<Login />);
-    const createAccountButton = getByText("Create an account");
+    const createAccountButton = getByText("Create account");
 
     fireEvent.press(createAccountButton);
 

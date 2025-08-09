@@ -8,6 +8,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "../../components/Button";
 import MatchFormatSelector from "../../components/MatchFormatSelector";
 import MatchLanguageSelector from "../../components/MatchLanguageSelector";
+import useI18n from "../../hooks/useI18n";
+import Toast from "react-native-toast-message";
 
 export default function LanguageSelection() {
   const {
@@ -18,6 +20,7 @@ export default function LanguageSelection() {
     setMatchLanguage,
     setMatchFormat
   } = useMatchStore();
+  const { t } = useI18n();
   const router = useRouter();
 
   if (!matchMode) {
@@ -40,10 +43,14 @@ export default function LanguageSelection() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-appBgWhite">
+    <SafeAreaView 
+      className="flex-1 bg-appBgWhite"
+      testID="language-selection-screen"
+    >
       <TouchableOpacity
         className="w-full py-3 px-2 bg-appLightGrey"
         onPress={onBack}
+        testID="back-button"
       >
         <Ionicons
           name="chevron-back"
@@ -53,15 +60,15 @@ export default function LanguageSelection() {
 
       <View className="px-6 mt-20">
         <Text className="text-3xl font-nunito-bold text-appBlack mb-4">
-          Play to challenge yourself!
+          {t('match.playToChallenge')}
         </Text>
 
         <Text className="text-xl font-nunito-medium text-appBlack mb-8">
-          Game mode: {selectedMatchMode.title}
+          {t('match.gameMode')}: {selectedMatchMode.title}
         </Text>
 
         <Text className="text-xl font-nunito-bold text-appBlack mb-2">
-          Match format
+          {t('match.matchFormat')}
         </Text>
 
         <View className="mb-8">
@@ -80,7 +87,7 @@ export default function LanguageSelection() {
         </View>
 
         <Button
-          title={'Play'}
+          title={t('common.play')}
           onPress={onPlay}
           disabled={matchFormat === null || matchLanguage === null}
           bgColor="bg-black"

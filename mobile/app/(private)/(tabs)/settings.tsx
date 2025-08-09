@@ -3,18 +3,22 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useLogout } from "../../../hooks/useLogout";
 import { COLORS } from "../../../constants/colors";
+import useI18n from "../../../hooks/useI18n";
+import LanguageSelector from "../../../components/LanguageSelector";
 
 export default function Settings() {
   const { mutate: logout, isPending } = useLogout();
+  const { t } = useI18n();
 
   return (
     <SafeAreaView className="flex-1 bg-appBgWhite">
       <View className="px-6 py-4 border-b border-gray-100">
-        <Text className="text-2xl font-bold text-gray-900">Settings</Text>
+        <Text className="text-2xl font-bold text-gray-900">
+          {t('common.settings')}
+        </Text>
       </View>
 
       <View className="flex-1">
-
         <TouchableOpacity className="flex-row items-center px-6 py-4 bg-white border-b border-gray-100">
           <Ionicons
             name="person-outline"
@@ -23,21 +27,24 @@ export default function Settings() {
             style={{ marginRight: 12 }}
           />
           <Text className="text-lg font-medium text-gray-700">
-            Account
+            {t('settings.account')}
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity className="flex-row items-center px-6 py-4 bg-white border-b border-gray-100">
-          <Ionicons
-            name="language-outline"
-            size={24}
-            color={COLORS.appDarkGrey || "#374151"}
-            style={{ marginRight: 12 }}
-          />
-          <Text className="text-lg font-medium text-gray-700">
-            Language
-          </Text>
-        </TouchableOpacity>
+        <View className="px-6 py-4 bg-white border-b border-gray-100">
+          <View className="flex-row items-center mb-3">
+            <Ionicons
+              name="language-outline"
+              size={24}
+              color={COLORS.appDarkGrey || "#374151"}
+              style={{ marginRight: 12 }}
+            />
+            <Text className="text-lg font-medium text-gray-700">
+              {t('settings.language')}
+            </Text>
+          </View>
+          <LanguageSelector showLabel={false} variant="compact" />
+        </View>
 
         <TouchableOpacity
           onPress={() => logout()}
@@ -52,7 +59,7 @@ export default function Settings() {
             style={{ marginRight: 12 }}
           />
           <Text className="text-lg font-medium text-gray-700">
-            {isPending ? 'Saindo...' : 'Logout'}
+            {isPending ? t('common.loading') : t('auth.logout')}
           </Text>
         </TouchableOpacity>
       </View>
