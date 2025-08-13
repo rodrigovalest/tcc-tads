@@ -6,8 +6,10 @@ import Input from "./Input";
 import Button from "./Button";
 import Dropdown from "./Dropdown";
 import { useRegisterForm } from "../hooks/useRegisterForm";
+import useI18n from "../hooks/useI18n";
 
 const RegisterForm: React.FC = () => {
+  const { t } = useI18n();
   const {
     control,
     handleSubmit,
@@ -33,11 +35,11 @@ const RegisterForm: React.FC = () => {
         name="username"
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
-            label="Username *"
+            label={`${t('auth.username')} *`}
             value={value}
             onChangeText={onChange}
             onBlur={onBlur}
-            placeholder="Enter your username"
+            placeholder={t('auth.enterUsername')}
             error={errors.username?.message}
           />
         )}
@@ -47,11 +49,11 @@ const RegisterForm: React.FC = () => {
         name="email"
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
-            label="Email *"
+            label={`${t('auth.email')} *`}
             value={value}
             onChangeText={onChange}
             onBlur={onBlur}
-            placeholder="Enter your email"
+            placeholder={t('auth.enterEmail')}
             type="email"
             error={errors.email?.message}
           />
@@ -62,11 +64,11 @@ const RegisterForm: React.FC = () => {
         name="password"
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
-            label="Password *"
+            label={`${t('auth.password')} *`}
             value={value}
             onChangeText={onChange}
             onBlur={onBlur}
-            placeholder="Enter your password"
+            placeholder={t('auth.enterPassword')}
             type="password"
             error={errors.password?.message}
           />
@@ -77,11 +79,11 @@ const RegisterForm: React.FC = () => {
         name="confirmPassword"
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
-            label="Confirm Password *"
+            label={`${t('auth.confirmPassword')} *`}
             value={value}
             onChangeText={onChange}
             onBlur={onBlur}
-            placeholder="Confirm your password"
+            placeholder={t('auth.confirmYourPassword')}
             type="password"
             error={errors.confirmPassword?.message}
           />
@@ -92,7 +94,7 @@ const RegisterForm: React.FC = () => {
         name="nationality"
         render={({ field: { onChange, value } }) => (
           <Dropdown
-            label="Nationality *"
+            label={`${t('auth.nationality')} *`}
             value={value}
             onChange={onChange}
             items={items}
@@ -103,7 +105,7 @@ const RegisterForm: React.FC = () => {
         )}
       />
       <Button
-        title={isSubmitting ? "Loading..." : "Register"}
+        title={isSubmitting ? t('common.loading') : t('auth.register')}
         onPress={handleSubmit(onSubmit)}
         disabled={isSubmitting}
         textSize="2xl"
