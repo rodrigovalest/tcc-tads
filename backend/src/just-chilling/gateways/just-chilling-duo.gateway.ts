@@ -1,4 +1,4 @@
-import { UseFilters, UseGuards, UsePipes } from '@nestjs/common';
+import { Logger, UseFilters, UseGuards, UsePipes } from '@nestjs/common';
 import { WebSocketGateway, SubscribeMessage, MessageBody, ConnectedSocket, OnGatewayDisconnect, WebSocketServer } from '@nestjs/websockets';
 import { CurrentWsUser } from '../../auth/decorators/current-ws-user.decorator';
 import { JwtWsAuthGuard } from '../../auth/guards/jwt-ws-auth.guard';
@@ -13,6 +13,7 @@ import { MatchMode } from '../../match/entities/match-mode.enum';
 import { UserQueue } from '../../match/entities/user-queue.entity';
 import { EnqueueMessageDto } from '../dtos/messages/enqueue-message.dto';
 import { OnEvent } from '@nestjs/event-emitter';
+import { Match } from 'src/match/entities/match.entity';
 
 @UsePipes(new WsValidationPipe())
 @UseFilters(new WsExceptionFilter())
@@ -22,6 +23,8 @@ export class JustChillingDuoGateway implements OnGatewayDisconnect {
   constructor(
     private readonly justChillingDuoService: JustChillingDuoService
   ) {}
+
+  private readonly logger = new Logger(JustChillingDuoGateway.name, { timestamp: true });
 
   @WebSocketServer() server: Server;
 
@@ -42,12 +45,12 @@ export class JustChillingDuoGateway implements OnGatewayDisconnect {
   @SubscribeMessage('just-chilling:duo:webrtc:offer')
   handleOffer(
     @CurrentWsUser() user: IUserJwtPayload,
-    @MessageBody() payload: { roomId: string; offer: RTCSessionDescriptionInit },
+    @MessageBody() payload: { matchId: string; offer: RTCSessionDescriptionInit },
     @ConnectedSocket() client: Socket
   ) {
-    console.log('[webrtc:offer]', user, payload.offer);
+    this.logger.log(`[webrtc:offer] User ${user.sub} sent offer for match ${payload.matchId}`);
 
-    client.to(payload.roomId).emit('just-chilling:duo:webrtc:offer', {
+    client.to(payload.matchId).emit('just-chilling:duo:webrtc:offer', {
       from: client.id,
       offer: payload.offer,
     });
@@ -56,12 +59,12 @@ export class JustChillingDuoGateway implements OnGatewayDisconnect {
   @SubscribeMessage('just-chilling:duo:webrtc:answer')
   handleAnswer(
     @CurrentWsUser() user: IUserJwtPayload,
-    @MessageBody() payload: { roomId: string; answer: RTCSessionDescriptionInit },
+    @MessageBody() payload: { matchId: string; answer: RTCSessionDescriptionInit },
     @ConnectedSocket() client: Socket
   ) {
-    console.log('[webrtc:answer]', user, payload.answer);
+    this.logger.log(`[webrtc:answer] User ${user.sub} sent answer for match ${payload.matchId}`);
 
-    client.to(payload.roomId).emit('just-chilling:duo:webrtc:answer', {
+    client.to(payload.matchId).emit('just-chilling:duo:webrtc:answer', {
       from: client.id,
       answer: payload.answer,
     });
@@ -70,15 +73,24 @@ export class JustChillingDuoGateway implements OnGatewayDisconnect {
   @SubscribeMessage('just-chilling:duo:webrtc:ice-candidate')
   handleIceCandidate(
     @CurrentWsUser() user: IUserJwtPayload,
-    @MessageBody() payload: { roomId: string; candidate: RTCIceCandidate },
+    @MessageBody() payload: { matchId: string; candidate: RTCIceCandidate },
     @ConnectedSocket() client: Socket
   ) {
-    console.log('[webrtc:ice-candidate]', user, payload.candidate);
+    this.logger.log(`[webrtc:ice-candidate] User ${user.sub} sent ICE candidate for match ${payload.matchId}`);
 
-    client.to(payload.roomId).emit('just-chilling:duo:webrtc:ice-candidate', {
+    client.to(payload.matchId).emit('just-chilling:duo:webrtc:ice-candidate', {
       from: client.id,
       candidate: payload.candidate,
     });
+  }
+
+  @SubscribeMessage('just-chilling:duo:confirm-start')
+  async confirmMatchStart(
+    @CurrentWsUser() user: IUserJwtPayload,
+    @MessageBody() payload: { matchId: string }
+  ) {
+    this.logger.log(`[just-chilling:duo:confirm-start] User ${user.sub} confirmed start for match ${payload.matchId}`);
+    await this.justChillingDuoService.confirmStartMatch(user.sub, payload.matchId);
   }
 
   async handleDisconnect(client: Socket) {
@@ -90,13 +102,13 @@ export class JustChillingDuoGateway implements OnGatewayDisconnect {
     user1: UserQueue,
     user2: UserQueue,
     language: MatchLanguage,
-    roomId: string,
+    match: Match
   }) {
     const notifyUser = (user: UserQueue, isOfferer: boolean, pair: UserQueue) => {
       const socket = this.server.sockets.sockets.get(user.socketId);
 
       if (socket) {
-        socket.join(payload.roomId);
+        socket.join(payload.match.id);
 
         socket.emit('just-chilling:duo:match-started', {
           message: 'starting just chilling duo match',
@@ -104,8 +116,8 @@ export class JustChillingDuoGateway implements OnGatewayDisconnect {
           matchMode: MatchMode.JUST_CHILLING,
           matchFormat: MatchFormat.DUO,
           language: payload.language,
-          roomId: payload.roomId,
           isOfferer: isOfferer,
+          matchId: payload.match.id,
           buddy: {
             username: pair.username,
             nationality: pair.nationality,

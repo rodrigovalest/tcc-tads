@@ -39,10 +39,12 @@ export class QueueService {
     await this.userQueueRepository.save(entry);
   }
 
-  async removeUserBySocketId(
-    socketId: string
-  ): Promise<void> {
-    await this.userQueueRepository.delete({ socketId });
+  async findUserBySocketId(socketId: string): Promise<UserQueue | null> {
+    return this.userQueueRepository.findOne({ where: { socketId } });
+  }
+
+  async removeUser(userQueue: UserQueue): Promise<void> {
+    await this.userQueueRepository.remove(userQueue);
   }
 
   async getQueueSize(

@@ -5,8 +5,9 @@ import { MatchMode } from '../../match/entities/match-mode.enum';
 import { MatchFormat } from '../../match/entities/match-format.enum';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { UserQueue } from '../../match/entities/user-queue.entity';
-import { randomUUID } from 'crypto';
-import { IUserJwtPayload } from 'src/auth/models/user-jwt-payload.interface';
+import { IUserJwtPayload } from '../../auth/models/user-jwt-payload.interface';
+import { MatchService } from '../../match/services/match.service';
+import { Match } from 'src/match/entities/match.entity';
 
 @Injectable()
 export class JustChillingDuoService {
@@ -14,6 +15,7 @@ export class JustChillingDuoService {
   constructor (
     private readonly queueService: QueueService,
     private readonly eventEmitter: EventEmitter2,
+    private readonly matchService: MatchService
   ) {}
 
   private readonly logger = new Logger(JustChillingDuoService.name, { timestamp: true });
@@ -34,20 +36,36 @@ export class JustChillingDuoService {
     if (queueSize >= 2) {
       const users: UserQueue[] = await this.queueService.dequeueUsers(MatchMode.JUST_CHILLING, MatchFormat.DUO, language, 2);
 
-      this.logger.log(`Starting just-chilling with users: ${users.map(u => `${u.userId}`).join(', ')}`);
+      const match: Match = await this.matchService.createMatch(
+        MatchMode.JUST_CHILLING,
+        MatchFormat.DUO,
+        language,
+        users.map(u => ({ id: u.userId }))
+      );
 
-      const roomId = `room-${randomUUID()}`;
+      this.logger.log(`Starting just-chilling ${match} with users: ${users.map(u => `${u.userId}`).join(', ')}`);
 
       this.eventEmitter.emit('just-chilling:duo:match-started', {
         user1: users[0],
         user2: users[1],
         language: language,
-        roomId
+        match,
       });
     }
   }
 
+  async confirmStartMatch(
+    userId: number,
+    matchId: string
+  ): Promise<void> {
+    // await this.matchService.startMatch(matchId);
+  }
+
   async handleDisconnect(socketId: string): Promise<void> {
-    this.queueService.removeUserBySocketId(socketId);
+    const userQueue = await this.queueService.findUserBySocketId(socketId);
+    if (!userQueue) return;
+
+    await this.queueService.removeUser(userQueue);
+    // await this.matchService.completeMatch(userQueue.userId);
   }
 }

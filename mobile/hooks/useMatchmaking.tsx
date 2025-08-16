@@ -9,7 +9,7 @@ import IMatchmakingResponse from "../models/responses/matchmaking-response";
 const useMatchmaking = () => {
   const router = useRouter();
   const { token } = useAuthStore();
-  const { matchFormat, matchLanguage, matchMode, setRoomId, setIsOfferer, resetMatch, setUserBuddy } = useMatchStore();
+  const { matchFormat, matchLanguage, matchMode, setMatchId, setIsOfferer, resetMatch, setUserBuddy } = useMatchStore();
 
   useEffect(() => {
     if (!token || !matchFormat || !matchLanguage || !matchMode) {
@@ -21,7 +21,7 @@ const useMatchmaking = () => {
 
     webSocketService.connect(token);
 
-    webSocketService.on('disconnect', async () => {
+    webSocketService.onDisconnect(async () => {
       webSocketService.disconnect();
       resetMatch();
       router.replace("/(private)/(tabs)/matches");
@@ -45,7 +45,7 @@ const useMatchmaking = () => {
     webSocketService.on(`${matchMode}:${matchFormat}:match-started`, async (data: IMatchmakingResponse) => {
       console.log(`[just-chilling:duo:match-started]`, data);
 
-      setRoomId(data.roomId);
+      setMatchId(data.matchId);
       setIsOfferer(data.isOfferer);
       setUserBuddy(data.buddy);
       router.replace(`/(private)/${data.matchMode}/${matchFormat}/game`);
