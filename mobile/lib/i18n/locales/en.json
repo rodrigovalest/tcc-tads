@@ -47,6 +47,96 @@
     "mustHaveAtLeast": "must have at least",
     "characters": "characters"
   },
+  "register": {
+    "steps": {
+      "basicInfo": "Basic Information",
+      "languages": "Languages",
+      "photo": "Profile Photo",
+      "interests": "Interests",
+      "description": "Description"
+    },
+    "stepper": {
+      "step": "Step",
+      "of": "of"
+    },
+    "photo": {
+      "title": "Add a profile photo",
+      "subtitle": "A profile photo helps other users recognize you",
+      "takePhoto": "Take Photo",
+      "chooseFromGallery": "Choose from Gallery",
+      "removePhoto": "Remove photo",
+      "removePhotoConfirm": "Are you sure you want to remove the profile photo?",
+      "remove": "Remove",
+      "optional": "This step is optional. You can skip and add a photo later.",
+      "loading": "Loading...",
+      "permissionRequired": "Permission required",
+      "cameraPermission": "We need permission to access your camera.",
+      "galleryPermission": "We need permission to access your photo gallery.",
+      "errorTitle": "Error",
+      "errorSelectImage": "Could not select the image.",
+      "errorTakePhoto": "Could not take the photo."
+    },
+    "interests": {
+      "title": "Select up to 3 topics of interest",
+      "selected": "Selected",
+      "canSelectMore": "Select the topics that interest you most",
+      "maxSelected": "You have already selected the maximum number of topics allowed"
+    },
+    "description": {
+      "title": "Tell us a little about yourself",
+      "subtitle": "Share your interests, hobbies or any information that helps other users get to know you better",
+      "label": "Personal description",
+      "placeholder": "Ex: I'm passionate about technology, love to travel and discover new cultures. I enjoy reading science fiction books and practicing outdoor sports...",
+      "charactersCount": "characters",
+      "optional": "This step is optional. You can skip and add a description later."
+    },
+    "languages": {
+      "title": "Select your languages and fluency levels",
+      "fluencyLevel": "Fluency level:",
+      "levels": {
+        "1": "Basic",
+        "2": "Elementary",
+        "3": "Intermediate", 
+        "4": "Advanced",
+        "5": "Fluent"
+      },
+      "instruction": "Select at least one language to continue"
+    },
+    "buttons": {
+      "back": "Back",
+      "skip": "Skip",
+      "next": "Next",
+      "finish": "Register"
+    },
+    "validation": {
+      "fillRequired": "Please fill in all required fields before continuing.",
+      "invalidEmail": "Please enter a valid email address.",
+      "passwordTooShort": "Password must be at least 6 characters long.",
+      "passwordsDoNotMatch": "Passwords do not match."
+    },
+    "topics": {
+      "technology": "Technology",
+      "sports": "Sports",
+      "music": "Music", 
+      "art": "Art",
+      "literature": "Literature",
+      "travel": "Travel",
+      "cooking": "Cooking",
+      "photography": "Photography",
+      "games": "Games",
+      "science": "Science",
+      "history": "History",
+      "politics": "Politics",
+      "fashion": "Fashion",
+      "health": "Health",
+      "education": "Education",
+      "business": "Business",
+      "environment": "Environment",
+      "cinema": "Cinema",
+      "theater": "Theater",
+      "dance": "Dance"
+    }
+  },
   "match": {
     "playToChallenge": "Play to challenge yourself!",
     "gameMode": "Game mode",

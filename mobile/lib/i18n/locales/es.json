@@ -47,6 +47,96 @@
     "mustHaveAtLeast": "debe tener al menos",
     "characters": "caracteres"
   },
+  "register": {
+    "steps": {
+      "basicInfo": "Información Básica",
+      "languages": "Idiomas",
+      "photo": "Foto de Perfil",
+      "interests": "Intereses",
+      "description": "Descripción"
+    },
+    "stepper": {
+      "step": "Paso",
+      "of": "de"
+    },
+    "photo": {
+      "title": "Agrega una foto de perfil",
+      "subtitle": "Una foto de perfil ayuda a otros usuarios a reconocerte",
+      "takePhoto": "Tomar Foto",
+      "chooseFromGallery": "Elegir de la Galería",
+      "removePhoto": "Eliminar foto",
+      "removePhotoConfirm": "¿Estás seguro de que quieres eliminar la foto de perfil?",
+      "remove": "Eliminar",
+      "optional": "Este paso es opcional. Puedes omitir y agregar una foto después.",
+      "loading": "Cargando...",
+      "permissionRequired": "Permiso requerido",
+      "cameraPermission": "Necesitamos permiso para acceder a tu cámara.",
+      "galleryPermission": "Necesitamos permiso para acceder a tu galería de fotos.",
+      "errorTitle": "Error",
+      "errorSelectImage": "No se pudo seleccionar la imagen.",
+      "errorTakePhoto": "No se pudo tomar la foto."
+    },
+    "interests": {
+      "title": "Selecciona hasta 3 temas de interés",
+      "selected": "Seleccionados",
+      "canSelectMore": "Selecciona los temas que más te interesan",
+      "maxSelected": "Ya has seleccionado el máximo número de temas permitidos"
+    },
+    "description": {
+      "title": "Cuéntanos un poco sobre ti",
+      "subtitle": "Comparte tus intereses, pasatiempos o cualquier información que ayude a otros usuarios a conocerte mejor",
+      "label": "Descripción personal",
+      "placeholder": "Ej: Soy apasionado por la tecnología, me encanta viajar y descubrir nuevas culturas. Disfruto leyendo libros de ciencia ficción y practicando deportes al aire libre...",
+      "charactersCount": "caracteres",
+      "optional": "Este paso es opcional. Puedes omitir y agregar una descripción después."
+    },
+    "languages": {
+      "title": "Selecciona tus idiomas y niveles de fluidez",
+      "fluencyLevel": "Nivel de fluidez:",
+      "levels": {
+        "1": "Básico",
+        "2": "Elemental",
+        "3": "Intermedio",
+        "4": "Avanzado", 
+        "5": "Fluido"
+      },
+      "instruction": "Selecciona al menos un idioma para continuar"
+    },
+    "buttons": {
+      "back": "Atrás",
+      "skip": "Omitir",
+      "next": "Siguiente",
+      "finish": "Completar Registro"
+    },
+    "validation": {
+      "fillRequired": "Por favor completa todos los campos requeridos antes de continuar.",
+      "invalidEmail": "Por favor ingresa un email válido.",
+      "passwordTooShort": "La contraseña debe tener al menos 6 caracteres.",
+      "passwordsDoNotMatch": "Las contraseñas no coinciden."
+    },
+    "topics": {
+      "technology": "Tecnología",
+      "sports": "Deportes",
+      "music": "Música",
+      "art": "Arte",
+      "literature": "Literatura",
+      "travel": "Viajes",
+      "cooking": "Cocina",
+      "photography": "Fotografía",
+      "games": "Juegos",
+      "science": "Ciencia",
+      "history": "Historia",
+      "politics": "Política",
+      "fashion": "Moda",
+      "health": "Salud",
+      "education": "Educación",
+      "business": "Negocios",
+      "environment": "Medio Ambiente",
+      "cinema": "Cine",
+      "theater": "Teatro",
+      "dance": "Danza"
+    }
+  },
   "match": {
     "playToChallenge": "¡Juega para desafiarte!",
     "gameMode": "Modo de juego",

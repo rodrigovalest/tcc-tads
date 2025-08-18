@@ -1,6 +1,6 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
-import RegisterForm from "../../../components/RegisterForm";
+import MultiStepRegisterForm from "../../../components/MultiStepRegisterForm";
 import Button from "../../../components/Button";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -47,7 +47,7 @@ export default function Register() {
         </View>
 
         <View style={{ zIndex: 1000 }}>
-          <RegisterForm />
+          <MultiStepRegisterForm />
         </View>
 
         <View className="mt-4" style={{ zIndex: 0 }}>

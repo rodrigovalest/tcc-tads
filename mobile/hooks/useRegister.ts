@@ -3,13 +3,14 @@ import authService from "../services/auth-service";
 import { useRouter } from "expo-router";
 import type { ApiError } from "../api";
 import Toast from "react-native-toast-message";
+import IRegisterRequest from "../models/requests/register-request";
 
 export function useRegister() {
   const router = useRouter();
 
-  return useMutation<void, ApiError, { username: string; email: string; password: string; nationality: string }>({
+  return useMutation<void, ApiError, IRegisterRequest>({
     mutationFn: async (data) => {
-      await authService.register(data);
+      return await authService.register(data);
     },
 
     onSuccess: () => {
