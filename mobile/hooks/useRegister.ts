@@ -4,9 +4,11 @@ import { useRouter } from "expo-router";
 import type { ApiError } from "../api";
 import Toast from "react-native-toast-message";
 import IRegisterRequest from "../models/requests/register-request";
+import useI18n from "./useI18n";
 
 export function useRegister() {
   const router = useRouter();
+  const { t } = useI18n();
 
   return useMutation<void, ApiError, IRegisterRequest>({
     mutationFn: async (data) => {
@@ -18,8 +20,8 @@ export function useRegister() {
 
       Toast.show({
         type: "success",
-        text1: "Registration successful",
-        text2: "You can now log in with your credentials.",
+        text1: t('register.success.title'),
+        text2: t('register.success.message'),
         position: "top",
       });
     },
@@ -27,8 +29,8 @@ export function useRegister() {
     onError: (error: ApiError) => {
       Toast.show({
         type: "error",
-        text1: "Registration error",
-        text2: error.message || "Something went wrong. Try again.",
+        text1: t('register.error.title'),
+        text2: error.message || t('register.error.message'),
         position: "top",
       });
     },

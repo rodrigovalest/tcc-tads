@@ -33,7 +33,7 @@
     "createAccount": "Crear cuenta",
     "welcome": "Bienvenido",
     "welcomeBack": "Bienvenido de vuelta",
-    "loginOrSignUp": "Inicia sesión o regístrate",
+    "loginOrSignUp": "Entrar o registrarse",
     "or": "o",
     "username": "Nombre de usuario",
     "nationality": "Nacionalidad",
@@ -45,13 +45,22 @@
     "enterEmailOrUsername": "Ingresa tu correo electrónico o nombre de usuario",
     "isRequired": "es requerido",
     "mustHaveAtLeast": "debe tener al menos",
-    "characters": "caracteres"
+    "characters": "caracteres",
+    "loginMessages": {
+      "success": {
+        "title": "Inicio de sesión exitoso"
+      },
+      "error": {
+        "title": "Error de inicio de sesión",
+        "message": "Algo salió mal. Intenta de nuevo"
+      }
+    }
   },
   "register": {
     "steps": {
-      "basicInfo": "Información Básica",
+      "basicInfo": "Información",
       "languages": "Idiomas",
-      "photo": "Foto de Perfil",
+      "photo": "Foto",
       "interests": "Intereses",
       "description": "Descripción"
     },
@@ -80,7 +89,8 @@
       "title": "Selecciona hasta 3 temas de interés",
       "selected": "Seleccionados",
       "canSelectMore": "Selecciona los temas que más te interesan",
-      "maxSelected": "Ya has seleccionado el máximo número de temas permitidos"
+      "maxSelected": "Ya has seleccionado el máximo número de temas permitidos",
+      "selectToSeeHere": "Selecciona temas para verlos aquí"
     },
     "description": {
       "title": "Cuéntanos un poco sobre ti",
@@ -105,14 +115,33 @@
     "buttons": {
       "back": "Atrás",
       "skip": "Omitir",
-      "next": "Siguiente",
-      "finish": "Completar Registro"
+      "next": "Seguir",
+      "finish": "Registro"
     },
     "validation": {
       "fillRequired": "Por favor completa todos los campos requeridos antes de continuar.",
       "invalidEmail": "Por favor ingresa un email válido.",
       "passwordTooShort": "La contraseña debe tener al menos 6 caracteres.",
       "passwordsDoNotMatch": "Las contraseñas no coinciden."
+    },
+    "errors": {
+      "usernameRequired": "El nombre de usuario es requerido",
+      "emailRequired": "El correo electrónico es requerido",
+      "invalidEmail": "Por favor ingresa un correo electrónico válido",
+      "passwordRequired": "La contraseña es requerida",
+      "passwordTooShort": "La contraseña debe tener al menos 6 caracteres",
+      "confirmPasswordRequired": "La confirmación de contraseña es requerida",
+      "passwordsDoNotMatch": "Las contraseñas no coinciden",
+      "nationalityRequired": "La nacionalidad es requerida",
+      "languagesRequired": "Selecciona al menos un idioma"
+    },
+    "success": {
+      "title": "Registro exitoso",
+      "message": "Ahora puedes iniciar sesión con tus credenciales."
+    },
+    "error": {
+      "title": "Error en el registro",
+      "message": "Algo salió mal. Intenta de nuevo."
     },
     "topics": {
       "technology": "Tecnología",
@@ -155,6 +184,9 @@
     "matchModes": {
       "conversation": "Conversación",
       "justChilling": "Relajándose"
+    },
+    "errors": {
+      "somethingWentWrong": "¡Algo salió mal!"
     }
   },
   "navigation": {
@@ -181,7 +213,25 @@
   "languages": {
     "pt": "Portugués",
     "en": "Inglés",
-    "es": "Español"
+    "es": "Español",
+    "fr": "Francés",
+    "de": "Alemán",
+    "it": "Italiano",
+    "ja": "Japonés",
+    "ko": "Coreano",
+    "zh": "Chino",
+    "ru": "Ruso",
+    "ar": "Árabe",
+    "hi": "Hindi",
+    "nl": "Holandés",
+    "sv": "Sueco",
+    "no": "Noruego",
+    "da": "Danés",
+    "fi": "Finlandés",
+    "pl": "Polaco",
+    "cs": "Checo",
+    "tr": "Turco",
+    "th": "Tailandés"
   },
   "errors": {
     "networkError": "Error de red",

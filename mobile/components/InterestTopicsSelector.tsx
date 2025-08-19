@@ -23,19 +23,12 @@ const InterestTopicsSelector: React.FC<InterestTopicsSelectorProps> = ({
     "art",
     "literature",
     "travel",
-    "cooking",
-    "photography",
     "games",
     "science",
     "history",
     "politics",
-    "fashion",
-    "health",
-    "education",
     "business",
-    "environment",
     "cinema",
-    "theater",
     "dance",
   ];
   const toggleTopic = (topicKey: string) => {
@@ -59,35 +52,56 @@ const InterestTopicsSelector: React.FC<InterestTopicsSelectorProps> = ({
         {t('register.interests.title')}
       </Text>
       
-      <View className="mb-4">
-        <Text className="text-sm text-gray-600">
-          {t('register.interests.selected')}: {selectedTopics.length}/3
-        </Text>
-        {selectedTopics.length > 0 && (
-          <View className="flex-row flex-wrap mt-2">
-            {selectedTopics.map((topic) => (
-              <View
-                key={topic}
-                className="bg-blue-100 border border-blue-300 rounded-full px-3 py-1 mr-2 mb-2 flex-row items-center"
-              >
-                <Text className="text-blue-800 text-sm mr-2">{topic}</Text>
-                <TouchableOpacity
-                  onPress={() => {
-                    // Find the topic key for removal
-                    const topicKey = AVAILABLE_TOPICS.find(key => t(`register.topics.${key}`) === topic);
-                    if (topicKey) toggleTopic(topicKey);
-                  }}
-                  className="w-5 h-5 rounded-full bg-blue-300 items-center justify-center"
+      <Text className="text-sm text-gray-600">
+        {t('register.interests.selected')}: {selectedTopics.length}/3
+      </Text>
+
+      {/* Sempre mostrar o container para tópicos selecionados */}
+      <View className="mb-2 min-h-[40px]">
+        {selectedTopics.length > 0 ? (
+          <ScrollView 
+            horizontal 
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ paddingVertical: 4 }}
+          >
+            <View className="flex-row">
+              {selectedTopics.map((topic) => (
+                <View
+                  key={topic}
+                  className="bg-appLightGrey border border-appDarkGrey rounded-full px-3 py-1 mr-2 flex-row items-center"
                 >
-                  <Ionicons name="close" size={14} color="white" />
-                </TouchableOpacity>
-              </View>
-            ))}
+                  <Text className="text-appDarkGrey text-sm mr-2">{topic}</Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      // Find the topic key for removal
+                      const topicKey = AVAILABLE_TOPICS.find(key => t(`register.topics.${key}`) === topic);
+                      if (topicKey) toggleTopic(topicKey);
+                    }}
+                    className="w-5 h-5 rounded-full bg-appDarkGrey items-center justify-center"
+                  >
+                    <Ionicons name="close" size={14} color="white" />
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </View>
+          </ScrollView>
+        ) : (
+          <View className="flex-1 justify-center items-center py-2">
+            <Text className="text-gray-400 text-sm">{t('register.interests.selectToSeeHere')}</Text>
           </View>
         )}
       </View>
 
-      <ScrollView className="max-h-64">
+      <ScrollView 
+        className="max-h-64"
+        showsVerticalScrollIndicator={false}
+        nestedScrollEnabled={true}
+        keyboardShouldPersistTaps="handled"
+        maintainVisibleContentPosition={{
+          minIndexForVisible: 0,
+          autoscrollToTopThreshold: 10
+        }}
+      >
         <View className="flex-row flex-wrap">
           {AVAILABLE_TOPICS.map((topicKey) => {
             const selected = isTopicSelected(topicKey);
@@ -100,7 +114,7 @@ const InterestTopicsSelector: React.FC<InterestTopicsSelectorProps> = ({
                 disabled={disabled}
                 className={`m-1 px-4 py-3 rounded-lg border-2 ${
                   selected
-                    ? "border-blue-500 bg-blue-50"
+                    ? "border-appDarkGrey bg-appLightGrey"
                     : disabled
                     ? "border-gray-200 bg-gray-100"
                     : "border-gray-300 bg-white"
@@ -109,7 +123,7 @@ const InterestTopicsSelector: React.FC<InterestTopicsSelectorProps> = ({
                 <Text
                   className={`font-medium ${
                     selected
-                      ? "text-blue-800"
+                      ? "text-appDarkGrey"
                       : disabled
                       ? "text-gray-400"
                       : "text-gray-700"

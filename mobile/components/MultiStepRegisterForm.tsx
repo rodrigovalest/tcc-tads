@@ -26,7 +26,6 @@ const MultiStepRegisterForm: React.FC = () => {
   const { t } = useI18n();
   const {
     control,
-    handleSubmit,
     formState: { errors },
     currentStep,
     formData,
@@ -35,11 +34,8 @@ const MultiStepRegisterForm: React.FC = () => {
     nextStep,
     prevStep,
     skipStep,
-    onSubmit,
     submitForm,
     isSubmitting,
-    isValidEmail,
-    isValidPassword,
   } = useMultiStepRegister();
 
   const [open, setOpen] = useState(false);
@@ -48,8 +44,9 @@ const MultiStepRegisterForm: React.FC = () => {
     value: code,
   }));
 
-  const handleSubmitForm = () => {
-    if (validateCurrentStep()) {
+  const handleSubmitForm = async () => {
+    const isValid = await validateCurrentStep();
+    if (isValid) {
       submitForm();
     } else {
       Alert.alert(t('common.error'), t('register.validation.fillRequired'));
@@ -81,80 +78,56 @@ const MultiStepRegisterForm: React.FC = () => {
             <Controller
               control={control}
               name="email"
-              render={({ field: { onChange, onBlur, value } }) => {
-                const getEmailError = () => {
-                  if (!value) return undefined;
-                  if (!isValidEmail(value)) return t('register.validation.invalidEmail');
-                  return errors.email?.message;
-                };
-                
-                return (
-                  <Input
-                    label={`${t('auth.email')} *`}
-                    value={value}
-                    onChangeText={(text) => {
-                      onChange(text);
-                      updateFormData("email", text);
-                    }}
-                    onBlur={onBlur}
-                    placeholder={t('auth.enterEmail')}
-                    type="email"
-                    error={getEmailError()}
-                  />
-                );
-              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  label={`${t('auth.email')} *`}
+                  value={value}
+                  onChangeText={(text) => {
+                    onChange(text);
+                    updateFormData("email", text);
+                  }}
+                  onBlur={onBlur}
+                  placeholder={t('auth.enterEmail')}
+                  type="email"
+                  error={errors.email?.message}
+                />
+              )}
             />
             <Controller
               control={control}
               name="password"
-              render={({ field: { onChange, onBlur, value } }) => {
-                const getPasswordError = () => {
-                  if (!value) return undefined;
-                  if (!isValidPassword(value)) return t('register.validation.passwordTooShort');
-                  return errors.password?.message;
-                };
-                
-                return (
-                  <Input
-                    label={`${t('auth.password')} *`}
-                    value={value}
-                    onChangeText={(text) => {
-                      onChange(text);
-                      updateFormData("password", text);
-                    }}
-                    onBlur={onBlur}
-                    placeholder={t('auth.enterPassword')}
-                    type="password"
-                    error={getPasswordError()}
-                  />
-                );
-              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  label={`${t('auth.password')} *`}
+                  value={value}
+                  onChangeText={(text) => {
+                    onChange(text);
+                    updateFormData("password", text);
+                  }}
+                  onBlur={onBlur}
+                  placeholder={t('auth.enterPassword')}
+                  type="password"
+                  error={errors.password?.message}
+                />
+              )}
             />
             <Controller
               control={control}
               name="confirmPassword"
-              render={({ field: { onChange, onBlur, value } }) => {
-                const getConfirmPasswordError = () => {
-                  if (!value) return undefined;
-                  if (value !== formData.password) return t('register.validation.passwordsDoNotMatch');
-                  return errors.confirmPassword?.message;
-                };
-                
-                return (
-                  <Input
-                    label={`${t('auth.confirmPassword')} *`}
-                    value={value}
-                    onChangeText={(text) => {
-                      onChange(text);
-                      updateFormData("confirmPassword", text);
-                    }}
-                    onBlur={onBlur}
-                    placeholder={t('auth.confirmYourPassword')}
-                    type="password"
-                    error={getConfirmPasswordError()}
-                  />
-                );
-              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  label={`${t('auth.confirmPassword')} *`}
+                  value={value}
+                  onChangeText={(text) => {
+                    onChange(text);
+                    updateFormData("confirmPassword", text);
+                  }}
+                  onBlur={onBlur}
+                  placeholder={t('auth.confirmYourPassword')}
+                  type="password"
+                  error={errors.confirmPassword?.message}
+                />
+              )}
             />
             <Controller
               control={control}
@@ -217,7 +190,7 @@ const MultiStepRegisterForm: React.FC = () => {
   const renderStepButtons = () => {
     const isFirstStep = currentStep === 1;
     const isLastStep = currentStep === STEPS.length;
-    const canSkip = currentStep === 3 || currentStep === 4;
+    const canSkip = currentStep === 0;
 
     return (
       <View className="flex-row gap-3 mt-6 mb-4">
@@ -257,15 +230,15 @@ const MultiStepRegisterForm: React.FC = () => {
           <Button
             title={isLastStep ? t('register.buttons.finish') : t('register.buttons.next')}
             onPress={isLastStep ? handleSubmitForm : nextStep}
-            disabled={!validateCurrentStep() || isSubmitting}
+            disabled={isSubmitting}
             loading={isSubmitting}
             className="w-full"
             textSize="base"
-            textColor="text-white"
-            textColorActivate="text-white"
-            bgColor="bg-blue-500"
-            bgColorActivate="bg-blue-600"
-            borderColor="border-blue-500"
+            textColor="text-black"
+            textColorActivate="text-black"
+            bgColor="bg-white"
+            bgColorActivate="bg-gray-100"
+            borderColor="border-gray-300"
           />
         </View>
       </View>

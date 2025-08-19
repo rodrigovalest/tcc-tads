@@ -7,11 +7,13 @@ import useI18n from "../hooks/useI18n";
 interface ProfilePhotoUploadProps {
   photoUri?: string;
   onPhotoChange: (uri: string | null) => void;
+  showOptionalMessage?: boolean;
 }
 
 const ProfilePhotoUpload: React.FC<ProfilePhotoUploadProps> = ({
   photoUri,
   onPhotoChange,
+  showOptionalMessage = true,
 }) => {
   const { t } = useI18n();
   const [isLoading, setIsLoading] = useState(false);
@@ -71,8 +73,8 @@ const ProfilePhotoUpload: React.FC<ProfilePhotoUploadProps> = ({
       const result = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
         aspect: [1, 1],
-        quality: 0.5, // Reduzido para 50% da qualidade
-        base64: false, // Não converter para base64 ainda
+        quality: 0.5, 
+        base64: false, 
       });
 
       if (!result.canceled && result.assets[0]) {
@@ -98,16 +100,18 @@ const ProfilePhotoUpload: React.FC<ProfilePhotoUploadProps> = ({
 
   return (
     <View className="space-y-6">
-      <Text className="text-lg font-semibold text-gray-800 text-center">
-        {t('register.photo.title')}
-      </Text>
-      
-      <Text className="text-sm text-gray-600 text-center">
-        {t('register.photo.subtitle')}
-      </Text>
+      <View className="mb-4">
+        <Text className="text-lg font-semibold text-gray-800 text-center">
+          {t('register.photo.title')}
+        </Text>
+        
+        <Text className="text-sm text-gray-600 text-center mt-2">
+          {t('register.photo.subtitle')}
+        </Text>
+      </View>
 
       {/* Photo display */}
-      <View className="items-center">
+      <View className="items-center my-6">
         {photoUri ? (
           <View className="relative">
             <Image
@@ -130,11 +134,11 @@ const ProfilePhotoUpload: React.FC<ProfilePhotoUploadProps> = ({
       </View>
 
       {/* Action buttons */}
-      <View className="space-y-3">
+      <View className="mt-6">
         <TouchableOpacity
           onPress={takePhoto}
           disabled={isLoading}
-          className="flex-row items-center justify-center space-x-2 bg-blue-500 p-4 rounded-lg"
+          className="flex-row items-center justify-center space-x-2 bg-appDarkGrey p-4 rounded-lg mb-6"
         >
           <Ionicons name="camera" size={20} color="white" />
           <Text className="text-white font-medium text-lg">
@@ -154,9 +158,11 @@ const ProfilePhotoUpload: React.FC<ProfilePhotoUploadProps> = ({
         </TouchableOpacity>
       </View>
 
-      <Text className="text-xs text-gray-500 text-center">
-        {t('register.photo.optional')}
-      </Text>
+      {showOptionalMessage && (
+        <Text className="text-xs text-gray-500 text-center mt-4">
+          {t('register.photo.optional')}
+        </Text>
+      )}
     </View>
   );
 };

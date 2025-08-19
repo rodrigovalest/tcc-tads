@@ -6,12 +6,14 @@ interface PersonalDescriptionProps {
   description: string;
   onDescriptionChange: (description: string) => void;
   error?: string;
+  showOptionalMessage?: boolean;
 }
 
 const PersonalDescription: React.FC<PersonalDescriptionProps> = ({
   description,
   onDescriptionChange,
   error,
+  showOptionalMessage = true,
 }) => {
   const { t } = useI18n();
 
@@ -21,12 +23,12 @@ const PersonalDescription: React.FC<PersonalDescriptionProps> = ({
         {t('register.description.title')}
       </Text>
       
-      <Text className="text-sm text-gray-600 text-center">
+      <Text className="text-sm text-gray-600 text-center mb-4">
         {t('register.description.subtitle')}
       </Text>
 
       <View className="space-y-2">
-        <Text className="text-sm font-medium text-gray-700">
+        <Text className="text-sm font-medium text-gray-700 mt-2">
           {t('register.description.label')}
         </Text>
         <TextInput
@@ -39,7 +41,7 @@ const PersonalDescription: React.FC<PersonalDescriptionProps> = ({
           className="p-4 border-2 border-gray-300 rounded-lg bg-white text-gray-800"
           style={{ minHeight: 120 }}
         />
-        <Text className="text-xs text-gray-500">
+        <Text className="text-xs text-gray-500 mb-4">
           {description.length}/500 {t('register.description.charactersCount')}
         </Text>
         {error && (
@@ -47,9 +49,11 @@ const PersonalDescription: React.FC<PersonalDescriptionProps> = ({
         )}
       </View>
 
-      <Text className="text-xs text-gray-500 text-center">
-        {t('register.description.optional')}
-      </Text>
+      {showOptionalMessage && (
+        <Text className="text-xs text-gray-500 text-center mt-4">
+          {t('register.description.optional')}
+        </Text>
+      )}
     </View>
   );
 };

@@ -14,10 +14,6 @@ export default function Register() {
     router.replace("/(public)/(auth)/login");
   };
 
-  function handleGoogleRegister(): void {
-    throw new Error("Function not implemented.");
-  }
-
   return (
     <SafeAreaView
       className="flex-1 bg-appBgWhite"
@@ -48,26 +44,6 @@ export default function Register() {
 
         <View style={{ zIndex: 1000 }}>
           <MultiStepRegisterForm />
-        </View>
-
-        <View className="mt-4" style={{ zIndex: 0 }}>
-          <Button
-            title={t('auth.registerWithGoogle')}
-            onPress={handleGoogleRegister}
-            className="mb-2"
-            loading={false}
-            textColor="text-black"
-            textColorActivate="text-white"
-            textSize="2xl"
-            bgColor="bg-white"
-            bgColorActivate="bg-black"
-            borderColor="border-appLightGrey"
-            borderColorActivate="border-black"
-            iconLeft="google"
-            iconLeftColor="black"
-            iconLeftColorActivate="white"
-            testID="google-register-button"
-          />
         </View>
       </ScrollView>
     </SafeAreaView>

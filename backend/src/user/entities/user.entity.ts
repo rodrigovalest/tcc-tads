@@ -23,7 +23,7 @@ export class User {
   @Column({ nullable: true, length: 500 })
   personalDescription?: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   photo?: string;
 
   @Column({ default: true })

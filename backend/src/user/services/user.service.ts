@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
 import { Repository } from 'typeorm';
@@ -7,6 +7,8 @@ import { CreateUserRequestDto } from '../dtos/requests/create-user.request-dto';
 import { UserLanguage } from '../entities/user-language.entity';
 import { UserInterestTopic } from '../entities/user-interest-topic.entity';
 import { UserResponseDto, UserLanguageResponseDto, UserInterestTopicResponseDto } from '../dtos/responses/user-response.dto';
+import { FileUploadService } from '../../shared/services/file-upload.service';
+import { UpdateUserRequestDto } from '../dtos/requests/update-user.request-dto';
 
 @Injectable()
 export class UserService {
@@ -17,6 +19,7 @@ export class UserService {
     private readonly userLanguageRepository: Repository<UserLanguage>,
     @InjectRepository(UserInterestTopic)
     private readonly userInterestTopicRepository: Repository<UserInterestTopic>,
+    private readonly fileUploadService: FileUploadService,
   ) { }
 
   async create(createUserDto: CreateUserRequestDto): Promise<void> {
@@ -82,6 +85,31 @@ export class UserService {
     }
   }
 
+  async createWithPhoto(
+    createUserDto: CreateUserRequestDto, 
+    photo: Express.Multer.File | undefined, 
+    baseUrl: string
+  ): Promise<void> {
+    let photoUrl: string | undefined = undefined;
+    if (photo) {
+      try {
+        this.fileUploadService.validateImageFile(photo);
+        const fileName = this.fileUploadService.saveFile(photo);
+        const url = this.fileUploadService.getFileUrl(fileName, baseUrl);
+        photoUrl = url || undefined;
+      } catch (error) {
+        throw new BadRequestException(error.message);
+      }
+    }
+
+    const userDataWithPhoto = {
+      ...createUserDto,
+      photo: photoUrl
+    };
+
+    return this.create(userDataWithPhoto);
+  }
+
   async findByEmail(email: string): Promise<User | null> {
     return this.userRepository.findOne({
       where: { email },
@@ -95,7 +123,19 @@ export class UserService {
       relations: ['languages', 'interestTopics']
     });
   }
-  
+
+  async findByIdWithDto(id: number): Promise<UserResponseDto | null> {
+    const user = await this.findById(id);
+    if (!user) return null;
+    return this.mapToResponseDto(user);
+  }
+
+  async findByEmailWithDto(email: string): Promise<UserResponseDto | null> {
+    const user = await this.findByEmail(email);
+    if (!user) return null;
+    return this.mapToResponseDto(user);
+  }
+
   private mapToResponseDto(user: User): UserResponseDto {
     const languagesDto: UserLanguageResponseDto[] = user.languages?.map(lang => ({
       id: lang.id,
@@ -125,11 +165,96 @@ export class UserService {
       interestTopics: interestTopicsDto
     };
   }
-
+  
   async findAll(): Promise<UserResponseDto[]> {
     const users = await this.userRepository.find({
       relations: ['languages', 'interestTopics']
     });
     return users.map(user => this.mapToResponseDto(user));
+  }
+
+  async update(
+    id: number,
+    updateDto: UpdateUserRequestDto,
+    photo: Express.Multer.File | undefined,
+    baseUrl: string
+  ): Promise<UserResponseDto> {
+    const user = await this.findById(id);
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+
+    if (typeof updateDto.username === 'string') user.username = updateDto.username;
+    if (typeof updateDto.nationality !== 'undefined') user.nationality = updateDto.nationality;
+    if (typeof updateDto.personalDescription === 'string') user.personalDescription = updateDto.personalDescription;
+
+    if (updateDto.removePhoto) {
+      user.photo = undefined;
+    }
+
+    if (photo) {
+      try {
+        this.fileUploadService.validateImageFile(photo);
+        const fileName = this.fileUploadService.saveFile(photo);
+        const url = this.fileUploadService.getFileUrl(fileName, baseUrl);
+        user.photo = url || undefined;
+      } catch (error) {
+        throw new BadRequestException(error.message);
+      }
+    }
+
+    await this.userRepository.save(user);
+
+    // Parse languages if they come as string
+    let languagesToProcess = updateDto.languages;
+    if (typeof updateDto.languages === 'string') {
+      try {
+        languagesToProcess = JSON.parse(updateDto.languages);
+      } catch (error) {
+        languagesToProcess = [];
+      }
+    }
+
+    if (Array.isArray(languagesToProcess)) {
+      await this.userLanguageRepository.delete({ userId: user.id });
+      const userLanguages = languagesToProcess.map(lang => {
+        const ul = new UserLanguage();
+        ul.userId = user.id;
+        ul.user = user;
+        ul.languageCode = lang.languageCode;
+        ul.fluencyLevel = lang.fluencyLevel;
+        return ul;
+      });
+      if (userLanguages.length > 0) {
+        await this.userLanguageRepository.save(userLanguages);
+      }
+    }
+
+    // Parse interestTopics if they come as string
+    let topicsToProcess = updateDto.interestTopics;
+    if (typeof updateDto.interestTopics === 'string') {
+      try {
+        topicsToProcess = JSON.parse(updateDto.interestTopics);
+      } catch (error) {
+        topicsToProcess = [];
+      }
+    }
+
+    if (Array.isArray(topicsToProcess)) {
+      await this.userInterestTopicRepository.delete({ userId: user.id });
+      const userInterestTopics = topicsToProcess.map(topic => {
+        const uit = new UserInterestTopic();
+        uit.userId = user.id;
+        uit.user = user;
+        uit.topic = topic;
+        return uit;
+      });
+      if (userInterestTopics.length > 0) {
+        await this.userInterestTopicRepository.save(userInterestTopics);
+      }
+    }
+
+    const updated = await this.findById(user.id);
+    return this.mapToResponseDto(updated!);
   }
 }

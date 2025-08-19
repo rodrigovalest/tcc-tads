@@ -14,7 +14,11 @@ module.exports = {
         appMediumGrey: "#7C7C7F",
         appDarkGrey: "#262B2A",
         appMediumRed: "#EE664D",
-        appBlack: "#191919"
+        appBlack: "#191919",
+        appBlue: "#1565C0",
+        appBlueDark: "#0D47A1",
+        appBlueLight: "#2196F3",
+        appBluePale: "#E3F2FD"
       },
     },
     fontFamily: {

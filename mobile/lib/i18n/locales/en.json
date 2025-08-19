@@ -45,11 +45,20 @@
     "enterEmailOrUsername": "Enter your email or username",
     "isRequired": "is required",
     "mustHaveAtLeast": "must have at least",
-    "characters": "characters"
+    "characters": "characters",
+    "loginMessages": {
+      "success": {
+        "title": "Login successful"
+      },
+      "error": {
+        "title": "Login error",
+        "message": "Something went wrong. Try again"
+      }
+    }
   },
   "register": {
     "steps": {
-      "basicInfo": "Basic Information",
+      "basicInfo": "Information",
       "languages": "Languages",
       "photo": "Profile Photo",
       "interests": "Interests",
@@ -80,7 +89,8 @@
       "title": "Select up to 3 topics of interest",
       "selected": "Selected",
       "canSelectMore": "Select the topics that interest you most",
-      "maxSelected": "You have already selected the maximum number of topics allowed"
+      "maxSelected": "You have already selected the maximum number of topics allowed",
+      "selectToSeeHere": "Select topics to see them here"
     },
     "description": {
       "title": "Tell us a little about yourself",
@@ -113,6 +123,25 @@
       "invalidEmail": "Please enter a valid email address.",
       "passwordTooShort": "Password must be at least 6 characters long.",
       "passwordsDoNotMatch": "Passwords do not match."
+    },
+    "errors": {
+      "usernameRequired": "Username is required",
+      "emailRequired": "Email is required",
+      "invalidEmail": "Please enter a valid email address",
+      "passwordRequired": "Password is required",
+      "passwordTooShort": "Password must be at least 6 characters long",
+      "confirmPasswordRequired": "Password confirmation is required",
+      "passwordsDoNotMatch": "Passwords do not match",
+      "nationalityRequired": "Nationality is required",
+      "languagesRequired": "Select at least one language"
+    },
+    "success": {
+      "title": "Registration successful",
+      "message": "You can now log in with your credentials."
+    },
+    "error": {
+      "title": "Registration error",
+      "message": "Something went wrong. Try again."
     },
     "topics": {
       "technology": "Technology",
@@ -155,6 +184,9 @@
     "matchModes": {
       "conversation": "Conversation",
       "justChilling": "Just Chilling"
+    },
+    "errors": {
+      "somethingWentWrong": "Something went wrong!"
     }
   },
   "navigation": {
@@ -181,7 +213,25 @@
   "languages": {
     "pt": "Portuguese",
     "en": "English",
-    "es": "Spanish"
+    "es": "Spanish",
+    "fr": "French",
+    "de": "German",
+    "it": "Italian",
+    "ja": "Japanese",
+    "ko": "Korean",
+    "zh": "Chinese",
+    "ru": "Russian",
+    "ar": "Arabic",
+    "hi": "Hindi",
+    "nl": "Dutch",
+    "sv": "Swedish",
+    "no": "Norwegian",
+    "da": "Danish",
+    "fi": "Finnish",
+    "pl": "Polish",
+    "cs": "Czech",
+    "tr": "Turkish",
+    "th": "Thai"
   },
   "errors": {
     "networkError": "Network error",
