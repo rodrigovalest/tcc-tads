@@ -64,8 +64,31 @@
     "formatComingSoon": "Solo y Group estarán disponibles pronto",
     "matchModes": {
       "conversation": "Conversación",
-      "justChilling": "Relajándose"
+      "justChilling": "Relajándose",
+      "wordBuilder": "Constructor de Palabras"
     }
+  },
+  "wordBuilder": {
+    "title": "Constructor de Palabras",
+    "description": "Construye tantas palabras como sea posible con la letra o sílaba dada",
+    "timeLeft": "Tiempo restante",
+    "letter": "Letra",
+    "syllable": "Sílaba",
+    "wordsFound": "Palabras encontradas",
+    "score": "Puntuación",
+    "correctWords": "Palabras correctas",
+    "enterWord": "Ingresa palabra",
+    "submit": "Enviar",
+    "gameOver": "¡Fin del Juego!",
+    "finalScore": "Puntuación Final",
+    "playAgain": "Jugar de Nuevo",
+    "backToMenu": "Volver al Menú",
+    "exitGame": "Salir del Juego",
+    "confirmExit": "¿Estás seguro de que quieres salir del juego?",
+    "yes": "Sí",
+    "no": "No",
+    "getReady": "¡Prepárate!",
+    "startingIn": "Iniciando en"
   },
   "navigation": {
     "matches": "Partidas",

@@ -18,32 +18,38 @@ export default function LanguageSelection() {
     matchLanguage,
     resetMatch,
     setMatchLanguage,
-    setMatchFormat
+    setMatchFormat,
   } = useMatchStore();
   const { t } = useI18n();
   const router = useRouter();
 
   if (!matchMode) {
-    router.replace('/(private)/(tabs)/matches');
+    router.replace("/(private)/(tabs)/matches");
     return null;
   }
 
-  const selectedMatchMode: IAvaliableMatchMode = AVALIABLE_MATCH_MODES[matchMode];
+  const selectedMatchMode: IAvaliableMatchMode =
+    AVALIABLE_MATCH_MODES[matchMode];
 
   const onBack = async () => {
     await resetMatch();
-    router.replace('/(private)/(tabs)/matches');
-  }
+    router.replace("/(private)/(tabs)/matches");
+  };
 
   const onPlay = () => {
-    if (!matchMode || !matchFormat || !matchLanguage)
-      return;
+    if (!matchMode || !matchFormat || !matchLanguage) return;
 
-    router.replace(`/(private)/${matchMode}/${matchFormat}/waiting`);
-  }
+    // Word Builder is a solo game, go directly to the game
+    if (matchMode === "word-builder") {
+      router.replace("/(private)/word-builder/solo/game");
+    } else {
+      // Other games go to waiting room first
+      router.replace("/(private)/just-chilling/duo/waiting");
+    }
+  };
 
   return (
-    <SafeAreaView 
+    <SafeAreaView
       className="flex-1 bg-appBgWhite"
       testID="language-selection-screen"
     >
@@ -52,42 +58,39 @@ export default function LanguageSelection() {
         onPress={onBack}
         testID="back-button"
       >
-        <Ionicons
-          name="chevron-back"
-          size={35}
-        />
+        <Ionicons name="chevron-back" size={35} />
       </TouchableOpacity>
 
       <View className="px-6 mt-20">
         <Text className="text-3xl font-nunito-bold text-appBlack mb-4">
-          {t('match.playToChallenge')}
+          {t("match.playToChallenge")}
         </Text>
 
         <Text className="text-xl font-nunito-medium text-appBlack mb-8">
-          {t('match.gameMode')}: {selectedMatchMode.title}
+          {t("match.gameMode")}: {selectedMatchMode.title}
         </Text>
 
         <Text className="text-xl font-nunito-bold text-appBlack mb-2">
-          {t('match.matchFormat')}
+          {t("match.matchFormat")}
         </Text>
 
         <View className="mb-8">
-          <MatchFormatSelector 
-            avaliableMatchFormats={selectedMatchMode.matchFormat} 
+          <MatchFormatSelector
+            avaliableMatchFormats={selectedMatchMode.matchFormat}
             selected={matchFormat}
-            onSelect={setMatchFormat} 
+            onSelect={setMatchFormat}
           />
         </View>
 
         <View className="mb-8">
-          <MatchLanguageSelector 
+          <MatchLanguageSelector
             selected={matchLanguage}
             onSelect={setMatchLanguage}
           />
         </View>
 
         <Button
-          title={t('common.play')}
+          title={t("common.play")}
           onPress={onPlay}
           disabled={matchFormat === null || matchLanguage === null}
           bgColor="bg-black"

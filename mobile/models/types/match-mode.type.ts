@@ -1,1 +1,1 @@
-export type MatchMode = 'just-chilling';
+export type MatchMode = "just-chilling" | "word-builder";

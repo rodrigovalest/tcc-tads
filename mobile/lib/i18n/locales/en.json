@@ -64,8 +64,31 @@
     "formatComingSoon": "Solo and Group will be available soon",
     "matchModes": {
       "conversation": "Conversation",
-      "justChilling": "Just Chilling"
+      "justChilling": "Just Chilling",
+      "wordBuilder": "Word Builder"
     }
+  },
+  "wordBuilder": {
+    "title": "Word Builder",
+    "description": "Build as many words as possible with the given letter or syllable",
+    "timeLeft": "Time left",
+    "letter": "Letter",
+    "syllable": "Syllable",
+    "wordsFound": "Words found",
+    "score": "Score",
+    "correctWords": "Correct words",
+    "enterWord": "Enter word",
+    "submit": "Submit",
+    "gameOver": "Game Over!",
+    "finalScore": "Final Score",
+    "playAgain": "Play Again",
+    "backToMenu": "Back to Menu",
+    "exitGame": "Exit Game",
+    "confirmExit": "Are you sure you want to exit the game?",
+    "yes": "Yes",
+    "no": "No",
+    "getReady": "Get Ready!",
+    "startingIn": "Starting in"
   },
   "navigation": {
     "matches": "Matches",
