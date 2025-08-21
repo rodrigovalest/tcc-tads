@@ -2,79 +2,21 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import {
   IWordBuilderGame,
   IWordBuilderGameResult,
+  IWordEvaluation,
 } from "../models/interfaces/word_builder_game";
 import { MatchLanguage } from "../models/types/match-language.type";
+import { validateWords } from "../services/word-validation";
 
 const GAME_DURATION = 60; // seconds
 const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-// Mock word validation function - In production, use a real API
-const validateWord = async (
-  word: string,
-  language: MatchLanguage,
-  startingLetter: string
-): Promise<boolean> => {
-  // Mock validation logic
-  // For now, we'll accept words that:
-  // 1. Start with the correct letter
-  // 2. Are at least 3 characters long
-  // 3. Don't contain numbers or special characters
-
-  const cleanWord = word.toLowerCase().trim();
-  const letterLower = startingLetter.toLowerCase();
-  if (cleanWord.length < 3) return false;
-  if (!cleanWord.startsWith(letterLower)) return false;
-  if (!/^[a-zA-ZáéíóúàèìòùâêîôûãõñçÁÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕÑÇ]+$/.test(cleanWord))
-    return false;
-
-  // Mock dictionary check based on language
-  const mockDictionary = {
-    en: [
-      "apple",
-      "about",
-      "animal",
-      "answer",
-      "always",
-      "another",
-      "after",
-      "again",
-      "against",
-      "all",
-    ],
-    pt: [
-      "amor",
-      "animal",
-      "amigo",
-      "água",
-      "azul",
-      "alto",
-      "antes",
-      "aqui",
-      "ainda",
-      "apenas",
-    ],
-    es: [
-      "amor",
-      "animal",
-      "amigo",
-      "agua",
-      "azul",
-      "alto",
-      "antes",
-      "aquí",
-      "aún",
-      "apenas",
-    ],
-  };
-  const dictionary = mockDictionary[language] || mockDictionary.en;
-  return dictionary.includes(cleanWord) || cleanWord.length >= 4;
-};
-
 export const useWordBuilderGame = (language: MatchLanguage | null) => {
   const safeLanguage: MatchLanguage = (language || "en") as MatchLanguage;
+
+  // React state (UI binding)
   const [gameState, setGameState] = useState<IWordBuilderGame>({
     currentLetter: "",
-    timeLeft: GAME_DURATION, // seconds (float)
+    timeLeft: GAME_DURATION,
     wordsFound: [],
     score: 0,
     isGameActive: false,
@@ -86,67 +28,91 @@ export const useWordBuilderGame = (language: MatchLanguage | null) => {
   const [isCountingDown, setIsCountingDown] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
 
+  // Refs (fonte de verdade para lógica / timers)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const endTimeRef = useRef<number>(0); // timestamp in ms when game ends
+  const endTimeRef = useRef<number>(0);
   const endedRef = useRef<boolean>(false);
+  const wordsRef = useRef<string[]>([]); // evita closures antigas
+  const letterRef = useRef<string>("");
 
-  const generateRandomLetter = useCallback((): string => {
+  /* Util */
+  const generateRandomLetter = useCallback(() => {
     return LETTERS[Math.floor(Math.random() * LETTERS.length)];
   }, []);
 
+  /* Inicialização */
   const initializeGame = useCallback(() => {
+    if (timerRef.current) clearInterval(timerRef.current);
     endedRef.current = false;
-    const letter = generateRandomLetter();
+    wordsRef.current = [];
+    const newLetter = generateRandomLetter();
+    letterRef.current = newLetter;
+    setGameResult(null);
+    setShowExitModal(false);
+    setIsCountingDown(true);
     setGameState({
-      currentLetter: letter,
+      currentLetter: newLetter,
       timeLeft: GAME_DURATION,
       wordsFound: [],
       score: 0,
       isGameActive: false,
       gameMode: "letter",
     });
-    setGameResult(null);
-    setIsCountingDown(true);
-    setShowExitModal(false);
   }, [generateRandomLetter]);
 
-  const internalEndGame = useCallback(async () => {
+  /* Encerrar jogo (usa refs) */
+  const finalizeGame = useCallback(async () => {
     if (endedRef.current) return;
     endedRef.current = true;
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
     }
-    setGameState((prev) => ({ ...prev, isGameActive: false, timeLeft: 0 }));
 
-    // Validate words
-    const correctWords: string[] = [];
-    const incorrectWords: string[] = [];
-    for (const word of gameState.wordsFound) {
-      const isValid = await validateWord(
-        word,
-        safeLanguage,
-        gameState.currentLetter
-      );
-      if (isValid) correctWords.push(word);
-      else incorrectWords.push(word);
-    }
-    const finalScore = correctWords.length * 10;
-    const totalTime = GAME_DURATION; // full duration
+    const snapshotWords = [...wordsRef.current];
+    const startingLetter = letterRef.current;
+
+    console.log("[end] Letter:", startingLetter, "Words:", snapshotWords);
+
+    // Validação por dicionário (retorna apenas isValid lexical)
+    const dictEvaluations = await validateWords(snapshotWords, safeLanguage);
+
+    // Regras adicionais: começa com a letra + tamanho >=3
+    const letterLower = startingLetter.toLowerCase();
+    const evaluations: IWordEvaluation[] = dictEvaluations.map(
+      (w: { word: string; isValid: boolean }) => {
+        const startsWith = w.word.startsWith(letterLower);
+        const minLen = w.word.length >= 3;
+        return { word: w.word, isCorrect: startsWith && minLen && w.isValid };
+      }
+    );
+
+    const correctWords = evaluations
+      .filter((e) => e.isCorrect)
+      .map((e) => e.word);
+    const incorrectWords = evaluations
+      .filter((e) => !e.isCorrect)
+      .map((e) => e.word);
+    const score = correctWords.length * 10;
+
     const result: IWordBuilderGameResult = {
-      wordsFound: gameState.wordsFound,
+      wordsFound: snapshotWords,
       correctWords,
       incorrectWords,
-      score: finalScore,
-      totalTime,
+      evaluations,
+      score,
+      totalTime: GAME_DURATION,
       gameMode: gameState.gameMode,
-      startingLetter: gameState.currentLetter,
+      startingLetter,
       language: safeLanguage,
     };
-    setGameResult(result);
-    console.log("Mock: Saving game result to history:", result); // mock persistence
-  }, [gameState, safeLanguage]);
 
+    console.log("[end] Result:", result);
+    setGameResult(result);
+    setGameState((prev) => ({ ...prev, isGameActive: false, score }));
+  }, [gameState.gameMode, safeLanguage]);
+
+  /* Start após contagem */
   const startGame = useCallback(() => {
     setIsCountingDown(false);
     setGameState((prev) => ({
@@ -155,52 +121,56 @@ export const useWordBuilderGame = (language: MatchLanguage | null) => {
       timeLeft: GAME_DURATION,
     }));
     endTimeRef.current = Date.now() + GAME_DURATION * 1000;
+    endedRef.current = false;
 
     timerRef.current = setInterval(() => {
       const remainingMs = endTimeRef.current - Date.now();
       if (remainingMs <= 0) {
         setGameState((prev) => ({ ...prev, timeLeft: 0 }));
-        internalEndGame();
+        finalizeGame();
         return;
       }
-      // keep two decimals (centiseconds)
-      const remainingSec = Math.max(0, remainingMs / 1000);
-      setGameState((prev) => ({ ...prev, timeLeft: remainingSec }));
+      setGameState((prev) => ({ ...prev, timeLeft: remainingMs / 1000 }));
     }, 100);
-  }, [internalEndGame]);
+  }, [finalizeGame]);
 
-  const endGame = useCallback(() => {
-    internalEndGame();
-  }, [internalEndGame]);
-
+  /* Adicionar palavra */
   const addWord = useCallback(
     (word: string) => {
-      if (!gameState.isGameActive || endedRef.current) return;
-      const cleanWord = word.toLowerCase().trim();
-      if (!cleanWord) return;
-      if (gameState.wordsFound.includes(cleanWord)) return;
-      setGameState((prev) => ({
-        ...prev,
-        wordsFound: [...prev.wordsFound, cleanWord],
-      }));
+      if (endedRef.current) return;
+      if (!gameState.isGameActive) return;
+      const clean = word.toLowerCase().trim();
+      if (!clean) return;
+      if (clean.length < 2) return; // pequena filtragem
+      if (wordsRef.current.includes(clean)) return; // evitar duplicatas
+
+      wordsRef.current = [...wordsRef.current, clean];
+      setGameState((prev) => ({ ...prev, wordsFound: wordsRef.current }));
+      console.log("[addWord]", clean, wordsRef.current);
     },
-    [gameState.isGameActive, gameState.wordsFound]
+    [gameState.isGameActive]
   );
 
-  const handleExitGame = useCallback(() => {
-    setShowExitModal(true);
-  }, []);
-  const confirmExitGame = useCallback(() => {
-    endGame();
-  }, [endGame]);
-  const cancelExitGame = useCallback(() => {
-    setShowExitModal(false);
-  }, []);
+  /* Encerrar antecipadamente */
+  const endGame = useCallback(() => {
+    finalizeGame();
+  }, [finalizeGame]);
 
+  /* Modal de saída */
+  const handleExitGame = useCallback(() => setShowExitModal(true), []);
+  const confirmExitGame = useCallback(() => finalizeGame(), [finalizeGame]);
+  const cancelExitGame = useCallback(() => setShowExitModal(false), []);
+
+  /* Reset completo (ex: unmount) */
   const resetGame = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = null;
     endedRef.current = false;
+    wordsRef.current = [];
+    letterRef.current = "";
+    setGameResult(null);
+    setIsCountingDown(false);
+    setShowExitModal(false);
     setGameState({
       currentLetter: "",
       timeLeft: GAME_DURATION,
@@ -209,17 +179,19 @@ export const useWordBuilderGame = (language: MatchLanguage | null) => {
       isGameActive: false,
       gameMode: "letter",
     });
-    setGameResult(null);
-    setIsCountingDown(false);
-    setShowExitModal(false);
   }, []);
 
-  useEffect(
-    () => () => {
+  /* Atualizar currentLetter visual se letterRef mudar (apenas inicialização) */
+  useEffect(() => {
+    setGameState((prev) => ({ ...prev, currentLetter: letterRef.current }));
+  }, [isCountingDown]);
+
+  /* Cleanup */
+  useEffect(() => {
+    return () => {
       if (timerRef.current) clearInterval(timerRef.current);
-    },
-    []
-  );
+    };
+  }, []);
 
   return {
     gameState,

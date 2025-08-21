@@ -56,6 +56,35 @@ const GameResultsScreen: React.FC<GameResultsScreenProps> = ({
             </View>
           </View>
 
+          {gameResult.evaluations && (
+            <View className="w-full mb-6">
+              <Text className="text-xl font-nunito-bold text-appDarkGrey mb-3">
+                {t("wordBuilder.wordsFound")} ({gameResult.evaluations.length})
+              </Text>
+              <View className="bg-appLightGrey rounded-lg p-4 border border-appMediumGrey">
+                {gameResult.evaluations.length === 0 && (
+                  <Text className="text-base font-nunito-medium text-appMediumGrey">
+                    —
+                  </Text>
+                )}
+                {gameResult.evaluations.map((ev, idx) => (
+                  <View key={idx} className="flex-row items-center mb-2">
+                    <Text
+                      className={`mr-3 text-lg font-nunito-extrabold ${
+                        ev.isCorrect ? "text-green-600" : "text-red-600"
+                      }`}
+                    >
+                      {ev.isCorrect ? "✓" : "✗"}
+                    </Text>
+                    <Text className="text-base font-nunito-medium text-appDarkGrey flex-1">
+                      {ev.word}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+          )}
+
           {gameResult.correctWords.length > 0 && (
             <View className="w-full mb-6">
               <Text className="text-xl font-nunito-bold text-appDarkGrey mb-3">

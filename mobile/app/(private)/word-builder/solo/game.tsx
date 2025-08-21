@@ -83,19 +83,23 @@ export default function WordBuilderGame() {
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         className="flex-1"
       >
-        <View className="flex-1">
-          {/* Header with timer and exit button */}
+        <View className="flex-1 flex-col px-0">
+          {/* Row: exit button is inside header component (first row) */}
           <GameHeader
             timeLeft={gameState.timeLeft}
             currentLetter={gameState.currentLetter}
             onExit={handleExitGame}
           />
-          <View className="flex-1">
-            {/* Words grid */}
+          {/* Spacer */}
+          <View className="h-3" />
+          {/* Row: words grid */}
+          <View className="flex-1 px-4">
             <WordsGrid words={gameState.wordsFound} />
           </View>
-          <View className="flex-1">
-            {/* Word input - at bottom to stay above keyboard */}
+          {/* Spacer */}
+          <View className="h-3" />
+          {/* Row: input */}
+          <View className="px-0">
             <WordInput
               onSubmitWord={addWord}
               isGameActive={gameState.isGameActive}

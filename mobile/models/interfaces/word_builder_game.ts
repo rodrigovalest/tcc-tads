@@ -7,10 +7,16 @@ export interface IWordBuilderGame {
   gameMode: "letter" | "syllable";
 }
 
+export interface IWordEvaluation {
+  word: string;
+  isCorrect: boolean;
+}
+
 export interface IWordBuilderGameResult {
   wordsFound: string[];
   correctWords: string[];
   incorrectWords: string[];
+  evaluations: IWordEvaluation[]; // ordered list aligned with input order
   score: number;
   totalTime: number;
   gameMode: "letter" | "syllable";
