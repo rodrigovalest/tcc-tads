@@ -15,6 +15,7 @@ import * as request from 'supertest';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { JwtStrategy } from '../../auth/strategies/jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ListMatchesResponseDto } from '../dtos/list-matches-response.dto';
 
 describe('AuthController', () => {
   let app: INestApplication;
@@ -108,6 +109,19 @@ describe('AuthController', () => {
       }
     ];
 
+    const expectedResponse: ListMatchesResponseDto[] = [
+      {
+        id: '1',
+        startTime: mockMatches[0].startTime.toISOString(),
+        endTime: mockMatches[0].endTime.toISOString(),
+        mode:  mockMatches[0].mode,
+        format:  mockMatches[0].format,
+        language:  mockMatches[0].language,
+        status: mockMatches[0].status,
+        users: [{ username: 'testuser', nationality: CountryCode.Afghanistan }]
+      }
+    ];
+
     matchService.findAllMatchesByUserId.mockResolvedValue(mockMatches);
 
     // Act
@@ -119,6 +133,7 @@ describe('AuthController', () => {
     // Assert
     expect(matchService.findAllMatchesByUserId).toHaveBeenCalledWith(mockedLoggedJwtPayload.sub);
     expect(response.body).toHaveLength(1);
+    expect(response.body).toEqual(expectedResponse);
   });
 
   it('/matches (GET) - unauthorized access returns 401', async () => {
