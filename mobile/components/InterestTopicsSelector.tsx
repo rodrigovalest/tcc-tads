@@ -56,7 +56,6 @@ const InterestTopicsSelector: React.FC<InterestTopicsSelectorProps> = ({
         {t('register.interests.selected')}: {selectedTopics.length}/3
       </Text>
 
-      {/* Sempre mostrar o container para tópicos selecionados */}
       <View className="mb-2 min-h-[40px]">
         {selectedTopics.length > 0 ? (
           <ScrollView 
@@ -73,7 +72,6 @@ const InterestTopicsSelector: React.FC<InterestTopicsSelectorProps> = ({
                   <Text className="text-appDarkGrey text-sm mr-2">{topic}</Text>
                   <TouchableOpacity
                     onPress={() => {
-                      // Find the topic key for removal
                       const topicKey = AVAILABLE_TOPICS.find(key => t(`register.topics.${key}`) === topic);
                       if (topicKey) toggleTopic(topicKey);
                     }}

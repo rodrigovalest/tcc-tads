@@ -35,7 +35,7 @@ export class CreateUserRequestDto {
   @MinLength(6)
   readonly password: string;
 
-  @IsDefined()
+  @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => UserLanguageDto)
@@ -44,10 +44,10 @@ export class CreateUserRequestDto {
       try {
         return JSON.parse(value);
       } catch {
-        return value;
+        return [];
       }
     }
-    return value;
+    return value || [];
   })
   readonly languages: UserLanguageDto[];
 

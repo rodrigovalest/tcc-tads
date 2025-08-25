@@ -24,10 +24,7 @@ const LanguageFluencySelector: React.FC<LanguageFluencySelectorProps> = ({
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const getDisplayName = (code: string, defaultName: string): string => {
-    // Extract language code prefix (e.g., 'pt' from 'pt-BR', 'en' from 'en-GB')
     const langPrefix = code.split('-')[0];
-    
-    // Try to get translation, fallback to default name
     const translatedName = t(`languages.${langPrefix}`);
     return translatedName !== `languages.${langPrefix}` ? translatedName : defaultName;
   };
@@ -36,10 +33,8 @@ const LanguageFluencySelector: React.FC<LanguageFluencySelectorProps> = ({
     const isSelected = selectedLanguages.some(lang => lang.languageCode === languageCode);
     
     if (isSelected) {
-      // Remove language
       onLanguagesChange(selectedLanguages.filter(lang => lang.languageCode !== languageCode));
     } else {
-      // Add language with default fluency level 3
       onLanguagesChange([...selectedLanguages, { languageCode, fluencyLevel: 3 }]);
     }
   };

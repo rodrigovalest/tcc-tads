@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseInterceptors, UploadedFile, Req, Param, ParseIntPipe, NotFoundException, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseInterceptors, UploadedFile, Req, Param, ParseIntPipe, Patch, HttpCode, HttpStatus } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateUserRequestDto } from '../dtos/requests/create-user.request-dto';
 import { UserService } from '../services/user.service';
@@ -13,14 +13,12 @@ export class UserController {
   ) {}
 
   @Post()
-  @UseInterceptors(FileInterceptor('photo'))
-  async create(
-    @Body() createUserDto: CreateUserRequestDto,
-    @UploadedFile() photo: Express.Multer.File,
-    @Req() request: Request
-  ): Promise<void> {
+  @HttpCode(HttpStatus.CREATED) 
+  @UseInterceptors(FileInterceptor('photo', {limits: {fileSize: 10 * 1024 * 1024,},}))
+  async create(@Body() createUserDto: CreateUserRequestDto, @UploadedFile() photo: Express.Multer.File, @Req() request: Request): Promise<{ user: UserResponseDto }> {
     const baseUrl = `${request.protocol}://${request.get('host')}`;
-    return this.userService.createWithPhoto(createUserDto, photo, baseUrl);
+    const user = await this.userService.createWithPhoto(createUserDto, photo, baseUrl);
+    return { user };
   }
   
   @Get()
@@ -30,21 +28,13 @@ export class UserController {
 
   @Get(':id')
   async findById(@Param('id', ParseIntPipe) id: number): Promise<UserResponseDto> {
-    const user = await this.userService.findByIdWithDto(id);
-    if (!user) {
-      throw new NotFoundException(`User with ID ${id} not found`);
-    }
-    return user;
+    return this.userService.findByIdWithDto(id);
   }
 
   @Patch(':id')
-  @UseInterceptors(FileInterceptor('photo'))
-  async update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() updateDto: UpdateUserRequestDto,
-    @UploadedFile() photo: Express.Multer.File,
-    @Req() request: Request
-  ): Promise<UserResponseDto> {
+  @HttpCode(HttpStatus.OK) 
+  @UseInterceptors(FileInterceptor('photo', {limits: {fileSize: 10 * 1024 * 1024,},}))
+  async update(@Param('id', ParseIntPipe) id: number, @Body() updateDto: UpdateUserRequestDto, @UploadedFile() photo: Express.Multer.File, @Req() request: Request): Promise<UserResponseDto> {
     const baseUrl = `${request.protocol}://${request.get('host')}`;
     return this.userService.update(id, updateDto, photo, baseUrl);
   }

@@ -1,260 +1,130 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { BadRequestException, Injectable, NotFoundException, ConflictException, Inject } from '@nestjs/common';
 import { User } from '../entities/user.entity';
-import { Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
 import { CreateUserRequestDto } from '../dtos/requests/create-user.request-dto';
-import { UserLanguage } from '../entities/user-language.entity';
-import { UserInterestTopic } from '../entities/user-interest-topic.entity';
-import { UserResponseDto, UserLanguageResponseDto, UserInterestTopicResponseDto } from '../dtos/responses/user-response.dto';
-import { FileUploadService } from '../../shared/services/file-upload.service';
+import { UserResponseDto } from '../dtos/responses/user-response.dto';
 import { UpdateUserRequestDto } from '../dtos/requests/update-user.request-dto';
+import { PasswordService } from './password.service';
+import { UserLanguageService, LanguageData } from './user-language.service';
+import { UserInterestTopicService } from './user-interest-topic.service';
+import { PhotoUploadService } from './photo-upload.service';
+import { UserMapper } from '../mappers/user.mapper';
+import { UserBuilder } from '../builders/user.builder';
+import { IUserRepository } from '../interfaces/user-repository.interface';
+import {UserUpdatePipeline, UpdateUserFieldsStep, UpdateUserPhotoStep, SaveUserStep, UpdateUserRelationsStep} from '../pipelines/user-update.pipeline';
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
-    @InjectRepository(UserLanguage)
-    private readonly userLanguageRepository: Repository<UserLanguage>,
-    @InjectRepository(UserInterestTopic)
-    private readonly userInterestTopicRepository: Repository<UserInterestTopic>,
-    private readonly fileUploadService: FileUploadService,
-  ) { }
+    @Inject('IUserRepository')
+    private readonly userRepository: IUserRepository,
+    private readonly passwordService: PasswordService,
+    private readonly userLanguageService: UserLanguageService,
+    private readonly userInterestTopicService: UserInterestTopicService,
+    private readonly photoUploadService: PhotoUploadService,
+  ) {}
 
-  async create(createUserDto: CreateUserRequestDto): Promise<void> {
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(createUserDto.password, saltRounds);
-
-    const user = new User(
-      createUserDto.username,
-      createUserDto.email,
-      hashedPassword,
-      createUserDto.nationality
-    );
-
-    if (createUserDto.photo) {
-      user.photo = createUserDto.photo;
-    }
-    if (createUserDto.personalDescription) {
-      user.personalDescription = createUserDto.personalDescription;
-    }
-
+  async create(createUserDto: CreateUserRequestDto): Promise<UserResponseDto> {
+    await this.validateUniqueFields(createUserDto.email, createUserDto.username);
+    const user = await this.buildUserEntity(createUserDto);
     const savedUser = await this.userRepository.save(user);
-
-    let languages = createUserDto.languages;
-    if (typeof languages === 'string') {
-      try {
-        languages = JSON.parse(languages);
-      } catch (error) {
-        console.error('Failed to parse languages JSON:', error);
-        throw new Error('Invalid languages format');
-      }
-    }
-
-    if (Array.isArray(languages) && languages.length > 0) {
-      const userLanguages = languages.map(lang => {
-        const userLanguage = new UserLanguage();
-        userLanguage.userId = savedUser.id;
-        userLanguage.user = savedUser;
-        userLanguage.languageCode = lang.languageCode;
-        userLanguage.fluencyLevel = lang.fluencyLevel;
-        return userLanguage;
-      });
-      await this.userLanguageRepository.save(userLanguages);
-    }
-
-    let interestTopics = createUserDto.interestTopics;
-    if (typeof interestTopics === 'string') {
-      try {
-        interestTopics = JSON.parse(interestTopics);
-      } catch (error) {
-        throw new Error('Invalid interestTopics format');
-      }
-    }
-
-    if (Array.isArray(interestTopics) && interestTopics.length > 0) {
-      const userInterestTopics = interestTopics.map(topic => {
-        const userInterestTopic = new UserInterestTopic();
-        userInterestTopic.userId = savedUser.id;
-        userInterestTopic.user = savedUser;
-        userInterestTopic.topic = topic;
-        return userInterestTopic;
-      });
-      await this.userInterestTopicRepository.save(userInterestTopics);
-    }
+    await this.processUserRelations(savedUser, createUserDto); 
+    const createdUser = await this.findById(savedUser.id);
+    return UserMapper.toResponseDto(createdUser!);
   }
 
-  async createWithPhoto(
-    createUserDto: CreateUserRequestDto, 
-    photo: Express.Multer.File | undefined, 
-    baseUrl: string
-  ): Promise<void> {
-    let photoUrl: string | undefined = undefined;
-    if (photo) {
-      try {
-        this.fileUploadService.validateImageFile(photo);
-        const fileName = this.fileUploadService.saveFile(photo);
-        const url = this.fileUploadService.getFileUrl(fileName, baseUrl);
-        photoUrl = url || undefined;
-      } catch (error) {
-        throw new BadRequestException(error.message);
-      }
-    }
-
-    const userDataWithPhoto = {
-      ...createUserDto,
-      photo: photoUrl
-    };
-
+  async createWithPhoto(createUserDto: CreateUserRequestDto, photo: Express.Multer.File | undefined, baseUrl: string): Promise<UserResponseDto> {
+    const photoUrl = await this.photoUploadService.processPhotoUpload(photo, baseUrl);
+    const userDataWithPhoto = { ...createUserDto, photo: photoUrl };
     return this.create(userDataWithPhoto);
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    return this.userRepository.findOne({
-      where: { email },
-      relations: ['languages', 'interestTopics']
-    });
+    return this.userRepository.findByEmail(email);
   }
 
   async findById(id: number): Promise<User | null> {
-    return this.userRepository.findOne({
-      where: { id },
-      relations: ['languages', 'interestTopics']
-    });
+    return this.userRepository.findById(id);
   }
 
-  async findByIdWithDto(id: number): Promise<UserResponseDto | null> {
+  async findByIdWithDto(id: number): Promise<UserResponseDto> {
     const user = await this.findById(id);
-    if (!user) return null;
-    return this.mapToResponseDto(user);
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+    return UserMapper.toResponseDto(user);
   }
 
   async findByEmailWithDto(email: string): Promise<UserResponseDto | null> {
     const user = await this.findByEmail(email);
-    if (!user) return null;
-    return this.mapToResponseDto(user);
+    return user ? UserMapper.toResponseDto(user) : null;
   }
 
-  private mapToResponseDto(user: User): UserResponseDto {
-    const languagesDto: UserLanguageResponseDto[] = user.languages?.map(lang => ({
-      id: lang.id,
-      languageCode: lang.languageCode,
-      fluencyLevel: lang.fluencyLevel,
-      createdAt: lang.createdAt
-    })) || [];
-
-    const interestTopicsDto: UserInterestTopicResponseDto[] = user.interestTopics?.map(topic => ({
-      id: topic.id,
-      topic: topic.topic,
-      createdAt: topic.createdAt
-    })) || [];
-
-    return {
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      nationality: user.nationality,
-      personalDescription: user.personalDescription,
-      photoUri: user.photo,
-      isActive: user.isActive,
-      lastLoginAt: user.lastLoginAt,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
-      languages: languagesDto,
-      interestTopics: interestTopicsDto
-    };
-  }
-  
   async findAll(): Promise<UserResponseDto[]> {
     const users = await this.userRepository.find({
       relations: ['languages', 'interestTopics']
     });
-    return users.map(user => this.mapToResponseDto(user));
+    return UserMapper.toResponseDtoArray(users);
   }
 
-  async update(
-    id: number,
-    updateDto: UpdateUserRequestDto,
-    photo: Express.Multer.File | undefined,
-    baseUrl: string
-  ): Promise<UserResponseDto> {
+  async update(id: number, updateDto: UpdateUserRequestDto, photo: Express.Multer.File | undefined, baseUrl: string): Promise<UserResponseDto> {
     const user = await this.findById(id);
     if (!user) {
-      throw new BadRequestException('User not found');
+      throw new NotFoundException(`User with ID ${id} not found`);
     }
 
-    if (typeof updateDto.username === 'string') user.username = updateDto.username;
-    if (typeof updateDto.nationality !== 'undefined') user.nationality = updateDto.nationality;
-    if (typeof updateDto.personalDescription === 'string') user.personalDescription = updateDto.personalDescription;
+    const pipeline = new UserUpdatePipeline()
+      .addStep(new UpdateUserFieldsStep(user, updateDto))
+      .addStep(new UpdateUserPhotoStep(user, updateDto, photo, baseUrl, this.photoUploadService))
+      .addStep(new SaveUserStep(user, this.userRepository))
+      .addStep(new UpdateUserRelationsStep(user.id, updateDto, this.userLanguageService, this.userInterestTopicService));
+    await pipeline.execute();
 
-    if (updateDto.removePhoto) {
-      user.photo = undefined;
+    const updatedUser = await this.findById(user.id);
+    return UserMapper.toResponseDto(updatedUser!);
+  }
+
+  private async validateUniqueEmail(email: string): Promise<void> {
+    this.validateRequiredField(email, 'Email');
+    const normalizedEmail = email.toLowerCase().trim();
+    const existingUser = await this.userRepository.findByEmail(normalizedEmail);
+    if (existingUser) {
+      throw new ConflictException('Email is already in use');
     }
+  }
 
-    if (photo) {
-      try {
-        this.fileUploadService.validateImageFile(photo);
-        const fileName = this.fileUploadService.saveFile(photo);
-        const url = this.fileUploadService.getFileUrl(fileName, baseUrl);
-        user.photo = url || undefined;
-      } catch (error) {
-        throw new BadRequestException(error.message);
-      }
+  private async validateUniqueUsername(username: string): Promise<void> {
+    this.validateRequiredField(username, 'Username');
+    const normalizedUsername = username.trim();
+    const existingUser = await this.userRepository.findByUsername(normalizedUsername);
+    if (existingUser) {
+      throw new ConflictException('Username is already in use');
     }
+  }
 
-    await this.userRepository.save(user);
-
-    // Parse languages if they come as string
-    let languagesToProcess = updateDto.languages;
-    if (typeof updateDto.languages === 'string') {
-      try {
-        languagesToProcess = JSON.parse(updateDto.languages);
-      } catch (error) {
-        languagesToProcess = [];
-      }
+  private validateRequiredField(value: string, fieldName: string): void {
+    if (!value?.trim()) {
+      throw new BadRequestException(`${fieldName} is required`);
     }
+  }
 
-    if (Array.isArray(languagesToProcess)) {
-      await this.userLanguageRepository.delete({ userId: user.id });
-      const userLanguages = languagesToProcess.map(lang => {
-        const ul = new UserLanguage();
-        ul.userId = user.id;
-        ul.user = user;
-        ul.languageCode = lang.languageCode;
-        ul.fluencyLevel = lang.fluencyLevel;
-        return ul;
-      });
-      if (userLanguages.length > 0) {
-        await this.userLanguageRepository.save(userLanguages);
-      }
-    }
+  private async validateUniqueFields(email: string, username: string): Promise<void> {
+    await Promise.all([
+      this.validateUniqueEmail(email),
+      this.validateUniqueUsername(username)
+    ]);
+  }
 
-    // Parse interestTopics if they come as string
-    let topicsToProcess = updateDto.interestTopics;
-    if (typeof updateDto.interestTopics === 'string') {
-      try {
-        topicsToProcess = JSON.parse(updateDto.interestTopics);
-      } catch (error) {
-        topicsToProcess = [];
-      }
-    }
+  private async buildUserEntity(createUserDto: CreateUserRequestDto): Promise<User> {
+    const hashedPassword = await this.passwordService.hashPassword(createUserDto.password);
+    return UserBuilder.fromDto(createUserDto, hashedPassword).build();
+  }
 
-    if (Array.isArray(topicsToProcess)) {
-      await this.userInterestTopicRepository.delete({ userId: user.id });
-      const userInterestTopics = topicsToProcess.map(topic => {
-        const uit = new UserInterestTopic();
-        uit.userId = user.id;
-        uit.user = user;
-        uit.topic = topic;
-        return uit;
-      });
-      if (userInterestTopics.length > 0) {
-        await this.userInterestTopicRepository.save(userInterestTopics);
-      }
-    }
-
-    const updated = await this.findById(user.id);
-    return this.mapToResponseDto(updated!);
+  private async processUserRelations(user: User, createUserDto: CreateUserRequestDto): Promise<void> {
+    const languagesData = this.userLanguageService.parseLanguagesData(createUserDto.languages);
+    const topicsData = this.userInterestTopicService.parseInterestTopicsData(createUserDto.interestTopics);
+    await Promise.all([
+      this.userLanguageService.createUserLanguages(user, languagesData),
+      this.userInterestTopicService.createUserInterestTopics(user, topicsData)
+    ]);
   }
 }
