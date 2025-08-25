@@ -55,7 +55,7 @@ const CountdownScreen: React.FC<CountdownScreenProps> = ({
       {countdown === 0 && (
         <View className="w-32 h-32 bg-green-500 rounded-full items-center justify-center">
           <Text className="text-3xl font-nunito-extrabold text-appBgWhite">
-            GO!
+            {t("wordBuilder.go")}
           </Text>
         </View>
       )}

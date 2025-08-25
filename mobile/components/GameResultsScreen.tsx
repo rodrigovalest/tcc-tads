@@ -110,7 +110,7 @@ const GameResultsScreen: React.FC<GameResultsScreenProps> = ({
           {gameResult.incorrectWords.length > 0 && (
             <View className="w-full mb-6">
               <Text className="text-xl font-nunito-bold text-appDarkGrey mb-3">
-                ❌ Incorrect words:
+                ❌ {t("wordBuilder.incorrectWords")}:
               </Text>
               <View className="bg-red-50 rounded-lg p-4 border border-red-200">
                 <View className="flex-row flex-wrap">

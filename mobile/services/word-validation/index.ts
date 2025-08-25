@@ -1,7 +1,7 @@
 // Word validation service using nspell loading real Hunspell assets (.aff/.dic)
 import type { MatchLanguage } from "../../models/types/match-language.type";
 import { Asset } from "expo-asset";
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from "expo-file-system";
 // @ts-ignore - nspell sem tipos completos
 const nspell = require("nspell");
 
@@ -75,7 +75,9 @@ const MIN_FALLBACK: Record<MatchLanguage, LoadedDictionary> = {
 };
 
 // NOVO: carregamento lazy por idioma (evita baixar todos e falhar em um bloqueando os demais)
-async function loadDictionaryForLanguage(language: MatchLanguage): Promise<LoadedDictionary> {
+async function loadDictionaryForLanguage(
+  language: MatchLanguage
+): Promise<LoadedDictionary> {
   if (assetsCache && assetsCache[language]) return assetsCache[language];
   const files = DICT_FILES[language];
   if (!files) return MIN_FALLBACK[language];
@@ -87,19 +89,28 @@ async function loadDictionaryForLanguage(language: MatchLanguage): Promise<Loade
 
     async function readAsset(a: Asset): Promise<string> {
       if (a.localUri) {
-        return await FileSystem.readAsStringAsync(a.localUri, { encoding: FileSystem.EncodingType.UTF8 });
+        return await FileSystem.readAsStringAsync(a.localUri, {
+          encoding: FileSystem.EncodingType.UTF8,
+        });
       }
       // fallback: tentar via fetch (raro quando já possui localUri)
-      return await fetch(a.uri).then(r => r.text());
+      return await fetch(a.uri).then((r) => r.text());
     }
 
-    const [affText, dicText] = await Promise.all([readAsset(affAsset), readAsset(dicAsset)]);
+    const [affText, dicText] = await Promise.all([
+      readAsset(affAsset),
+      readAsset(dicAsset),
+    ]);
     const loaded = { aff: affText, dic: dicText };
     assetsCache![language] = loaded;
-    if (__DEV__) console.log(`[WordValidation] Loaded dictionary for ${language}`);
+    if (__DEV__)
+      console.log(`[WordValidation] Loaded dictionary for ${language}`);
     return loaded;
   } catch (e) {
-    console.warn(`[WordValidation] Failed to load dictionary for ${language}, using minimal fallback`, e);
+    console.warn(
+      `[WordValidation] Failed to load dictionary for ${language}, using minimal fallback`,
+      e
+    );
     const fb = MIN_FALLBACK[language];
     assetsCache![language] = fb;
     return fb;
@@ -200,7 +211,7 @@ export function clearSpellCheckerCache(langs?: MatchLanguage[]) {
   }
 }
 export async function preloadSpellCheckers(langs: MatchLanguage[]) {
-  await Promise.all(langs.map(l => getSpellChecker(l)));
+  await Promise.all(langs.map((l) => getSpellChecker(l)));
 }
 
 // Legacy names

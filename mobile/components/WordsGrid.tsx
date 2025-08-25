@@ -27,22 +27,30 @@ const WordsGrid: React.FC<WordsGridProps> = ({ words }) => {
         className="flex-1"
         contentContainerStyle={{ paddingRight: 20 }}
       >
-        <View className="flex-row">
-          {chunkedWords.map((column, columnIndex) => (
-            <View key={columnIndex} className="mr-4">
-              {column.map((word, wordIndex) => (
-                <View
-                  key={`${columnIndex}-${wordIndex}`}
-                  className="bg-appLightGrey rounded-lg px-3 py-2 mb-2 border border-appMediumGrey"
-                >
-                  <Text className="text-base font-nunito-medium text-appDarkGrey">
-                    {word}
-                  </Text>
-                </View>
-              ))}
-            </View>
-          ))}
-        </View>
+        {words.length === 0 ? (
+          <View className="flex-1 items-center justify-center py-8">
+            <Text className="text-base font-nunito-medium text-appMediumGrey text-center">
+              {t("wordBuilder.noWordsYet")}
+            </Text>
+          </View>
+        ) : (
+          <View className="flex-row">
+            {chunkedWords.map((column, columnIndex) => (
+              <View key={columnIndex} className="mr-4">
+                {column.map((word, wordIndex) => (
+                  <View
+                    key={`${columnIndex}-${wordIndex}`}
+                    className="bg-appLightGrey rounded-lg px-3 py-2 mb-2 border border-appMediumGrey"
+                  >
+                    <Text className="text-base font-nunito-medium text-appDarkGrey">
+                      {word}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            ))}
+          </View>
+        )}
       </ScrollView>
     </View>
   );

@@ -77,6 +77,7 @@
     "wordsFound": "Words found",
     "score": "Score",
     "correctWords": "Correct words",
+    "incorrectWords": "Incorrect words",
     "enterWord": "Enter word",
     "submit": "Submit",
     "gameOver": "Game Over!",
@@ -88,7 +89,10 @@
     "yes": "Yes",
     "no": "No",
     "getReady": "Get Ready!",
-    "startingIn": "Starting in"
+    "startingIn": "Starting in",
+    "go": "GO!",
+    "noWordsYet": "No words found yet. Start typing!",
+    "wordsRemaining": "words remaining"
   },
   "navigation": {
     "matches": "Matches",

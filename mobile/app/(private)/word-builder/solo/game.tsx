@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
-import { View, KeyboardAvoidingView, Platform } from "react-native";
+import { View, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import useMatchStore from "../../../../store/match-store";
 import { useWordBuilderGame } from "../../../../hooks/useWordBuilderGame";
 import { MatchLanguage } from "../../../../models/types/match-language.type";
+import { useI18n } from "../../../../hooks/useI18n";
 
 // Components
 import CountdownScreen from "../../../../components/CountdownScreen";
@@ -16,6 +17,7 @@ import GameResultsScreen from "../../../../components/GameResultsScreen";
 
 export default function WordBuilderGame() {
   const router = useRouter();
+  const { t } = useI18n();
   const { matchLanguage, resetMatch } = useMatchStore();
 
   const {
@@ -78,28 +80,41 @@ export default function WordBuilderGame() {
 
   // Main game screen
   return (
-    <SafeAreaView className="flex-1 bg-appBgWhite">
+    <View
+      className="flex-1 bg-appBgWhite"
+      style={{ paddingTop: Platform.OS === "android" ? 40 : 0 }}
+    >
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-        className="flex-1"
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={0}
       >
-        <View className="flex-1 flex-col px-0">
-          {/* Row: exit button is inside header component (first row) */}
-          <GameHeader
-            timeLeft={gameState.timeLeft}
-            currentLetter={gameState.currentLetter}
-            onExit={handleExitGame}
-          />
-          {/* Spacer */}
-          <View className="h-3" />
-          {/* Row: words grid */}
-          <View className="flex-1 px-4">
-            <WordsGrid words={gameState.wordsFound} />
+        <View style={{ flex: 1 }}>
+          {/* Header fixo */}
+          <View>
+            <GameHeader
+              timeLeft={gameState.timeLeft}
+              currentLetter={gameState.currentLetter}
+              gameLanguage={matchLanguage as MatchLanguage}
+              onExit={handleExitGame}
+            />
+            <View className="h-3" />
           </View>
-          {/* Spacer */}
-          <View className="h-3" />
-          {/* Row: input */}
-          <View className="px-0">
+
+          {/* Área scrollável */}
+          <ScrollView
+            style={{ flex: 1 }}
+            contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+          >
+            <View className="flex-1 px-4">
+              <WordsGrid words={gameState.wordsFound} />
+            </View>
+          </ScrollView>
+
+          {/* Input fixo na parte inferior */}
+          <View className="px-0 pb-4" style={{ backgroundColor: "#fff" }}>
             <WordInput
               onSubmitWord={addWord}
               isGameActive={gameState.isGameActive}
@@ -107,13 +122,12 @@ export default function WordBuilderGame() {
           </View>
         </View>
 
-        {/* Exit confirmation modal */}
         <ExitGameModal
           visible={showExitModal}
           onConfirm={handleExitToResults}
           onCancel={cancelExitGame}
         />
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </View>
   );
 }

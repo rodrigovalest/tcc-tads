@@ -4,16 +4,20 @@ import { Ionicons } from "@expo/vector-icons";
 import IconButton from "./IconButton";
 import useI18n from "../hooks/useI18n";
 import { COLORS } from "../constants/colors";
+import { MatchLanguage } from "../models/types/match-language.type";
+import { getMatchLanguageFlag } from "../utils/match-language-utils";
 
 interface GameHeaderProps {
   timeLeft: number;
   currentLetter: string;
+  gameLanguage: MatchLanguage;
   onExit: () => void;
 }
 
 const GameHeader: React.FC<GameHeaderProps> = ({
   timeLeft,
   currentLetter,
+  gameLanguage,
   onExit,
 }) => {
   const { t } = useI18n();
@@ -27,6 +31,8 @@ const GameHeader: React.FC<GameHeaderProps> = ({
       .toString()
       .padStart(2, "0")}:${cs.toString().padStart(2, "0")}`;
   };
+
+  const languageFlag = getMatchLanguageFlag(gameLanguage);
 
   return (
     <View className="w-full px-4 pt-2">
@@ -52,6 +58,7 @@ const GameHeader: React.FC<GameHeaderProps> = ({
             {formatTime(timeLeft)} | {t("wordBuilder.letter")}{" "}
             {currentLetter.toUpperCase()}
           </Text>
+          <Text className="text-xl ml-2">{languageFlag}</Text>
         </View>
       </View>
     </View>

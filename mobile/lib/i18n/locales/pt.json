@@ -77,6 +77,7 @@
     "wordsFound": "Palavras encontradas",
     "score": "Pontuação",
     "correctWords": "Palavras corretas",
+    "incorrectWords": "Palavras incorretas",
     "enterWord": "Digite a palavra",
     "submit": "Enviar",
     "gameOver": "Fim de Jogo!",
@@ -88,7 +89,10 @@
     "yes": "Sim",
     "no": "Não",
     "getReady": "Prepare-se!",
-    "startingIn": "Iniciando em"
+    "startingIn": "Iniciando em",
+    "go": "VAI!",
+    "noWordsYet": "Nenhuma palavra encontrada ainda. Comece a digitar!",
+    "wordsRemaining": "palavras restantes"
   },
   "navigation": {
     "matches": "Partidas",
