@@ -1,9 +1,9 @@
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { MatchLanguage } from '../../match/entities/match-language.enum';
 import { MatchMode } from '../../match/entities/match-mode.enum';
 import { MatchFormat } from '../../match/entities/match-format.enum';
-import { User } from "../../user/entities/user.entity";
 import { MatchStatus } from "../../match/entities/match-status.enum";
+import { UserMatch } from "./user-match.entity";
 
 @Entity()
 export class Match {
@@ -29,9 +29,8 @@ export class Match {
   @Column({ type: 'enum', enum: MatchStatus, nullable: false })
   status!: MatchStatus;
 
-  @ManyToMany(() => User, { cascade: true })
-  @JoinTable()
-  users: User[];
+  @OneToMany(() => UserMatch, userMatch => userMatch.match)
+  userMatches: UserMatch[];
 
   @CreateDateColumn()
   createdAt: Date;
@@ -43,13 +42,11 @@ export class Match {
     mode: MatchMode,
     format: MatchFormat,
     language: MatchLanguage,
-    users: User[],
-    status: MatchStatus = MatchStatus.NOT_STARTED
+    status: MatchStatus = MatchStatus.IN_PROGRESS
   ) {
     this.mode = mode;
     this.format = format;
     this.language = language;
-    this.users = users;
     this.status = status;
   }
 }

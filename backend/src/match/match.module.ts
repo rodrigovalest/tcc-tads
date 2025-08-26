@@ -5,10 +5,11 @@ import { UserQueue } from './entities/user-queue.entity';
 import { QueueService } from './services/queue.service';
 import { Match } from './entities/match.entity';
 import { MatchController } from './controllers/match.controller';
+import { UserMatch } from './entities/user-match.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserQueue, Match])
+    TypeOrmModule.forFeature([UserQueue, Match, UserMatch])
   ],
   controllers: [
     MatchController

@@ -42,6 +42,7 @@ export class JustChillingDuoGateway implements OnGatewayDisconnect {
     );
   }
 
+  @UseGuards(JwtWsAuthGuard)
   @SubscribeMessage('just-chilling:duo:webrtc:offer')
   handleOffer(
     @CurrentWsUser() user: IUserJwtPayload,
@@ -56,6 +57,7 @@ export class JustChillingDuoGateway implements OnGatewayDisconnect {
     });
   }
 
+  @UseGuards(JwtWsAuthGuard)
   @SubscribeMessage('just-chilling:duo:webrtc:answer')
   handleAnswer(
     @CurrentWsUser() user: IUserJwtPayload,
@@ -70,6 +72,7 @@ export class JustChillingDuoGateway implements OnGatewayDisconnect {
     });
   }
 
+  @UseGuards(JwtWsAuthGuard)
   @SubscribeMessage('just-chilling:duo:webrtc:ice-candidate')
   handleIceCandidate(
     @CurrentWsUser() user: IUserJwtPayload,
@@ -82,15 +85,6 @@ export class JustChillingDuoGateway implements OnGatewayDisconnect {
       from: client.id,
       candidate: payload.candidate,
     });
-  }
-
-  @SubscribeMessage('just-chilling:duo:confirm-start')
-  async confirmMatchStart(
-    @CurrentWsUser() user: IUserJwtPayload,
-    @MessageBody() payload: { matchId: string }
-  ) {
-    this.logger.log(`[just-chilling:duo:confirm-start] User ${user.sub} confirmed start for match ${payload.matchId}`);
-    await this.justChillingDuoService.confirmStartMatch(user.sub, payload.matchId);
   }
 
   async handleDisconnect(client: Socket) {

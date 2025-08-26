@@ -40,7 +40,7 @@ export class JustChillingDuoService {
         MatchMode.JUST_CHILLING,
         MatchFormat.DUO,
         language,
-        users.map(u => ({ id: u.userId }))
+        users
       );
 
       this.logger.log(`Starting just-chilling ${match} with users: ${users.map(u => `${u.userId}`).join(', ')}`);
@@ -53,19 +53,15 @@ export class JustChillingDuoService {
       });
     }
   }
-
-  async confirmStartMatch(
-    userId: number,
-    matchId: string
-  ): Promise<void> {
-    // await this.matchService.startMatch(matchId);
-  }
-
+  
   async handleDisconnect(socketId: string): Promise<void> {
     const userQueue = await this.queueService.findUserBySocketId(socketId);
-    if (!userQueue) return;
+    
+    if (userQueue) {
+      await this.queueService.removeUser(userQueue);
+      return;
+    }
 
-    await this.queueService.removeUser(userQueue);
-    // await this.matchService.completeMatch(userQueue.userId);
+    await this.matchService.completeMatch(socketId);
   }
 }

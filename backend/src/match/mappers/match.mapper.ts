@@ -11,10 +11,12 @@ export class MatchMapper {
       format: match.format,
       language: match.language,
       status: match.status,
-      users: match.users?.map(u => ({
-        username: u.username,
-        nationality: u.nationality,
-      })) ?? [],
+      users: match.userMatches.map(u => (
+        {
+          username: u.user.username,
+          nationality: u.user.nationality
+        }
+      )) ?? []
     };
   }
 

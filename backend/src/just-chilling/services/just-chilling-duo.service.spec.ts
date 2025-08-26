@@ -93,7 +93,7 @@ describe('JustChillingDuoService', () => {
       MatchMode.JUST_CHILLING,
       MatchFormat.DUO,
       language,
-      [{ id: mockUsers[0].userId }, { id: mockUsers[1].userId }]
+      mockUsers
     );
 
     expect(eventEmitterMock.emit).toHaveBeenCalledWith(

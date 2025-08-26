@@ -16,6 +16,8 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
 import { JwtStrategy } from '../../auth/strategies/jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ListMatchesResponseDto } from '../dtos/list-matches-response.dto';
+import { User } from 'src/user/entities/user.entity';
+import { UserMatch } from '../entities/user-match.entity';
 
 describe('AuthController', () => {
   let app: INestApplication;
@@ -47,7 +49,7 @@ describe('AuthController', () => {
       JwtStrategy,
     ],
   })
-  class TestModule {}
+  class TestModule { }
 
   beforeAll(async () => {
     const moduleRef: TestingModule = await Test.createTestingModule({
@@ -82,6 +84,26 @@ describe('AuthController', () => {
     }
     const mockedJwtToken = jwtService.sign(mockedLoggedJwtPayload);
 
+    const userMatches = [{
+      id: 1,
+      match: undefined as unknown as Match,
+      socketId: 'test-socket-id',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      user: {
+        id: 1,
+        username: 'testuser',
+        email: 'testuser@example.com',
+        password: 'hashedpassword',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        nationality: CountryCode.Afghanistan,
+        isActive: true,
+        lastLoginAt: new Date(),
+        userMatches: [],
+      },
+    }] as UserMatch[];
+
     const mockMatches: Match[] = [
       {
         id: '1',
@@ -91,19 +113,7 @@ describe('AuthController', () => {
         format: MatchFormat.SOLO,
         language: MatchLanguage.EN,
         status: MatchStatus.COMPLETED,
-        users: [
-          {
-            id: 1,
-            username: 'testuser',
-            email: 'testuser@example.com',
-            password: 'hashedpassword',
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            nationality: CountryCode.Afghanistan,
-            isActive: true,
-            lastLoginAt: new Date(),
-          }
-        ],
+        userMatches: userMatches,
         createdAt: new Date(),
         updatedAt: new Date(),
       }
@@ -114,9 +124,9 @@ describe('AuthController', () => {
         id: '1',
         startTime: mockMatches[0].startTime.toISOString(),
         endTime: mockMatches[0].endTime.toISOString(),
-        mode:  mockMatches[0].mode,
-        format:  mockMatches[0].format,
-        language:  mockMatches[0].language,
+        mode: mockMatches[0].mode,
+        format: mockMatches[0].format,
+        language: mockMatches[0].language,
         status: mockMatches[0].status,
         users: [{ username: 'testuser', nationality: CountryCode.Afghanistan }]
       }
