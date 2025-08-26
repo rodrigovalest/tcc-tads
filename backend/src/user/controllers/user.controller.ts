@@ -15,10 +15,10 @@ export class UserController {
   @Post()
   @HttpCode(HttpStatus.CREATED) 
   @UseInterceptors(FileInterceptor('photo', {limits: {fileSize: 10 * 1024 * 1024,},}))
-  async create(@Body() createUserDto: CreateUserRequestDto, @UploadedFile() photo: Express.Multer.File, @Req() request: Request): Promise<{ user: UserResponseDto }> {
+  async create(@Body() createUserDto: CreateUserRequestDto, @UploadedFile() photo: Express.Multer.File, @Req() request: Request): Promise<UserResponseDto> {
     const baseUrl = `${request.protocol}://${request.get('host')}`;
     const user = await this.userService.createWithPhoto(createUserDto, photo, baseUrl);
-    return { user };
+    return user;
   }
   
   @Get()

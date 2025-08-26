@@ -33,13 +33,16 @@ export class UpdateUserRequestDto {
   @Type(() => UpdateUserLanguageDto)
   @Transform(({ value }) => {
     if (typeof value === 'string') {
-      try {
-        return JSON.parse(value);
-      } catch {
-        return value;
+      const parsed = JSON.parse(value);
+      if (!Array.isArray(parsed)) {
+        throw new Error('languages must be an array');
       }
+      return parsed;
     }
-    return value;
+    if (Array.isArray(value)) {
+      return value;
+    }
+    return undefined;
   })
   readonly languages?: UpdateUserLanguageDto[];
 
@@ -48,13 +51,16 @@ export class UpdateUserRequestDto {
   @IsString({ each: true })
   @Transform(({ value }) => {
     if (typeof value === 'string') {
-      try {
-        return JSON.parse(value);
-      } catch {
-        return value;
+      const parsed = JSON.parse(value);
+      if (!Array.isArray(parsed)) {
+        throw new Error('interestTopics must be an array');
       }
+      return parsed;
     }
-    return value;
+    if (Array.isArray(value)) {
+      return value;
+    }
+    return undefined;
   })
   readonly interestTopics?: string[];
 
@@ -62,9 +68,14 @@ export class UpdateUserRequestDto {
   @IsBoolean()
   @Transform(({ value }) => {
     if (typeof value === 'string') {
-      return value === 'true';
+      if (value === 'true') return true;
+      if (value === 'false') return false;
+      throw new Error('removePhoto must be "true" or "false"');
     }
-    return value;
+    if (typeof value === 'boolean') {
+      return value;
+    }
+    return undefined;
   })
   readonly removePhoto?: boolean;
 }

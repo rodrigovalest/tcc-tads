@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export type ApiError = {
   status: number;
@@ -6,9 +7,26 @@ export type ApiError = {
 };
 
 const api = axios.create({
-  baseURL: process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:3000',
+  baseURL: process.env.EXPO_PUBLIC_API_URL ?? 'http://192.168.2.100:3000',
   timeout: 30000,
 });
+
+api.interceptors.request.use(
+  async (config) => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    } catch (error) {
+      console.warn('Failed to get token from storage:', error);
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 api.interceptors.response.use(
   (response) => response,
@@ -18,8 +36,6 @@ api.interceptors.response.use(
       (error.response?.data as any)?.message ||
       error.message ||
       'Something went wrong';
-
-    console.error('[API Error]', error.toJSON());
 
     return Promise.reject({ status, message });
   }

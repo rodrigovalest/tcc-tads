@@ -12,12 +12,11 @@ export function useRegister() {
 
   return useMutation<void, ApiError, IRegisterRequest>({
     mutationFn: async (data) => {
-      return await authService.register(data);
+      await authService.register(data);
     },
 
-    onSuccess: () => {
+    onSuccess: async () => {
       router.replace("/(public)/(auth)/login");
-
       Toast.show({
         type: "success",
         text1: t('register.success.title'),

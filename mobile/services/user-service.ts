@@ -11,9 +11,8 @@ interface UserUpdateData {
   removePhoto?: boolean;
   photoFile?: { uri: string; name: string; type: string } | null;
 }
-class UserService {
-  constructor(private formDataBuilder = new FormDataBuilder()) {}
 
+class UserService {
   async findAll(): Promise<IUserResponse[]> {
     const response = await api.get<IUserResponse[]>("/user");
     return response.data;
@@ -34,25 +33,30 @@ class UserService {
   }
 
   private buildUpdateFormData(data: UserUpdateData): FormData {
-    const builder = this.formDataBuilder.reset();
-    
-    if (data.username) builder.append('username', data.username);
-    if (data.nationality) builder.append('nationality', data.nationality);
-    if (data.personalDescription) builder.append('personalDescription', data.personalDescription);
-    if (data.languages) builder.appendArray('languages', data.languages);
-    if (data.interestTopics) builder.appendArray('interestTopics', data.interestTopics);
-    if (data.removePhoto !== undefined) builder.appendBoolean('removePhoto', data.removePhoto);
-    if (data.photoFile) builder.append('photo', data.photoFile as any);
-    
+    const builder = new FormDataBuilder();
+    const { username, nationality, personalDescription, languages, interestTopics, removePhoto, photoFile } = data;
+    [
+      { key: 'username', value: username },
+      { key: 'nationality', value: nationality },
+      { key: 'personalDescription', value: personalDescription }
+    ].forEach(({ key, value }) => {
+      if (value) builder.append(key, value);
+    });
+    [
+      { key: 'languages', value: languages },
+      { key: 'interestTopics', value: interestTopics }
+    ].forEach(({ key, value }) => {
+      if (value) builder.appendArray(key, value);
+    });
+    if (removePhoto !== undefined) {
+      builder.appendBoolean('removePhoto', removePhoto);
+    }
+    if (photoFile) {
+      builder.append('photo', photoFile as any);
+    }
     return builder.build();
   }
 }
 
-export class UserServiceFactory {
-  static create(): UserService {
-    return new UserService();
-  }
-}
-
-const userService = UserServiceFactory.create();
+const userService = new UserService();
 export default userService;

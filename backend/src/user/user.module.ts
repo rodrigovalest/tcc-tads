@@ -13,7 +13,9 @@ import { PhotoUploadService } from './services/photo-upload.service';
 import { UserRepositoryImpl } from './repositories/user.repository';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, UserLanguage, UserInterestTopic])],
+  imports: [
+    TypeOrmModule.forFeature([User, UserLanguage, UserInterestTopic])
+  ],
   controllers: [UserController],
   providers: [
     UserService,

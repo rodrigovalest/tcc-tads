@@ -41,13 +41,16 @@ export class CreateUserRequestDto {
   @Type(() => UserLanguageDto)
   @Transform(({ value }) => {
     if (typeof value === 'string') {
-      try {
-        return JSON.parse(value);
-      } catch {
-        return [];
+      const parsed = JSON.parse(value);
+      if (!Array.isArray(parsed)) {
+        throw new Error('languages must be an array');
       }
+      return parsed;
     }
-    return value || [];
+    if (Array.isArray(value)) {
+      return value;
+    }
+    return [];
   })
   readonly languages: UserLanguageDto[];
 
@@ -60,13 +63,16 @@ export class CreateUserRequestDto {
   @IsString({ each: true })
   @Transform(({ value }) => {
     if (typeof value === 'string') {
-      try {
-        return JSON.parse(value);
-      } catch {
-        return value;
+      const parsed = JSON.parse(value);
+      if (!Array.isArray(parsed)) {
+        throw new Error('interestTopics must be an array');
       }
+      return parsed;
     }
-    return value;
+    if (Array.isArray(value)) {
+      return value;
+    }
+    return undefined;
   })
   readonly interestTopics?: string[];
 

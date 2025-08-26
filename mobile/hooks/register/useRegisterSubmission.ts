@@ -21,13 +21,6 @@ export function useRegisterSubmission() {
 
   const submitForm = useCallback((formData: MultiStepRegisterData) => {
     const registerData = createRegisterData(formData);
-    
-    console.log('🚀 Submitting registration form with data:', {
-      ...registerData,
-      photo: registerData.photo ? 'Photo URI present' : 'No photo',
-      password: '***hidden***'
-    });
-    
     register(registerData);
   }, [createRegisterData, register]);
   const handleSubmitForm = useCallback((
