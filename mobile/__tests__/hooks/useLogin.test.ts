@@ -77,7 +77,7 @@ describe("useLogin", () => {
     expect(mockReplace).toHaveBeenCalledWith("/(private)/(tabs)/matches");
     expect(mockedToast.show).toHaveBeenCalledWith({
       type: "success",
-      text1: "Login success",
+      text1: "Login successful",
       position: "top",
     });
   });
