@@ -12,8 +12,6 @@ import useI18n from "../hooks/useI18n";
 const LoginForm: React.FC = () => {
   const { mutate: onLogin, isPending } = useLogin();
   const { t } = useI18n();
-
-  // Create schema with translations
   const loginSchema = yup.object().shape({
     email: yup
       .string()

@@ -8,13 +8,34 @@ import { QueryFailedError } from 'typeorm';
 import { QueryFailedErrorFilter } from '../../shared/filters/query-failed-error.filter';
 import { HttpExceptionFilter } from '../../shared/filters/http-exception.filter';
 import { CountryCode } from '../entities/country-code.enum';
+import { UserResponseDto } from '../dtos/responses/user-response.dto';
+
+// Helper function to create test user response
+const createTestUserResponse = (overrides: Partial<UserResponseDto> = {}): UserResponseDto => ({
+  id: 1,
+  username: 'testuser',
+  email: 'test@example.com',
+  nationality: CountryCode.Brazil,
+  personalDescription: undefined,
+  photoUri: undefined,
+  isActive: true,
+  lastLoginAt: undefined,
+  languages: [],
+  interestTopics: [],
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  ...overrides,
+});
 
 describe('UserController', () => {
   let app: INestApplication;
   let userService: jest.Mocked<UserService>;
 
   const mockUserService = {
-    create: jest.fn(),
+    createWithPhoto: jest.fn(),
+    findAll: jest.fn(),
+    findByIdWithDto: jest.fn(),
+    update: jest.fn(),
   };
 
   @Module({
@@ -57,6 +78,14 @@ describe('UserController', () => {
       nationality: 'BR'
     };
 
+    const expectedResponse = createTestUserResponse({
+      username: 'tralalero',
+      email: 'tralalero@example.com',
+      nationality: CountryCode.Brazil,
+    });
+
+    userService.createWithPhoto.mockResolvedValue(expectedResponse);
+
     // Act
     await request(app.getHttpServer())
       .post('/user')
@@ -64,13 +93,17 @@ describe('UserController', () => {
       .expect(201);
 
     // Assert
-    expect(userService.create).toHaveBeenCalledWith(
-      dto.username,
-      dto.email,
-      dto.password,
-      CountryCode.Brazil
+    expect(userService.createWithPhoto).toHaveBeenCalledWith(
+      expect.objectContaining({
+        username: dto.username,
+        email: dto.email,
+        password: dto.password,
+        nationality: CountryCode.Brazil,
+      }),
+      undefined,
+      expect.any(String)
     );
-    expect(userService.create).toHaveBeenCalledTimes(1);
+    expect(userService.createWithPhoto).toHaveBeenCalledTimes(1);
   });
 
   it('createUser_WithInvalidEmailAndPassword_Returns400BadRequest', async () => {
@@ -97,7 +130,7 @@ describe('UserController', () => {
         );
       });
 
-    expect(userService.create).not.toHaveBeenCalled();
+    expect(userService.createWithPhoto).not.toHaveBeenCalled();
   });
 
   it('createUser_WhenUserAlreadyExists_Throws409Conflict', async () => {
@@ -115,7 +148,7 @@ describe('UserController', () => {
       constraint: 'UQ_78a916df40e02a9deb1c4b75edb',
     };
 
-    userService.create.mockRejectedValue(error);
+    userService.createWithPhoto.mockRejectedValue(error);
 
     // Act & Assert
     await request(app.getHttpServer())
@@ -123,12 +156,16 @@ describe('UserController', () => {
       .send(dto)
       .expect(409);
 
-    expect(userService.create).toHaveBeenCalledWith(
-      dto.username,
-      dto.email,
-      dto.password,
-      CountryCode.Brazil
+    expect(userService.createWithPhoto).toHaveBeenCalledWith(
+      expect.objectContaining({
+        username: dto.username,
+        email: dto.email,
+        password: dto.password,
+        nationality: CountryCode.Brazil,
+      }),
+      undefined,
+      expect.any(String)
     );
-    expect(userService.create).toHaveBeenCalledTimes(1);
+    expect(userService.createWithPhoto).toHaveBeenCalledTimes(1);
   });
 });
