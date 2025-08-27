@@ -79,7 +79,7 @@ const Button: React.FC<ButtonProps> = ({
       onPressIn={() => setIsPressed(true)}
       onPressOut={() => setIsPressed(false)}
       disabled={disabled || loading}
-      className={`py-3.5 px-4 rounded-lg items-center justify-center border-2 ${className} ${currentBorderColor} 
+      className={`py-4 px-6 rounded-lg items-center justify-center border-2 min-h-[52px] ${className} ${currentBorderColor} 
       ${currentBgColor} ${disabled || loading ? "opacity-50" : ""}`}
       activeOpacity={1}
       accessibilityRole="button"
@@ -92,35 +92,27 @@ const Button: React.FC<ButtonProps> = ({
           testID="button-activity-indicator"
         />
       ) : (
-        <View className="flex flex-row items-center justify-between w-full">
-          {iconLeft ? (
-            <View className="justify-center items-center px-4">
-              <Icon
-                name={iconLeft}
-                size={iconLeftSize}
-                color={currentIconLeftColor}
-              />
-            </View>
-          ) : (
-            <View className="px-4" style={{ width: 24 }} />
+        <View className="flex-row items-center">
+          {iconLeft && (
+            <Icon
+              name={iconLeft}
+              size={iconLeftSize}
+              color={currentIconLeftColor}
+              style={{ marginRight: 8 }}
+            />
           )}
-          <View className="flex-1 items-center justify-center">
-            <Text
-              className={`font-semibold text-center ${textSize} ${currentTextColor}`}
-            >
-              {title}
-            </Text>
-          </View>
-          {iconRight ? (
-            <View className="justify-center items-center px-4">
-              <Icon
-                name={iconRight}
-                size={iconRightSize}
-                color={currentIconRightColor}
-              />
-            </View>
-          ) : (
-            <View className="px-4" style={{ width: 24 }} />
+          <Text
+            className={`font-semibold text-center ${textSize === 'base' ? 'text-base' : `text-${textSize}`} ${currentTextColor}`}
+          >
+            {title}
+          </Text>
+          {iconRight && (
+            <Icon
+              name={iconRight}
+              size={iconRightSize}
+              color={currentIconRightColor}
+              style={{ marginLeft: 8 }}
+            />
           )}
         </View>
       )}

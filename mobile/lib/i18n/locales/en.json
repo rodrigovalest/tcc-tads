@@ -45,7 +45,126 @@
     "enterEmailOrUsername": "Enter your email or username",
     "isRequired": "is required",
     "mustHaveAtLeast": "must have at least",
-    "characters": "characters"
+    "characters": "characters",
+    "loginMessages": {
+      "success": {
+        "title": "Login successful"
+      },
+      "error": {
+        "title": "Login error",
+        "message": "Something went wrong. Try again"
+      }
+    }
+  },
+  "register": {
+    "steps": {
+      "basicInfo": "Information",
+      "languages": "Languages",
+      "photo": "Profile Photo",
+      "interests": "Interests",
+      "description": "Description"
+    },
+    "stepper": {
+      "step": "Step",
+      "of": "of"
+    },
+    "photo": {
+      "title": "Add a profile photo",
+      "subtitle": "A profile photo helps other users recognize you",
+      "takePhoto": "Take Photo",
+      "chooseFromGallery": "Choose from Gallery",
+      "removePhoto": "Remove photo",
+      "removePhotoConfirm": "Are you sure you want to remove the profile photo?",
+      "remove": "Remove",
+      "optional": "This step is optional. You can skip and add a photo later.",
+      "loading": "Loading...",
+      "permissionRequired": "Permission required",
+      "cameraPermission": "We need permission to access your camera.",
+      "galleryPermission": "We need permission to access your photo gallery.",
+      "errorTitle": "Error",
+      "errorSelectImage": "Could not select the image.",
+      "errorTakePhoto": "Could not take the photo."
+    },
+    "interests": {
+      "title": "Select up to 3 topics of interest",
+      "selected": "Selected",
+      "canSelectMore": "Select the topics that interest you most",
+      "maxSelected": "You have already selected the maximum number of topics allowed",
+      "selectToSeeHere": "Select topics to see them here"
+    },
+    "description": {
+      "title": "Tell us a little about yourself",
+      "subtitle": "Share your interests, hobbies or any information that helps other users get to know you better",
+      "label": "Personal description",
+      "placeholder": "Ex: I'm passionate about technology, love to travel and discover new cultures. I enjoy reading science fiction books and practicing outdoor sports...",
+      "charactersCount": "characters",
+      "optional": "This step is optional. You can skip and add a description later."
+    },
+    "languages": {
+      "title": "Select your languages and fluency levels",
+      "fluencyLevel": "Fluency level:",
+      "levels": {
+        "1": "Basic",
+        "2": "Elementary",
+        "3": "Intermediate", 
+        "4": "Advanced",
+        "5": "Fluent"
+      },
+      "instruction": "Select at least one language to continue"
+    },
+    "buttons": {
+      "back": "Back",
+      "skip": "Skip",
+      "next": "Next",
+      "finish": "Register"
+    },
+    "validation": {
+      "fillRequired": "Please fill in all required fields before continuing.",
+      "invalidEmail": "Please enter a valid email address.",
+      "passwordTooShort": "Password must be at least 6 characters long.",
+      "passwordsDoNotMatch": "Passwords do not match."
+    },
+    "errors": {
+      "usernameRequired": "Username is required",
+      "emailRequired": "Email is required",
+      "invalidEmail": "Please enter a valid email address",
+      "passwordRequired": "Password is required",
+      "passwordTooShort": "Password must be at least 6 characters long",
+      "confirmPasswordRequired": "Password confirmation is required",
+      "passwordsDoNotMatch": "Passwords do not match",
+      "nationalityRequired": "Nationality is required",
+      "languagesRequired": "Select at least one language"
+    },
+    "success": {
+      "title": "Registration successful",
+      "message": "You can now log in with your credentials."
+    },
+    "error": {
+      "title": "Registration error",
+      "message": "Something went wrong. Try again."
+    },
+    "topics": {
+      "technology": "Technology",
+      "sports": "Sports",
+      "music": "Music", 
+      "art": "Art",
+      "literature": "Literature",
+      "travel": "Travel",
+      "cooking": "Cooking",
+      "photography": "Photography",
+      "games": "Games",
+      "science": "Science",
+      "history": "History",
+      "politics": "Politics",
+      "fashion": "Fashion",
+      "health": "Health",
+      "education": "Education",
+      "business": "Business",
+      "environment": "Environment",
+      "cinema": "Cinema",
+      "theater": "Theater",
+      "dance": "Dance"
+    }
   },
   "match": {
     "playToChallenge": "Play to challenge yourself!",
@@ -65,6 +184,9 @@
     "matchModes": {
       "conversation": "Conversation",
       "justChilling": "Just Chilling"
+    },
+    "errors": {
+      "somethingWentWrong": "Something went wrong!"
     }
   },
   "navigation": {
@@ -91,7 +213,25 @@
   "languages": {
     "pt": "Portuguese",
     "en": "English",
-    "es": "Spanish"
+    "es": "Spanish",
+    "fr": "French",
+    "de": "German",
+    "it": "Italian",
+    "ja": "Japanese",
+    "ko": "Korean",
+    "zh": "Chinese",
+    "ru": "Russian",
+    "ar": "Arabic",
+    "hi": "Hindi",
+    "nl": "Dutch",
+    "sv": "Swedish",
+    "no": "Norwegian",
+    "da": "Danish",
+    "fi": "Finnish",
+    "pl": "Polish",
+    "cs": "Czech",
+    "tr": "Turkish",
+    "th": "Thai"
   },
   "errors": {
     "networkError": "Network error",

@@ -1,6 +1,6 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
-import RegisterForm from "../../../components/RegisterForm";
+import MultiStepRegisterForm from "../../../components/MultiStepRegisterForm";
 import Button from "../../../components/Button";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -13,10 +13,6 @@ export default function Register() {
   const handleLogin = () => {
     router.replace("/(public)/(auth)/login");
   };
-
-  function handleGoogleRegister(): void {
-    throw new Error("Function not implemented.");
-  }
 
   return (
     <SafeAreaView
@@ -47,27 +43,7 @@ export default function Register() {
         </View>
 
         <View style={{ zIndex: 1000 }}>
-          <RegisterForm />
-        </View>
-
-        <View className="mt-4" style={{ zIndex: 0 }}>
-          <Button
-            title={t('auth.registerWithGoogle')}
-            onPress={handleGoogleRegister}
-            className="mb-2"
-            loading={false}
-            textColor="text-black"
-            textColorActivate="text-white"
-            textSize="2xl"
-            bgColor="bg-white"
-            bgColorActivate="bg-black"
-            borderColor="border-appLightGrey"
-            borderColorActivate="border-black"
-            iconLeft="google"
-            iconLeftColor="black"
-            iconLeftColorActivate="white"
-            testID="google-register-button"
-          />
+          <MultiStepRegisterForm />
         </View>
       </ScrollView>
     </SafeAreaView>

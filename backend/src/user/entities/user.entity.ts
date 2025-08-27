@@ -1,6 +1,8 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { CountryCode } from "./country-code.enum";
 import { UserMatch } from "../../match/entities/user-match.entity";
+import { UserLanguage } from "./user-language.entity";
+import { UserInterestTopic } from "./user-interest-topic.entity";
 
 @Entity()
 export class User {
@@ -19,6 +21,12 @@ export class User {
   @Column({ type: 'enum', enum: CountryCode, nullable: false })
   nationality: CountryCode;
 
+  @Column({ nullable: true, length: 500 })
+  personalDescription?: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  photo?: string;
+
   @Column({ default: true })
   isActive: boolean;
 
@@ -33,6 +41,12 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany(() => UserLanguage, userLanguage => userLanguage.user, { cascade: true })
+  languages: UserLanguage[];
+
+  @OneToMany(() => UserInterestTopic, userInterestTopic => userInterestTopic.user, { cascade: true })
+  interestTopics: UserInterestTopic[];
 
   constructor(username: string, email: string, password: string, nationality: CountryCode) {
     this.username = username;
