@@ -112,10 +112,6 @@ const useJustChillingDuo = (redirectOnEnd: () => void) => {
     pc.oniceconnectionstatechange = () => {
       console.log("[ICE] Estado ICE:", pc.connectionState);
 
-      if("connected" === pc.connectionState) {
-        console.log("[ICE] Conexão estabelecida com sucesso.");
-      }
-
       if (["disconnected", "failed", "closed"].includes(pc.connectionState)) {
         endCall();
       }
