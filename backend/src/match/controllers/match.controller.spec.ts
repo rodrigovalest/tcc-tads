@@ -101,6 +101,8 @@ describe('AuthController', () => {
         isActive: true,
         lastLoginAt: new Date(),
         userMatches: [],
+        languages: [],
+        interestTopics: [],
       },
     }] as UserMatch[];
 
@@ -128,7 +130,7 @@ describe('AuthController', () => {
         format: mockMatches[0].format,
         language: mockMatches[0].language,
         status: mockMatches[0].status,
-        users: [{ username: 'testuser', nationality: CountryCode.Afghanistan }]
+        users: [{ id: 1, username: 'testuser', nationality: CountryCode.Afghanistan, photoUri: null }]
       }
     ];
 

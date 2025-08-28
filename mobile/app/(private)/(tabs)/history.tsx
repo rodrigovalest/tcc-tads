@@ -1,5 +1,5 @@
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import useI18n from '../../../hooks/useI18n';
 import { useMatchHistory } from '../../../hooks/useMatchHistory';
 import Spinner from '../../../components/Spinner';
@@ -16,7 +16,9 @@ export default function History() {
   } = useMatchHistory();
 
   if (isLoading) {
-    return <Spinner />
+    return <View className="flex-1 justify-center items-center">
+      <Spinner />
+    </View>;
   }
 
   if (isError && error) {
@@ -31,26 +33,31 @@ export default function History() {
     <SafeAreaView
       className='w-full h-full bg-appBgWhite pt-5'
     >
-      <Text className="text-4xl font-nunito-bold my-8 px-10">
-        {t('navigation.history')}
-      </Text>
-
-      {matchHistoryItems && matchHistoryItems.length === 0 && (
-        <Text className="text-lg font-nunito-regular">
-          no match history available
+      <ScrollView
+        className="w-full h-full bg-appBgWhite"
+        showsVerticalScrollIndicator={false}
+      >
+        <Text className="text-4xl font-nunito-bold my-8 px-10">
+          {t('navigation.history')}
         </Text>
-      )}
 
-      {matchHistoryItems && matchHistoryItems.map((item) => (
-        <MatchHistoryItem
-          key={item.id}
-          startTime={item.startTime}
-          endTime={item.endTime}
-          mode={item.mode}
-          language={item.language}
-          users={item.users}
-        />
-      ))}
+        {matchHistoryItems && matchHistoryItems.length === 0 && (
+          <Text className="text-lg font-nunito-medium py-6 px-10">
+            No match history found. Start a new match to see it here!
+          </Text>
+        )}
+
+        {matchHistoryItems && matchHistoryItems.map((item) => (
+          <MatchHistoryItem
+            key={item.id}
+            startTime={item.startTime}
+            endTime={item.endTime}
+            mode={item.mode}
+            language={item.language}
+            users={item.users}
+          />
+        ))}
+      </ScrollView>
     </SafeAreaView>
   );
 }

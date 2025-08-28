@@ -13,8 +13,10 @@ export class MatchMapper {
       status: match.status,
       users: match.userMatches.map(u => (
         {
+          id: u.user.id,
           username: u.user.username,
-          nationality: u.user.nationality
+          nationality: u.user.nationality,
+          photoUri: u.user.photo ?? null,
         }
       )) ?? []
     };

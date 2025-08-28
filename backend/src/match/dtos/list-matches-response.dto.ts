@@ -7,7 +7,9 @@ export class ListMatchesResponseDto {
   language: string;
   status: string;
   users: Array<{
+    id: number;
     username: string;
     nationality: string;
+    photoUri: string | null;
   }>;
 }
