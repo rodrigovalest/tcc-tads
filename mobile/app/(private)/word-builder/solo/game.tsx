@@ -11,6 +11,7 @@ import { useI18n } from "../../../../hooks/useI18n";
 import CountdownScreen from "../../../../components/CountdownScreen";
 import GameHeader from "../../../../components/GameHeader";
 import WordInput from "../../../../components/WordInput";
+import VoiceInput from "../../../../components/VoiceInput";
 import WordsGrid from "../../../../components/WordsGrid";
 import ExitGameModal from "../../../../components/ExitGameModal";
 import GameResultsScreen from "../../../../components/GameResultsScreen";
@@ -18,7 +19,7 @@ import GameResultsScreen from "../../../../components/GameResultsScreen";
 export default function WordBuilderGame() {
   const router = useRouter();
   const { t } = useI18n();
-  const { matchLanguage, resetMatch } = useMatchStore();
+  const { matchLanguage, inputMode, resetMatch } = useMatchStore();
 
   const {
     gameState,
@@ -35,11 +36,9 @@ export default function WordBuilderGame() {
   } = useWordBuilderGame(matchLanguage as MatchLanguage);
 
   useEffect(() => {
-    // Initialize the game when component mounts
     initializeGame();
 
     return () => {
-      // Clean up when component unmounts
       resetGame();
     };
   }, [initializeGame, resetGame]);
@@ -57,7 +56,6 @@ export default function WordBuilderGame() {
     confirmExitGame();
   };
 
-  // Show countdown screen
   if (isCountingDown) {
     return (
       <CountdownScreen
@@ -67,7 +65,6 @@ export default function WordBuilderGame() {
     );
   }
 
-  // Show game results screen
   if (gameResult) {
     return (
       <GameResultsScreen
@@ -78,7 +75,6 @@ export default function WordBuilderGame() {
     );
   }
 
-  // Main game screen
   return (
     <View
       className="flex-1 bg-appBgWhite"
@@ -90,7 +86,6 @@ export default function WordBuilderGame() {
         keyboardVerticalOffset={0}
       >
         <View style={{ flex: 1 }}>
-          {/* Header fixo */}
           <View>
             <GameHeader
               timeLeft={gameState.timeLeft}
@@ -101,7 +96,6 @@ export default function WordBuilderGame() {
             <View className="h-3" />
           </View>
 
-          {/* Área scrollável */}
           <ScrollView
             style={{ flex: 1 }}
             contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}
@@ -113,12 +107,25 @@ export default function WordBuilderGame() {
             </View>
           </ScrollView>
 
-          {/* Input fixo na parte inferior */}
           <View className="px-0 pb-4" style={{ backgroundColor: "#fff" }}>
-            <WordInput
-              onSubmitWord={addWord}
-              isGameActive={gameState.isGameActive}
-            />
+            {inputMode === "voice" ? (
+              <VoiceInput
+                onSubmitWord={addWord}
+                isGameActive={gameState.isGameActive}
+                language={
+                  matchLanguage === "pt"
+                    ? "pt-BR"
+                    : matchLanguage === "en"
+                    ? "en-US"
+                    : "es-ES"
+                }
+              />
+            ) : (
+              <WordInput
+                onSubmitWord={addWord}
+                isGameActive={gameState.isGameActive}
+              />
+            )}
           </View>
         </View>
 

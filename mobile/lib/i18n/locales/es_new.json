@@ -16,7 +16,7 @@
     "select": "Seleccionar",
     "search": "Buscar",
     "language": "Idioma",
-    "settings": "Configuración",
+    "settings": "Configuraciones",
     "ok": "OK"
   },
   "auth": {
@@ -54,15 +54,15 @@
     "matchFormat": "Formato de partida",
     "matchLanguage": "Idioma de partida",
     "selectLanguage": "Seleccionar idioma",
-    "selectGameMode": "Selecciona modo de juego",
+    "selectGameMode": "Selecciona el modo de juego",
     "waiting": "Esperando...",
     "searchingOpponent": "Buscando oponente...",
     "matchFound": "¡Partida encontrada!",
     "connecting": "Conectando...",
     "disconnected": "Desconectado",
     "reconnecting": "Reconectando...",
-    "formatNotSupported": "Este formato no está disponible aún",
-    "formatComingSoon": "Solo y Group estarán disponibles pronto",
+    "formatNotSupported": "Este formato aún no está disponible",
+    "formatComingSoon": "Solo y Grupo estarán disponibles pronto",
     "matchModes": {
       "conversation": "Conversación",
       "justChilling": "Relajándose",
@@ -133,7 +133,7 @@
     "es": "Español"
   },
   "errors": {
-    "networkError": "Error de red",
+    "networkError": "Error de conexión",
     "serverError": "Error del servidor",
     "unknownError": "Error desconocido",
     "validationError": "Ingresa un correo electrónico válido",

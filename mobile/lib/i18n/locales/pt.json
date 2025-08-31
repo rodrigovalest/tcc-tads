@@ -16,7 +16,8 @@
     "select": "Selecionar",
     "search": "Buscar",
     "language": "Idioma",
-    "settings": "Configurações"
+    "settings": "Configurações",
+    "ok": "OK"
   },
   "auth": {
     "login": "Entrar",
@@ -79,6 +80,7 @@
     "correctWords": "Palavras corretas",
     "incorrectWords": "Palavras incorretas",
     "enterWord": "Digite a palavra",
+    "speakWord": "Fale a palavra",
     "submit": "Enviar",
     "gameOver": "Fim de Jogo!",
     "finalScore": "Pontuação Final",
@@ -92,7 +94,17 @@
     "startingIn": "Iniciando em",
     "go": "VAI!",
     "noWordsYet": "Nenhuma palavra encontrada ainda. Comece a digitar!",
-    "wordsRemaining": "palavras restantes"
+    "wordsRemaining": "palavras restantes",
+    "inputMode": "Modo de Entrada",
+    "typing": "Digitação",
+    "voice": "Voz",
+    "tapToSpeak": "Toque para falar",
+    "listening": "Ouvindo...",
+    "processing": "Processando...",
+    "startListening": "Começar a escutar",
+    "stopListening": "Parar de escutar",
+    "reRecord": "Gravar novamente",
+    "voiceRecognitionError": "Erro no reconhecimento de voz. Tente novamente."
   },
   "navigation": {
     "matches": "Partidas",

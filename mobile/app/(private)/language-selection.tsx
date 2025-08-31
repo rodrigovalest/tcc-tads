@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import { useEffect } from "react";
 import { AVALIABLE_MATCH_MODES } from "../../constants/available-match-modes";
 import IAvaliableMatchMode from "../../models/interfaces/avaliable_match_mode";
 import useMatchStore from "../../store/match-store";
@@ -8,6 +9,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "../../components/Button";
 import MatchFormatSelector from "../../components/MatchFormatSelector";
 import MatchLanguageSelector from "../../components/MatchLanguageSelector";
+import InputModeSelector from "../../components/InputModeSelector";
 import useI18n from "../../hooks/useI18n";
 import Toast from "react-native-toast-message";
 
@@ -16,15 +18,23 @@ export default function LanguageSelection() {
     matchMode,
     matchFormat,
     matchLanguage,
+    inputMode,
     resetMatch,
     setMatchLanguage,
     setMatchFormat,
+    setInputMode,
   } = useMatchStore();
   const { t } = useI18n();
   const router = useRouter();
 
+  useEffect(() => {
+    if (!matchMode) {
+      router.replace("/(private)/(tabs)/matches");
+      return;
+    }
+  }, [matchMode, router]);
+
   if (!matchMode) {
-    router.replace("/(private)/(tabs)/matches");
     return null;
   }
 
@@ -39,11 +49,10 @@ export default function LanguageSelection() {
   const onPlay = () => {
     if (!matchMode || !matchFormat || !matchLanguage) return;
 
-    // Word Builder is a solo game, go directly to the game
     if (matchMode === "word-builder") {
+      if (!inputMode) return;
       router.replace("/(private)/word-builder/solo/game");
     } else {
-      // Other games go to waiting room first
       router.replace("/(private)/just-chilling/duo/waiting");
     }
   };
@@ -89,10 +98,19 @@ export default function LanguageSelection() {
           />
         </View>
 
+        {/* Mostrar seletor de modo de input apenas para Word Builder */}
+        {matchMode === "word-builder" && (
+          <InputModeSelector selected={inputMode} onSelect={setInputMode} />
+        )}
+
         <Button
           title={t("common.play")}
           onPress={onPlay}
-          disabled={matchFormat === null || matchLanguage === null}
+          disabled={
+            matchFormat === null ||
+            matchLanguage === null ||
+            (matchMode === "word-builder" && inputMode === null)
+          }
           bgColor="bg-black"
           textColor="text-white"
           borderColor="border-black"

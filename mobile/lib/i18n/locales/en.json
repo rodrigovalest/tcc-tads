@@ -16,7 +16,8 @@
     "select": "Select",
     "search": "Search",
     "language": "Language",
-    "settings": "Settings"
+    "settings": "Settings",
+    "ok": "OK"
   },
   "auth": {
     "login": "Login",
@@ -79,6 +80,7 @@
     "correctWords": "Correct words",
     "incorrectWords": "Incorrect words",
     "enterWord": "Enter word",
+    "speakWord": "Speak word",
     "submit": "Submit",
     "gameOver": "Game Over!",
     "finalScore": "Final Score",
@@ -92,7 +94,17 @@
     "startingIn": "Starting in",
     "go": "GO!",
     "noWordsYet": "No words found yet. Start typing!",
-    "wordsRemaining": "words remaining"
+    "wordsRemaining": "words remaining",
+    "inputMode": "Input Mode",
+    "typing": "Typing",
+    "voice": "Voice",
+    "tapToSpeak": "Tap to speak",
+    "listening": "Listening...",
+    "processing": "Processing...",
+    "startListening": "Start listening",
+    "stopListening": "Stop listening",
+    "reRecord": "Record again",
+    "voiceRecognitionError": "Voice recognition error. Please try again."
   },
   "navigation": {
     "matches": "Matches",
