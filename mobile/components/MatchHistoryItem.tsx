@@ -2,7 +2,7 @@ import { MatchMode } from "../models/types/match-mode.type";
 import { getLocalizedMatchModes } from "../constants/available-match-modes";
 import formatDuration from "../utils/format-duration";
 import React from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, Pressable } from "react-native";
 import { MatchLanguage } from "../models/types/match-language.type";
 import { getLocalizedMatchLanguages } from "../constants/avaliable-match-languages";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -37,6 +37,7 @@ const MatchHistoryItem = ({
   const duration = formatDuration(startTime, endTime);
 
   const onUserPress = (username: string) => {
+    console.log("Pressed user:", username);
     router.push({
       pathname: "/(private)/profile/[username]",
       params: { username },
@@ -60,28 +61,30 @@ const MatchHistoryItem = ({
           .filter((user) => user.id !== loggedUser?.sub)
           .map((user, index) =>
             user.photoUri ? (
-              <View
+              <Pressable
                 key={index}
-                onTouchEnd={() => onUserPress(user.username)}
+                onPress={() => onUserPress(user.username)}
+                testID={`user-image-${user.username}`}
               >
                 <Image
                   source={{ uri: user.photoUri }}
                   className="w-14 h-14 rounded-full mr-2"
                   resizeMode="cover"
                 />
-              </View>
+              </Pressable>
             ) : (
-              <View
+              <Pressable
                 key={index}
+                onPress={() => onUserPress(user.username)}
                 className="items-center justify-center mr-2 rounded-full"
-                onTouchEnd={() => onUserPress(user.username)}
+                testID={`user-image-${user.username}`}
               >
                 <MaterialCommunityIcons
                   name="account"
                   size={45}
                   color={COLORS.appMediumGrey}
                 />
-              </View>
+              </Pressable>
             )
           )}
       </View>
