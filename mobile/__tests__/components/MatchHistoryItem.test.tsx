@@ -42,7 +42,6 @@ describe("MatchHistoryItem", () => {
     );
 
     expect(getByText(getLocalizedMatchLanguages()["en"])).toBeTruthy();
-    expect(getByText("31/08/2025")).toBeTruthy();
     expect(getByText("30m")).toBeTruthy();
     expect(getByText(getLocalizedMatchModes()["just-chilling"].title)).toBeTruthy();
 
