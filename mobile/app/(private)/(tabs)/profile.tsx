@@ -183,8 +183,9 @@ export default function Profile() {
             </View>
           </View>
         )}
+
         {/* Botão de editar */}
-        <Link href="/(private)/profile-edit" asChild>
+        <Link href="../../../profile-edit" asChild>
           <TouchableOpacity className='bg-appDarkGrey rounded-xl py-4 items-center flex-row justify-center'>
             <Ionicons name="create-outline" size={20} color="white" style={{ marginRight: 8 }} />
             <Text className='text-white font-nunito-semibold'>{t('profile.editProfile')}</Text>

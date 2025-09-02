@@ -3,7 +3,7 @@ import { AVALIABLE_MATCH_MODES } from "../../constants/available-match-modes";
 import IAvaliableMatchMode from "../../models/interfaces/avaliable_match_mode";
 import useMatchStore from "../../store/match-store";
 import { useRouter } from "expo-router";
-import { TouchableOpacity, Text, View } from "react-native";
+import { TouchableOpacity, Text, View, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "../../components/Button";
 import MatchFormatSelector from "../../components/MatchFormatSelector";
@@ -43,63 +43,68 @@ export default function LanguageSelection() {
   }
 
   return (
-    <SafeAreaView 
-      className="flex-1 bg-appBgWhite"
+    <SafeAreaView
+      className="flex-1 bg-appBgWhite pb-10"
       testID="language-selection-screen"
     >
-      <TouchableOpacity
-        className="w-full py-3 px-2 bg-appLightGrey"
-        onPress={onBack}
-        testID="back-button"
+      <ScrollView
+        className="flex-1 bg-appBgWhite"
+        showsVerticalScrollIndicator={false}
       >
-        <Ionicons
-          name="chevron-back"
-          size={35}
-        />
-      </TouchableOpacity>
+        <TouchableOpacity
+          className="w-full py-3 px-2 bg-appLightGrey"
+          onPress={onBack}
+          testID="back-button"
+        >
+          <Ionicons
+            name="chevron-back"
+            size={35}
+          />
+        </TouchableOpacity>
 
-      <View className="px-6 mt-20">
-        <Text className="text-3xl font-nunito-bold text-appBlack mb-4">
-          {t('match.playToChallenge')}
-        </Text>
+        <View className="px-6 mt-20">
+          <Text className="text-3xl font-nunito-bold text-appBlack mb-4">
+            {t('match.playToChallenge')}
+          </Text>
 
-        <Text className="text-xl font-nunito-medium text-appBlack mb-8">
-          {t('match.gameMode')}: {selectedMatchMode.title}
-        </Text>
+          <Text className="text-xl font-nunito-medium text-appBlack mb-8">
+            {t('match.gameMode')}: {selectedMatchMode.title}
+          </Text>
 
-        <Text className="text-xl font-nunito-bold text-appBlack mb-2">
-          {t('match.matchFormat')}
-        </Text>
+          <Text className="text-xl font-nunito-bold text-appBlack mb-2">
+            {t('match.matchFormat')}
+          </Text>
 
-        <View className="mb-8">
-          <MatchFormatSelector 
-            avaliableMatchFormats={selectedMatchMode.matchFormat} 
-            selected={matchFormat}
-            onSelect={setMatchFormat} 
+          <View className="mb-8">
+            <MatchFormatSelector
+              avaliableMatchFormats={selectedMatchMode.matchFormat}
+              selected={matchFormat}
+              onSelect={setMatchFormat}
+            />
+          </View>
+
+          <View className="mb-8">
+            <MatchLanguageSelector
+              selected={matchLanguage}
+              onSelect={setMatchLanguage}
+            />
+          </View>
+
+          <Button
+            title={t('common.play')}
+            onPress={onPlay}
+            disabled={matchFormat === null || matchLanguage === null}
+            bgColor="bg-black"
+            textColor="text-white"
+            borderColor="border-black"
+            bgColorActivate="bg-gray-800"
+            className="py-4"
+            iconRight={"play"}
+            iconRightSize={20}
+            iconRightColor="white"
           />
         </View>
-
-        <View className="mb-8">
-          <MatchLanguageSelector 
-            selected={matchLanguage}
-            onSelect={setMatchLanguage}
-          />
-        </View>
-
-        <Button
-          title={t('common.play')}
-          onPress={onPlay}
-          disabled={matchFormat === null || matchLanguage === null}
-          bgColor="bg-black"
-          textColor="text-white"
-          borderColor="border-black"
-          bgColorActivate="bg-gray-800"
-          className="py-4"
-          iconRight={"play"}
-          iconRightSize={20}
-          iconRightColor="white"
-        />
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

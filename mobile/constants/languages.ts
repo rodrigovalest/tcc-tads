@@ -1,10 +1,11 @@
+import { CountryCode } from "@/models/types/country-code.type";
 import React from "react";
 import { SvgProps } from "react-native-svg";
 
 export interface LanguageConfig {
   code: string;
   name: string;
-  countryCode: string;
+  countryCode: CountryCode;
   emoji: string;
   svgComponent: React.FC<SvgProps>;
 }
@@ -160,7 +161,7 @@ export const SUPPORTED_LANGUAGES: LanguageConfig[] = [
 ];
 
 export function getLanguageByCountryCode(
-  countryCode: string
+  countryCode: CountryCode
 ): LanguageConfig | null {
   return (
     SUPPORTED_LANGUAGES.find(
@@ -179,7 +180,7 @@ export interface FlagDisplay {
   emoji?: string;
 }
 
-export function getFlagDisplay(countryCode: string): FlagDisplay {
+export function getFlagDisplay(countryCode: CountryCode): FlagDisplay {
   const language = getLanguageByCountryCode(countryCode);
 
   if (language) {

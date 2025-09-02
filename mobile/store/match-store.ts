@@ -8,14 +8,14 @@ type MatchState = {
   matchMode: MatchMode | null;
   matchFormat: MatchFormat | null;
   matchLanguage: MatchLanguage | null;
-  roomId: string | null;
+  matchId: string | null;
   isOfferer: boolean | null;
   buddy: IUserBuddy | null;
 
   setMatchMode: (mode: MatchMode) => Promise<void>;
   setMatchFormat: (format: MatchFormat) => Promise<void>;
   setMatchLanguage: (language: MatchLanguage) => Promise<void>;
-  setRoomId: (roomId: string) => Promise<void>;
+  setMatchId: (matchId: string) => Promise<void>;
   setIsOfferer: (isOfferer: boolean) => Promise<void>;
   setUserBuddy: (buddy: IUserBuddy) => Promise<void>;
   resetMatch: () => Promise<void>;
@@ -25,7 +25,7 @@ const useMatchStore = create<MatchState>((set, get) => ({
   matchMode: null,
   matchFormat: null,
   matchLanguage: null,
-  roomId: null,
+  matchId: null,
   isOfferer: null,
   buddy: null,
 
@@ -41,8 +41,8 @@ const useMatchStore = create<MatchState>((set, get) => ({
     set({ matchLanguage });
   },
 
-  setRoomId: async (roomId: string) => {
-    set({ roomId });
+  setMatchId: async (matchId: string) => {
+    set({ matchId });
   },
 
   setIsOfferer: async (isOfferer: boolean) => {
@@ -54,7 +54,7 @@ const useMatchStore = create<MatchState>((set, get) => ({
   },
 
   resetMatch: async () => {
-    set({ matchMode: null, matchFormat: null, matchLanguage: null, roomId: null, isOfferer: null, buddy: null });
+    set({ matchMode: null, matchFormat: null, matchLanguage: null, matchId: null, isOfferer: null, buddy: null });
   },
 }));
 

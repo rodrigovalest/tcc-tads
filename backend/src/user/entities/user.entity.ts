@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn, OneToMany } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { CountryCode } from "./country-code.enum";
+import { UserMatch } from "../../match/entities/user-match.entity";
 import { UserLanguage } from "./user-language.entity";
 import { UserInterestTopic } from "./user-interest-topic.entity";
 
@@ -31,6 +32,9 @@ export class User {
 
   @Column({ type: 'timestamp', nullable: true })
   lastLoginAt: Date;
+
+  @OneToMany(() => UserMatch, userMatch => userMatch.user)
+  userMatches: UserMatch[];
 
   @CreateDateColumn()
   createdAt: Date;
