@@ -17,7 +17,8 @@
     "search": "Buscar",
     "language": "Idioma",
     "settings": "Configurações",
-    "ok": "OK"
+    "ok": "OK",
+    "tryAgain": "Tentar Novamente"
   },
   "auth": {
     "login": "Entrar",
@@ -46,7 +47,126 @@
     "enterEmailOrUsername": "Digite seu e-mail ou nome de usuário",
     "isRequired": "é obrigatório",
     "mustHaveAtLeast": "deve ter pelo menos",
-    "characters": "caracteres"
+    "characters": "caracteres",
+    "loginMessages": {
+      "success": {
+        "title": "Login realizado com sucesso"
+      },
+      "error": {
+        "title": "Erro no login",
+        "message": "Algo deu errado. Tente novamente"
+      }
+    }
+  },
+  "register": {
+    "steps": {
+      "basicInfo": "Informações",
+      "languages": "Idiomas",
+      "photo": "Foto",
+      "interests": "Interesses",
+      "description": "Descrição"
+    },
+    "stepper": {
+      "step": "Etapa",
+      "of": "de"
+    },
+    "photo": {
+      "title": "Adicione uma foto de perfil",
+      "subtitle": "Uma foto de perfil ajuda outros usuários a te reconhecerem",
+      "takePhoto": "Tirar Foto",
+      "chooseFromGallery": "Escolher da Galeria",
+      "removePhoto": "Remover foto",
+      "removePhotoConfirm": "Tem certeza que deseja remover a foto de perfil?",
+      "remove": "Remover",
+      "optional": "Esta etapa é opcional. Você pode pular e adicionar uma foto depois.",
+      "loading": "Carregando...",
+      "permissionRequired": "Permissão necessária",
+      "cameraPermission": "Precisamos de permissão para acessar sua câmera.",
+      "galleryPermission": "Precisamos de permissão para acessar sua galeria de fotos.",
+      "errorTitle": "Erro",
+      "errorSelectImage": "Não foi possível selecionar a imagem.",
+      "errorTakePhoto": "Não foi possível tirar a foto."
+    },
+    "interests": {
+      "title": "Selecione até 3 tópicos de interesse",
+      "selected": "Selecionados",
+      "canSelectMore": "Selecione os tópicos que mais te interessam",
+      "maxSelected": "Você já selecionou o máximo de tópicos permitidos",
+      "selectToSeeHere": "Selecione tópicos para vê-los aqui"
+    },
+    "description": {
+      "title": "Conte um pouco sobre você",
+      "subtitle": "Compartilhe seus interesses, hobbies ou qualquer informação que ajude outros usuários a te conhecerem melhor",
+      "label": "Descrição pessoal",
+      "placeholder": "Ex: Sou apaixonado por tecnologia, adoro viajar e conhecer novas culturas. Gosto de ler livros de ficção científica e praticar esportes ao ar livre...",
+      "charactersCount": "caracteres",
+      "optional": "Esta etapa é opcional. Você pode pular e adicionar uma descrição depois."
+    },
+    "languages": {
+      "title": "Selecione seus idiomas e níveis de fluência",
+      "fluencyLevel": "Nível de fluência:",
+      "levels": {
+        "1": "Básico",
+        "2": "Elementar",
+        "3": "Intermediário",
+        "4": "Avançado",
+        "5": "Fluente"
+      },
+      "instruction": "Selecione pelo menos um idioma para continuar"
+    },
+    "buttons": {
+      "back": "Voltar",
+      "skip": "Pular",
+      "next": "Avançar",
+      "finish": "Cadastrar"
+    },
+    "validation": {
+      "fillRequired": "Por favor, preencha todos os campos obrigatórios antes de continuar.",
+      "invalidEmail": "Por favor, insira um email válido.",
+      "passwordTooShort": "A senha deve ter pelo menos 6 caracteres.",
+      "passwordsDoNotMatch": "As senhas não coincidem."
+    },
+    "errors": {
+      "usernameRequired": "Nome de usuário é obrigatório",
+      "emailRequired": "E-mail é obrigatório",
+      "invalidEmail": "Por favor, insira um email válido",
+      "passwordRequired": "Senha é obrigatória",
+      "passwordTooShort": "A senha deve ter pelo menos 6 caracteres",
+      "confirmPasswordRequired": "Confirmação de senha é obrigatória",
+      "passwordsDoNotMatch": "As senhas não coincidem",
+      "nationalityRequired": "Nacionalidade é obrigatória",
+      "languagesRequired": "Selecione pelo menos um idioma"
+    },
+    "success": {
+      "title": "Cadastro realizado com sucesso",
+      "message": "Agora você pode fazer login com suas credenciais."
+    },
+    "error": {
+      "title": "Erro no cadastro",
+      "message": "Algo deu errado. Tente novamente."
+    },
+    "topics": {
+      "technology": "Tecnologia",
+      "sports": "Esportes",
+      "music": "Música",
+      "art": "Arte",
+      "literature": "Literatura",
+      "travel": "Viagens",
+      "cooking": "Culinária",
+      "photography": "Fotografia",
+      "games": "Jogos",
+      "science": "Ciência",
+      "history": "História",
+      "politics": "Política",
+      "fashion": "Moda",
+      "health": "Saúde",
+      "education": "Educação",
+      "business": "Negócios",
+      "environment": "Meio Ambiente",
+      "cinema": "Cinema",
+      "theater": "Teatro",
+      "dance": "Dança"
+    }
   },
   "match": {
     "playToChallenge": "Jogue para se desafiar!",
@@ -67,6 +187,9 @@
       "conversation": "Conversa",
       "justChilling": "Relaxando",
       "wordBuilder": "Construtor de Palavras"
+    },
+    "errors": {
+      "somethingWentWrong": "Algo deu errado!"
     }
   },
   "wordBuilder": {
@@ -114,6 +237,31 @@
     "history": "Histórico",
     "settings": "Config"
   },
+  "profile": {
+    "title": "Perfil",
+    "editProfile": "Editar Perfil",
+    "aboutMe": "Sobre mim",
+    "languages": "Idiomas",
+    "interests": "Interesses",
+    "accountInfo": "Informações da Conta",
+    "memberSince": "Membro desde",
+    "lastLogin": "Último login",
+    "accountStatus": "Status da conta",
+    "active": "Ativa",
+    "inactive": "Inativa",
+    "never": "Nunca",
+    "loading": "Carregando perfil...",
+    "errorLoading": "Erro ao carregar perfil",
+    "tryAgain": "Tentar Novamente",
+    "fluency": {
+      "beginner": "Iniciante",
+      "intermediate": "Intermediário",
+      "advanced": "Avançado",
+      "fluent": "Fluente",
+      "native": "Nativo",
+      "unknown": "Desconhecido"
+    }
+  },
   "settings": {
     "language": "Idioma",
     "changeLanguage": "Alterar idioma",
@@ -130,7 +278,25 @@
   "languages": {
     "pt": "Português",
     "en": "Inglês",
-    "es": "Espanhol"
+    "es": "Espanhol",
+    "fr": "Francês",
+    "de": "Alemão",
+    "it": "Italiano",
+    "ja": "Japonês",
+    "ko": "Coreano",
+    "zh": "Chinês",
+    "ru": "Russo",
+    "ar": "Árabe",
+    "hi": "Hindi",
+    "nl": "Holandês",
+    "sv": "Sueco",
+    "no": "Norueguês",
+    "da": "Dinamarquês",
+    "fi": "Finlandês",
+    "pl": "Polonês",
+    "cs": "Tcheco",
+    "tr": "Turco",
+    "th": "Tailandês"
   },
   "errors": {
     "networkError": "Erro de conexão",

@@ -1,7 +1,7 @@
 import { Alert, Linking, PermissionsAndroid, Platform } from 'react-native';
 
 export async function requestPermissions(): Promise<boolean> {
-  if (Platform.OS !== 'android') {
+  if (Platform.OS === 'android') {
     const result = await PermissionsAndroid.requestMultiple([
       PermissionsAndroid.PERMISSIONS.CAMERA,
       PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,

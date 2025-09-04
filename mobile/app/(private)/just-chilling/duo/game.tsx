@@ -19,19 +19,23 @@ export default function JustChillingDuoGame() {
     switchAudio,
     switchVideo,
     isMicMuted,
-    isVideoMuted 
-  } = useJustChillingDuo();
+    isVideoMuted,
+    endCall,
+  } = useJustChillingDuo(() => {
+    router.replace('/(private)/(tabs)/matches');
+  });
 
   useEffect(() => {
     start();
 
     return () => {
+      endCall();
       resetMatch();
     }
   }, []);
 
   const onMute = () => {
-  switchAudio();
+    switchAudio();
   };
 
   const onVideoOff = () => {
@@ -39,7 +43,7 @@ export default function JustChillingDuoGame() {
   };
 
   const onEndCall = () => {
-    router.replace('/(private)/(tabs)/matches');
+    endCall();
   }
 
   return (

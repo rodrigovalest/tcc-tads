@@ -10,7 +10,7 @@ type MatchState = {
   matchFormat: MatchFormat | null;
   matchLanguage: MatchLanguage | null;
   inputMode: InputMode | null;
-  roomId: string | null;
+  matchId: string | null;
   isOfferer: boolean | null;
   buddy: IUserBuddy | null;
 
@@ -18,7 +18,7 @@ type MatchState = {
   setMatchFormat: (format: MatchFormat) => Promise<void>;
   setMatchLanguage: (language: MatchLanguage) => Promise<void>;
   setInputMode: (mode: InputMode) => Promise<void>;
-  setRoomId: (roomId: string) => Promise<void>;
+  setMatchId: (matchId: string) => Promise<void>;
   setIsOfferer: (isOfferer: boolean) => Promise<void>;
   setUserBuddy: (buddy: IUserBuddy) => Promise<void>;
   resetMatch: () => Promise<void>;
@@ -29,7 +29,7 @@ const useMatchStore = create<MatchState>((set, get) => ({
   matchFormat: null,
   matchLanguage: null,
   inputMode: null,
-  roomId: null,
+  matchId: null,
   isOfferer: null,
   buddy: null,
 
@@ -48,9 +48,8 @@ const useMatchStore = create<MatchState>((set, get) => ({
   setInputMode: async (inputMode) => {
     set({ inputMode });
   },
-
-  setRoomId: async (roomId: string) => {
-    set({ roomId });
+  setMatchId: async (matchId: string) => {
+    set({ matchId });
   },
 
   setIsOfferer: async (isOfferer: boolean) => {
@@ -67,7 +66,7 @@ const useMatchStore = create<MatchState>((set, get) => ({
       matchFormat: null,
       matchLanguage: null,
       inputMode: null,
-      roomId: null,
+      matchId: null,
       isOfferer: null,
       buddy: null,
     });

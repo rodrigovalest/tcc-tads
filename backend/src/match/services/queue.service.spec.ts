@@ -14,6 +14,7 @@ const mockUserQueueRepository = () => ({
   save: jest.fn(),
   count: jest.fn(),
   find: jest.fn(),
+  findOne: jest.fn(),
   remove: jest.fn(),
 });
 
@@ -60,17 +61,6 @@ describe('QueueService', () => {
     expect(userQueueRepository.delete).toHaveBeenCalledWith({ userId });
     expect(userQueueRepository.create).toHaveBeenCalledWith(mockEntry);
     expect(userQueueRepository.save).toHaveBeenCalledWith(mockEntry);
-  });
-
-  it('removeUserBySocketId_WithValidSocketId_ShouldCallDelete', async () => {
-    // Arrange
-    const socketId = 'socket-456';
-
-    // Act
-    await service.removeUserBySocketId(socketId);
-
-    // Assert
-    expect(userQueueRepository.delete).toHaveBeenCalledWith({ socketId });
   });
 
   it('getQueueSize_WithValidParams_ShouldReturnCount', async () => {
@@ -150,5 +140,33 @@ describe('QueueService', () => {
     });
     expect(userQueueRepository.remove).not.toHaveBeenCalled();
     expect(result).toEqual([]);
+  });
+
+  it('findUserBySocketId_WithValidSocketId_ReturnsUserEntity', async () => {
+    // Arrange
+    const socketId = 'socket-456';
+    const mockUser = { userId: 1, socketId } as UserQueue;
+    userQueueRepository.findOne.mockResolvedValue(mockUser);
+
+    // Act
+    const result = await service.findUserBySocketId(socketId);
+
+    // Assert
+    expect(userQueueRepository.findOne).toHaveBeenCalledWith({ where: { socketId } });
+    expect(userQueueRepository.findOne).toHaveBeenCalledTimes(1);
+    expect(result).toEqual(mockUser);
+  });
+
+  it('removeUser_WithUserQueue_ShouldCallDelete', async () => {
+    // Arrange
+    const socketId = 'socket-456';
+    const mockUser = { userId: 1, socketId } as UserQueue;
+
+    // Act
+    await service.removeUser(mockUser);
+
+    // Assert
+    expect(userQueueRepository.remove).toHaveBeenCalledWith(mockUser);
+    expect(userQueueRepository.remove).toHaveBeenCalledTimes(1);
   });
 });

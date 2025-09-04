@@ -39,12 +39,12 @@ const SESSION_CONSTRAINTS: RTCOfferOptions = {
 };
 
 
-const useJustChillingDuo = () => {
+const useJustChillingDuo = (redirectOnEnd: () => void) => {
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
   const peerConnection = useRef<RTCPeerConnection | null>(null);
 
-  const { roomId, isOfferer } = useMatchStore();
+  const { matchId, isOfferer } = useMatchStore();
 
   const [isMicMuted, setIsMicMuted] = useState<boolean>(false);
   const [isVideoMuted, setIsVideoMuted] = useState<boolean>(false);
@@ -67,8 +67,24 @@ const useJustChillingDuo = () => {
     });
   };
 
+  const endCall = () => {
+    peerConnection.current?.close();
+    peerConnection.current = null;
+
+    localStream?.getTracks().forEach(track => track.stop());
+    remoteStream?.getTracks().forEach(track => track.stop());
+    setLocalStream(null);
+    setRemoteStream(null);
+
+    if (webSocketService.isConnected()) {
+      webSocketService.disconnect();
+    }
+
+    redirectOnEnd();
+  };
+
   const initializeConnection = async () => {
-    if (!roomId || isOfferer === null)
+    if (!matchId || isOfferer === null)
       return;
 
     const pc = new RTCPeerConnection(PEER_CONSTRAINTS);
@@ -87,7 +103,7 @@ const useJustChillingDuo = () => {
     pc.onicecandidate = (event: EventOnCandidate) => {
       if (event.candidate) {
         webSocketService.emit("just-chilling:duo:webrtc:ice-candidate", {
-          roomId,
+          matchId,
           candidate: event.candidate,
         });
       }
@@ -95,6 +111,10 @@ const useJustChillingDuo = () => {
 
     pc.oniceconnectionstatechange = () => {
       console.log("[ICE] Estado ICE:", pc.connectionState);
+
+      if (["disconnected", "failed", "closed"].includes(pc.connectionState)) {
+        endCall();
+      }
     };
 
     if (isOfferer) {
@@ -102,14 +122,14 @@ const useJustChillingDuo = () => {
       await pc.setLocalDescription(offer);
 
       webSocketService.emit("just-chilling:duo:webrtc:offer", {
-        roomId,
+        matchId,
         offer,
       });
     }
   };
 
   useEffect(() => {
-    if (!roomId) return;
+    if (!matchId) return;
 
     webSocketService.on("just-chilling:duo:webrtc:offer", async ({ offer }) => {
       if (!peerConnection.current)
@@ -122,7 +142,7 @@ const useJustChillingDuo = () => {
         await peerConnection.current?.setLocalDescription(answer);
 
         webSocketService.emit("just-chilling:duo:webrtc:answer", {
-          roomId,
+          matchId,
           answer,
         });
       }
@@ -136,13 +156,17 @@ const useJustChillingDuo = () => {
       await peerConnection.current?.addIceCandidate(new RTCIceCandidate(candidate));
     });
 
+    webSocketService.onDisconnect(() => {
+      endCall();
+    });
+
     return () => {
       webSocketService.off("just-chilling:duo:webrtc:offer");
       webSocketService.off("just-chilling:duo:webrtc:answer");
       webSocketService.off("just-chilling:duo:webrtc:ice-candidate");
-      peerConnection.current?.close();
+      endCall();
     };
-  }, [roomId]);
+  }, []);
 
   return {
     localStream,
@@ -152,6 +176,7 @@ const useJustChillingDuo = () => {
     switchVideo,
     isMicMuted,
     isVideoMuted,
+    endCall,
   };
 };
 
