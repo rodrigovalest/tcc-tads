@@ -187,7 +187,8 @@ describe('LanguageSelection screen', () => {
 
       fireEvent.press(playButton);
 
-      expect(mockReplace).toHaveBeenCalledWith('/(private)/conversation/duo/waiting');
+      // Conversation mode is not implemented yet, so it redirects to matches
+      expect(mockReplace).toHaveBeenCalledWith('/(private)/(tabs)/matches');
     });
   });
 });

@@ -14,6 +14,7 @@ import { UserQueue } from '../entities/user-queue.entity';
 const mockMatchRepository = () => ({
   create: jest.fn(),
   save: jest.fn(),
+  findOne: jest.fn(),
 });
 
 const mockUserMatchRepository = () => ({
@@ -159,5 +160,171 @@ describe('MatchService', () => {
       relations: ['match', 'match.userMatches', 'match.userMatches.user'],
     });
     expect(result).toEqual([match1, match2]);
+  });
+
+  describe('Solo Match Functions', () => {
+    it('createSoloMatch_ShouldCreateSoloMatchSuccessfully', async () => {
+      // Arrange
+      const userId = 1;
+      const mode = MatchMode.WORD_BUILDER;
+      const language = MatchLanguage.EN;
+      
+      const mockMatch = {
+        id: 'solo-match-123',
+        mode,
+        format: MatchFormat.SOLO,
+        language,
+        status: MatchStatus.IN_PROGRESS,
+        startTime: new Date(),
+        endTime: new Date(), // Changed from null to Date
+        userMatches: [],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      } as Match;
+
+      const mockUserMatch = {
+        user: { id: userId } as User,
+        socketId: 'solo-match',
+        match: mockMatch,
+      } as UserMatch;
+
+      matchRepository.create.mockReturnValue(mockMatch);
+      matchRepository.save.mockResolvedValue(mockMatch);
+      userMatchRepository.create.mockReturnValue(mockUserMatch);
+      userMatchRepository.save.mockResolvedValue(mockUserMatch);
+
+      // Act
+      const result = await service.createSoloMatch(mode, language, userId);
+
+      // Assert
+      expect(matchRepository.create).toHaveBeenCalledWith({
+        mode,
+        format: MatchFormat.SOLO,
+        language,
+        status: MatchStatus.IN_PROGRESS,
+        startTime: expect.any(Date),
+      });
+      expect(matchRepository.save).toHaveBeenCalledWith(mockMatch);
+      expect(userMatchRepository.create).toHaveBeenCalledWith({
+        user: { id: userId },
+        socketId: 'solo-match',
+        match: mockMatch,
+      });
+      expect(userMatchRepository.save).toHaveBeenCalledWith(mockUserMatch);
+      expect(result).toEqual(mockMatch);
+    });
+
+    it('completeSoloMatch_ShouldCompleteMatchSuccessfully', async () => {
+      // Arrange
+      const matchId = 'solo-match-123';
+      const mockMatch = {
+        id: matchId,
+        status: MatchStatus.IN_PROGRESS,
+        endTime: new Date(),
+        mode: MatchMode.WORD_BUILDER,
+        format: MatchFormat.SOLO,
+        language: MatchLanguage.EN,
+        startTime: new Date(),
+        userMatches: [],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      } as Match;
+
+      matchRepository.findOne.mockResolvedValue(mockMatch);
+
+      // Act
+      await service.completeSoloMatch(matchId);
+
+      // Assert
+      expect(matchRepository.findOne).toHaveBeenCalledWith({
+        where: { id: matchId },
+      });
+      expect(mockMatch.status).toBe(MatchStatus.COMPLETED);
+      expect(mockMatch.endTime).toBeInstanceOf(Date);
+      expect(matchRepository.save).toHaveBeenCalledWith(mockMatch);
+    });
+
+    it('completeSoloMatch_ShouldReturnEarlyWhenMatchNotFound', async () => {
+      // Arrange
+      const matchId = 'non-existent-match';
+      matchRepository.findOne.mockResolvedValue(null);
+
+      // Act
+      await service.completeSoloMatch(matchId);
+
+      // Assert
+      expect(matchRepository.findOne).toHaveBeenCalledWith({
+        where: { id: matchId },
+      });
+      expect(matchRepository.save).not.toHaveBeenCalled();
+    });
+
+    it('completeSoloMatch_ShouldNotUpdateWhenMatchAlreadyCompleted', async () => {
+      // Arrange
+      const matchId = 'completed-match-123';
+      const mockMatch = {
+        id: matchId,
+        status: MatchStatus.COMPLETED,
+        endTime: new Date(),
+        mode: MatchMode.WORD_BUILDER,
+        format: MatchFormat.SOLO,
+        language: MatchLanguage.EN,
+        startTime: new Date(),
+        userMatches: [],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      } as Match;
+
+      matchRepository.findOne.mockResolvedValue(mockMatch);
+
+      // Act
+      await service.completeSoloMatch(matchId);
+
+      // Assert
+      expect(matchRepository.findOne).toHaveBeenCalledWith({
+        where: { id: matchId },
+      });
+      expect(matchRepository.save).not.toHaveBeenCalled();
+    });
+
+    it('createSoloMatch_ShouldHandleDifferentLanguages', async () => {
+      // Arrange
+      const userId = 1;
+      const mode = MatchMode.WORD_BUILDER;
+      const languages = [MatchLanguage.PT, MatchLanguage.ES, MatchLanguage.EN];
+      
+      for (const language of languages) {
+        const mockMatch = {
+          id: `solo-match-${language}`,
+          mode,
+          format: MatchFormat.SOLO,
+          language,
+          status: MatchStatus.IN_PROGRESS,
+          startTime: new Date(),
+          endTime: new Date(),
+          userMatches: [],
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        } as Match;
+
+        matchRepository.create.mockReturnValue(mockMatch);
+        matchRepository.save.mockResolvedValue(mockMatch);
+        userMatchRepository.create.mockReturnValue({} as UserMatch);
+        userMatchRepository.save.mockResolvedValue({} as UserMatch);
+
+        // Act
+        const result = await service.createSoloMatch(mode, language, userId);
+
+        // Assert
+        expect(result).toEqual(mockMatch);
+        expect(matchRepository.create).toHaveBeenCalledWith({
+          mode,
+          format: MatchFormat.SOLO,
+          language,
+          status: MatchStatus.IN_PROGRESS,
+          startTime: expect.any(Date),
+        });
+      }
+    });
   });
 });
