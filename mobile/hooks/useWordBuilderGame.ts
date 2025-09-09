@@ -6,14 +6,14 @@ import {
 } from "../models/interfaces/word_builder_game";
 import { MatchLanguage } from "../models/types/match-language.type";
 import { validateWords } from "../services/word-validation";
+import matchService from "../services/match-service";
 
-const GAME_DURATION = 60; // seconds
+const GAME_DURATION = 60;
 const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 export const useWordBuilderGame = (language: MatchLanguage | null) => {
   const safeLanguage: MatchLanguage = (language || "en") as MatchLanguage;
 
-  // React state (UI binding)
   const [gameState, setGameState] = useState<IWordBuilderGame>({
     currentLetter: "",
     timeLeft: GAME_DURATION,
@@ -28,23 +28,24 @@ export const useWordBuilderGame = (language: MatchLanguage | null) => {
   const [isCountingDown, setIsCountingDown] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
 
-  // Refs (fonte de verdade para lógica / timers)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const endTimeRef = useRef<number>(0);
+  const startTimeRef = useRef<number>(0);
   const endedRef = useRef<boolean>(false);
-  const wordsRef = useRef<string[]>([]); // evita closures antigas
+  const wordsRef = useRef<string[]>([]);
   const letterRef = useRef<string>("");
+  const matchIdRef = useRef<string | null>(null);
 
-  /* Util */
   const generateRandomLetter = useCallback(() => {
     return LETTERS[Math.floor(Math.random() * LETTERS.length)];
   }, []);
 
-  /* Inicialização */
   const initializeGame = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current);
     endedRef.current = false;
     wordsRef.current = [];
+    matchIdRef.current = null;
+    startTimeRef.current = 0;
     const newLetter = generateRandomLetter();
     letterRef.current = newLetter;
     setGameResult(null);
@@ -60,7 +61,6 @@ export const useWordBuilderGame = (language: MatchLanguage | null) => {
     });
   }, [generateRandomLetter]);
 
-  /* Encerrar jogo (usa refs) */
   const finalizeGame = useCallback(async () => {
     if (endedRef.current) return;
     endedRef.current = true;
@@ -72,12 +72,8 @@ export const useWordBuilderGame = (language: MatchLanguage | null) => {
     const snapshotWords = [...wordsRef.current];
     const startingLetter = letterRef.current;
 
-    console.log("[end] Letter:", startingLetter, "Words:", snapshotWords);
-
-    // Validação por dicionário (retorna apenas isValid lexical)
     const dictEvaluations = await validateWords(snapshotWords, safeLanguage);
 
-    // Regras adicionais: começa com a letra + tamanho >=3
     const letterLower = startingLetter.toLowerCase();
     const evaluations: IWordEvaluation[] = dictEvaluations.map(
       (w: { word: string; isValid: boolean }) => {
@@ -95,33 +91,59 @@ export const useWordBuilderGame = (language: MatchLanguage | null) => {
       .map((e) => e.word);
     const score = correctWords.length * 10;
 
+    const actualTimePlayed =
+      startTimeRef.current > 0
+        ? Math.max(
+            0,
+            Math.min(GAME_DURATION, (Date.now() - startTimeRef.current) / 1000)
+          )
+        : GAME_DURATION;
+
     const result: IWordBuilderGameResult = {
       wordsFound: snapshotWords,
       correctWords,
       incorrectWords,
       evaluations,
       score,
-      totalTime: GAME_DURATION,
+      totalTime: actualTimePlayed,
       gameMode: gameState.gameMode,
       startingLetter,
       language: safeLanguage,
     };
 
-    console.log("[end] Result:", result);
     setGameResult(result);
     setGameState((prev) => ({ ...prev, isGameActive: false, score }));
+
+    if (matchIdRef.current) {
+      try {
+        await matchService.completeSoloMatch(matchIdRef.current);
+      } catch (error) {
+        console.error("Failed to complete match:", error);
+      }
+    }
   }, [gameState.gameMode, safeLanguage]);
 
-  /* Start após contagem */
-  const startGame = useCallback(() => {
+  const startGame = useCallback(async () => {
     setIsCountingDown(false);
     setGameState((prev) => ({
       ...prev,
       isGameActive: true,
       timeLeft: GAME_DURATION,
     }));
-    endTimeRef.current = Date.now() + GAME_DURATION * 1000;
+    const currentTime = Date.now();
+    startTimeRef.current = currentTime;
+    endTimeRef.current = currentTime + GAME_DURATION * 1000;
     endedRef.current = false;
+
+    try {
+      const response = await matchService.createSoloMatch(
+        "word-builder",
+        safeLanguage
+      );
+      matchIdRef.current = response.matchId;
+    } catch (error) {
+      console.error("Failed to create match:", error);
+    }
 
     timerRef.current = setInterval(() => {
       const remainingMs = endTimeRef.current - Date.now();
@@ -130,44 +152,42 @@ export const useWordBuilderGame = (language: MatchLanguage | null) => {
         finalizeGame();
         return;
       }
-      setGameState((prev) => ({ ...prev, timeLeft: remainingMs / 1000 }));
+      const timeLeftSeconds = Math.max(0, remainingMs / 1000);
+      setGameState((prev) => ({ ...prev, timeLeft: timeLeftSeconds }));
     }, 100);
-  }, [finalizeGame]);
+  }, [finalizeGame, safeLanguage]);
 
-  /* Adicionar palavra */
   const addWord = useCallback(
     (word: string) => {
       if (endedRef.current) return;
       if (!gameState.isGameActive) return;
       const clean = word.toLowerCase().trim();
       if (!clean) return;
-      if (clean.length < 2) return; // pequena filtragem
-      if (wordsRef.current.includes(clean)) return; // evitar duplicatas
+      if (clean.length < 2) return;
+      if (wordsRef.current.includes(clean)) return;
 
       wordsRef.current = [...wordsRef.current, clean];
       setGameState((prev) => ({ ...prev, wordsFound: wordsRef.current }));
-      console.log("[addWord]", clean, wordsRef.current);
     },
     [gameState.isGameActive]
   );
 
-  /* Encerrar antecipadamente */
   const endGame = useCallback(() => {
     finalizeGame();
   }, [finalizeGame]);
 
-  /* Modal de saída */
   const handleExitGame = useCallback(() => setShowExitModal(true), []);
   const confirmExitGame = useCallback(() => finalizeGame(), [finalizeGame]);
   const cancelExitGame = useCallback(() => setShowExitModal(false), []);
 
-  /* Reset completo (ex: unmount) */
   const resetGame = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = null;
     endedRef.current = false;
     wordsRef.current = [];
     letterRef.current = "";
+    matchIdRef.current = null;
+    startTimeRef.current = 0;
     setGameResult(null);
     setIsCountingDown(false);
     setShowExitModal(false);
@@ -181,12 +201,10 @@ export const useWordBuilderGame = (language: MatchLanguage | null) => {
     });
   }, []);
 
-  /* Atualizar currentLetter visual se letterRef mudar (apenas inicialização) */
   useEffect(() => {
     setGameState((prev) => ({ ...prev, currentLetter: letterRef.current }));
   }, [isCountingDown]);
 
-  /* Cleanup */
   useEffect(() => {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);

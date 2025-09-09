@@ -23,7 +23,8 @@ const GameHeader: React.FC<GameHeaderProps> = ({
   const { t } = useI18n();
 
   const formatTime = (seconds: number): string => {
-    const whole = Math.floor(seconds * 100); // centiseconds
+    const positiveSeconds = Math.max(0, seconds);
+    const whole = Math.floor(positiveSeconds * 100);
     const minutes = Math.floor(whole / 6000);
     const secs = Math.floor((whole % 6000) / 100);
     const cs = whole % 100;

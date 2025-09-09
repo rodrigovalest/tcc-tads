@@ -1,17 +1,19 @@
+import React from "react";
+import { TouchableOpacity, Text, View, ScrollView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { useEffect } from "react";
+import Toast from "react-native-toast-message";
+
 import { AVALIABLE_MATCH_MODES } from "../../constants/available-match-modes";
 import IAvaliableMatchMode from "../../models/interfaces/avaliable_match_mode";
 import useMatchStore from "../../store/match-store";
-import { useRouter } from "expo-router";
-import { TouchableOpacity, Text, View, ScrollView } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import useI18n from "../../hooks/useI18n";
+
 import Button from "../../components/Button";
 import MatchFormatSelector from "../../components/MatchFormatSelector";
 import MatchLanguageSelector from "../../components/MatchLanguageSelector";
 import InputModeSelector from "../../components/InputModeSelector";
-import useI18n from "../../hooks/useI18n";
-import Toast from "react-native-toast-message";
 
 export default function LanguageSelection() {
   const {
@@ -27,14 +29,8 @@ export default function LanguageSelection() {
   const { t } = useI18n();
   const router = useRouter();
 
-  useEffect(() => {
-    if (!matchMode) {
-      router.replace("/(private)/(tabs)/matches");
-      return;
-    }
-  }, [matchMode, router]);
-
   if (!matchMode) {
+    router.replace("/(private)/(tabs)/matches");
     return null;
   }
 
@@ -49,11 +45,22 @@ export default function LanguageSelection() {
   const onPlay = () => {
     if (!matchMode || !matchFormat || !matchLanguage) return;
 
-    if (matchMode === "word-builder") {
-      if (!inputMode) return;
+    if (matchMode === "word-builder" && !inputMode) {
+      Toast.show({
+        type: "error",
+        text1: t("validation.inputModeRequired"),
+        text2: t("validation.selectInputMode"),
+      });
+      return;
+    }
+
+    if (matchMode === "word-builder" && matchFormat === "solo") {
       router.replace("/(private)/word-builder/solo/game");
-    } else {
+    } else if (matchMode === "just-chilling" && matchFormat === "duo") {
       router.replace("/(private)/just-chilling/duo/waiting");
+    } else {
+      console.warn(`No route found for ${matchMode}/${matchFormat}`);
+      router.replace("/(private)/(tabs)/matches");
     }
   };
 
@@ -94,7 +101,6 @@ export default function LanguageSelection() {
               onSelect={setMatchFormat}
             />
           </View>
-
           <View className="mb-8">
             <MatchLanguageSelector
               selected={matchLanguage}
@@ -102,10 +108,20 @@ export default function LanguageSelection() {
             />
           </View>
 
+          {matchMode === "word-builder" && (
+            <View className="mb-8">
+              <InputModeSelector selected={inputMode} onSelect={setInputMode} />
+            </View>
+          )}
+
           <Button
             title={t("common.play")}
             onPress={onPlay}
-            disabled={matchFormat === null || matchLanguage === null}
+            disabled={
+              matchFormat === null ||
+              matchLanguage === null ||
+              (matchMode === "word-builder" && inputMode === null)
+            }
             bgColor="bg-black"
             textColor="text-white"
             borderColor="border-black"

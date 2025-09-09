@@ -23,7 +23,6 @@ type MatchState = {
   setUserBuddy: (buddy: IUserBuddy) => Promise<void>;
   resetMatch: () => Promise<void>;
 };
-
 const useMatchStore = create<MatchState>((set, get) => ({
   matchMode: null,
   matchFormat: null,
@@ -32,30 +31,25 @@ const useMatchStore = create<MatchState>((set, get) => ({
   matchId: null,
   isOfferer: null,
   buddy: null,
-
   setMatchMode: async (matchMode) => {
     set({ matchMode });
   },
-
   setMatchFormat: async (matchFormat) => {
     set({ matchFormat });
   },
-
   setMatchLanguage: async (matchLanguage) => {
     set({ matchLanguage });
   },
-
   setInputMode: async (inputMode) => {
     set({ inputMode });
   },
+
   setMatchId: async (matchId: string) => {
     set({ matchId });
   },
-
   setIsOfferer: async (isOfferer: boolean) => {
     set({ isOfferer });
   },
-
   setUserBuddy: async (buddy: IUserBuddy) => {
     set({ buddy });
   },

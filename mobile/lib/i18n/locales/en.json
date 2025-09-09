@@ -107,7 +107,7 @@
       "levels": {
         "1": "Basic",
         "2": "Elementary",
-        "3": "Intermediate", 
+        "3": "Intermediate",
         "4": "Advanced",
         "5": "Fluent"
       },
@@ -123,7 +123,9 @@
       "fillRequired": "Please fill in all required fields before continuing.",
       "invalidEmail": "Please enter a valid email address.",
       "passwordTooShort": "Password must be at least 6 characters long.",
-      "passwordsDoNotMatch": "Passwords do not match."
+      "passwordsDoNotMatch": "Passwords do not match.",
+      "inputModeRequired": "Input mode required",
+      "selectInputMode": "Select how you want to play: typing or voice"
     },
     "errors": {
       "usernameRequired": "Username is required",
@@ -147,7 +149,7 @@
     "topics": {
       "technology": "Technology",
       "sports": "Sports",
-      "music": "Music", 
+      "music": "Music",
       "art": "Art",
       "literature": "Literature",
       "travel": "Travel",

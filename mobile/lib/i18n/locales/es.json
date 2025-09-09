@@ -123,7 +123,9 @@
       "fillRequired": "Por favor completa todos los campos requeridos antes de continuar.",
       "invalidEmail": "Por favor ingresa un email válido.",
       "passwordTooShort": "La contraseña debe tener al menos 6 caracteres.",
-      "passwordsDoNotMatch": "Las contraseñas no coinciden."
+      "passwordsDoNotMatch": "Las contraseñas no coinciden.",
+      "inputModeRequired": "Modo de entrada requerido",
+      "selectInputMode": "Selecciona cómo quieres jugar: escritura o voz"
     },
     "errors": {
       "usernameRequired": "El nombre de usuario es requerido",

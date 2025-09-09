@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { IWordBuilderGameResult } from "../models/interfaces/word_builder_game";
 import Button from "./Button";
 import useI18n from "../hooks/useI18n";
 import { COLORS } from "../constants/colors";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface GameResultsScreenProps {
   gameResult: IWordBuilderGameResult;
@@ -18,6 +19,16 @@ const GameResultsScreen: React.FC<GameResultsScreenProps> = ({
   onBackToMenu,
 }) => {
   const { t } = useI18n();
+  const queryClient = useQueryClient();
+
+  // Invalidar o cache quando o componente montar (jogo terminou)
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ["matchHistory"] });
+  }, [queryClient]);
+
+  const handleBackToMenu = () => {
+    onBackToMenu();
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-appBgWhite px-6">
@@ -145,7 +156,7 @@ const GameResultsScreen: React.FC<GameResultsScreenProps> = ({
 
         <Button
           title={t("wordBuilder.backToMenu")}
-          onPress={onBackToMenu}
+          onPress={handleBackToMenu}
           bgColor="bg-appLightGrey"
           bgColorActivate="bg-appMediumGrey"
           textColor="text-appDarkGrey"
