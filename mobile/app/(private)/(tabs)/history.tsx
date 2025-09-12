@@ -46,7 +46,7 @@ export default function History() {
         </Text>
 
         {matchHistoryItems && matchHistoryItems.length === 0 && (
-          <Text className="text-lg font-nunito-medium py-6 px-10">
+          <Text className="text-lg font-nunito-medium py-6 px-10 text-appBlack">
             No match history found. Start a new match to see it here!
           </Text>
         )}

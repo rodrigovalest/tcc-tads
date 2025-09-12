@@ -47,13 +47,13 @@ const MatchHistoryItem = ({
   return (
     <View className="bg-appLightGrey py-6 pl-10 pr-12 mb-4">
       <View className="flex-row justify-between">
-        <Text className="text-lg font-nunito-bold">{getLocalizedMatchModes()[mode].title}</Text>
-        <Text className="text-lg font-nunito-medium">{date}</Text>
+        <Text className="text-lg font-nunito-bold text-appBlack">{getLocalizedMatchModes()[mode].title}</Text>
+        <Text className="text-lg font-nunito-medium text-appBlack">{date}</Text>
       </View>
 
       <View className="flex-row justify-between">
-        <Text className="text-lg font-nunito-medium">{getLocalizedMatchLanguages()[language]}</Text>
-        <Text className="text-l font-nunito-medium">{duration}</Text>
+        <Text className="text-lg font-nunito-medium text-appBlack">{getLocalizedMatchLanguages()[language]}</Text>
+        <Text className="text-l font-nunito-medium text-appBlack">{duration}</Text>
       </View>
 
       <View className="flex-row mt-4">

@@ -2,14 +2,8 @@ import api from "../api";
 import IMatchHistoryResponse from "../models/responses/match-history-response";
 import { MatchMode } from "../models/types/match-mode.type";
 import { MatchLanguage } from "../models/types/match-language.type";
-
-interface CreateSoloMatchResponse {
-  matchId: string;
-}
-
-interface CompleteSoloMatchResponse {
-  success: boolean;
-}
+import ICreateSoloMatchResponse from "../models/responses/create-solo-match-response";
+import ICompleteSoloMatchResponse from "../models/responses/complete-solo-match-response";
 
 const matchService = {
   getMatchHistory: async (): Promise<IMatchHistoryResponse[]> => {
@@ -20,8 +14,8 @@ const matchService = {
   createSoloMatch: async (
     mode: MatchMode,
     language: MatchLanguage
-  ): Promise<CreateSoloMatchResponse> => {
-    const response = await api.post<CreateSoloMatchResponse>("/matches/solo", {
+  ): Promise<ICreateSoloMatchResponse> => {
+    const response = await api.post<ICreateSoloMatchResponse>("/matches/solo", {
       mode,
       language,
     });
@@ -30,8 +24,8 @@ const matchService = {
 
   completeSoloMatch: async (
     matchId: string
-  ): Promise<CompleteSoloMatchResponse> => {
-    const response = await api.post<CompleteSoloMatchResponse>(
+  ): Promise<ICompleteSoloMatchResponse> => {
+    const response = await api.post<ICompleteSoloMatchResponse>(
       `/matches/${matchId}/complete`
     );
     return response.data;
