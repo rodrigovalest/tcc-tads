@@ -12,7 +12,6 @@ import { UserQueue } from '../entities/user-queue.entity';
 
 @Injectable()
 export class MatchService {
-
   constructor(
     @InjectRepository(Match)
     private readonly matchRepository: Repository<Match>,
@@ -50,6 +49,49 @@ export class MatchService {
     return match;
   }
 
+  async createSoloMatch(
+    mode: MatchMode,
+    language: MatchLanguage,
+    userId: number,
+  ): Promise<Match> {
+    const match = this.matchRepository.create({
+      mode,
+      format: MatchFormat.SOLO,
+      language,
+      status: MatchStatus.IN_PROGRESS,
+      startTime: new Date(),
+    });
+    await this.matchRepository.save(match);
+
+    const userMatch = this.userMatchRepository.create({
+      user: { id: userId } as User,
+      socketId: 'solo-match',
+      match,
+    });
+
+    await this.userMatchRepository.save(userMatch);
+
+    return match;
+  }
+
+  async completeSoloMatch(matchId: string): Promise<void> {
+    const match = await this.matchRepository.findOne({
+      where: { id: matchId },
+    });
+
+    if (!match) {
+      this.logger.warn(`No match found with id ${matchId}`);
+      return;
+    }
+
+    if (match.status !== MatchStatus.COMPLETED) {
+      match.status = MatchStatus.COMPLETED;
+      match.endTime = new Date();
+      await this.matchRepository.save(match);
+      this.logger.log(`Solo match ${match.id} completed`);
+    }
+  }
+
   async completeMatch(socketId: string): Promise<void> {
     const userMatch = await this.userMatchRepository.findOne({
       where: { socketId },
@@ -67,7 +109,9 @@ export class MatchService {
       match.status = MatchStatus.COMPLETED;
       match.endTime = new Date();
       await this.matchRepository.save(match);
-      this.logger.log(`Match ${match.id} completed due to disconnection of user ${userMatch.user.id}`);
+      this.logger.log(
+        `Match ${match.id} completed due to disconnection of user ${userMatch.user.id}`,
+      );
     }
   }
 
@@ -77,6 +121,6 @@ export class MatchService {
       relations: ['match', 'match.userMatches', 'match.userMatches.user'],
     });
 
-    return userMatches.map(um => um.match);
+    return userMatches.map((um) => um.match);
   }
 }

@@ -53,6 +53,7 @@ describe('AuthService', () => {
       email,
       username: 'username1',
       password: hashedPassword,
+      nationality: 'BR',
     };
 
     it('should return a signed JWT token on successful login', async () => {
@@ -68,11 +69,12 @@ describe('AuthService', () => {
       // Assert
       expect(mockUserService.findByEmail).toHaveBeenCalledWith(email);
       expect(bcrypt.compare).toHaveBeenCalledWith(password, hashedPassword);
-      expect(mockConfigService.get).toHaveBeenCalledWith('JWT_SECRET', '3aa1bb2a5ea23dad786b921512ea6a3c788da4214166f0b7de0a2dd276a2c9c2');
-      expect(mockJwtService.sign).toHaveBeenCalledWith(
-        { sub: user.id, email: user.email, username: user.username },
-        { secret: 'test-secret' },
-      );
+      expect(mockJwtService.sign).toHaveBeenCalledWith({
+        sub: user.id,
+        email: user.email,
+        username: user.username,
+        nationality: user.nationality,
+      });
       expect(result).toBe('signed.jwt.token');
     });
 

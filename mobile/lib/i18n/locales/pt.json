@@ -17,6 +17,7 @@
     "search": "Buscar",
     "language": "Idioma",
     "settings": "Configurações",
+    "ok": "OK",
     "tryAgain": "Tentar Novamente"
   },
   "auth": {
@@ -106,7 +107,7 @@
       "fluencyLevel": "Nível de fluência:",
       "levels": {
         "1": "Básico",
-        "2": "Elementar", 
+        "2": "Elementar",
         "3": "Intermediário",
         "4": "Avançado",
         "5": "Fluente"
@@ -123,7 +124,9 @@
       "fillRequired": "Por favor, preencha todos os campos obrigatórios antes de continuar.",
       "invalidEmail": "Por favor, insira um email válido.",
       "passwordTooShort": "A senha deve ter pelo menos 6 caracteres.",
-      "passwordsDoNotMatch": "As senhas não coincidem."
+      "passwordsDoNotMatch": "As senhas não coincidem.",
+      "inputModeRequired": "Modo de entrada obrigatório",
+      "selectInputMode": "Selecione como você quer jogar: digitação ou voz"
     },
     "errors": {
       "usernameRequired": "Nome de usuário é obrigatório",
@@ -146,7 +149,7 @@
     },
     "topics": {
       "technology": "Tecnologia",
-      "sports": "Esportes", 
+      "sports": "Esportes",
       "music": "Música",
       "art": "Arte",
       "literature": "Literatura",
@@ -184,11 +187,49 @@
     "formatComingSoon": "Solo e Group estarão disponíveis em breve",
     "matchModes": {
       "conversation": "Conversa",
-      "justChilling": "Relaxando"
+      "justChilling": "Relaxando",
+      "wordBuilder": "Construtor de Palavras"
     },
     "errors": {
       "somethingWentWrong": "Algo deu errado!"
     }
+  },
+  "wordBuilder": {
+    "title": "Construtor de Palavras",
+    "description": "Construa o máximo de palavras possível com a letra ou sílaba dada",
+    "timeLeft": "Tempo restante",
+    "letter": "Letra",
+    "syllable": "Sílaba",
+    "wordsFound": "Palavras encontradas",
+    "score": "Pontuação",
+    "correctWords": "Palavras corretas",
+    "incorrectWords": "Palavras incorretas",
+    "enterWord": "Digite a palavra",
+    "speakWord": "Fale a palavra",
+    "submit": "Enviar",
+    "gameOver": "Fim de Jogo!",
+    "finalScore": "Pontuação Final",
+    "playAgain": "Jogar Novamente",
+    "backToMenu": "Voltar ao Menu",
+    "exitGame": "Sair do Jogo",
+    "confirmExit": "Tem certeza que deseja sair do jogo?",
+    "yes": "Sim",
+    "no": "Não",
+    "getReady": "Prepare-se!",
+    "startingIn": "Iniciando em",
+    "go": "VAI!",
+    "noWordsYet": "Nenhuma palavra encontrada ainda. Comece a digitar!",
+    "wordsRemaining": "palavras restantes",
+    "inputMode": "Modo de Entrada",
+    "typing": "Digitação",
+    "voice": "Voz",
+    "tapToSpeak": "Toque para falar",
+    "listening": "Ouvindo...",
+    "processing": "Processando...",
+    "startListening": "Começar a escutar",
+    "stopListening": "Parar de escutar",
+    "reRecord": "Gravar novamente",
+    "voiceRecognitionError": "Erro no reconhecimento de voz. Tente novamente."
   },
   "navigation": {
     "matches": "Partidas",

@@ -16,7 +16,8 @@
     "select": "Select",
     "search": "Search",
     "language": "Language",
-    "settings": "Settings"
+    "settings": "Settings",
+    "ok": "OK"
   },
   "auth": {
     "login": "Login",
@@ -106,7 +107,7 @@
       "levels": {
         "1": "Basic",
         "2": "Elementary",
-        "3": "Intermediate", 
+        "3": "Intermediate",
         "4": "Advanced",
         "5": "Fluent"
       },
@@ -122,7 +123,9 @@
       "fillRequired": "Please fill in all required fields before continuing.",
       "invalidEmail": "Please enter a valid email address.",
       "passwordTooShort": "Password must be at least 6 characters long.",
-      "passwordsDoNotMatch": "Passwords do not match."
+      "passwordsDoNotMatch": "Passwords do not match.",
+      "inputModeRequired": "Input mode required",
+      "selectInputMode": "Select how you want to play: typing or voice"
     },
     "errors": {
       "usernameRequired": "Username is required",
@@ -146,7 +149,7 @@
     "topics": {
       "technology": "Technology",
       "sports": "Sports",
-      "music": "Music", 
+      "music": "Music",
       "art": "Art",
       "literature": "Literature",
       "travel": "Travel",
@@ -183,11 +186,49 @@
     "formatComingSoon": "Solo and Group will be available soon",
     "matchModes": {
       "conversation": "Conversation",
-      "justChilling": "Just Chilling"
+      "justChilling": "Just Chilling",
+      "wordBuilder": "Word Builder"
     },
     "errors": {
       "somethingWentWrong": "Something went wrong!"
     }
+  },
+  "wordBuilder": {
+    "title": "Word Builder",
+    "description": "Build as many words as possible with the given letter or syllable",
+    "timeLeft": "Time left",
+    "letter": "Letter",
+    "syllable": "Syllable",
+    "wordsFound": "Words found",
+    "score": "Score",
+    "correctWords": "Correct words",
+    "incorrectWords": "Incorrect words",
+    "enterWord": "Enter word",
+    "speakWord": "Speak word",
+    "submit": "Submit",
+    "gameOver": "Game Over!",
+    "finalScore": "Final Score",
+    "playAgain": "Play Again",
+    "backToMenu": "Back to Menu",
+    "exitGame": "Exit Game",
+    "confirmExit": "Are you sure you want to exit the game?",
+    "yes": "Yes",
+    "no": "No",
+    "getReady": "Get Ready!",
+    "startingIn": "Starting in",
+    "go": "GO!",
+    "noWordsYet": "No words found yet. Start typing!",
+    "wordsRemaining": "words remaining",
+    "inputMode": "Input Mode",
+    "typing": "Typing",
+    "voice": "Voice",
+    "tapToSpeak": "Tap to speak",
+    "listening": "Listening...",
+    "processing": "Processing...",
+    "startListening": "Start listening",
+    "stopListening": "Stop listening",
+    "reRecord": "Record again",
+    "voiceRecognitionError": "Voice recognition error. Please try again."
   },
   "navigation": {
     "matches": "Matches",

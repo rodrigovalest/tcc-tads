@@ -1,46 +1,68 @@
+import React from "react";
+import { TouchableOpacity, Text, View, ScrollView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import Toast from "react-native-toast-message";
+
 import { AVALIABLE_MATCH_MODES } from "../../constants/available-match-modes";
 import IAvaliableMatchMode from "../../models/interfaces/avaliable_match_mode";
 import useMatchStore from "../../store/match-store";
-import { useRouter } from "expo-router";
-import { TouchableOpacity, Text, View, ScrollView } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import useI18n from "../../hooks/useI18n";
+
 import Button from "../../components/Button";
 import MatchFormatSelector from "../../components/MatchFormatSelector";
 import MatchLanguageSelector from "../../components/MatchLanguageSelector";
-import useI18n from "../../hooks/useI18n";
-import Toast from "react-native-toast-message";
+import InputModeSelector from "../../components/InputModeSelector";
 
 export default function LanguageSelection() {
   const {
     matchMode,
     matchFormat,
     matchLanguage,
+    inputMode,
     resetMatch,
     setMatchLanguage,
-    setMatchFormat
+    setMatchFormat,
+    setInputMode,
   } = useMatchStore();
   const { t } = useI18n();
   const router = useRouter();
 
   if (!matchMode) {
-    router.replace('/(private)/(tabs)/matches');
+    router.replace("/(private)/(tabs)/matches");
     return null;
   }
 
-  const selectedMatchMode: IAvaliableMatchMode = AVALIABLE_MATCH_MODES[matchMode];
+  const selectedMatchMode: IAvaliableMatchMode =
+    AVALIABLE_MATCH_MODES[matchMode];
 
   const onBack = async () => {
     await resetMatch();
-    router.replace('/(private)/(tabs)/matches');
-  }
+    router.replace("/(private)/(tabs)/matches");
+  };
 
   const onPlay = () => {
-    if (!matchMode || !matchFormat || !matchLanguage)
-      return;
+    if (!matchMode || !matchFormat || !matchLanguage) return;
 
-    router.replace(`/(private)/${matchMode}/${matchFormat}/waiting`);
-  }
+    if (matchMode === "word-builder" && !inputMode) {
+      Toast.show({
+        type: "error",
+        text1: t("validation.inputModeRequired"),
+        text2: t("validation.selectInputMode"),
+      });
+      return;
+    }
+
+    if (matchMode === "word-builder" && matchFormat === "solo") {
+      router.replace("/(private)/word-builder/solo/game");
+    } else if (matchMode === "just-chilling" && matchFormat === "duo") {
+      router.replace("/(private)/just-chilling/duo/waiting");
+    } else {
+      console.warn(`No route found for ${matchMode}/${matchFormat}`);
+      router.replace("/(private)/(tabs)/matches");
+    }
+  };
 
   return (
     <SafeAreaView
@@ -56,23 +78,20 @@ export default function LanguageSelection() {
           onPress={onBack}
           testID="back-button"
         >
-          <Ionicons
-            name="chevron-back"
-            size={35}
-          />
+          <Ionicons name="chevron-back" size={35} />
         </TouchableOpacity>
 
         <View className="px-6 mt-20">
           <Text className="text-3xl font-nunito-bold text-appBlack mb-4">
-            {t('match.playToChallenge')}
+            {t("match.playToChallenge")}
           </Text>
 
           <Text className="text-xl font-nunito-medium text-appBlack mb-8">
-            {t('match.gameMode')}: {selectedMatchMode.title}
+            {t("match.gameMode")}: {selectedMatchMode.title}
           </Text>
 
           <Text className="text-xl font-nunito-bold text-appBlack mb-2">
-            {t('match.matchFormat')}
+            {t("match.matchFormat")}
           </Text>
 
           <View className="mb-8">
@@ -82,7 +101,6 @@ export default function LanguageSelection() {
               onSelect={setMatchFormat}
             />
           </View>
-
           <View className="mb-8">
             <MatchLanguageSelector
               selected={matchLanguage}
@@ -90,10 +108,20 @@ export default function LanguageSelection() {
             />
           </View>
 
+          {matchMode === "word-builder" && (
+            <View className="mb-8">
+              <InputModeSelector selected={inputMode} onSelect={setInputMode} />
+            </View>
+          )}
+
           <Button
-            title={t('common.play')}
+            title={t("common.play")}
             onPress={onPlay}
-            disabled={matchFormat === null || matchLanguage === null}
+            disabled={
+              matchFormat === null ||
+              matchLanguage === null ||
+              (matchMode === "word-builder" && inputMode === null)
+            }
             bgColor="bg-black"
             textColor="text-white"
             borderColor="border-black"

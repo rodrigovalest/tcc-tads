@@ -6,6 +6,18 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   clear: jest.fn(() => Promise.resolve()),
 }));
 
+// Mock word validation service
+jest.mock('./services/word-validation', () => ({
+  validateWord: jest.fn((word, language) => {
+    const validWords = ['cat', 'dog', 'house', 'test', 'word'];
+    return validWords.includes(word.toLowerCase());
+  }),
+  generateRandomWord: jest.fn((language) => {
+    const words = ['cat', 'dog', 'house', 'test', 'word'];
+    return words[Math.floor(Math.random() * words.length)];
+  }),
+}));
+
 // Mock react-native-toast-message
 jest.mock('react-native-toast-message', () => ({
   show: jest.fn(),

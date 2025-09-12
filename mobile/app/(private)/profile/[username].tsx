@@ -23,6 +23,7 @@ export default function SeeUserProfile() {
         <Ionicons
           name="chevron-back"
           size={35}
+          color={"#191919"}
         />
       </TouchableOpacity>
 
@@ -31,9 +32,9 @@ export default function SeeUserProfile() {
         showsVerticalScrollIndicator={false}
       >
         <View className="flex-1 items-center justify-center bg-white">
-          <Text className="text-xl font-bold">Perfil do usuário</Text>
-          <Text className="text-lg mt-2">{username}</Text>
-          <Text className="text-lg mt-2">Em desenvolvimento 🏗️🏗️🏗️</Text>
+          <Text className="text-xl font-bold text-appBlack">Perfil do usuário</Text>
+          <Text className="text-lg mt-2 text-appBlack">{username}</Text>
+          <Text className="text-lg mt-2 text-appBlack">Em desenvolvimento 🏗️🏗️🏗️</Text>
         </View>
       </ScrollView>
     </SafeAreaView>
