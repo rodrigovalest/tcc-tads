@@ -1,0 +1,313 @@
+{
+  "common": {
+    "play": "Jogar",
+    "back": "Voltar",
+    "loading": "Carregando...",
+    "error": "Erro",
+    "success": "Sucesso",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "save": "Salvar",
+    "delete": "Excluir",
+    "edit": "Editar",
+    "close": "Fechar",
+    "next": "Próximo",
+    "previous": "Anterior",
+    "select": "Selecionar",
+    "search": "Buscar",
+    "language": "Idioma",
+    "settings": "Configurações",
+    "ok": "OK",
+    "tryAgain": "Tentar Novamente"
+  },
+  "auth": {
+    "login": "Entrar",
+    "register": "Cadastrar",
+    "logout": "Sair",
+    "loginWithGoogle": "Entrar com Google",
+    "registerWithGoogle": "Cadastrar com Google",
+    "email": "E-mail",
+    "password": "Senha",
+    "confirmPassword": "Confirmar senha",
+    "forgotPassword": "Esqueci minha senha",
+    "dontHaveAccount": "Não tem uma conta?",
+    "alreadyHaveAccount": "Já tem uma conta?",
+    "createAccount": "Criar conta",
+    "welcome": "Bem-vindo",
+    "welcomeBack": "Bem-vindo de volta",
+    "loginOrSignUp": "Entre ou cadastre-se",
+    "or": "ou",
+    "username": "Nome de usuário",
+    "nationality": "Nacionalidade",
+    "enterUsername": "Digite seu nome de usuário",
+    "enterEmail": "Digite seu e-mail",
+    "enterPassword": "Digite sua senha",
+    "confirmYourPassword": "Confirme sua senha",
+    "emailOrUsername": "E-mail ou nome de usuário",
+    "enterEmailOrUsername": "Digite seu e-mail ou nome de usuário",
+    "isRequired": "é obrigatório",
+    "mustHaveAtLeast": "deve ter pelo menos",
+    "characters": "caracteres",
+    "loginMessages": {
+      "success": {
+        "title": "Login realizado com sucesso"
+      },
+      "error": {
+        "title": "Erro no login",
+        "message": "Algo deu errado. Tente novamente"
+      }
+    }
+  },
+  "register": {
+    "steps": {
+      "basicInfo": "Informações",
+      "languages": "Idiomas",
+      "photo": "Foto",
+      "interests": "Interesses",
+      "description": "Descrição"
+    },
+    "stepper": {
+      "step": "Etapa",
+      "of": "de"
+    },
+    "photo": {
+      "title": "Adicione uma foto de perfil",
+      "subtitle": "Uma foto de perfil ajuda outros usuários a te reconhecerem",
+      "takePhoto": "Tirar Foto",
+      "chooseFromGallery": "Escolher da Galeria",
+      "removePhoto": "Remover foto",
+      "removePhotoConfirm": "Tem certeza que deseja remover a foto de perfil?",
+      "remove": "Remover",
+      "optional": "Esta etapa é opcional. Você pode pular e adicionar uma foto depois.",
+      "loading": "Carregando...",
+      "permissionRequired": "Permissão necessária",
+      "cameraPermission": "Precisamos de permissão para acessar sua câmera.",
+      "galleryPermission": "Precisamos de permissão para acessar sua galeria de fotos.",
+      "errorTitle": "Erro",
+      "errorSelectImage": "Não foi possível selecionar a imagem.",
+      "errorTakePhoto": "Não foi possível tirar a foto."
+    },
+    "interests": {
+      "title": "Selecione até 3 tópicos de interesse",
+      "selected": "Selecionados",
+      "canSelectMore": "Selecione os tópicos que mais te interessam",
+      "maxSelected": "Você já selecionou o máximo de tópicos permitidos",
+      "selectToSeeHere": "Selecione tópicos para vê-los aqui"
+    },
+    "description": {
+      "title": "Conte um pouco sobre você",
+      "subtitle": "Compartilhe seus interesses, hobbies ou qualquer informação que ajude outros usuários a te conhecerem melhor",
+      "label": "Descrição pessoal",
+      "placeholder": "Ex: Sou apaixonado por tecnologia, adoro viajar e conhecer novas culturas. Gosto de ler livros de ficção científica e praticar esportes ao ar livre...",
+      "charactersCount": "caracteres",
+      "optional": "Esta etapa é opcional. Você pode pular e adicionar uma descrição depois."
+    },
+    "languages": {
+      "title": "Selecione seus idiomas e níveis de fluência",
+      "fluencyLevel": "Nível de fluência:",
+      "levels": {
+        "1": "Básico",
+        "2": "Elementar",
+        "3": "Intermediário",
+        "4": "Avançado",
+        "5": "Fluente"
+      },
+      "instruction": "Selecione pelo menos um idioma para continuar"
+    },
+    "buttons": {
+      "back": "Voltar",
+      "skip": "Pular",
+      "next": "Avançar",
+      "finish": "Cadastrar"
+    },
+    "validation": {
+      "fillRequired": "Por favor, preencha todos os campos obrigatórios antes de continuar.",
+      "invalidEmail": "Por favor, insira um email válido.",
+      "passwordTooShort": "A senha deve ter pelo menos 6 caracteres.",
+      "passwordsDoNotMatch": "As senhas não coincidem.",
+      "inputModeRequired": "Modo de entrada obrigatório",
+      "selectInputMode": "Selecione como você quer jogar: digitação ou voz"
+    },
+    "errors": {
+      "usernameRequired": "Nome de usuário é obrigatório",
+      "emailRequired": "E-mail é obrigatório",
+      "invalidEmail": "Por favor, insira um email válido",
+      "passwordRequired": "Senha é obrigatória",
+      "passwordTooShort": "A senha deve ter pelo menos 6 caracteres",
+      "confirmPasswordRequired": "Confirmação de senha é obrigatória",
+      "passwordsDoNotMatch": "As senhas não coincidem",
+      "nationalityRequired": "Nacionalidade é obrigatória",
+      "languagesRequired": "Selecione pelo menos um idioma"
+    },
+    "success": {
+      "title": "Cadastro realizado com sucesso",
+      "message": "Agora você pode fazer login com suas credenciais."
+    },
+    "error": {
+      "title": "Erro no cadastro",
+      "message": "Algo deu errado. Tente novamente."
+    },
+    "topics": {
+      "technology": "Tecnologia",
+      "sports": "Esportes",
+      "music": "Música",
+      "art": "Arte",
+      "literature": "Literatura",
+      "travel": "Viagens",
+      "cooking": "Culinária",
+      "photography": "Fotografia",
+      "games": "Jogos",
+      "science": "Ciência",
+      "history": "História",
+      "politics": "Política",
+      "fashion": "Moda",
+      "health": "Saúde",
+      "education": "Educação",
+      "business": "Negócios",
+      "environment": "Meio Ambiente",
+      "cinema": "Cinema",
+      "theater": "Teatro",
+      "dance": "Dança"
+    }
+  },
+  "match": {
+    "playToChallenge": "Jogue para se desafiar!",
+    "gameMode": "Modo de jogo",
+    "matchFormat": "Formato da partida",
+    "matchLanguage": "Idioma da partida",
+    "selectLanguage": "Selecionar idioma",
+    "selectGameMode": "Selecione o modo de jogo",
+    "waiting": "Aguardando...",
+    "searchingOpponent": "Procurando oponente...",
+    "matchFound": "Partida encontrada!",
+    "connecting": "Conectando...",
+    "disconnected": "Desconectado",
+    "reconnecting": "Reconectando...",
+    "formatNotSupported": "Este formato não está disponível ainda",
+    "formatComingSoon": "Solo e Group estarão disponíveis em breve",
+    "matchModes": {
+      "conversation": "Conversa",
+      "justChilling": "Relaxando",
+      "wordBuilder": "Construtor de Palavras"
+    },
+    "errors": {
+      "somethingWentWrong": "Algo deu errado!"
+    }
+  },
+  "wordBuilder": {
+    "title": "Construtor de Palavras",
+    "description": "Construa o máximo de palavras possível com a letra ou sílaba dada",
+    "timeLeft": "Tempo restante",
+    "letter": "Letra",
+    "syllable": "Sílaba",
+    "wordsFound": "Palavras encontradas",
+    "score": "Pontuação",
+    "correctWords": "Palavras corretas",
+    "incorrectWords": "Palavras incorretas",
+    "enterWord": "Digite a palavra",
+    "speakWord": "Fale a palavra",
+    "submit": "Enviar",
+    "gameOver": "Fim de Jogo!",
+    "finalScore": "Pontuação Final",
+    "playAgain": "Jogar Novamente",
+    "backToMenu": "Voltar ao Menu",
+    "exitGame": "Sair do Jogo",
+    "confirmExit": "Tem certeza que deseja sair do jogo?",
+    "yes": "Sim",
+    "no": "Não",
+    "getReady": "Prepare-se!",
+    "startingIn": "Iniciando em",
+    "go": "VAI!",
+    "noWordsYet": "Nenhuma palavra encontrada ainda. Comece a digitar!",
+    "wordsRemaining": "palavras restantes",
+    "inputMode": "Modo de Entrada",
+    "typing": "Digitação",
+    "voice": "Voz",
+    "tapToSpeak": "Toque para falar",
+    "listening": "Ouvindo...",
+    "processing": "Processando...",
+    "startListening": "Começar a escutar",
+    "stopListening": "Parar de escutar",
+    "reRecord": "Gravar novamente",
+    "voiceRecognitionError": "Erro no reconhecimento de voz. Tente novamente."
+  },
+  "navigation": {
+    "matches": "Partidas",
+    "chat": "Chat",
+    "profile": "Perfil",
+    "home": "Início",
+    "history": "Histórico",
+    "settings": "Config"
+  },
+  "profile": {
+    "title": "Perfil",
+    "editProfile": "Editar Perfil",
+    "aboutMe": "Sobre mim",
+    "languages": "Idiomas",
+    "interests": "Interesses",
+    "accountInfo": "Informações da Conta",
+    "memberSince": "Membro desde",
+    "lastLogin": "Último login",
+    "accountStatus": "Status da conta",
+    "active": "Ativa",
+    "inactive": "Inativa",
+    "never": "Nunca",
+    "loading": "Carregando perfil...",
+    "errorLoading": "Erro ao carregar perfil",
+    "tryAgain": "Tentar Novamente",
+    "fluency": {
+      "beginner": "Iniciante",
+      "intermediate": "Intermediário",
+      "advanced": "Avançado",
+      "fluent": "Fluente",
+      "native": "Nativo",
+      "unknown": "Desconhecido"
+    }
+  },
+  "settings": {
+    "language": "Idioma",
+    "changeLanguage": "Alterar idioma",
+    "languageChanged": "Idioma alterado com sucesso",
+    "selectLanguage": "Selecione um idioma",
+    "notifications": "Notificações",
+    "privacy": "Privacidade",
+    "about": "Sobre",
+    "version": "Versão",
+    "termsOfService": "Termos de serviço",
+    "privacyPolicy": "Política de privacidade",
+    "account": "Conta"
+  },
+  "languages": {
+    "pt": "Português",
+    "en": "Inglês",
+    "es": "Espanhol",
+    "fr": "Francês",
+    "de": "Alemão",
+    "it": "Italiano",
+    "ja": "Japonês",
+    "ko": "Coreano",
+    "zh": "Chinês",
+    "ru": "Russo",
+    "ar": "Árabe",
+    "hi": "Hindi",
+    "nl": "Holandês",
+    "sv": "Sueco",
+    "no": "Norueguês",
+    "da": "Dinamarquês",
+    "fi": "Finlandês",
+    "pl": "Polonês",
+    "cs": "Tcheco",
+    "tr": "Turco",
+    "th": "Tailandês"
+  },
+  "errors": {
+    "networkError": "Erro de conexão",
+    "serverError": "Erro do servidor",
+    "unknownError": "Erro desconhecido",
+    "validationError": "Digite um e-mail válido",
+    "authError": "Erro de autenticação",
+    "permissionDenied": "Permissão negada",
+    "notFound": "Não encontrado",
+    "routeNotSupported": "Esta rota não é suportada no momento"
+  }
+}

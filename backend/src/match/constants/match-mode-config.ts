@@ -1,5 +1,5 @@
-import { MatchFormat } from "../entities/match-format.enum";
-import { MatchMode } from "../entities/match-mode.enum";
+import { MatchFormat } from '../entities/match-format.enum';
+import { MatchMode } from '../entities/match-mode.enum';
 
 export type MatchModeConfig = {
   allowedTypes: MatchFormat[];
@@ -17,6 +17,14 @@ export const MATCH_MODE_CONFIGS: Record<MatchMode, MatchModeConfig> = {
     requiresMatchmaking: true,
     maxPlayers: 2,
     minPlayers: 2,
+    groupAllowed: false,
+  },
+  [MatchMode.WORD_BUILDER]: {
+    allowedTypes: [MatchFormat.SOLO],
+    usesWebRTC: false,
+    requiresMatchmaking: false,
+    maxPlayers: 1,
+    minPlayers: 1,
     groupAllowed: false,
   },
 };

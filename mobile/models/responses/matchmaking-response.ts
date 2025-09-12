@@ -7,7 +7,7 @@ export default interface IMatchmakingResponse {
   matchMode: MatchMode;
   matchFormat: MatchFormat;
   language: MatchLanguage;
-  roomId: string;
+  matchId: string;
   isOfferer: boolean;
   buddy: {
     username: string;

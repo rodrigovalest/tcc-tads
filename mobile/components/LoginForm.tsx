@@ -7,17 +7,21 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useLogin } from "../hooks/useLogin";
 import ILoginRequest from "../models/requests/login-request";
-
-const loginSchema = yup.object().shape({
-  email: yup.string().email("Invalid email").required("Email is required"),
-  password: yup
-    .string()
-    .min(6, "Password must have at least 6 characters")
-    .required("Password is required"),
-});
+import useI18n from "../hooks/useI18n";
 
 const LoginForm: React.FC = () => {
   const { mutate: onLogin, isPending } = useLogin();
+  const { t } = useI18n();
+  const loginSchema = yup.object().shape({
+    email: yup
+      .string()
+      .email(t('errors.validationError'))
+      .required(`${t('auth.email')} ${t('auth.isRequired')}`),
+    password: yup
+      .string()
+      .min(6, `${t('auth.password')} ${t('auth.mustHaveAtLeast')} 6 ${t('auth.characters')}`)
+      .required(`${t('auth.password')} ${t('auth.isRequired')}`),
+  });
 
   const {
     control,
@@ -42,11 +46,11 @@ const LoginForm: React.FC = () => {
         name="email"
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
-            label="Email *"
+            label={`${t('auth.email')} *`}
             value={value}
             onChangeText={onChange}
             onBlur={onBlur}
-            placeholder="Enter your email"
+            placeholder={t('auth.enterEmail')}
             type="email"
             error={errors.email?.message}
           />
@@ -58,11 +62,11 @@ const LoginForm: React.FC = () => {
         name="password"
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
-            label="Password *"
+            label={`${t('auth.password')} *`}
             value={value}
             onChangeText={onChange}
             onBlur={onBlur}
-            placeholder="Enter your password"
+            placeholder={t('auth.enterPassword')}
             type="password"
             error={errors.password?.message}
           />
@@ -70,7 +74,7 @@ const LoginForm: React.FC = () => {
       />
 
       <Button
-        title={isPending ? "Loading..." : "Login"}
+        title={isPending ? t('common.loading') : t('auth.login')}
         onPress={handleSubmit(onSubmit)}
         disabled={isPending}
         textSize="2xl"

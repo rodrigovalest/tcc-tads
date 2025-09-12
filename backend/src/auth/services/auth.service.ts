@@ -18,23 +18,24 @@ export class AuthService {
     const user: User | null = await this.userService.findByEmail(email);
 
     if (!user) {
-      throw new UnauthorizedException('Email address or password provided is incorrect.');
+      throw new UnauthorizedException(
+        'Email address or password provided is incorrect.',
+      );
     }
 
-    if (!await bcrypt.compare(password, user.password)) {
-      throw new UnauthorizedException('Email address or password provided is incorrect.');
+    if (!(await bcrypt.compare(password, user.password))) {
+      throw new UnauthorizedException(
+        'Email address or password provided is incorrect.',
+      );
     }
 
     const payload: IUserJwtPayload = {
       sub: user.id,
       email: user.email,
       username: user.username,
-      nationality: user.nationality
+      nationality: user.nationality,
     };
 
-    return this.jwtService.sign(
-      payload, 
-      { secret: this.configService.get<string>('JWT_SECRET', '3aa1bb2a5ea23dad786b921512ea6a3c788da4214166f0b7de0a2dd276a2c9c2') }
-    );
+    return this.jwtService.sign(payload);
   }
 }

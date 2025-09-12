@@ -12,34 +12,42 @@ type AuthState = {
   restore: () => Promise<void>;
 };
 
-const useAuthStore = create<AuthState>((set) => ({
+const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   token: null,
   loading: true,
 
   login: async (token: string) => {
     const decoded: IJwtUser = jwtDecode(token);
-    await AsyncStorage.multiSet([
-      ["user", JSON.stringify(decoded)],
-      ["token", token],
-    ]);
+    await AsyncStorage.setItem("token", token);
     set({ user: decoded, token });
   },
 
   logout: async () => {
-    await AsyncStorage.multiRemove(["user", "token"]);
+    await AsyncStorage.removeItem("token");
     set({ user: null, token: null });
   },
 
   restore: async () => {
-    const [[, userData], [, token]] = await AsyncStorage.multiGet([
-      "user",
-      "token",
-    ]);
-    if (userData && token) {
-      set({ user: JSON.parse(userData), token });
+    try {
+      const token = await AsyncStorage.getItem("token");
+      if (token) {
+        const decoded: IJwtUser = jwtDecode(token);
+        const currentTime = Date.now() / 1000;
+        if (decoded.exp < currentTime) {
+          await AsyncStorage.removeItem("token");
+          set({ user: null, token: null, loading: false });
+          return;
+        }
+        
+        set({ user: decoded, token, loading: false });
+      } else {
+        set({ user: null, token: null, loading: false });
+      }
+    } catch (error) {
+      await AsyncStorage.removeItem("token");
+      set({ user: null, token: null, loading: false });
     }
-    set((s) => ({ ...s, loading: false }));
   },
 }));
 

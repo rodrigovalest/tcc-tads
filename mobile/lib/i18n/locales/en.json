@@ -1,0 +1,287 @@
+{
+  "common": {
+    "play": "Play",
+    "back": "Back",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "next": "Next",
+    "previous": "Previous",
+    "select": "Select",
+    "search": "Search",
+    "language": "Language",
+    "settings": "Settings",
+    "ok": "OK"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "loginWithGoogle": "Login with Google",
+    "registerWithGoogle": "Register with Google",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "forgotPassword": "Forgot password",
+    "dontHaveAccount": "Don't have an account?",
+    "alreadyHaveAccount": "Already have an account?",
+    "createAccount": "Create account",
+    "welcome": "Welcome",
+    "welcomeBack": "Welcome back",
+    "loginOrSignUp": "Log in or sign up",
+    "or": "or",
+    "username": "Username",
+    "nationality": "Nationality",
+    "enterUsername": "Enter your username",
+    "enterEmail": "Enter your email",
+    "enterPassword": "Enter your password",
+    "confirmYourPassword": "Confirm your password",
+    "emailOrUsername": "Email or username",
+    "enterEmailOrUsername": "Enter your email or username",
+    "isRequired": "is required",
+    "mustHaveAtLeast": "must have at least",
+    "characters": "characters",
+    "loginMessages": {
+      "success": {
+        "title": "Login successful"
+      },
+      "error": {
+        "title": "Login error",
+        "message": "Something went wrong. Try again"
+      }
+    }
+  },
+  "register": {
+    "steps": {
+      "basicInfo": "Information",
+      "languages": "Languages",
+      "photo": "Profile Photo",
+      "interests": "Interests",
+      "description": "Description"
+    },
+    "stepper": {
+      "step": "Step",
+      "of": "of"
+    },
+    "photo": {
+      "title": "Add a profile photo",
+      "subtitle": "A profile photo helps other users recognize you",
+      "takePhoto": "Take Photo",
+      "chooseFromGallery": "Choose from Gallery",
+      "removePhoto": "Remove photo",
+      "removePhotoConfirm": "Are you sure you want to remove the profile photo?",
+      "remove": "Remove",
+      "optional": "This step is optional. You can skip and add a photo later.",
+      "loading": "Loading...",
+      "permissionRequired": "Permission required",
+      "cameraPermission": "We need permission to access your camera.",
+      "galleryPermission": "We need permission to access your photo gallery.",
+      "errorTitle": "Error",
+      "errorSelectImage": "Could not select the image.",
+      "errorTakePhoto": "Could not take the photo."
+    },
+    "interests": {
+      "title": "Select up to 3 topics of interest",
+      "selected": "Selected",
+      "canSelectMore": "Select the topics that interest you most",
+      "maxSelected": "You have already selected the maximum number of topics allowed",
+      "selectToSeeHere": "Select topics to see them here"
+    },
+    "description": {
+      "title": "Tell us a little about yourself",
+      "subtitle": "Share your interests, hobbies or any information that helps other users get to know you better",
+      "label": "Personal description",
+      "placeholder": "Ex: I'm passionate about technology, love to travel and discover new cultures. I enjoy reading science fiction books and practicing outdoor sports...",
+      "charactersCount": "characters",
+      "optional": "This step is optional. You can skip and add a description later."
+    },
+    "languages": {
+      "title": "Select your languages and fluency levels",
+      "fluencyLevel": "Fluency level:",
+      "levels": {
+        "1": "Basic",
+        "2": "Elementary",
+        "3": "Intermediate",
+        "4": "Advanced",
+        "5": "Fluent"
+      },
+      "instruction": "Select at least one language to continue"
+    },
+    "buttons": {
+      "back": "Back",
+      "skip": "Skip",
+      "next": "Next",
+      "finish": "Register"
+    },
+    "validation": {
+      "fillRequired": "Please fill in all required fields before continuing.",
+      "invalidEmail": "Please enter a valid email address.",
+      "passwordTooShort": "Password must be at least 6 characters long.",
+      "passwordsDoNotMatch": "Passwords do not match.",
+      "inputModeRequired": "Input mode required",
+      "selectInputMode": "Select how you want to play: typing or voice"
+    },
+    "errors": {
+      "usernameRequired": "Username is required",
+      "emailRequired": "Email is required",
+      "invalidEmail": "Please enter a valid email address",
+      "passwordRequired": "Password is required",
+      "passwordTooShort": "Password must be at least 6 characters long",
+      "confirmPasswordRequired": "Password confirmation is required",
+      "passwordsDoNotMatch": "Passwords do not match",
+      "nationalityRequired": "Nationality is required",
+      "languagesRequired": "Select at least one language"
+    },
+    "success": {
+      "title": "Registration successful",
+      "message": "You can now log in with your credentials."
+    },
+    "error": {
+      "title": "Registration error",
+      "message": "Something went wrong. Try again."
+    },
+    "topics": {
+      "technology": "Technology",
+      "sports": "Sports",
+      "music": "Music",
+      "art": "Art",
+      "literature": "Literature",
+      "travel": "Travel",
+      "cooking": "Cooking",
+      "photography": "Photography",
+      "games": "Games",
+      "science": "Science",
+      "history": "History",
+      "politics": "Politics",
+      "fashion": "Fashion",
+      "health": "Health",
+      "education": "Education",
+      "business": "Business",
+      "environment": "Environment",
+      "cinema": "Cinema",
+      "theater": "Theater",
+      "dance": "Dance"
+    }
+  },
+  "match": {
+    "playToChallenge": "Play to challenge yourself!",
+    "gameMode": "Game mode",
+    "matchFormat": "Match format",
+    "matchLanguage": "Match language",
+    "selectLanguage": "Select language",
+    "selectGameMode": "Select game mode",
+    "waiting": "Waiting...",
+    "searchingOpponent": "Searching opponent...",
+    "matchFound": "Match found!",
+    "connecting": "Connecting...",
+    "disconnected": "Disconnected",
+    "reconnecting": "Reconnecting...",
+    "formatNotSupported": "This format is not available yet",
+    "formatComingSoon": "Solo and Group will be available soon",
+    "matchModes": {
+      "conversation": "Conversation",
+      "justChilling": "Just Chilling",
+      "wordBuilder": "Word Builder"
+    },
+    "errors": {
+      "somethingWentWrong": "Something went wrong!"
+    }
+  },
+  "wordBuilder": {
+    "title": "Word Builder",
+    "description": "Build as many words as possible with the given letter or syllable",
+    "timeLeft": "Time left",
+    "letter": "Letter",
+    "syllable": "Syllable",
+    "wordsFound": "Words found",
+    "score": "Score",
+    "correctWords": "Correct words",
+    "incorrectWords": "Incorrect words",
+    "enterWord": "Enter word",
+    "speakWord": "Speak word",
+    "submit": "Submit",
+    "gameOver": "Game Over!",
+    "finalScore": "Final Score",
+    "playAgain": "Play Again",
+    "backToMenu": "Back to Menu",
+    "exitGame": "Exit Game",
+    "confirmExit": "Are you sure you want to exit the game?",
+    "yes": "Yes",
+    "no": "No",
+    "getReady": "Get Ready!",
+    "startingIn": "Starting in",
+    "go": "GO!",
+    "noWordsYet": "No words found yet. Start typing!",
+    "wordsRemaining": "words remaining",
+    "inputMode": "Input Mode",
+    "typing": "Typing",
+    "voice": "Voice",
+    "tapToSpeak": "Tap to speak",
+    "listening": "Listening...",
+    "processing": "Processing...",
+    "startListening": "Start listening",
+    "stopListening": "Stop listening",
+    "reRecord": "Record again",
+    "voiceRecognitionError": "Voice recognition error. Please try again."
+  },
+  "navigation": {
+    "matches": "Matches",
+    "chat": "Chat",
+    "profile": "Profile",
+    "home": "Home",
+    "history": "History",
+    "settings": "Settings"
+  },
+  "settings": {
+    "language": "Language",
+    "changeLanguage": "Change language",
+    "languageChanged": "Language changed successfully",
+    "selectLanguage": "Select a language",
+    "notifications": "Notifications",
+    "privacy": "Privacy",
+    "about": "About",
+    "version": "Version",
+    "termsOfService": "Terms of service",
+    "privacyPolicy": "Privacy policy",
+    "account": "Account"
+  },
+  "languages": {
+    "pt": "Portuguese",
+    "en": "English",
+    "es": "Spanish",
+    "fr": "French",
+    "de": "German",
+    "it": "Italian",
+    "ja": "Japanese",
+    "ko": "Korean",
+    "zh": "Chinese",
+    "ru": "Russian",
+    "ar": "Arabic",
+    "hi": "Hindi",
+    "nl": "Dutch",
+    "sv": "Swedish",
+    "no": "Norwegian",
+    "da": "Danish",
+    "fi": "Finnish",
+    "pl": "Polish",
+    "cs": "Czech",
+    "tr": "Turkish",
+    "th": "Thai"
+  },
+  "errors": {
+    "networkError": "Network error",
+    "serverError": "Server error",
+    "unknownError": "Unknown error",
+    "validationError": "Enter a valid email",
+    "authError": "Authentication error",
+    "permissionDenied": "Permission denied",
+    "notFound": "Not found",
+    "routeNotSupported": "This route is not supported at the moment"
+  }
+}

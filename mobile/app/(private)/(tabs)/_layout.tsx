@@ -1,8 +1,11 @@
 import { Tabs } from "expo-router";
 import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { COLORS } from "../../../constants/colors";
+import useI18n from "../../../hooks/useI18n";
 
 export default function TabsLayout() {
+  const { t } = useI18n();
+
   return (
     <Tabs
       screenOptions={{
@@ -25,7 +28,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: "Profile",
+          title: t('navigation.profile'),
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="account-circle-outline" color={color} size={size} />
           ),
@@ -35,7 +38,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="chat"
         options={{
-          title: "Chat",
+          title: t('navigation.chat'),
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="chat" color={color} size={size} />
           ),
@@ -45,7 +48,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="matches"
         options={{
-          title: "Match",
+          title: t('navigation.matches'),
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="cards-playing-outline" color={color} size={size} />
           ),
@@ -55,7 +58,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="history"
         options={{
-          title: "History",
+          title: t('navigation.history'),
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="clock" color={color} size={size} />
           ),
@@ -65,7 +68,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="settings"
         options={{
-          title: "Settings",
+          title: t('navigation.settings'),
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="settings-outline" color={color} size={size} />
           ),

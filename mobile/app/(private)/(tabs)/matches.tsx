@@ -1,17 +1,20 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, ScrollView } from "react-native";
 import MatchesHeader from "../../../components/MatchesHeader";
-import { AVALIABLE_MATCH_MODES } from "../../../constants/available-match-modes";
 import AvailiableMatchModeCardComponent from "../../../components/AvailiableMatchModeCard";
+import useI18n from "../../../hooks/useI18n";
+import { AVALIABLE_MATCH_MODES } from "../../../constants/available-match-modes";
 
 export default function Matches() {
+  const { t } = useI18n();
+
   return (
     <SafeAreaView className="flex-1 bg-appBgWhite px-10 pt-10">
       <View className="flex-1">
         <MatchesHeader />
 
         <Text className="text-4xl font-nunito-bold my-8">
-          Select game mode
+          {t('match.selectGameMode')}
         </Text>
 
         <ScrollView

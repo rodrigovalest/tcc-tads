@@ -8,7 +8,7 @@ const MatchesHeader = () => {
         source={require("../assets/images/calle-dog-icon.png")}
         className="w-24 h-24"
       />
-      <Text className="text-7xl text-center pl-4 font-nunito-extrabold">Calle</Text>
+      <Text className="text-7xl text-center pl-4 font-nunito-extrabold text-appBlack">Calle</Text>
     </View>
   );
 };
