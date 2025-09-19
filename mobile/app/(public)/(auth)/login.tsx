@@ -31,13 +31,13 @@ export default function Login() {
           <LanguageSelector variant="compact" showLabel={false} />
         </View>
 
-        <View className="mt-20 mb-8">
+        <View className="mt-16 mb-6">
           <Image
             source={require("../../../assets/images/calle-dog-icon.png")}
             className="w-24 h-24 mx-auto"
           />
 
-          <Text className="text-6xl text-center font-bold">
+          <Text className="text-6xl text-center font-bold text-appBlack font-nunito-bold mt-2">
             Calle
           </Text>
 
