@@ -87,6 +87,35 @@ export class WhoAmIDuoGateway implements OnGatewayDisconnect {
     });
   }
 
+  @UseGuards(JwtWsAuthGuard)
+  @SubscribeMessage('who-am-i:duo:sync-images')
+  handleSyncImages(
+    @CurrentWsUser() user: IUserJwtPayload,
+    @MessageBody() payload: { matchId: string; images: number[] },
+    @ConnectedSocket() client: Socket
+  ) {
+    this.logger.log(`[sync-images] User ${user.sub} sent images sync for match ${payload.matchId}`);
+
+    client.to(payload.matchId).emit('who-am-i:duo:sync-images', {
+      images: payload.images,
+    });
+  }
+
+  @UseGuards(JwtWsAuthGuard)
+  @SubscribeMessage('who-am-i:duo:new-round')
+  handleNewRound(
+    @CurrentWsUser() user: IUserJwtPayload,
+    @MessageBody() payload: { matchId: string },
+    @ConnectedSocket() client: Socket
+  ) {
+    this.logger.log(`[new-round] User ${user.sub} started new round for match ${payload.matchId}`);
+
+    // Notifica o oponente que uma nova rodada foi iniciada
+    client.to(payload.matchId).emit('who-am-i:duo:new-round', {
+      from: user.sub,
+    });
+  }
+
   async handleDisconnect(client: Socket) {
     await this.whoAmIDuoService.handleDisconnect(client.id);
   }

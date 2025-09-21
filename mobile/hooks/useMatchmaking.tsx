@@ -24,9 +24,11 @@ const useMatchmaking = () => {
       return;
     };
 
+    console.log('[MATCHMAKING] Conectando ao WebSocket...');
     webSocketService.connect(token);
 
     webSocketService.onDisconnect(async () => {
+      console.log('[MATCHMAKING] WebSocket desconectado');
       webSocketService.disconnect();
       resetMatch();
       router.replace("/(private)/(tabs)/matches");
@@ -48,7 +50,7 @@ const useMatchmaking = () => {
     });
 
     webSocketService.on(`${matchMode}:${matchFormat}:match-started`, async (data: IMatchmakingResponse) => {
-      console.log(`[just-chilling:duo:match-started]`, data);
+      console.log(`[${matchMode}:${matchFormat}:match-started]`, data);
 
       setMatchId(data.matchId);
       setIsOfferer(data.isOfferer);
@@ -56,14 +58,15 @@ const useMatchmaking = () => {
       router.replace(`/(private)/${data.matchMode}/${matchFormat}/game`);
     });
 
+    console.log(`[MATCHMAKING] Emitindo evento: ${matchMode}:${matchFormat}:enqueue`);
     webSocketService.emit(`${matchMode}:${matchFormat}:enqueue`, {
       matchLanguage: matchLanguage,
     });
 
     return () => {
-
       webSocketService.off('disconnect');
       webSocketService.off('exception');
+      webSocketService.off(`${matchMode}:${matchFormat}:match-started`);
     }
   }, []);
 }

@@ -7,11 +7,24 @@ const webSocketService = (() => {
 
   return {
     connect(jwtToken: string) {
+      console.log('[WEBSOCKET] Conectando ao servidor:', wsApiUrl);
       socket = io(wsApiUrl, {
         transports: ["websocket"],
         auth: {
           token: `Bearer ${jwtToken}`
         }
+      });
+
+      socket.on('connect', () => {
+        console.log('[WEBSOCKET] Conectado com sucesso!');
+      });
+
+      socket.on('disconnect', (reason) => {
+        console.log('[WEBSOCKET] Desconectado:', reason);
+      });
+
+      socket.on('connect_error', (error) => {
+        console.error('[WEBSOCKET] Erro de conexão:', error);
       });
     },
 
