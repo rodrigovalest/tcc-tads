@@ -12,6 +12,11 @@ const useMatchmaking = () => {
   const { matchFormat, matchLanguage, matchMode, setMatchId, setIsOfferer, resetMatch, setUserBuddy } = useMatchStore();
 
   useEffect(() => {
+    console.log('matchMode', matchMode);
+    console.log('matchFormat', matchFormat);
+    console.log('matchLanguage', matchLanguage);
+    console.log('token', token);
+    
     if (!token || !matchFormat || !matchLanguage || !matchMode) {
       resetMatch();
       webSocketService.disconnect();
@@ -56,6 +61,7 @@ const useMatchmaking = () => {
     });
 
     return () => {
+
       webSocketService.off('disconnect');
       webSocketService.off('exception');
     }

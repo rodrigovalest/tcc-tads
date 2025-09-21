@@ -39,7 +39,7 @@ const SESSION_CONSTRAINTS: RTCOfferOptions = {
 };
 
 
-const useJustChillingDuo = (redirectOnEnd: () => void) => {
+const useWhoAmIDuo = (redirectOnEnd: () => void) => {
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
   const peerConnection = useRef<RTCPeerConnection | null>(null);
@@ -102,7 +102,7 @@ const useJustChillingDuo = (redirectOnEnd: () => void) => {
 
     pc.onicecandidate = (event: EventOnCandidate) => {
       if (event.candidate) {
-        webSocketService.emit("just-chilling:duo:webrtc:ice-candidate", {
+        webSocketService.emit("who-am-i:duo:webrtc:ice-candidate", {
           matchId,
           candidate: event.candidate,
         });
@@ -121,7 +121,7 @@ const useJustChillingDuo = (redirectOnEnd: () => void) => {
       const offer = await pc.createOffer(SESSION_CONSTRAINTS);
       await pc.setLocalDescription(offer);
 
-      webSocketService.emit("just-chilling:duo:webrtc:offer", {
+      webSocketService.emit("who-am-i:duo:webrtc:offer", {
         matchId,
         offer,
       });
@@ -131,7 +131,7 @@ const useJustChillingDuo = (redirectOnEnd: () => void) => {
   useEffect(() => {
     if (!matchId) return;
 
-    webSocketService.on("just-chilling:duo:webrtc:offer", async ({ offer }) => {
+    webSocketService.on("who-am-i:duo:webrtc:offer", async ({ offer }) => {
       if (!peerConnection.current)
         await initializeConnection();
 
@@ -141,18 +141,18 @@ const useJustChillingDuo = (redirectOnEnd: () => void) => {
       if (answer) {
         await peerConnection.current?.setLocalDescription(answer);
 
-        webSocketService.emit("just-chilling:duo:webrtc:answer", {
+        webSocketService.emit("who-am-i:duo:webrtc:answer", {
           matchId,
           answer,
         });
       }
     });
 
-    webSocketService.on("just-chilling:duo:webrtc:answer", async ({ answer }) => {
+    webSocketService.on("who-am-i:duo:webrtc:answer", async ({ answer }) => {
       await peerConnection.current?.setRemoteDescription(new RTCSessionDescription(answer));
     });
 
-    webSocketService.on("just-chilling:duo:webrtc:ice-candidate", async ({ candidate }) => {
+    webSocketService.on("who-am-i:duo:webrtc:ice-candidate", async ({ candidate }) => {
       await peerConnection.current?.addIceCandidate(new RTCIceCandidate(candidate));
     });
 
@@ -161,9 +161,9 @@ const useJustChillingDuo = (redirectOnEnd: () => void) => {
     });
 
     return () => {
-      webSocketService.off("just-chilling:duo:webrtc:offer");
-      webSocketService.off("just-chilling:duo:webrtc:answer");
-      webSocketService.off("just-chilling:duo:webrtc:ice-candidate");
+      webSocketService.off("who-am-i:duo:webrtc:offer");
+      webSocketService.off("who-am-i:duo:webrtc:answer");
+      webSocketService.off("who-am-i:duo:webrtc:ice-candidate");
       endCall();
     };
   }, []);
@@ -180,4 +180,4 @@ const useJustChillingDuo = (redirectOnEnd: () => void) => {
   };
 };
 
-export default useJustChillingDuo;
+export default useWhoAmIDuo;
