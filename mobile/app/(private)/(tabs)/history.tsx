@@ -58,6 +58,7 @@ export default function History() {
               endTime={item.endTime}
               mode={item.mode}
               language={item.language}
+              averageFluencyScore={item.averageFluencyScore}
               users={item.users}
             />
           ))}

@@ -41,7 +41,7 @@ export default function Login() {
             Calle
           </Text>
 
-          <Text className="text-4xl text-center font-medium font-nunito-medium">
+          <Text className="text-4xl text-center font-nunito-medium text-appBlack">
             {t('auth.loginOrSignUp')}
           </Text>
         </View>
