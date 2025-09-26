@@ -9,12 +9,15 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { COLORS } from "../constants/colors";
 import { useRouter } from "expo-router";
 import useAuthStore from "../store/auth-store";
+import { MATCH_RATE } from "../constants/match-rate";
+import { MatchRateScore } from "../models/types/match-rate-score";
 
 interface MatchHistoryItemProps {
   startTime: string;
   endTime: string;
   mode: MatchMode;
   language: MatchLanguage;
+  averageFluencyScore: MatchRateScore | null;
   users: {
     id: number;
     username: string;
@@ -28,6 +31,7 @@ const MatchHistoryItem = ({
   endTime,
   mode,
   language,
+  averageFluencyScore,
   users,
 }: MatchHistoryItemProps) => {
   const router = useRouter();
@@ -44,6 +48,8 @@ const MatchHistoryItem = ({
     });
   }
 
+  console.log(averageFluencyScore)
+
   return (
     <View className="bg-appLightGrey py-6 pl-10 pr-12 mb-4">
       <View className="flex-row justify-between">
@@ -56,37 +62,53 @@ const MatchHistoryItem = ({
         <Text className="text-l font-nunito-medium text-appBlack">{duration}</Text>
       </View>
 
-      <View className="flex-row mt-4">
-        {users
-          .filter((user) => user.id !== loggedUser?.sub)
-          .map((user, index) =>
-            user.photoUri ? (
-              <Pressable
-                key={index}
-                onPress={() => onUserPress(user.username)}
-                testID={`user-image-${user.username}`}
-              >
-                <Image
-                  source={{ uri: user.photoUri }}
-                  className="w-14 h-14 rounded-full mr-2"
-                  resizeMode="cover"
-                />
-              </Pressable>
-            ) : (
-              <Pressable
-                key={index}
-                onPress={() => onUserPress(user.username)}
-                className="items-center justify-center mr-2 rounded-full"
-                testID={`user-image-${user.username}`}
-              >
-                <MaterialCommunityIcons
-                  name="account"
-                  size={45}
-                  color={COLORS.appMediumGrey}
-                />
-              </Pressable>
-            )
-          )}
+      <View className="flex-row mt-4 justify-between">
+        <View>
+          {users
+            .filter((user) => user.id !== loggedUser?.sub)
+            .map((user, index) =>
+              user.photoUri ? (
+                <Pressable
+                  key={index}
+                  onPress={() => onUserPress(user.username)}
+                  testID={`user-image-${user.username}`}
+                >
+                  <Image
+                    source={{ uri: user.photoUri }}
+                    className="w-14 h-14 rounded-full mr-2"
+                    resizeMode="cover"
+                  />
+                </Pressable>
+              ) : (
+                <Pressable
+                  key={index}
+                  onPress={() => onUserPress(user.username)}
+                  className="items-center justify-center mr-2 rounded-full"
+                  testID={`user-image-${user.username}`}
+                >
+                  <MaterialCommunityIcons
+                    name="account"
+                    size={45}
+                    color={COLORS.appDarkGrey}
+                  />
+                </Pressable>
+              )
+            )}
+        </View>
+
+        {averageFluencyScore && (
+          <View className="flex-row items-center justify-between">
+            <Text className="text-lg font-nunito-semibold text-appBlack mr-3">
+              Level: {averageFluencyScore}
+            </Text>
+
+            <Image
+              source={MATCH_RATE[averageFluencyScore].image}
+              className="rounded-lg"
+              style={{ width: 50, height: 50 }}
+            />
+          </View>
+        )}
       </View>
     </View>
   );

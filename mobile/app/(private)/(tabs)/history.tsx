@@ -16,7 +16,6 @@ export default function History() {
     error,
   } = useMatchHistory();
 
-  // Mover Toast.show para useEffect para evitar setState durante render
   useEffect(() => {
     if (isError && error) {
       Toast.show({
@@ -41,7 +40,7 @@ export default function History() {
         className="w-full h-full bg-appBgWhite"
         showsVerticalScrollIndicator={false}
       >
-        <Text className="text-4xl font-nunito-bold my-8 px-10">
+        <Text className="text-4xl font-nunito-bold my-8 px-10 text-appBlack">
           {t("navigation.history")}
         </Text>
 
@@ -59,6 +58,7 @@ export default function History() {
               endTime={item.endTime}
               mode={item.mode}
               language={item.language}
+              averageFluencyScore={item.averageFluencyScore}
               users={item.users}
             />
           ))}

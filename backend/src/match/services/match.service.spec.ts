@@ -1,6 +1,4 @@
-import { Repository } from 'typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
 import { MatchService } from './match.service';
 import { Match } from '../entities/match.entity';
 import { UserMatch } from '../entities/user-match.entity';
@@ -10,165 +8,124 @@ import { MatchFormat } from '../entities/match-format.enum';
 import { MatchLanguage } from '../entities/match-language.enum';
 import { MatchStatus } from '../entities/match-status.enum';
 import { UserQueue } from '../entities/user-queue.entity';
+import { IMatchRepository } from '../repositories/match.interface';
+import { IUserMatchRepository } from '../repositories/user-match.interface';
 
-const mockMatchRepository = () => ({
+const mockMatchRepository = (): jest.Mocked<IMatchRepository> => ({
   create: jest.fn(),
   save: jest.fn(),
-  findOne: jest.fn(),
+  findById: jest.fn(),
+  findAllMatchesWithAverageScore: jest.fn(),
 });
 
-const mockUserMatchRepository = () => ({
+const mockUserMatchRepository = (): jest.Mocked<IUserMatchRepository> => ({
   create: jest.fn(),
-  save: jest.fn(),
-  findOne: jest.fn(),
-  find: jest.fn(),
+  saveAll: jest.fn(),
+  saveOne: jest.fn(),
+  findBySocketId: jest.fn(),
 });
 
 describe('MatchService', () => {
   let service: MatchService;
-  let matchRepository: jest.Mocked<Repository<Match>>;
-  let userMatchRepository: jest.Mocked<Repository<UserMatch>>;
+  let matchRepository: jest.Mocked<IMatchRepository>;
+  let userMatchRepository: jest.Mocked<IUserMatchRepository>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         MatchService,
-        { provide: getRepositoryToken(Match), useFactory: mockMatchRepository },
-        { provide: getRepositoryToken(UserMatch), useFactory: mockUserMatchRepository },
+        { provide: 'IMatchRepository', useFactory: mockMatchRepository },
+        { provide: 'IUserMatchRepository', useFactory: mockUserMatchRepository },
       ],
     }).compile();
 
     service = module.get<MatchService>(MatchService);
-    matchRepository = module.get(getRepositoryToken(Match));
-    userMatchRepository = module.get(getRepositoryToken(UserMatch));
+    matchRepository = module.get('IMatchRepository');
+    userMatchRepository = module.get('IUserMatchRepository');
   });
 
   afterEach(() => {
     jest.restoreAllMocks();
   });
 
-  it('createMatch_ShouldCreateMatchAndUserMatches', async () => {
-    // Arrange
-    const mode = MatchMode.JUST_CHILLING;
-    const format = MatchFormat.DUO;
-    const language = MatchLanguage.EN;
-    const users = [
-      { userId: 1, socketId: 'socket1' },
-      { userId: 2, socketId: 'socket2' },
-    ] as UserQueue[];
+  describe('Group match methods', () => {
+    it('createMatch_ShouldCreateMatchAndUserMatches', async () => {
+      const mode = MatchMode.JUST_CHILLING;
+      const format = MatchFormat.DUO;
+      const language = MatchLanguage.EN;
+      const users = [
+        { userId: 1, socketId: 'socket1' },
+        { userId: 2, socketId: 'socket2' },
+      ] as UserQueue[];
 
-    const matchEntity = { id: 'match1' } as Match;
-    matchRepository.create.mockReturnValue(matchEntity);
-    matchRepository.save.mockResolvedValue(matchEntity);
+      const matchEntity = { id: 'match1' } as Match;
+      matchRepository.create.mockResolvedValue(matchEntity);
+      matchRepository.save.mockResolvedValue(matchEntity);
+      userMatchRepository.create.mockImplementation((um) => um as UserMatch);
 
-    userMatchRepository.create.mockImplementation(um => um as UserMatch);
+      const result = await service.createMatch(mode, format, language, users);
 
-    // Act
-    const result = await service.createMatch(
-      mode,
-      format,
-      language,
-      users,
-    );
+      expect(matchRepository.create).toHaveBeenCalledWith(
+        mode,
+        format,
+        language,
+        MatchStatus.IN_PROGRESS,
+        expect.any(Date),
+      );
 
-    // Assert
-    expect(matchRepository.create).toHaveBeenCalledWith({
-      mode: MatchMode.JUST_CHILLING,
-      format: MatchFormat.DUO,
-      language: MatchLanguage.EN,
-      status: MatchStatus.IN_PROGRESS,
-      startTime: expect.any(Date),
-    });
-    expect(matchRepository.save).toHaveBeenCalledWith(matchEntity);
+      expect(userMatchRepository.create).toHaveBeenCalledTimes(users.length);
+      expect(userMatchRepository.create).toHaveBeenCalledWith({
+        user: { id: 1 } as User,
+        socketId: 'socket1',
+        match: matchEntity,
+      });
+      expect(userMatchRepository.create).toHaveBeenCalledWith({
+        user: { id: 2 } as User,
+        socketId: 'socket2',
+        match: matchEntity,
+      });
 
-    expect(userMatchRepository.create).toHaveBeenCalledTimes(users.length);
-    expect(userMatchRepository.create).toHaveBeenCalledWith({
-      user: { id: 1 } as User,
-      socketId: 'socket1',
-      match: matchEntity,
-    });
-    expect(userMatchRepository.create).toHaveBeenCalledWith({
-      user: { id: 2 } as User,
-      socketId: 'socket2',
-      match: matchEntity,
+      expect(userMatchRepository.saveAll).toHaveBeenCalledWith(expect.any(Array));
+      expect(result).toEqual(matchEntity);
     });
 
-    expect(userMatchRepository.save).toHaveBeenCalledWith(expect.any(Array));
-    expect(result).toEqual(matchEntity);
+    it('completeMatch_WithValidSocketId_ShouldCompleteMatchIfFound', async () => {
+      const socketId = 'socket1';
+      const match = { id: 'match1', status: MatchStatus.IN_PROGRESS } as Match;
+      const userMatch = { match, user: { id: 1 } as User } as UserMatch;
+
+      userMatchRepository.findBySocketId.mockResolvedValue(userMatch);
+      matchRepository.save.mockResolvedValue(match);
+
+      await service.completeMatch(socketId);
+
+      expect(userMatchRepository.findBySocketId).toHaveBeenCalledWith(socketId);
+      expect(matchRepository.save).toHaveBeenCalledWith(
+        expect.objectContaining({
+          status: MatchStatus.COMPLETED,
+          endTime: expect.any(Date),
+        }),
+      );
+    });
+
+    it('completeMatch_WithInexistentSocketId_ShouldDoNothing', async () => {
+      const socketId = 'socket1';
+      userMatchRepository.findBySocketId.mockResolvedValue(null);
+
+      await service.completeMatch(socketId);
+
+      expect(userMatchRepository.findBySocketId).toHaveBeenCalledWith(socketId);
+      expect(matchRepository.save).not.toHaveBeenCalled();
+    });
   });
 
-  it('completeMatch_WithValidSocketId_ShouldCompleteMatchIfFound', async () => {
-    // Arrange
-    const socketId = 'socket1';
-    const match = { id: 'match1', status: MatchStatus.IN_PROGRESS } as Match;
-    const user = { id: 1 } as User;
-    const userMatch = { match, user } as UserMatch;
-
-    userMatchRepository.findOne.mockResolvedValue(userMatch);
-    matchRepository.save.mockResolvedValue(match);
-
-    // Act
-    await service.completeMatch(socketId);
-
-    // Assert
-    expect(userMatchRepository.findOne).toHaveBeenCalledWith({
-      where: { socketId },
-      relations: ['match', 'user'],
-    });
-    expect(matchRepository.save).toHaveBeenCalledWith(expect.objectContaining({
-      status: MatchStatus.COMPLETED,
-      endTime: expect.any(Date),
-    }));
-  });
-
-  it('completeMatch_WithInexistentSocketId_ShouldDoNothing', async () => {
-    // Arrange
-    const socketId = 'socket1';
-
-    userMatchRepository.findOne.mockResolvedValue(null);
-
-    // Act
-    await service.completeMatch(socketId);
-
-    // Assert
-    expect(userMatchRepository.findOne).toHaveBeenCalledWith({
-      where: { socketId },
-      relations: ['match', 'user'],
-    });
-    expect(matchRepository.save).not.toHaveBeenCalled();
-  });
-
-  it('findAllMatchesByUserId_ShouldReturnMatches', async () => {
-    // Arrange
-    const userId = 1;
-    const match1 = { id: 'm1' } as Match;
-    const match2 = { id: 'm2' } as Match;
-
-    const userMatches = [
-      { match: match1 } as UserMatch,
-      { match: match2 } as UserMatch,
-    ];
-
-    userMatchRepository.find.mockResolvedValue(userMatches);
-
-    // Act
-    const result = await service.findAllMatchesByUserId(userId);
-
-    // Assert
-    expect(userMatchRepository.find).toHaveBeenCalledWith({
-      where: { user: { id: userId } },
-      relations: ['match', 'match.userMatches', 'match.userMatches.user'],
-    });
-    expect(result).toEqual([match1, match2]);
-  });
-
-  describe('Solo Match Functions', () => {
+  describe('Solo match methods', () => {
     it('createSoloMatch_ShouldCreateSoloMatchSuccessfully', async () => {
       // Arrange
       const userId = 1;
       const mode = MatchMode.WORD_BUILDER;
       const language = MatchLanguage.EN;
-      
+
       const mockMatch = {
         id: 'solo-match-123',
         mode,
@@ -176,10 +133,6 @@ describe('MatchService', () => {
         language,
         status: MatchStatus.IN_PROGRESS,
         startTime: new Date(),
-        endTime: new Date(), // Changed from null to Date
-        userMatches: [],
-        createdAt: new Date(),
-        updatedAt: new Date(),
       } as Match;
 
       const mockUserMatch = {
@@ -188,143 +141,87 @@ describe('MatchService', () => {
         match: mockMatch,
       } as UserMatch;
 
-      matchRepository.create.mockReturnValue(mockMatch);
+      matchRepository.create.mockResolvedValue(mockMatch);
       matchRepository.save.mockResolvedValue(mockMatch);
       userMatchRepository.create.mockReturnValue(mockUserMatch);
-      userMatchRepository.save.mockResolvedValue(mockUserMatch);
+      userMatchRepository.saveOne.mockResolvedValue(mockUserMatch);
 
       // Act
       const result = await service.createSoloMatch(mode, language, userId);
 
       // Assert
-      expect(matchRepository.create).toHaveBeenCalledWith({
+      expect(matchRepository.create).toHaveBeenCalledWith(
         mode,
-        format: MatchFormat.SOLO,
+        MatchFormat.SOLO,
         language,
-        status: MatchStatus.IN_PROGRESS,
-        startTime: expect.any(Date),
-      });
-      expect(matchRepository.save).toHaveBeenCalledWith(mockMatch);
-      expect(userMatchRepository.create).toHaveBeenCalledWith({
-        user: { id: userId },
-        socketId: 'solo-match',
-        match: mockMatch,
-      });
-      expect(userMatchRepository.save).toHaveBeenCalledWith(mockUserMatch);
+        MatchStatus.IN_PROGRESS,
+        expect.any(Date),
+      );
+      expect(userMatchRepository.saveOne).toHaveBeenCalledWith(
+        { id: userId } as User,
+        mockMatch,
+      );
       expect(result).toEqual(mockMatch);
     });
 
     it('completeSoloMatch_ShouldCompleteMatchSuccessfully', async () => {
-      // Arrange
       const matchId = 'solo-match-123';
       const mockMatch = {
         id: matchId,
         status: MatchStatus.IN_PROGRESS,
-        endTime: new Date(),
-        mode: MatchMode.WORD_BUILDER,
-        format: MatchFormat.SOLO,
-        language: MatchLanguage.EN,
-        startTime: new Date(),
-        userMatches: [],
-        createdAt: new Date(),
-        updatedAt: new Date(),
       } as Match;
 
-      matchRepository.findOne.mockResolvedValue(mockMatch);
+      matchRepository.findById.mockResolvedValue(mockMatch);
 
-      // Act
       await service.completeSoloMatch(matchId);
 
-      // Assert
-      expect(matchRepository.findOne).toHaveBeenCalledWith({
-        where: { id: matchId },
-      });
+      expect(matchRepository.findById).toHaveBeenCalledWith(matchId);
       expect(mockMatch.status).toBe(MatchStatus.COMPLETED);
       expect(mockMatch.endTime).toBeInstanceOf(Date);
       expect(matchRepository.save).toHaveBeenCalledWith(mockMatch);
     });
 
     it('completeSoloMatch_ShouldReturnEarlyWhenMatchNotFound', async () => {
-      // Arrange
       const matchId = 'non-existent-match';
-      matchRepository.findOne.mockResolvedValue(null);
+      matchRepository.findById.mockResolvedValue(null);
 
-      // Act
       await service.completeSoloMatch(matchId);
 
-      // Assert
-      expect(matchRepository.findOne).toHaveBeenCalledWith({
-        where: { id: matchId },
-      });
+      expect(matchRepository.findById).toHaveBeenCalledWith(matchId);
       expect(matchRepository.save).not.toHaveBeenCalled();
     });
 
     it('completeSoloMatch_ShouldNotUpdateWhenMatchAlreadyCompleted', async () => {
-      // Arrange
       const matchId = 'completed-match-123';
       const mockMatch = {
         id: matchId,
         status: MatchStatus.COMPLETED,
-        endTime: new Date(),
-        mode: MatchMode.WORD_BUILDER,
-        format: MatchFormat.SOLO,
-        language: MatchLanguage.EN,
-        startTime: new Date(),
-        userMatches: [],
-        createdAt: new Date(),
-        updatedAt: new Date(),
       } as Match;
 
-      matchRepository.findOne.mockResolvedValue(mockMatch);
+      matchRepository.findById.mockResolvedValue(mockMatch);
 
-      // Act
       await service.completeSoloMatch(matchId);
 
-      // Assert
-      expect(matchRepository.findOne).toHaveBeenCalledWith({
-        where: { id: matchId },
-      });
+      expect(matchRepository.findById).toHaveBeenCalledWith(matchId);
       expect(matchRepository.save).not.toHaveBeenCalled();
     });
+  });
 
-    it('createSoloMatch_ShouldHandleDifferentLanguages', async () => {
-      // Arrange
-      const userId = 1;
-      const mode = MatchMode.WORD_BUILDER;
-      const languages = [MatchLanguage.PT, MatchLanguage.ES, MatchLanguage.EN];
-      
-      for (const language of languages) {
-        const mockMatch = {
-          id: `solo-match-${language}`,
-          mode,
-          format: MatchFormat.SOLO,
-          language,
-          status: MatchStatus.IN_PROGRESS,
-          startTime: new Date(),
-          endTime: new Date(),
-          userMatches: [],
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        } as Match;
+  it('findAllMatchesWithAverageScore_ShouldReturnMatchesWithScores', async () => {
+    // Arrange
+    const userId = 1;
+    const mockResults = [
+      { match: { id: 'match1' } as Match, averageFluencyScore: 85 },
+      { match: { id: 'match2' } as Match, averageFluencyScore: null },
+    ];
 
-        matchRepository.create.mockReturnValue(mockMatch);
-        matchRepository.save.mockResolvedValue(mockMatch);
-        userMatchRepository.create.mockReturnValue({} as UserMatch);
-        userMatchRepository.save.mockResolvedValue({} as UserMatch);
+    matchRepository.findAllMatchesWithAverageScore.mockResolvedValue(mockResults);
 
-        // Act
-        const result = await service.createSoloMatch(mode, language, userId);
+    // Act
+    const results = await service.findAllMatchesWithAverageScore(userId);
 
-        // Assert
-        expect(result).toEqual(mockMatch);
-        expect(matchRepository.create).toHaveBeenCalledWith({
-          mode,
-          format: MatchFormat.SOLO,
-          language,
-          status: MatchStatus.IN_PROGRESS,
-          startTime: expect.any(Date),
-        });
-      }
-    });
+    // Assert
+    expect(matchRepository.findAllMatchesWithAverageScore).toHaveBeenCalledWith(userId);
+    expect(results).toEqual(mockResults);
   });
 });

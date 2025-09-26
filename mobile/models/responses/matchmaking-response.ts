@@ -10,6 +10,7 @@ export default interface IMatchmakingResponse {
   matchId: string;
   isOfferer: boolean;
   buddy: {
+    userId: number;
     username: string;
     nationality: string;
   }
