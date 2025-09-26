@@ -6,21 +6,33 @@ import { QueueService } from './services/queue.service';
 import { Match } from './entities/match.entity';
 import { MatchController } from './controllers/match.controller';
 import { UserMatch } from './entities/user-match.entity';
+import { MatchRepositoryImpl } from './repositories/match.repository';
+import { UserMatchRepositoryImpl } from './repositories/user-match.repository';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserQueue, Match, UserMatch])
+    TypeOrmModule.forFeature([UserQueue, Match, UserMatch]),
   ],
   controllers: [
     MatchController
   ],
   providers: [
     MatchService,
-    QueueService
+    QueueService,
+    MatchRepositoryImpl,
+    {
+      provide: 'IMatchRepository',
+      useClass: MatchRepositoryImpl,
+    },
+    UserMatchRepositoryImpl,
+    {
+      provide: 'IUserMatchRepository',
+      useClass: UserMatchRepositoryImpl,
+    },
   ],
   exports: [
     MatchService,
     QueueService
   ]
 })
-export class MatchModule {}
+export class MatchModule { }

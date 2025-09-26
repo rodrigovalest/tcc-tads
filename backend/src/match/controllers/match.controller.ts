@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards, HttpStatus, HttpCode } from '@nestjs/common';
 import { MatchService } from '../services/match.service';
 import { CurrentHttpUser } from '../../auth/decorators/current-http-user.decorator';
 import { IUserJwtPayload } from '../../auth/models/user-jwt-payload.interface';
@@ -10,17 +10,20 @@ import { MatchLanguage } from '../entities/match-language.enum';
 
 @Controller('matches')
 export class MatchController {
-  constructor(private readonly matchService: MatchService) {}
+  constructor(
+    private readonly matchService: MatchService,
+  ) {}
 
   @UseGuards(JwtHttpAuthGuard)
   @Get()
   async findAllMatchesByUser(
-    @CurrentHttpUser() user: IUserJwtPayload,
+    @CurrentHttpUser() loggedUser: IUserJwtPayload,
   ): Promise<ListMatchesResponseDto[]> {
-    const matches = await this.matchService.findAllMatchesByUserId(user.sub);
-    return MatchMapper.toListMatchesResponseDtos(matches);
+    const matchesWithScores = await this.matchService.findAllMatchesWithAverageScore(loggedUser.sub);
+    return MatchMapper.toListMatchesResponseDtos(matchesWithScores);
   }
 
+  @HttpCode(HttpStatus.CREATED) 
   @UseGuards(JwtHttpAuthGuard)
   @Post('solo')
   async createSoloMatch(
@@ -35,6 +38,7 @@ export class MatchController {
     return { matchId: match.id };
   }
 
+  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtHttpAuthGuard)
   @Post(':matchId/complete')
   async completeSoloMatch(@Param('matchId') matchId: string) {

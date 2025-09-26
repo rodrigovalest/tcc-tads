@@ -6,6 +6,7 @@ export class ListMatchesResponseDto {
   format: string;
   language: string;
   status: string;
+  averageFluencyScore: number | null;
   users: Array<{
     id: number;
     username: string;

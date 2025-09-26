@@ -14,7 +14,7 @@ export class UserMatch {
   @ManyToOne(() => Match, { nullable: false })
   match: Match;
 
-  @Column({ type: 'varchar', length: 255, nullable: false })
+  @Column({ type: 'varchar', length: 255, nullable: true })
   socketId: string;
 
   @CreateDateColumn()

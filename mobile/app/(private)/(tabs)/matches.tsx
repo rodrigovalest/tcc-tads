@@ -13,7 +13,7 @@ export default function Matches() {
       <View className="flex-1">
         <MatchesHeader />
 
-        <Text className="text-4xl font-nunito-bold my-8">
+        <Text className="text-4xl font-nunito-bold my-8 text-appBlack">
           {t('match.selectGameMode')}
         </Text>
 

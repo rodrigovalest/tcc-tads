@@ -11,12 +11,10 @@ export default function Settings() {
   const { t } = useI18n();
 
   return (
-    <SafeAreaView className="flex-1 bg-appBgWhite">
-      <View className="px-6 py-4 border-b border-gray-100">
-        <Text className="text-2xl font-bold text-gray-900">
-          {t('common.settings')}
-        </Text>
-      </View>
+    <SafeAreaView className="flex-1 bg-appBgWhite pt-5">
+      <Text className="text-4xl my-8 px-10 text-appBlack font-nunito-bold">
+        {t('common.settings')}
+      </Text>
 
       <View className="flex-1">
         <TouchableOpacity className="flex-row items-center px-6 py-4 bg-white border-b border-gray-100">
@@ -26,7 +24,7 @@ export default function Settings() {
             color={COLORS.appDarkGrey || "#374151"}
             style={{ marginRight: 12 }}
           />
-          <Text className="text-lg font-medium text-gray-700">
+          <Text className="text-lg text-appBlack font-nunito-bold">
             {t('settings.account')}
           </Text>
         </TouchableOpacity>
@@ -39,7 +37,7 @@ export default function Settings() {
               color={COLORS.appDarkGrey || "#374151"}
               style={{ marginRight: 12 }}
             />
-            <Text className="text-lg font-medium text-gray-700">
+            <Text className="text-lg text-appBlack font-nunito-bold">
               {t('settings.language')}
             </Text>
           </View>
@@ -58,7 +56,7 @@ export default function Settings() {
             color={COLORS.appDarkGrey || "#374151"}
             style={{ marginRight: 12 }}
           />
-          <Text className="text-lg font-medium text-gray-700">
+          <Text className="text-lg text-appBlack font-nunito-bold">
             {isPending ? t('common.loading') : t('auth.logout')}
           </Text>
         </TouchableOpacity>
