@@ -1,22 +1,21 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Match } from '../entities/match.entity';
 import { User } from 'src/user/entities/user.entity';
 import { MatchFormat } from '../entities/match-format.enum';
 import { MatchLanguage } from '../entities/match-language.enum';
 import { MatchMode } from '../entities/match-mode.enum';
 import { MatchStatus } from '../entities/match-status.enum';
-import { UserMatch } from '../entities/user-match.entity';
 import { UserQueue } from '../entities/user-queue.entity';
+import { IMatchRepository } from '../repositories/match.interface';
+import { IUserMatchRepository } from '../repositories/user-match.interface';
 
 @Injectable()
 export class MatchService {
   constructor(
-    @InjectRepository(Match)
-    private readonly matchRepository: Repository<Match>,
-    @InjectRepository(UserMatch)
-    private readonly userMatchRepository: Repository<UserMatch>,
+    @Inject('IMatchRepository')
+    private readonly matchRepository: IMatchRepository,
+    @Inject('IUserMatchRepository')
+    private readonly userMatchRepository: IUserMatchRepository,
   ) {}
 
   private readonly logger = new Logger(MatchService.name, { timestamp: true });
@@ -27,14 +26,13 @@ export class MatchService {
     language: MatchLanguage,
     users: UserQueue[],
   ): Promise<Match> {
-    const match = this.matchRepository.create({
+    const match = await this.matchRepository.create(
       mode,
       format,
       language,
-      status: MatchStatus.IN_PROGRESS,
-      startTime: new Date(),
-    });
-    await this.matchRepository.save(match);
+      MatchStatus.IN_PROGRESS,
+      new Date(),
+    );
 
     const userMatches = users.map((userQueue: UserQueue) =>
       this.userMatchRepository.create({
@@ -43,8 +41,7 @@ export class MatchService {
         match,
       }),
     );
-
-    await this.userMatchRepository.save(userMatches);
+    await this.userMatchRepository.saveAll(userMatches);
 
     return match;
   }
@@ -54,30 +51,24 @@ export class MatchService {
     language: MatchLanguage,
     userId: number,
   ): Promise<Match> {
-    const match = this.matchRepository.create({
+    const match = await this.matchRepository.create(
       mode,
-      format: MatchFormat.SOLO,
+      MatchFormat.SOLO,
       language,
-      status: MatchStatus.IN_PROGRESS,
-      startTime: new Date(),
-    });
-    await this.matchRepository.save(match);
+      MatchStatus.IN_PROGRESS,
+      new Date(),
+    );
 
-    const userMatch = this.userMatchRepository.create({
-      user: { id: userId } as User,
-      socketId: 'solo-match',
+    await this.userMatchRepository.saveOne(
+      { id: userId } as User,
       match,
-    });
-
-    await this.userMatchRepository.save(userMatch);
+    );
 
     return match;
   }
 
   async completeSoloMatch(matchId: string): Promise<void> {
-    const match = await this.matchRepository.findOne({
-      where: { id: matchId },
-    });
+    const match = await this.matchRepository.findById(matchId);
 
     if (!match) {
       this.logger.warn(`No match found with id ${matchId}`);
@@ -93,10 +84,7 @@ export class MatchService {
   }
 
   async completeMatch(socketId: string): Promise<void> {
-    const userMatch = await this.userMatchRepository.findOne({
-      where: { socketId },
-      relations: ['match', 'user'],
-    });
+    const userMatch = await this.userMatchRepository.findBySocketId(socketId);
 
     if (!userMatch) {
       this.logger.warn(`No active match found for socketId ${socketId}`);
@@ -115,12 +103,7 @@ export class MatchService {
     }
   }
 
-  async findAllMatchesByUserId(userId: number): Promise<Match[]> {
-    const userMatches = await this.userMatchRepository.find({
-      where: { user: { id: userId } },
-      relations: ['match', 'match.userMatches', 'match.userMatches.user'],
-    });
-
-    return userMatches.map((um) => um.match);
+  async findAllMatchesWithAverageScore(userId: number): Promise<Array<{ match: Match; averageFluencyScore: number | null }>> {
+    return this.matchRepository.findAllMatchesWithAverageScore(userId);
   }
 }

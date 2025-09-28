@@ -17,7 +17,9 @@
     "search": "Search",
     "language": "Language",
     "settings": "Settings",
-    "ok": "OK"
+    "ok": "OK",
+    "skip": "Skip",
+    "matchmakingWaiting": "Almost there... finding the best match for you!"
   },
   "auth": {
     "login": "Login",
@@ -199,6 +201,41 @@
       "conversation": "Conversation",
       "justChilling": "Just Chilling",
       "wordBuilder": "Word Builder"
+    },
+    "rate": {
+      "sucess": {
+        "title": "Rating submitted",
+        "message": "Your rating was saved successfully"
+      },
+      "error": {
+        "title": "Rating error",
+        "message": "Could not submit your rating. Please try again."
+      },
+      "title": "How do you rate {{name}}'s {{language}} skills?",
+      "subtitle": "Your feedback helps your partner track their progress — be honest and constructive.",
+      "submit": "Submit Rating",
+      "levels": {
+        "1": {
+          "title": "Beginner",
+          "description": "Knows a few words, there is a lot to learn"
+        },
+        "2": {
+          "title": "Elementary",
+          "description": "Can communicate in simple situations, but struggles with more complex topics"
+        },
+        "3": {
+          "title": "Intermediate",
+          "description": "Can communicate in most situations, but still makes some mistakes"
+        },
+        "4": {
+          "title": "Advanced",
+          "description": "Can communicate fluently and accurately in most situations"
+        },
+        "5": {
+          "title": "Proficient",
+          "description": "Can communicate fluently and accurately in all situations"
+        }
+      }
     },
     "errors": {
       "somethingWentWrong": "Something went wrong!"

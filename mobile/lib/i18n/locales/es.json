@@ -17,7 +17,9 @@
     "search": "Buscar",
     "language": "Idioma",
     "settings": "Configuración",
-    "ok": "OK"
+    "ok": "OK",
+    "skip": "Omitir",
+    "matchmakingWaiting": "¡Casi listo... buscando la mejor partida para ti!"
   },
   "auth": {
     "login": "Iniciar sesión",
@@ -188,6 +190,41 @@
       "conversation": "Conversación",
       "justChilling": "Relajándose",
       "wordBuilder": "Constructor de Palabras"
+    },
+    "rate": {
+      "sucess": {
+        "title": "Calificación enviada",
+        "message": "Tu calificación se guardó exitosamente"
+      },
+      "error": {
+        "title": "Error al calificar",
+        "message": "No se pudo enviar tu calificación. Por favor, intenta de nuevo."
+      },
+      "title": "¿Cómo calificas las habilidades de {{name}} en {{language}}?",
+      "subtitle": "Tu opinión ayuda a tu compañero a seguir su progreso — sé honesto y constructivo.",
+      "submit": "Enviar calificación",
+      "levels": {
+        "1": {
+          "title": "Principiante",
+          "description": "Conoce pocas palabras, hay mucho por aprender"
+        },
+        "2": {
+          "title": "Elemental",
+          "description": "Puede comunicarse en situaciones simples, pero tiene dificultades con temas más complejos"
+        },
+        "3": {
+          "title": "Intermedio",
+          "description": "Puede comunicarse en la mayoría de las situaciones, pero aún comete algunos errores"
+        },
+        "4": {
+          "title": "Avanzado",
+          "description": "Puede comunicarse con fluidez y precisión en la mayoría de las situaciones"
+        },
+        "5": {
+          "title": "Fluido",
+          "description": "Puede comunicarse con fluidez y precisión en todas las situaciones"
+        }
+      }
     },
     "errors": {
       "somethingWentWrong": "¡Algo salió mal!"

@@ -113,6 +113,7 @@ export class JustChillingDuoGateway implements OnGatewayDisconnect {
           isOfferer: isOfferer,
           matchId: payload.match.id,
           buddy: {
+            userId: pair.userId,
             username: pair.username,
             nationality: pair.nationality,
           }

@@ -18,7 +18,9 @@
     "language": "Idioma",
     "settings": "Configurações",
     "ok": "OK",
-    "tryAgain": "Tentar Novamente"
+    "tryAgain": "Tentar Novamente",
+    "skip": "Pular",
+    "matchmakingWaiting": "Quase lá... encontrando a melhor partida para você!"
   },
   "auth": {
     "login": "Entrar",
@@ -189,6 +191,41 @@
       "conversation": "Conversa",
       "justChilling": "Relaxando",
       "wordBuilder": "Construtor de Palavras"
+    },
+    "rate": {
+      "sucess": {
+        "title": "Avaliação enviada",
+        "message": "Sua avaliação foi salva com sucesso"
+      },
+      "error": {
+        "title": "Erro na avaliação",
+        "message": "Não foi possível enviar sua avaliação. Por favor, tente novamente."
+      },
+      "title": "Como você avalia a fluência em {{language}} de {{name}}?",
+      "subtitle": "Seu feedback ajuda seu parceiro a acompanhar seu progresso — seja honesto e construtivo.",
+      "submit": "Enviar Avaliação",
+      "levels": {
+        "1": {
+          "title": "Iniciante",
+          "description": "Conhece poucas palavras, há muito a aprender"
+        },
+        "2": {
+          "title": "Elementar",
+          "description": "Consegue se comunicar em situações simples, mas tem dificuldades com tópicos mais complexos"
+        },
+        "3": {
+          "title": "Intermediário",
+          "description": "Consegue se comunicar na maioria das situações, mas ainda comete alguns erros"
+        },
+        "4": {
+          "title": "Avançado",
+          "description": "Consegue se comunicar de forma fluente e precisa na maioria das situações"
+        },
+        "5": {
+          "title": "Fluente",
+          "description": "Consegue se comunicar de forma fluente e precisa em todas as situações"
+        }
+      }
     },
     "errors": {
       "somethingWentWrong": "Algo deu errado!"

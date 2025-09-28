@@ -46,7 +46,7 @@ export default function Register() {
             source={require("../../../assets/images/calle-dog-icon.png")}
             className="w-20 h-20 mx-auto"
           />
-          <Text className="text-4xl text-center font-bold">Calle</Text>
+          <Text className="text-4xl text-center font-bold text-appBlack font-nunito-bold">Calle</Text>
           <Text className="text-2xl text-center font-medium font-nunito-medium">
             {t("auth.createAccount")}
           </Text>

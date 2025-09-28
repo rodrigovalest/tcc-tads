@@ -78,7 +78,7 @@ export default function LanguageSelection() {
           onPress={onBack}
           testID="back-button"
         >
-          <Ionicons name="chevron-back" size={35} />
+          <Ionicons name="chevron-back" size={35} color={"#191919"} />
         </TouchableOpacity>
 
         <View className="px-6 mt-20">
