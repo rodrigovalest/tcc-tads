@@ -18,9 +18,7 @@
     "language": "Idioma",
     "settings": "Configurações",
     "ok": "OK",
-    "tryAgain": "Tentar Novamente",
-    "skip": "Pular",
-    "matchmakingWaiting": "Quase lá... encontrando a melhor partida para você!"
+    "tryAgain": "Tentar Novamente"
   },
   "auth": {
     "login": "Entrar",
@@ -192,41 +190,6 @@
       "justChilling": "Relaxando",
       "wordBuilder": "Construtor de Palavras"
     },
-    "rate": {
-      "sucess": {
-        "title": "Avaliação enviada",
-        "message": "Sua avaliação foi salva com sucesso"
-      },
-      "error": {
-        "title": "Erro na avaliação",
-        "message": "Não foi possível enviar sua avaliação. Por favor, tente novamente."
-      },
-      "title": "Como você avalia a fluência em {{language}} de {{name}}?",
-      "subtitle": "Seu feedback ajuda seu parceiro a acompanhar seu progresso — seja honesto e construtivo.",
-      "submit": "Enviar Avaliação",
-      "levels": {
-        "1": {
-          "title": "Iniciante",
-          "description": "Conhece poucas palavras, há muito a aprender"
-        },
-        "2": {
-          "title": "Elementar",
-          "description": "Consegue se comunicar em situações simples, mas tem dificuldades com tópicos mais complexos"
-        },
-        "3": {
-          "title": "Intermediário",
-          "description": "Consegue se comunicar na maioria das situações, mas ainda comete alguns erros"
-        },
-        "4": {
-          "title": "Avançado",
-          "description": "Consegue se comunicar de forma fluente e precisa na maioria das situações"
-        },
-        "5": {
-          "title": "Fluente",
-          "description": "Consegue se comunicar de forma fluente e precisa em todas as situações"
-        }
-      }
-    },
     "errors": {
       "somethingWentWrong": "Algo deu errado!"
     }
@@ -346,5 +309,86 @@
     "permissionDenied": "Permissão negada",
     "notFound": "Não encontrado",
     "routeNotSupported": "Esta rota não é suportada no momento"
+  },
+  "friends": {
+    "friends": "Amigos",
+    "searchUsers": "Buscar usuários",
+    "searchByUsername": "Buscar por nome de usuário",
+    "enterUsername": "Digite o nome de usuário",
+    "search": "Buscar",
+    "noResults": "Nenhum resultado encontrado",
+    "searchResults": "Resultados da busca",
+    "searchResultsDescription": "Digite um nome de usuário e clique em buscar para encontrar novos amigos",
+    "sendRequest": "Enviar solicitação",
+    "searchUsersDescription": "Encontre novos amigos para praticar idiomas",
+    "receivedRequests": "Solicitações recebidas",
+    "receivedRequestsDescription": "Veja quem quer ser seu amigo",
+    "sentRequests": "Solicitações enviadas",
+    "sentRequestsDescription": "Acompanhe suas solicitações de amizade enviadas",
+    "friendsList": "Lista de amigos",
+    "friendsListDescription": "Seus amigos e parceiros de idioma",
+    "viewReceivedRequests": "Ver solicitações recebidas",
+    "viewSentRequests": "Ver solicitações enviadas",
+    "viewFriends": "Ver amigos",
+    "loadingRequests": "Carregando solicitações...",
+    "noReceivedRequests": "Nenhuma solicitação recebida",
+    "noSentRequests": "Nenhuma solicitação enviada",
+    "noSentRequestsDescription": "Suas solicitações de amizade enviadas aparecerão aqui",
+    "failedToLoadRequests": "Falha ao carregar solicitações",
+    "failedToCancelRequest": "Falha ao cancelar solicitação",
+    "requestCanceled": "Solicitação cancelada",
+    "cancelRequest": "Cancelar solicitação",
+    "cancelRequestConfirm": "Tem certeza que deseja cancelar esta solicitação?",
+    "requestSent": "Enviado",
+    "requestReceived": "Recebido",
+    "requestSentSuccess": "Solicitação enviada para {name}!",
+    "sentOn": "Enviado em",
+    "pending": "Pendente",
+    "accept": "Aceitar",
+    "reject": "Rejeitar",
+    "loadingFriends": "Carregando amigos...",
+    "searchFriends": "Buscar amigos",
+    "searchFriendsPlaceholder": "Digite o nome do amigo...",
+    "noFriendsFound": "Nenhum amigo encontrado",
+    "noFriends": "Nenhum amigo ainda",
+    "startChat": "Iniciar conversa",
+    "remove": "Remover",
+    "removeFriend": "Remover amigo",
+    "removeFriendConfirm": "Tem certeza que deseja remover {name} dos seus amigos?",
+    "friendRemoved": "Amigo removido com sucesso",
+    "view": "Visualizar",
+    "requestsSent": "Solicitações Enviadas",
+    "requestsReceived": "Solicitações Recebidas",
+    "list": "Lista de Amigos",
+    "conversations": "Conversas",
+    "conversationsDescription": "Converse com seus amigos e pratique idiomas juntos",
+    "viewConversations": "Ver Conversas",
+    "noConversations": "Nenhuma conversa ainda",
+    "noConversationsDescription": "Comece uma conversa com seus amigos para praticar idiomas",
+    "noMessages": "Nenhuma mensagem",
+    "noMessagesYet": "Nenhuma mensagem ainda",
+    "startConversation": "Comece uma conversa enviando uma mensagem",
+    "typeMessage": "Digite uma mensagem...",
+    "online": "Online",
+    "offline": "Offline",
+    "loadingConversations": "Carregando conversas...",
+    "loadingMessages": "Carregando mensagens...",
+    "sendMessage": "Enviar mensagem",
+    "messageSent": "Mensagem enviada",
+    "messageReceived": "Mensagem recebida",
+    "typing": "digitando...",
+    "isTyping": "está digitando...",
+    "friendOnline": "amigo online",
+    "friendOffline": "amigo offline"
+  },
+  "chat": {
+    "isTyping": "está digitando",
+    "messageTooLong": "Mensagem muito longa",
+    "messageTooLongDescription": "A mensagem não pode ter mais de {{maxLength}} caracteres",
+    "yesterday": "Ontem",
+    "messageOptions": "Opções da mensagem",
+    "deleteMessage": "Excluir mensagem",
+    "copyMessage": "Copiar mensagem",
+    "replyToMessage": "Responder mensagem"
   }
 }
