@@ -1,22 +1,28 @@
-import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react-native';
-import Register from '@/app/(public)/(auth)/register';
-import { router } from 'expo-router';
-import useI18n from '@/hooks/useI18n';
+import React from "react";
+import { render, fireEvent, waitFor } from "@testing-library/react-native";
+import Register from "@/app/(public)/(auth)/register";
+import { router } from "expo-router";
+import useI18n from "@/hooks/useI18n";
 
-jest.mock('expo-router', () => ({
+jest.mock("expo-router", () => ({
   router: {
     replace: jest.fn(),
   },
+  useRouter: jest.fn(() => ({
+    push: jest.fn(),
+    replace: jest.fn(),
+    back: jest.fn(),
+  })),
+  useLocalSearchParams: jest.fn(() => ({})),
 }));
 
-jest.mock('@/hooks/useI18n', () => ({
+jest.mock("@/hooks/useI18n", () => ({
   __esModule: true,
   default: jest.fn(),
 }));
 
-jest.mock('@/components/MultiStepRegisterForm', () => {
-  const { View, Text } = require('react-native');
+jest.mock("@/components/MultiStepRegisterForm", () => {
+  const { View, Text } = require("react-native");
   return function MockMultiStepRegisterForm() {
     return (
       <View testID="multi-step-register-form">
@@ -26,8 +32,8 @@ jest.mock('@/components/MultiStepRegisterForm', () => {
   };
 });
 
-jest.mock('@/components/LanguageSelector', () => {
-  const { View, Text } = require('react-native');
+jest.mock("@/components/LanguageSelector", () => {
+  const { View, Text } = require("react-native");
   return function MockLanguageSelector() {
     return (
       <View testID="language-selector">
@@ -37,28 +43,28 @@ jest.mock('@/components/LanguageSelector', () => {
   };
 });
 
-jest.mock('@expo/vector-icons', () => ({
+jest.mock("@expo/vector-icons", () => ({
   Ionicons: ({ name, size, color, ...props }: any) => {
-    const { Text } = require('react-native');
+    const { Text } = require("react-native");
     return <Text {...props}>{name}</Text>;
   },
 }));
 
 const mockT = jest.fn((key: string) => {
   const translations: { [key: string]: string } = {
-    'auth.createAccount': 'Create account',
+    "auth.createAccount": "Create account",
   };
   return translations[key] || key;
 });
 
 const mockUseI18n = useI18n as jest.MockedFunction<typeof useI18n>;
 
-describe('Register screen', () => {
+describe("Register screen", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockUseI18n.mockReturnValue({
       t: mockT as any,
-      currentLanguage: 'en' as any,
+      currentLanguage: "en" as any,
       changeLanguage: jest.fn(),
       isLoading: false,
       isInitialized: true,
@@ -68,44 +74,44 @@ describe('Register screen', () => {
     });
   });
 
-  it('renders logo, texts and components', () => {
+  it("renders logo, texts and components", () => {
     const { getByText, getByTestId } = render(<Register />);
 
-    expect(getByTestId('register-screen-safe-area-view')).toBeTruthy();
-    expect(getByText('Calle')).toBeTruthy();
-    expect(getByText('Create account')).toBeTruthy();
-    expect(getByTestId('multi-step-register-form')).toBeTruthy();
-    expect(getByTestId('language-selector')).toBeTruthy();
+    expect(getByTestId("register-screen-safe-area-view")).toBeTruthy();
+    expect(getByText("Calle")).toBeTruthy();
+    expect(getByText("Create account")).toBeTruthy();
+    expect(getByTestId("multi-step-register-form")).toBeTruthy();
+    expect(getByTestId("language-selector")).toBeTruthy();
   });
 
-  it('navigates to login screen when pressing back button', async () => {
+  it("navigates to login screen when pressing back button", async () => {
     const { getByTestId } = render(<Register />);
-    const backButton = getByTestId('go-to-login-button');
+    const backButton = getByTestId("go-to-login-button");
 
     fireEvent.press(backButton);
 
     await waitFor(() => {
-      expect(router.replace).toHaveBeenCalledWith('/(public)/(auth)/login');
+      expect(router.replace).toHaveBeenCalledWith("/(public)/(auth)/login");
     });
   });
 
-  it('should display translated text for create account', () => {
+  it("should display translated text for create account", () => {
     render(<Register />);
 
-    expect(mockT).toHaveBeenCalledWith('auth.createAccount');
+    expect(mockT).toHaveBeenCalledWith("auth.createAccount");
   });
 
-  it('should render with correct styling classes', () => {
+  it("should render with correct styling classes", () => {
     const { getByTestId } = render(<Register />);
-    
-    const safeAreaView = getByTestId('register-screen-safe-area-view');
-    expect(safeAreaView.props.className).toBe('flex-1 bg-appBgWhite');
+
+    const safeAreaView = getByTestId("register-screen-safe-area-view");
+    expect(safeAreaView.props.className).toBe("flex-1 bg-appBgWhite");
   });
 
-  it('should have proper scroll view configuration', () => {
+  it("should have proper scroll view configuration", () => {
     const { UNSAFE_getByType } = render(<Register />);
-    
-    const scrollView = UNSAFE_getByType(require('react-native').ScrollView);
-    expect(scrollView.props.keyboardShouldPersistTaps).toBe('handled');
+
+    const scrollView = UNSAFE_getByType(require("react-native").ScrollView);
+    expect(scrollView.props.keyboardShouldPersistTaps).toBe("handled");
   });
 });
