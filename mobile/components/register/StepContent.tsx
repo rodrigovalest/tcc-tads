@@ -17,6 +17,10 @@ interface StepContentProps {
   isNationalityDropdownOpen: boolean;
   setIsNationalityDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>;
   t: (key: string) => string;
+  isGoogleAccount?: boolean;
+  googleEmail?: string;
+  googlePhoto?: string;
+  onDownloadGooglePhoto?: (photoUrl: string) => Promise<string | null>;
 }
 
 export const StepContent: React.FC<StepContentProps> = ({
@@ -29,6 +33,10 @@ export const StepContent: React.FC<StepContentProps> = ({
   isNationalityDropdownOpen,
   setIsNationalityDropdownOpen,
   t,
+  isGoogleAccount = false,
+  googleEmail,
+  googlePhoto,
+  onDownloadGooglePhoto,
 }) => {
   switch (currentStep) {
     case 1:
@@ -41,16 +49,31 @@ export const StepContent: React.FC<StepContentProps> = ({
           isNationalityDropdownOpen={isNationalityDropdownOpen}
           setIsNationalityDropdownOpen={setIsNationalityDropdownOpen}
           t={t}
+          isGoogleAccount={isGoogleAccount}
+          googleEmail={googleEmail}
         />
       );
     case 2:
-      return <LanguageStep formData={formData} updateFormData={updateFormData} />;
+      return (
+        <LanguageStep formData={formData} updateFormData={updateFormData} />
+      );
     case 3:
-      return <PhotoStep formData={formData} updateFormData={updateFormData} />;
+      return (
+        <PhotoStep
+          formData={formData}
+          updateFormData={updateFormData}
+          googlePhoto={isGoogleAccount ? googlePhoto : undefined}
+          onDownloadGooglePhoto={onDownloadGooglePhoto}
+        />
+      );
     case 4:
-      return <InterestStep formData={formData} updateFormData={updateFormData} />;
+      return (
+        <InterestStep formData={formData} updateFormData={updateFormData} />
+      );
     case 5:
-      return <DescriptionStep formData={formData} updateFormData={updateFormData} />;
+      return (
+        <DescriptionStep formData={formData} updateFormData={updateFormData} />
+      );
     default:
       return null;
   }

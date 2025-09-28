@@ -14,8 +14,8 @@ interface UsePhotoUploadReturn {
   removePhoto: () => void;
 }
 
-export const usePhotoUpload = ({ 
-  onPhotoChange 
+export const usePhotoUpload = ({
+  onPhotoChange,
 }: UsePhotoUploadProps): UsePhotoUploadReturn => {
   const { t } = useI18n();
   const [isLoading, setIsLoading] = useState(false);
@@ -50,13 +50,11 @@ export const usePhotoUpload = ({
 
       if (!result.canceled && result.assets[0]) {
         onPhotoChange(result.assets[0].uri);
-      } else {
-        console.log('❌ Gallery selection cancelled or failed');
       }
     } catch (error) {
       Alert.alert(
-        t('register.photo.errorTitle'), 
-        t('register.photo.errorSelectImage')
+        t("register.photo.errorTitle"),
+        t("register.photo.errorSelectImage")
       );
     } finally {
       setIsLoading(false);
@@ -78,12 +76,12 @@ export const usePhotoUpload = ({
       if (!result.canceled && result.assets[0]) {
         onPhotoChange(result.assets[0].uri);
       } else {
-        console.log('❌ Camera capture cancelled or failed');
+        console.log("❌ Camera capture cancelled or failed");
       }
     } catch (error) {
       Alert.alert(
-        t('register.photo.errorTitle'), 
-        t('register.photo.errorTakePhoto')
+        t("register.photo.errorTitle"),
+        t("register.photo.errorTakePhoto")
       );
     } finally {
       setIsLoading(false);
@@ -92,14 +90,14 @@ export const usePhotoUpload = ({
 
   const removePhoto = (): void => {
     Alert.alert(
-      t('register.photo.removePhoto'),
-      t('register.photo.removePhotoConfirm'),
+      t("register.photo.removePhoto"),
+      t("register.photo.removePhotoConfirm"),
       [
-        { text: t('common.cancel'), style: "cancel" },
-        { 
-          text: t('register.photo.remove'), 
-          style: "destructive", 
-          onPress: () => onPhotoChange(null) 
+        { text: t("common.cancel"), style: "cancel" },
+        {
+          text: t("register.photo.remove"),
+          style: "destructive",
+          onPress: () => onPhotoChange(null),
         },
       ]
     );

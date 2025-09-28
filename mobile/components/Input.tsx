@@ -17,6 +17,7 @@ interface InputProps {
   type?: "text" | "numeric" | "password" | "email";
   error?: string;
   onBlur?: () => void;
+  disabled?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -27,6 +28,7 @@ const Input: React.FC<InputProps> = ({
   type = "text",
   error,
   onBlur,
+  disabled = false,
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -51,9 +53,9 @@ const Input: React.FC<InputProps> = ({
         {label}
       </Text>
       <View
-        className={`flex-row items-center border rounded-lg bg-appLightGrey ${
-          error ? "border-appMediumRed" : "border-black"
-        }`}
+        className={`flex-row items-center border rounded-lg ${
+          disabled ? "bg-gray-100" : "bg-appLightGrey"
+        } ${error ? "border-appMediumRed" : "border-black"}`}
       >
         <TextInput
           key={
@@ -63,9 +65,9 @@ const Input: React.FC<InputProps> = ({
                 : "password-hidden"
               : "input"
           }
-          className={`flex-1 px-3 py-4 text-xl text-appDarkGrey ${
-            type === "password" ? "pr-10" : ""
-          }`}
+          className={`flex-1 px-3 py-4 text-xl ${
+            disabled ? "text-gray-500" : "text-appDarkGrey"
+          } ${type === "password" ? "pr-10" : ""}`}
           value={value}
           onChangeText={onChangeText}
           placeholder={placeholder}
@@ -77,6 +79,7 @@ const Input: React.FC<InputProps> = ({
           }
           textContentType={type === "password" ? "oneTimeCode" : undefined}
           onBlur={onBlur}
+          editable={!disabled}
         />
         {type === "password" && (
           <TouchableOpacity

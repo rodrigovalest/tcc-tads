@@ -24,7 +24,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   setOpen,
 }) => {
   const { t } = useI18n();
-  
+
   return (
     <View className="mb-0">
       <Text className="mb-2 text-appBlack font-semibold text-xl pl-2.5">
@@ -43,8 +43,8 @@ const Dropdown: React.FC<DropdownProps> = ({
         }}
         setItems={() => {}}
         searchable={true}
-        placeholder={`${t('common.select')} ${label.toLowerCase()}`}
-        searchPlaceholder={`${t('common.search')}...`}
+        placeholder={`${t("common.select")} ${label.toLowerCase()}`}
+        searchPlaceholder={`${t("common.search")}...`}
         listMode="MODAL"
         modalProps={{
           animationType: "slide",
@@ -52,6 +52,9 @@ const Dropdown: React.FC<DropdownProps> = ({
         modalContentContainerStyle={{
           paddingTop: 20,
         }}
+        disableBorderRadius={false}
+        closeAfterSelecting={true}
+        closeOnBackPressed={true}
         style={{
           backgroundColor: COLORS.appLightGrey,
           borderColor: error ? "#DC2626" : "black",

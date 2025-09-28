@@ -16,11 +16,13 @@ export const DEFAULT_FORM_VALUES: MultiStepRegisterData = {
   photo: undefined,
   interestTopics: [],
   personalDescription: "",
+  isGoogleAccount: false,
+  googlePhoto: undefined,
 };
 
 export const STEPS_CONFIG = [
   "register.steps.basicInfo",
-  "register.steps.languages", 
+  "register.steps.languages",
   "register.steps.photo",
   "register.steps.interests",
   "register.steps.description",
