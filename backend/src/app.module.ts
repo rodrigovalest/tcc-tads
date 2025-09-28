@@ -6,7 +6,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MatchModule } from './match/match.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { JustChillingModule } from './just-chilling/just-chilling.module';
-import { MatchRateModule } from './match-rate/match-rate.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -37,7 +37,7 @@ import { MatchRateModule } from './match-rate/match-rate.module';
     
     JustChillingModule,
     
-    MatchRateModule,
+    ChatModule,
   ],
   controllers: [],
   providers: [],

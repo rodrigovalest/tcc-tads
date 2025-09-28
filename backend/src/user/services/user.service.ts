@@ -66,6 +66,21 @@ export class UserService {
     return UserMapper.toResponseDtoArray(users);
   }
 
+  async searchByUsername(username: string): Promise<UserResponseDto[]> {
+    if (!username?.trim()) {
+      return [];
+    }
+    
+    const users = await this.userRepository.find({
+      where: {
+        username: username.trim()
+      },
+      relations: ['languages', 'interestTopics']
+    });
+    
+    return UserMapper.toResponseDtoArray(users);
+  }
+
   async update(id: number, updateDto: UpdateUserRequestDto, photo: Express.Multer.File | undefined, baseUrl: string): Promise<UserResponseDto> {
     const user = await this.findById(id);
     if (!user) {

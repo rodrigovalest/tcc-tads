@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseInterceptors, UploadedFile, Req, Param, ParseIntPipe, Patch, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseInterceptors, UploadedFile, Req, Param, ParseIntPipe, Patch, HttpCode, HttpStatus, Query } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateUserRequestDto } from '../dtos/requests/create-user.request-dto';
 import { UserService } from '../services/user.service';
@@ -22,7 +22,10 @@ export class UserController {
   }
   
   @Get()
-  findAll(): Promise<UserResponseDto[]> {
+  findAll(@Query('username') username?: string): Promise<UserResponseDto[]> {
+    if (username) {
+      return this.userService.searchByUsername(username);
+    }
     return this.userService.findAll();
   }
 
