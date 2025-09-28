@@ -27,7 +27,7 @@ export class ChatSecurityService {
       .replace(/<embed\b[^<]*(?:(?!<\/embed>)<[^<]*)*<\/embed>/gi, '')
       .replace(/<form\b[^<]*(?:(?!<\/form>)<[^<]*)*<\/form>/gi, '')
       .replace(/on\w+="[^"]*"/gi, '')
-      .replace(/javascript:/gi, '');
+      .replace(/javascript:[^;\s]*/gi, '');
 
     if (sanitized.length > 4000) {
       sanitized = sanitized.substring(0, 4000) + '...';
