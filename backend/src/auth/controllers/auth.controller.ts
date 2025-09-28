@@ -15,6 +15,7 @@ import { GoogleLoginRequestDto } from '../dtos/google-login-request.dto';
 import { GoogleLoginResponseDto } from '../dtos/google-login-response.dto';
 import { GoogleLinkRequestDto } from '../dtos/google-link-request.dto';
 import { GoogleLinkResponseDto } from '../dtos/google-link-response.dto';
+import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 
 @Controller()
 export class AuthController {
@@ -58,7 +59,7 @@ export class AuthController {
 
   @Post('auth/google/link')
   @HttpCode(HttpStatus.OK)
-  // @UseGuards(JwtAuthGuard) // You'll need to implement JWT guard
+  @UseGuards(JwtAuthGuard)
   async linkGoogleAccount(
     @Body() requestDto: GoogleLinkRequestDto,
     @Request() req: any,
@@ -73,7 +74,7 @@ export class AuthController {
 
   @Delete('auth/google/unlink')
   @HttpCode(HttpStatus.OK)
-  // @UseGuards(JwtAuthGuard) // You'll need to implement JWT guard
+  @UseGuards(JwtAuthGuard)
   async unlinkGoogleAccount(
     @Request() req: any,
   ): Promise<GoogleLinkResponseDto> {

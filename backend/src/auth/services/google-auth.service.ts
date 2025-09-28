@@ -1,6 +1,6 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import * as jwt from 'jsonwebtoken';
+import { OAuth2Client } from 'google-auth-library';
 
 export interface GoogleTokenPayload {
   sub: string;
@@ -12,30 +12,46 @@ export interface GoogleTokenPayload {
 
 @Injectable()
 export class GoogleAuthService {
-  constructor(private configService: ConfigService) {}
+  private client: OAuth2Client;
+
+  constructor(private configService: ConfigService) {
+    const clientId = this.configService.get<string>('GOOGLE_CLIENT_ID');
+    if (!clientId) {
+      throw new Error(
+        'GOOGLE_CLIENT_ID must be defined in environment variables',
+      );
+    }
+    this.client = new OAuth2Client(clientId);
+  }
 
   async verifyIdToken(idToken: string): Promise<GoogleTokenPayload> {
     try {
-      // For production, you should use google-auth-library for proper verification
-      // This is a simplified implementation for demonstration
-      const decoded = jwt.decode(idToken) as any;
+      const ticket = await this.client.verifyIdToken({
+        idToken,
+        audience: this.configService.get<string>('GOOGLE_CLIENT_ID'),
+      });
 
-      if (!decoded || !decoded.email || !decoded.sub) {
-        throw new BadRequestException('Invalid Google token');
+      const payload = ticket.getPayload();
+
+      if (!payload || !payload.email || !payload.sub) {
+        throw new BadRequestException('Invalid Google token payload');
       }
 
-      if (!decoded.email_verified) {
+      if (!payload.email_verified) {
         throw new BadRequestException('Google email not verified');
       }
 
       return {
-        sub: decoded.sub,
-        email: decoded.email,
-        name: decoded.name || decoded.email,
-        picture: decoded.picture,
-        email_verified: decoded.email_verified,
+        sub: payload.sub,
+        email: payload.email,
+        name: payload.name || payload.email,
+        picture: payload.picture,
+        email_verified: payload.email_verified,
       };
     } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
       throw new BadRequestException('Invalid Google token');
     }
   }

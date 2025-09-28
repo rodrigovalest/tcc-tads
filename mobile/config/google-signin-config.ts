@@ -1,4 +1,5 @@
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import Constants from "expo-constants";
 
 // Google Sign-in configuration - configure it once when the app starts
 let isConfigured = false;
@@ -9,12 +10,19 @@ export const configureGoogleSignin = () => {
   }
 
   const webClientId =
-    "996571940618-fgsm2379mqrortkergti3hb8l1cuj2n2.apps.googleusercontent.com";
+    Constants.expoConfig?.extra?.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID ||
+    process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID;
   const iosClientId =
-    "996571940618-fgsm2379mqrortkergti3hb8l1cuj2n2.apps.googleusercontent.com";
+    Constants.expoConfig?.extra?.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID ||
+    process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID;
+  const androidClientId =
+    Constants.expoConfig?.extra?.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID ||
+    process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID;
 
   if (!webClientId) {
-    console.error("Google Web Client ID is not defined");
+    console.error(
+      "Google Web Client ID is not defined in environment variables"
+    );
     return;
   }
 
@@ -29,6 +37,7 @@ export const configureGoogleSignin = () => {
     });
 
     isConfigured = true;
+    console.log("Google Sign-in configured successfully");
   } catch (error) {
     console.error("Error configuring Google Sign-in:", error);
   }
