@@ -29,7 +29,7 @@ export class UserRepositoryImpl implements IUserRepository {
     }
     return this.repository.findOne({
       where: { id },
-      relations: ['languages', 'interestTopics']
+      relations: ['languages', 'interestTopics'],
     });
   }
 
@@ -39,7 +39,7 @@ export class UserRepositoryImpl implements IUserRepository {
     }
     return this.repository.findOne({
       where: { email: email.toLowerCase().trim() },
-      relations: ['languages', 'interestTopics']
+      relations: ['languages', 'interestTopics'],
     });
   }
 
@@ -49,7 +49,21 @@ export class UserRepositoryImpl implements IUserRepository {
     }
     return this.repository.findOne({
       where: { username: username.trim() },
-      relations: ['languages', 'interestTopics']
+      relations: ['languages', 'interestTopics'],
     });
+  }
+
+  async findByGoogleId(googleId: string): Promise<User | null> {
+    if (!googleId?.trim()) {
+      return null;
+    }
+    return this.repository.findOne({
+      where: { googleId: googleId.trim() },
+      relations: ['languages', 'interestTopics'],
+    });
+  }
+
+  async update(id: number, updateData: Partial<User>): Promise<void> {
+    await this.repository.update(id, updateData);
   }
 }

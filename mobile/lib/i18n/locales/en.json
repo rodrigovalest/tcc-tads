@@ -57,6 +57,17 @@
         "title": "Login error",
         "message": "Something went wrong. Try again"
       }
+    },
+    "googleLogin": {
+      "newUser": {
+        "title": "Welcome!",
+        "message": "Please complete your registration to continue"
+      },
+      "error": {
+        "title": "Google Login Failed",
+        "message": "Failed to login with Google. Please try again",
+        "playServices": "Google Play Services not available"
+      }
     }
   },
   "register": {
@@ -310,6 +321,51 @@
     "cs": "Czech",
     "tr": "Turkish",
     "th": "Thai"
+  },
+  "profile": {
+    "loading": "Loading profile...",
+    "error": "Failed to load profile",
+    "retry": "Try again",
+    "fluency": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced",
+      "fluent": "Fluent",
+      "native": "Native",
+      "unknown": "Unknown"
+    },
+    "googleAccount": {
+      "title": "Google Account",
+      "linkedTo": "Linked to",
+      "link": "Link Google Account",
+      "unlink": "Unlink Account",
+      "linkDescription": "Link your Google account for easier sign-in"
+    },
+    "googleLink": {
+      "success": {
+        "title": "Google Account Linked",
+        "message": "Your Google account has been successfully linked"
+      },
+      "error": {
+        "title": "Link Failed",
+        "message": "Failed to link Google account. Please try again"
+      }
+    },
+    "googleUnlink": {
+      "confirm": {
+        "title": "Unlink Google Account",
+        "message": "Are you sure you want to unlink your Google account?",
+        "action": "Unlink"
+      },
+      "success": {
+        "title": "Google Account Unlinked",
+        "message": "Your Google account has been successfully unlinked"
+      },
+      "error": {
+        "title": "Unlink Failed",
+        "message": "Failed to unlink Google account. Please try again"
+      }
+    }
   },
   "errors": {
     "networkError": "Network error",

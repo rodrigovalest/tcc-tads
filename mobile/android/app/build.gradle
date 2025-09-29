@@ -89,7 +89,7 @@ android {
 
     namespace 'com.anonymous.mobile'
     defaultConfig {
-        applicationId 'com.anonymous.mobile'
+        applicationId 'com.tcc.mobile'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

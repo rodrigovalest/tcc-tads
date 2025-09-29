@@ -1,31 +1,69 @@
-// Mock AsyncStorage
-jest.mock('@react-native-async-storage/async-storage', () => ({
+jest.mock("@react-native-async-storage/async-storage", () => ({
   setItem: jest.fn(() => Promise.resolve()),
   getItem: jest.fn(() => Promise.resolve(null)),
   removeItem: jest.fn(() => Promise.resolve()),
   clear: jest.fn(() => Promise.resolve()),
 }));
 
-// Mock word validation service
-jest.mock('./services/word-validation', () => ({
+const mockRouter = {
+  push: jest.fn(),
+  replace: jest.fn(),
+  back: jest.fn(),
+};
+
+jest.mock("expo-router", () => ({
+  useRouter: jest.fn(() => mockRouter),
+  useLocalSearchParams: jest.fn(() => ({})),
+}));
+
+jest.mock("@react-native-google-signin/google-signin", () => ({
+  GoogleSignin: {
+    configure: jest.fn(),
+    hasPlayServices: jest.fn().mockResolvedValue(true),
+    signIn: jest.fn().mockResolvedValue({
+      data: {
+        idToken: "mock-id-token",
+        user: {
+          id: "mock-user-id",
+          email: "test@gmail.com",
+          name: "Test User",
+          photo: "https://example.com/photo.jpg",
+        },
+      },
+    }),
+    signOut: jest.fn().mockResolvedValue(undefined),
+    getCurrentUser: jest.fn().mockResolvedValue(null),
+    getTokens: jest.fn().mockResolvedValue({
+      idToken: "mock-id-token",
+      accessToken: "mock-access-token",
+    }),
+    clearCachedAccessToken: jest.fn().mockResolvedValue(undefined),
+  },
+  statusCodes: {
+    SIGN_IN_CANCELLED: -5,
+    IN_PROGRESS: -1,
+    PLAY_SERVICES_NOT_AVAILABLE: 2,
+    SIGN_IN_REQUIRED: 4,
+  },
+}));
+
+jest.mock("./services/word-validation", () => ({
   validateWord: jest.fn((word, language) => {
-    const validWords = ['cat', 'dog', 'house', 'test', 'word'];
+    const validWords = ["cat", "dog", "house", "test", "word"];
     return validWords.includes(word.toLowerCase());
   }),
   generateRandomWord: jest.fn((language) => {
-    const words = ['cat', 'dog', 'house', 'test', 'word'];
+    const words = ["cat", "dog", "house", "test", "word"];
     return words[Math.floor(Math.random() * words.length)];
   }),
 }));
 
-// Mock react-native-toast-message
-jest.mock('react-native-toast-message', () => ({
+jest.mock("react-native-toast-message", () => ({
   show: jest.fn(),
   hide: jest.fn(),
 }));
 
-// Mock react-native-safe-area-context
-jest.mock('react-native-safe-area-context', () => ({
+jest.mock("react-native-safe-area-context", () => ({
   useSafeAreaInsets: jest.fn(() => ({
     top: 44,
     bottom: 34,
@@ -33,26 +71,17 @@ jest.mock('react-native-safe-area-context', () => ({
     right: 0,
   })),
   SafeAreaProvider: ({ children }) => children,
-  SafeAreaView: 'SafeAreaView',
+  SafeAreaView: "SafeAreaView",
 }));
 
-// Mock expo-router
-jest.mock('expo-router', () => ({
-  useRouter: jest.fn(),
-  useLocalSearchParams: jest.fn(),
-}));
-
-// Mock react-native-css-interop
-jest.mock('react-native-css-interop', () => ({
+jest.mock("react-native-css-interop", () => ({
   cssInterop: (Component) => Component,
 }));
 
-// Mock react-native-vector-icons
 jest.mock("react-native-vector-icons/FontAwesome", () => "Icon");
 jest.mock("react-native-vector-icons/FontAwesome5", () => "Icon");
 jest.mock("react-native-vector-icons/MaterialIcons", () => "Icon");
 
-// Mock SVG components
 jest.mock("react-native-svg", () => ({
   SvgProps: {},
   Svg: "Svg",
@@ -79,7 +108,6 @@ jest.mock("react-native-svg", () => ({
   Mask: "Mask",
 }));
 
-// Mock flag SVG files
 jest.mock("@/assets/images/flags_svg/br.svg", () => ({
   default: () => "BrazilFlag",
 }));
@@ -92,10 +120,8 @@ jest.mock("@/assets/images/flags_svg/es.svg", () => ({
   default: () => "SpainFlag",
 }));
 
-// Mock image assets
 jest.mock("@/assets/images/calle-dog-icon.png", () => "mock-calle-dog-icon");
 
-// Suppress console warnings for tests
 const originalConsoleWarn = console.warn;
 const originalConsoleError = console.error;
 
@@ -109,10 +135,8 @@ afterAll(() => {
   console.error = originalConsoleError;
 });
 
-// Clean up after each test to prevent memory leaks
 afterEach(() => {
   jest.clearAllMocks();
-  // Force garbage collection if available
   if (global.gc) {
     global.gc();
   }

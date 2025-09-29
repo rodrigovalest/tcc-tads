@@ -5,27 +5,38 @@ import Button from "../../../components/Button";
 import { router } from "expo-router";
 import useI18n from "../../../hooks/useI18n";
 import LanguageSelector from "../../../components/LanguageSelector";
+import { useGoogleLogin } from "../../../hooks/useGoogleAuth";
+import { useGoogleRegister } from "../../../hooks/useGoogleRegister";
+import { configureGoogleSignin } from "../../../config/google-signin-config";
+import { useEffect } from "react";
+import { GoogleSigninButton } from "@react-native-google-signin/google-signin";
 
 export default function Login() {
   const { t } = useI18n();
+  const { mutate: googleLogin, isPending: isGoogleLoading } = useGoogleLogin();
+  const { resetGoogleData } = useGoogleRegister();
+
+  useEffect(() => {
+    configureGoogleSignin();
+  }, []);
 
   const handleGoogleLogin = () => {
-    throw new Error('Login google not implemented yet');
-  }
+    googleLogin();
+  };
 
   const handleSignUp = () => {
-    router.replace('/(public)/(auth)/register');
-  }
+    router.replace("/(public)/(auth)/register?mode=manual");
+  };
 
   return (
     <SafeAreaView
       className="w-full h-full bg-appBgWhite"
       testID="login-screen-safe-area-view"
     >
-      <ScrollView 
+      <ScrollView
         className="flex-1 px-8"
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+        contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
       >
         <View className="flex-row justify-end mt-4 mb-4">
           <LanguageSelector variant="compact" showLabel={false} />
@@ -49,14 +60,14 @@ export default function Login() {
         <LoginForm />
 
         <Text className="text-center text-2xl text-black font-medium my-8">
-          {t('auth.or')}
+          {t("auth.or")}
         </Text>
-        
+
         <Button
-          title={t('auth.loginWithGoogle')}
+          title={t("auth.loginWithGoogle")}
           onPress={handleGoogleLogin}
           className="mb-4"
-          loading={false}
+          loading={isGoogleLoading}
           textColor="text-black"
           textColorActivate="text-white"
           textSize="2xl"
@@ -69,9 +80,9 @@ export default function Login() {
           iconLeftColorActivate="white"
           testID="google-login-button"
         />
-        
+
         <Button
-          title={t('auth.createAccount')}
+          title={t("auth.createAccount")}
           onPress={handleSignUp}
           className="mb-4"
           textSize="2xl"
