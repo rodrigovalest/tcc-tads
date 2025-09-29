@@ -390,7 +390,11 @@
     "typing": "escribiendo...",
     "isTyping": "está escribiendo...",
     "friendOnline": "amigo en línea",
-    "friendOffline": "amigo desconectado"
+    "friendOffline": "amigo desconectado",
+    "justNow": "ahora mismo",
+    "minutesAgo": "hace {{minutes}} minutos",
+    "hoursAgo": "hace {{hours}} horas",
+    "daysAgo": "hace {{days}} días"
   },
   "chat": {
     "isTyping": "está escribiendo",

@@ -55,7 +55,7 @@ export const useChatConversation = (friendId: number) => {
         ...prev,
         messages: data,
         friendName: friend.friend.username,
-        friendPhoto: friend.friend.photo || null,
+        friendPhoto: friend.friend.photoUri || null,
         loading: false
       }));
       

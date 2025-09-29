@@ -390,7 +390,11 @@
     "typing": "typing...",
     "isTyping": "is typing...",
     "friendOnline": "friend online",
-    "friendOffline": "friend offline"
+    "friendOffline": "friend offline",
+    "justNow": "just now",
+    "minutesAgo": "{{minutes}} minutes ago",
+    "hoursAgo": "{{hours}} hours ago",
+    "daysAgo": "{{days}} days ago"
   },
   "chat": {
     "isTyping": "is typing",

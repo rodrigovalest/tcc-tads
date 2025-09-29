@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Conversation } from '../../types/friendship.types';
 import { COLORS } from '../../constants/colors';
@@ -39,7 +39,15 @@ export const ConversationCard: React.FC<ConversationCardProps> = ({
       <View className="flex-row items-center">
         <View className="relative mr-4">
           <View className="w-14 h-14 bg-appMediumGrey rounded-full items-center justify-center">
-            <Ionicons name="person" size={24} color="white" />
+            {conversation.friend.photoUri ? (
+              <Image
+                source={{ uri: conversation.friend.photoUri }}
+                className="w-14 h-14 rounded-full"
+                resizeMode="cover"
+              />
+            ) : (
+              <Ionicons name="person" size={24} color="white" />
+            )}
           </View>
         </View>
 

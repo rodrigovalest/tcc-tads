@@ -39,15 +39,12 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({
     <>
       {messages.map((message, index) => {
         const isOwnMessage = message.sender.id !== friendId;
-        const prevMessage = index > 0 ? messages[index - 1] : null;
-        const showAvatar = !prevMessage || prevMessage.sender.id !== message.sender.id;
         
         return (
           <MessageBubble
             key={message.id}
             message={message}
             isOwnMessage={isOwnMessage}
-            showAvatar={showAvatar}
             onLongPress={() => {
             }}
           />

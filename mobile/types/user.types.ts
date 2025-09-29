@@ -5,7 +5,7 @@ export interface BaseUser {
   email: string;
   nationality: string;
   personalDescription?: string;
-  photo?: string;
+  photoUri?: string;
   isActive: boolean;
   lastLoginAt?: string;
   createdAt: string;

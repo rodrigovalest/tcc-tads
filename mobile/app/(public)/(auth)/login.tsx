@@ -64,7 +64,7 @@ export default function Login() {
           bgColorActivate="bg-black"
           borderColor="border-appLightGrey"
           borderColorActivate="border-black"
-          iconLeft="google"
+          iconLeft="logo-google"
           iconLeftColor="black"
           iconLeftColorActivate="white"
           testID="google-login-button"

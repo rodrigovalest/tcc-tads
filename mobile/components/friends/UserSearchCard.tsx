@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { SearchUser } from '../../hooks/useUserSearch';
 import useI18n from '../../hooks/useI18n';
@@ -77,6 +77,18 @@ export const UserSearchCard: React.FC<UserSearchCardProps> = ({
   return (
     <View className="bg-white rounded-xl p-5 mb-4 shadow-sm border border-gray-100">
       <View className="flex-row items-center justify-between">
+        <View className="w-14 h-14 bg-appMediumGrey rounded-full items-center justify-center mr-4">
+          {user.photoUri ? (
+            <Image
+              source={{ uri: user.photoUri }}
+              className="w-14 h-14 rounded-full"
+              resizeMode="cover"
+            />
+          ) : (
+            <Ionicons name="person" size={24} color="white" />
+          )}
+        </View>
+        
         <View className="flex-1 mr-4">
           <Text className="text-lg font-nunito-bold text-appBlack mb-2">
             {user.username}

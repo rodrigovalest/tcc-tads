@@ -7,14 +7,12 @@ import { Message } from '../types/friendship.types';
 interface MessageBubbleProps {
   message: Message;
   isOwnMessage: boolean;
-  showAvatar?: boolean;
   showTime?: boolean;
   onLongPress?: () => void;
 }
 export default function MessageBubble({ 
   message, 
   isOwnMessage, 
-  showAvatar = false, 
   showTime = true,
   onLongPress 
 }: MessageBubbleProps) {
@@ -31,13 +29,7 @@ export default function MessageBubble({
       activeOpacity={0.7}
       className={`mb-3 ${isOwnMessage ? 'items-end' : 'items-start'}`}
     >
-      <View className={`flex-row items-end max-w-[85%] ${isOwnMessage ? 'flex-row-reverse' : ''}`}>
-        {showAvatar && !isOwnMessage && (
-          <View className="w-8 h-8 bg-appLightGrey rounded-full items-center justify-center mr-2 mb-1">
-            <Ionicons name="person" size={16} color="#7C7C7F" />
-          </View>
-        )}
-        
+      <View className={`max-w-[85%]`}>
         <View className={`${isOwnMessage ? 'items-end' : 'items-start'}`}>
           <View
             className={`px-4 py-3 rounded-2xl ${
@@ -82,12 +74,6 @@ export default function MessageBubble({
             </View>
           )}
         </View>
-        
-        {showAvatar && isOwnMessage && (
-          <View className="w-8 h-8 bg-appBlack rounded-full items-center justify-center ml-2 mb-1">
-            <Ionicons name="person" size={16} color="white" />
-          </View>
-        )}
       </View>
     </TouchableOpacity>
   );

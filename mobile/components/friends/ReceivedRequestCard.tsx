@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { FriendshipRequest } from '../../types/friendship.types';
 import { COLORS } from '../../constants/colors';
@@ -23,7 +23,15 @@ export const ReceivedRequestCard: React.FC<ReceivedRequestCardProps> = ({
     <View className="bg-appLightGrey rounded-xl p-5 mb-4">
       <View className="flex-row items-center mb-4">
         <View className="w-14 h-14 bg-appMediumGrey rounded-full items-center justify-center mr-4">
-          <Ionicons name="person-add" size={24} color="white" />
+          {request.requester.photoUri ? (
+            <Image
+              source={{ uri: request.requester.photoUri }}
+              className="w-14 h-14 rounded-full"
+              resizeMode="cover"
+            />
+          ) : (
+            <Ionicons name="person-add" size={24} color="white" />
+          )}
         </View>
         <View className="flex-1">
           <Text className="text-lg font-nunito-bold text-appBlack mb-1">
