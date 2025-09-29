@@ -33,15 +33,15 @@ export class VoiceRecognitionService {
   }
 
   private setupVoiceListeners() {
-    if (!this.isInitialized) {
-      try {
+    try {
+      if (Voice && typeof Voice.onSpeechResults !== "undefined") {
         Voice.onSpeechResults = this.onSpeechResults.bind(this);
         Voice.onSpeechError = this.onSpeechError.bind(this);
         Voice.onSpeechStart = this.onSpeechStart.bind(this);
         Voice.onSpeechEnd = this.onSpeechEnd.bind(this);
-      } catch (error) {
-        console.error("Error setting up voice listeners:", error);
       }
+    } catch (error) {
+      console.error("Error setting up voice listeners:", error);
     }
   }
 

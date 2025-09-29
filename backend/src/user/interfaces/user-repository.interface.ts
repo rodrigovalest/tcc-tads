@@ -8,4 +8,6 @@ export interface IUserRepository {
   findById(id: number): Promise<User | null>;
   findByEmail(email: string): Promise<User | null>;
   findByUsername(username: string): Promise<User | null>;
+  findByGoogleId(googleId: string): Promise<User | null>;
+  update(id: number, updateData: Partial<User>): Promise<void>;
 }
