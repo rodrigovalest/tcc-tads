@@ -9,7 +9,6 @@ import { useGoogleLogin } from "../../../hooks/useGoogleAuth";
 import { useGoogleRegister } from "../../../hooks/useGoogleRegister";
 import { configureGoogleSignin } from "../../../config/google-signin-config";
 import { useEffect } from "react";
-import { GoogleSigninButton } from "@react-native-google-signin/google-signin";
 
 export default function Login() {
   const { t } = useI18n();
