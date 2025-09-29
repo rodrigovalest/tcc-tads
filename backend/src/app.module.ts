@@ -7,7 +7,7 @@ import { MatchModule } from './match/match.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { JustChillingModule } from './just-chilling/just-chilling.module';
 import { ChatModule } from './chat/chat.module';
-
+import { MatchRateModule } from './match-rate/match-rate.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -36,6 +36,8 @@ import { ChatModule } from './chat/chat.module';
     MatchModule,
     
     JustChillingModule,
+
+    MatchRateModule,
     
     ChatModule,
   ],
