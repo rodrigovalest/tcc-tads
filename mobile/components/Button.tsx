@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { TouchableOpacity, Text, ActivityIndicator, View } from "react-native";
 import { COLORS } from "../constants/colors";
-import Icon from "react-native-vector-icons/FontAwesome";
+import { Ionicons } from "@expo/vector-icons";
 
 interface ButtonProps {
   title: string;
@@ -94,8 +94,8 @@ const Button: React.FC<ButtonProps> = ({
       ) : (
         <View className="flex-row items-center">
           {iconLeft && (
-            <Icon
-              name={iconLeft}
+            <Ionicons
+              name={iconLeft as any}
               size={iconLeftSize}
               color={currentIconLeftColor}
               style={{ marginRight: 8 }}
@@ -107,8 +107,8 @@ const Button: React.FC<ButtonProps> = ({
             {title}
           </Text>
           {iconRight && (
-            <Icon
-              name={iconRight}
+            <Ionicons
+              name={iconRight as any}
               size={iconRightSize}
               color={currentIconRightColor}
               style={{ marginLeft: 8 }}

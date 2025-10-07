@@ -7,7 +7,7 @@ export type ApiError = {
 };
 
 const api = axios.create({
-  baseURL: process.env.EXPO_PUBLIC_API_URL ?? 'http://192.168.2.100:3000',
+  baseURL: process.env.EXPO_PUBLIC_API_URL,
   timeout: 30000,
 });
 
