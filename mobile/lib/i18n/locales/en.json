@@ -200,7 +200,8 @@
     "matchModes": {
       "conversation": "Conversation",
       "justChilling": "Just Chilling",
-      "wordBuilder": "Word Builder"
+      "wordBuilder": "Word Builder",
+      "timeAttackVocab": "Time Attack Vocab"
     },
     "rate": {
       "sucess": {
@@ -277,6 +278,32 @@
     "stopListening": "Stop listening",
     "reRecord": "Record again",
     "voiceRecognitionError": "Voice recognition error. Please try again."
+  },
+  "timeAttackVocab": {
+    "title": "Time Attack Vocab",
+    "description": "Translate words as fast as possible! Choose your target language and test your vocabulary skills against the clock.",
+    "selectTargetLanguage": "Choose your target language:",
+    "translationDirection": "Translation Direction",
+    "translateWord": "Translate this word:",
+    "fromTo": "From {{from}} to {{to}}",
+    "enterTranslation": "Enter translation",
+    "submit": "Submit",
+    "gameOver": "Game Over!",
+    "finalScore": "Final Score",
+    "correctAnswers": "Correct Answers",
+    "incorrect": "Incorrect",
+    "correct": "Correct",
+    "accuracy": "Accuracy",
+    "streak": "Streak",
+    "bestStreak": "Best Streak",
+    "playAgain": "Play Again",
+    "backToMenu": "Back to Menu",
+    "exitGame": "Exit Game",
+    "exitGameTitle": "Exit Game?",
+    "exitGameMessage": "Are you sure you want to exit the current game?",
+    "ready": "Ready!",
+    "sameLanguageError": "Please select different languages for translation",
+    "gameSetupError": "Game setup error. Please try again."
   },
   "navigation": {
     "matches": "Matches",

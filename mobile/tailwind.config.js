@@ -1,9 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./app/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./app/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
@@ -18,13 +15,16 @@ module.exports = {
         appBlue: "#1565C0",
         appBlueDark: "#0D47A1",
         appBlueLight: "#2196F3",
-        appBluePale: "#E3F2FD"
+        appBluePale: "#E3F2FD",
+        appGreen: "#4CAF50",
+        appGreenDark: "#2E7D32",
+        appGreenLight: "#81C784",
       },
     },
     fontFamily: {
       "nunito-extralight": ["nunito-extralight"],
       "nunito-light": ["nunito-light"],
-      "nunito": ["nunito-regular"],
+      nunito: ["nunito-regular"],
       "nunito-medium": ["nunito-medium"],
       "nunito-semibold": ["nunito-semibold"],
       "nunito-bold": ["nunito-bold"],
@@ -32,4 +32,4 @@ module.exports = {
     },
   },
   plugins: [],
-}
+};

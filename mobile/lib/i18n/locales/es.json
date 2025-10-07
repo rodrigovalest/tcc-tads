@@ -189,7 +189,8 @@
     "matchModes": {
       "conversation": "Conversación",
       "justChilling": "Relajándose",
-      "wordBuilder": "Constructor de Palabras"
+      "wordBuilder": "Constructor de Palabras",
+      "timeAttackVocab": "Ataque Rápido de Vocabulario"
     },
     "rate": {
       "sucess": {
@@ -266,6 +267,32 @@
     "stopListening": "Dejar de escuchar",
     "reRecord": "Grabar de nuevo",
     "voiceRecognitionError": "Error en el reconocimiento de voz. Inténtalo de nuevo."
+  },
+  "timeAttackVocab": {
+    "title": "Ataque Rápido de Vocabulario",
+    "description": "¡Traduce palabras lo más rápido posible! Elige tu idioma de destino y pon a prueba tus habilidades de vocabulario contra el reloj.",
+    "selectTargetLanguage": "Elige tu idioma de destino:",
+    "translationDirection": "Dirección de Traducción",
+    "translateWord": "Traduce esta palabra:",
+    "fromTo": "De {{from}} a {{to}}",
+    "enterTranslation": "Ingresa la traducción",
+    "submit": "Enviar",
+    "gameOver": "¡Fin del Juego!",
+    "finalScore": "Puntuación Final",
+    "correctAnswers": "Respuestas Correctas",
+    "incorrect": "Incorrectas",
+    "correct": "Correctas",
+    "accuracy": "Precisión",
+    "streak": "Racha",
+    "bestStreak": "Mejor Racha",
+    "playAgain": "Jugar de Nuevo",
+    "backToMenu": "Volver al Menú",
+    "exitGame": "Salir del Juego",
+    "exitGameTitle": "¿Salir del Juego?",
+    "exitGameMessage": "¿Estás seguro de que quieres salir del juego actual?",
+    "ready": "¡Listo!",
+    "sameLanguageError": "Por favor selecciona idiomas diferentes para la traducción",
+    "gameSetupError": "Error en la configuración del juego. Inténtalo de nuevo."
   },
   "navigation": {
     "matches": "Partidas",

@@ -10,4 +10,7 @@ export const COLORS = {
   appBlack: "#191919",
   appLighterGray: "#E0E0E0",
   testblue: "#1E90FF",
+  appGreen: "#4CAF50",
+  appGreenDark: "#2E7D32",
+  appGreenLight: "#81C784",
 };

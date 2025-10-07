@@ -58,6 +58,8 @@ export default function LanguageSelection() {
       router.replace("/(private)/word-builder/solo/game");
     } else if (matchMode === "just-chilling" && matchFormat === "duo") {
       router.replace("/(private)/just-chilling/duo/waiting");
+    } else if (matchMode === "time-attack-vocab" && matchFormat === "solo") {
+      router.push("/(private)/time-attack-vocab/language-selection" as any);
     } else {
       console.warn(`No route found for ${matchMode}/${matchFormat}`);
       router.replace("/(private)/(tabs)/matches");
