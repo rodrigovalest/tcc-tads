@@ -1,20 +1,18 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   RTCPeerConnection,
   RTCSessionDescription,
   mediaDevices,
   MediaStream,
-  RTCIceCandidate,
-  MediaStreamConstraints,
-  EventOnAddStream,
-  EventOnCandidate
+  RTCIceCandidate
 } from "react-native-webrtc";
 import webSocketService from "../services/web-socket-service";
 import useMatchStore from "../store/match-store";
-import { ImageSourcePropType } from "react-native";
+import { WhoAmICharacter, WhoAmICharacterPair } from "../models/types/who-am-i-character.interface";
+import { WHO_AM_I_CHARACTERS } from "../constants/who-am-i-characters";
 
 
-const turnServerUrl = process.env.EXPO_PUBLIC_API_URL ?? '192.168.1.22';
+const turnServerUrl = process.env.EXPO_PUBLIC_API_URL ?? '10.182.240.50';
 const turnServerPort = process.env.EXPO_PUBLIC_TURN_SERVER_PORT ?? '3478';
 const turnServerUsername = process.env.EXPO_PUBLIC_TURN_SERVER_USERNAME ?? 'webrtcuser';
 const turnServerCredential = process.env.EXPO_PUBLIC_TURN_SERVER_CREDENTIAL ?? 'webrctpass';
@@ -29,7 +27,7 @@ const PEER_CONSTRAINTS = {
   ],
 };
 
-const MEDIA_CONSTRAINTS: MediaStreamConstraints = {
+const MEDIA_CONSTRAINTS = {
   audio: true,
   video: true,
 };
@@ -39,36 +37,21 @@ const SESSION_CONSTRAINTS: RTCOfferOptions = {
   offerToReceiveVideo: true,
 };
 
-// Imagens disponíveis para o jogo Who Am I
-const WHO_AM_I_IMAGES: ImageSourcePropType[] = [
-  require("../assets/images/who_am_i_characters/whoami1.jpg"),
-  require("../assets/images/who_am_i_characters/whoami2.jpg"),
-  require("../assets/images/who_am_i_characters/whoami3.jpg"),
-  require("../assets/images/who_am_i_characters/whoami4.jpg"),
-  require("../assets/images/who_am_i_characters/whoami5.jpg"),
-  require("../assets/images/who_am_i_characters/whoami6.jpg"),
-  require("../assets/images/who_am_i_characters/whoami7.jpg"),
-  require("../assets/images/who_am_i_characters/whoami8.jpg"),
-];
-
-
-const useWhoAmIDuo = (redirectOnEnd: () => void) => {
+const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: () => void) => {
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
   const peerConnection = useRef<RTCPeerConnection | null>(null);
 
   const { matchId, isOfferer } = useMatchStore();
   
-  // Debug: log do estado do store
   console.log("[STORE] matchId:", matchId, "isOfferer:", isOfferer);
 
   const [isMicMuted, setIsMicMuted] = useState<boolean>(false);
   const [isVideoMuted, setIsVideoMuted] = useState<boolean>(false);
   
-  // Estados para as imagens do jogo Who Am I
-  const [myCharacterImage, setMyCharacterImage] = useState<ImageSourcePropType | null>(null);
-  const [opponentCharacterImage, setOpponentCharacterImage] = useState<ImageSourcePropType | null>(null);
-  const [usedImages, setUsedImages] = useState<ImageSourcePropType[]>([]);
+  const [myCharacter, setMyCharacter] = useState<WhoAmICharacter | null>(null);
+  const [opponentCharacter, setOpponentCharacter] = useState<WhoAmICharacter | null>(null);
+  const [usedCharacters, setUsedCharacters] = useState<WhoAmICharacter[]>([]);
 
   const switchAudio = () => {
     setIsMicMuted((prev) => {
@@ -88,69 +71,71 @@ const useWhoAmIDuo = (redirectOnEnd: () => void) => {
     });
   };
 
-  // Função para selecionar duas imagens aleatórias diferentes que não foram usadas
-  const selectRandomImages = () => {
-    // Se já usamos todas as imagens, reseta a lista de usadas
-    if (usedImages.length >= WHO_AM_I_IMAGES.length) {
-      console.log("[SELECT] Todas as imagens foram usadas, resetando lista");
-      setUsedImages([]);
+  const selectRandomCharacters = (): WhoAmICharacterPair => {
+    if (usedCharacters.length >= WHO_AM_I_CHARACTERS.length) {
+      console.log("[SELECT] Todos os personagens foram usados, resetando lista");
+      setUsedCharacters([]);
     }
 
-    // Filtra imagens que não foram usadas
-    const availableImages = WHO_AM_I_IMAGES.filter(img => !usedImages.includes(img));
+    const availableCharacters = WHO_AM_I_CHARACTERS.filter(char => 
+      !usedCharacters.some(used => used.id === char.id)
+    );
     
-    // Se não há imagens suficientes, usa todas
-    const imagesToChooseFrom = availableImages.length >= 2 ? availableImages : WHO_AM_I_IMAGES;
+    const charactersToChooseFrom = availableCharacters.length >= 2 ? availableCharacters : WHO_AM_I_CHARACTERS;
     
-    // Embaralha e seleciona duas imagens diferentes
-    const shuffled = [...imagesToChooseFrom].sort(() => Math.random() - 0.5);
+    const shuffled = [...charactersToChooseFrom].sort(() => Math.random() - 0.5);
     const selected = [shuffled[0], shuffled[1]];
     
-    console.log("[SELECT] Imagens selecionadas:", selected);
-    console.log("[SELECT] Imagens já usadas:", usedImages);
+    console.log("[SELECT] Personagens selecionados:", selected.map(c => c.name));
+    console.log("[SELECT] Personagens já usados:", usedCharacters.map(c => c.name));
     
-    return selected;
+    return {
+      myCharacter: selected[0],
+      opponentCharacter: selected[1]
+    };
   };
 
-  // Função para sincronizar imagens entre os jogadores
-  const syncImagesWithOpponent = (images: ImageSourcePropType[]) => {
+  const syncCharactersWithOpponent = (characters: WhoAmICharacterPair) => {
     if (webSocketService.isConnected()) {
-      const imageIndices = images.map(img => {
-        // Encontra o índice da imagem no array original
-        return WHO_AM_I_IMAGES.findIndex(originalImg => originalImg === img);
-      });
+      const characterIds = [characters.myCharacter.id, characters.opponentCharacter.id];
       
-      console.log("[SYNC] Enviando imagens:", imageIndices);
+      console.log("[SYNC] Enviando personagens:", characterIds);
       webSocketService.emit("who-am-i:duo:sync-images", {
         matchId,
-        images: imageIndices
+        images: characterIds
       });
     } else {
-      console.log("[SYNC] WebSocket não conectado, não foi possível sincronizar imagens");
+      console.log("[SYNC] WebSocket não conectado, não foi possível sincronizar personagens");
     }
   };
 
-  // Função para gerar novas imagens (chamada quando Give up ou Nailed it é pressionado)
-  const generateNewImages = () => {
-    console.log("[NEW_IMAGES] Gerando novas imagens");
-    const selectedImages = selectRandomImages();
+  const generateNewCharacters = () => {
+    console.log("[NEW_CHARACTERS] Gerando novos personagens");
+    const selectedCharacters = selectRandomCharacters();
     
-    // Marca as imagens anteriores como usadas
-    if (myCharacterImage && opponentCharacterImage) {
-      setUsedImages(prev => [...prev, myCharacterImage, opponentCharacterImage]);
+    if (myCharacter && opponentCharacter) {
+      setUsedCharacters(prev => [...prev, myCharacter, opponentCharacter]);
     }
     
-    setMyCharacterImage(selectedImages[0]);
-    setOpponentCharacterImage(selectedImages[1]);
-    syncImagesWithOpponent(selectedImages);
+    setMyCharacter(selectedCharacters.myCharacter);
+    setOpponentCharacter(selectedCharacters.opponentCharacter);
+    syncCharactersWithOpponent(selectedCharacters);
     
-    // Notifica o oponente que uma nova rodada foi iniciada
     if (webSocketService.isConnected()) {
       webSocketService.emit("who-am-i:duo:new-round", {
         matchId,
       });
     }
   };
+
+  const notifyCorrectAnswer = () => {
+    if (webSocketService.isConnected()) {
+      webSocketService.emit("who-am-i:duo:correct-answer", {
+        matchId,
+      });
+    }
+  };
+
 
   const endCall = () => {
     peerConnection.current?.close();
@@ -178,18 +163,24 @@ const useWhoAmIDuo = (redirectOnEnd: () => void) => {
 
     const pc = new RTCPeerConnection(PEER_CONSTRAINTS);
     peerConnection.current = pc;
+    console.log("[INIT] PeerConnection criada");
 
     await mediaDevices.getUserMedia(MEDIA_CONSTRAINTS)
       .then((localMediaStream) => {
+        console.log("[INIT] Local stream obtido:", localMediaStream);
         setLocalStream(localMediaStream);
         pc.addStream(localMediaStream);
+        console.log("[INIT] Local stream adicionado ao peer connection");
       });
 
-    pc.onaddstream = (event: EventOnAddStream) => {
+    // @ts-ignore - These properties exist at runtime
+    pc.onaddstream = (event: any) => {
+      console.log("[WEBRTC] Remote stream received");
       setRemoteStream(event.stream);
     }
 
-    pc.onicecandidate = (event: EventOnCandidate) => {
+    // @ts-ignore - These properties exist at runtime
+    pc.onicecandidate = (event: any) => {
       if (event.candidate) {
         webSocketService.emit("who-am-i:duo:webrtc:ice-candidate", {
           matchId,
@@ -198,6 +189,7 @@ const useWhoAmIDuo = (redirectOnEnd: () => void) => {
       }
     };
 
+    // @ts-ignore - These properties exist at runtime
     pc.oniceconnectionstatechange = () => {
       console.log("[ICE] Estado ICE:", pc.connectionState);
 
@@ -208,6 +200,7 @@ const useWhoAmIDuo = (redirectOnEnd: () => void) => {
 
     if (isOfferer) {
       const offer = await pc.createOffer(SESSION_CONSTRAINTS);
+      // @ts-ignore - offer is compatible with RTCSessionDescription
       await pc.setLocalDescription(offer);
 
       webSocketService.emit("who-am-i:duo:webrtc:offer", {
@@ -217,7 +210,6 @@ const useWhoAmIDuo = (redirectOnEnd: () => void) => {
     }
   };
 
-  // Efeito separado para sincronizar imagens imediatamente
   useEffect(() => {
     console.log("[DEBUG] useEffect triggered - matchId:", matchId, "isOfferer:", isOfferer);
     
@@ -226,28 +218,28 @@ const useWhoAmIDuo = (redirectOnEnd: () => void) => {
       return;
     }
 
-    // Aguarda um pouco para garantir que o isOfferer seja definido
     const timeout = setTimeout(() => {
       if (isOfferer === true) {
-        console.log("[MATCH] Sou o offerer, selecionando imagens");
-        const selectedImages = selectRandomImages();
-        console.log("[MATCH] Imagens selecionadas:", selectedImages);
-        setMyCharacterImage(selectedImages[0]);
-        setOpponentCharacterImage(selectedImages[1]);
-        // Marca as imagens iniciais como usadas
-        setUsedImages(prev => [...prev, ...selectedImages]);
-        syncImagesWithOpponent(selectedImages);
+        console.log("[MATCH] Sou o offerer, selecionando personagens");
+        const selectedCharacters = selectRandomCharacters();
+        console.log("[MATCH] Personagens selecionados:", selectedCharacters);
+        console.log("[MATCH] Meu personagem:", selectedCharacters.myCharacter.name);
+        console.log("[MATCH] Personagem do oponente:", selectedCharacters.opponentCharacter.name);
+        setMyCharacter(selectedCharacters.myCharacter);
+        setOpponentCharacter(selectedCharacters.opponentCharacter);
+        setUsedCharacters(prev => [...prev, selectedCharacters.myCharacter, selectedCharacters.opponentCharacter]);
+        syncCharactersWithOpponent(selectedCharacters);
       } else if (isOfferer === false) {
         console.log("[MATCH] Não sou o offerer, aguardando sincronização");
       } else {
         console.log("[MATCH] isOfferer ainda não definido após timeout, tentando mesmo assim");
-        // Fallback: se isOfferer não foi definido, tenta selecionar imagens
-        const selectedImages = selectRandomImages();
-        setMyCharacterImage(selectedImages[0]);
-        setOpponentCharacterImage(selectedImages[1]);
-        // Marca as imagens iniciais como usadas
-        setUsedImages(prev => [...prev, ...selectedImages]);
-        syncImagesWithOpponent(selectedImages);
+        const selectedCharacters = selectRandomCharacters();
+        console.log("[MATCH] Fallback - Meu personagem:", selectedCharacters.myCharacter.name);
+        console.log("[MATCH] Fallback - Personagem do oponente:", selectedCharacters.opponentCharacter.name);
+        setMyCharacter(selectedCharacters.myCharacter);
+        setOpponentCharacter(selectedCharacters.opponentCharacter);
+        setUsedCharacters(prev => [...prev, selectedCharacters.myCharacter, selectedCharacters.opponentCharacter]);
+        syncCharactersWithOpponent(selectedCharacters);
       }
     }, 1000);
 
@@ -265,6 +257,7 @@ const useWhoAmIDuo = (redirectOnEnd: () => void) => {
       const answer = await peerConnection.current?.createAnswer();
 
       if (answer) {
+        // @ts-ignore - answer is compatible with RTCSessionDescription
         await peerConnection.current?.setLocalDescription(answer);
 
         webSocketService.emit("who-am-i:duo:webrtc:answer", {
@@ -282,24 +275,31 @@ const useWhoAmIDuo = (redirectOnEnd: () => void) => {
       await peerConnection.current?.addIceCandidate(new RTCIceCandidate(candidate));
     });
 
-    // Listener para sincronização de imagens
     webSocketService.on("who-am-i:duo:sync-images", ({ images }) => {
-      console.log("[SYNC] Recebendo imagens:", images);
-      const imageIndices = images as number[];
-      const receivedImages = imageIndices.map(index => WHO_AM_I_IMAGES[index]);
+      console.log("[SYNC] Recebendo personagens:", images);
+      const characterIds = images as number[];
+      const receivedCharacters = characterIds.map(id => 
+        WHO_AM_I_CHARACTERS.find(char => char.id === id)!
+      );
       
-      // O jogador que recebe as imagens inverte a ordem (sua imagem é a segunda, do oponente é a primeira)
-      setMyCharacterImage(receivedImages[1]);
-      setOpponentCharacterImage(receivedImages[0]);
+      console.log("[SYNC] Personagens encontrados:", receivedCharacters.map(c => c.name));
       
-      // Marca as imagens recebidas como usadas
-      setUsedImages(prev => [...prev, ...receivedImages]);
+      setMyCharacter(receivedCharacters[1]);
+      setOpponentCharacter(receivedCharacters[0]);
+      
+      console.log("[SYNC] Meu personagem definido:", receivedCharacters[1]?.name);
+      console.log("[SYNC] Personagem do oponente definido:", receivedCharacters[0]?.name);
+      
+      setUsedCharacters(prev => [...prev, ...receivedCharacters]);
     });
 
-    // Listener para nova rodada iniciada pelo oponente
     webSocketService.on("who-am-i:duo:new-round", ({ from }) => {
       console.log("[NEW_ROUND] Oponente iniciou nova rodada:", from);
-      // O oponente já gerou as novas imagens, então só aguardamos a sincronização
+    });
+
+    webSocketService.on("who-am-i:duo:adversary-correct", ({ from }) => {
+      console.log("[ADVERSARY_CORRECT] Oponente acertou:", from);
+      onAdversaryCorrect?.();
     });
 
     webSocketService.onDisconnect(() => {
@@ -316,6 +316,7 @@ const useWhoAmIDuo = (redirectOnEnd: () => void) => {
     };
   }, [matchId]);
 
+
   return {
     localStream,
     remoteStream,
@@ -325,10 +326,14 @@ const useWhoAmIDuo = (redirectOnEnd: () => void) => {
     isMicMuted,
     isVideoMuted,
     endCall,
-    myCharacterImage,
-    opponentCharacterImage,
-    generateNewImages,
-    usedImages, // Para debug
+    myCharacter,
+    opponentCharacter,
+    generateNewCharacters,
+    notifyCorrectAnswer,
+    usedCharacters,
+    myCharacterImage: myCharacter?.image || null,
+    opponentCharacterImage: opponentCharacter?.image || null,
+    generateNewImages: generateNewCharacters,
   };
 };
 

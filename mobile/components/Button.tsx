@@ -79,8 +79,9 @@ const Button: React.FC<ButtonProps> = ({
       onPressIn={() => setIsPressed(true)}
       onPressOut={() => setIsPressed(false)}
       disabled={disabled || loading}
-      className={`py-4 px-6 rounded-lg items-center justify-center border-2 min-h-[52px] ${className} ${currentBorderColor} 
+      className={`py-4 px-6 rounded-lg items-center justify-center border-2 ${className} ${currentBorderColor} 
       ${currentBgColor} ${disabled || loading ? "opacity-50" : ""}`}
+      style={{ minHeight: 52 }}
       activeOpacity={1}
       accessibilityRole="button"
       accessibilityState={{ disabled: disabled || loading }}

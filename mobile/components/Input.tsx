@@ -92,7 +92,7 @@ const Input: React.FC<InputProps> = ({
           </TouchableOpacity>
         )}
       </View>
-      <View className="min-h-[18px] mt-1 ml-1">
+      <View className="mt-1 ml-1" style={{ minHeight: 18 }}>
         {error ? (
           <Text className="text-appMediumRed text-xs">{error}</Text>
         ) : (

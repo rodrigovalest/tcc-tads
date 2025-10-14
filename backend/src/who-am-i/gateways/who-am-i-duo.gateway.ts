@@ -116,6 +116,21 @@ export class WhoAmIDuoGateway implements OnGatewayDisconnect {
     });
   }
 
+  @UseGuards(JwtWsAuthGuard)
+  @SubscribeMessage('who-am-i:duo:correct-answer')
+  handleCorrectAnswer(
+    @CurrentWsUser() user: IUserJwtPayload,
+    @MessageBody() payload: { matchId: string },
+    @ConnectedSocket() client: Socket
+  ) {
+    this.logger.log(`[correct-answer] User ${user.sub} got correct answer for match ${payload.matchId}`);
+
+    // Notifica o oponente que ele acertou
+    client.to(payload.matchId).emit('who-am-i:duo:adversary-correct', {
+      from: user.sub,
+    });
+  }
+
   async handleDisconnect(client: Socket) {
     await this.whoAmIDuoService.handleDisconnect(client.id);
   }

@@ -9,7 +9,24 @@ module.exports = function (api) {
       "nativewind/babel",
     ],
     plugins: [
-      "react-native-reanimated/plugin",
+      [
+        "module-resolver",
+        {
+          root: ["./"],
+          alias: {
+            "@": "./",
+          },
+          extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
+        },
+      ],
+      [
+        "react-native-reanimated/plugin",
+        {
+          // Fix for backmaping error
+          disableInlineStylesWarning: true,
+          disableWorkletCache: true,
+        }
+      ],
     ],
   };
 };

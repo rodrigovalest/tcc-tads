@@ -56,7 +56,7 @@ const InterestTopicsSelector: React.FC<InterestTopicsSelectorProps> = ({
         {t('register.interests.selected')}: {selectedTopics.length}/3
       </Text>
 
-      <View className="mb-2 min-h-[40px]">
+      <View className="mb-2" style={{ minHeight: 40 }}>
         {selectedTopics.length > 0 ? (
           <ScrollView 
             horizontal 

@@ -1,6 +1,6 @@
 import { io, Socket } from "socket.io-client";
 
-const wsApiUrl = process.env.EXPO_PUBLIC_WS_API_URL ?? '192.168.1.22:3000';
+const wsApiUrl = process.env.EXPO_PUBLIC_WS_API_URL ?? 'http://10.182.240.50:3000';
 
 const webSocketService = (() => {
   let socket: Socket | null = null;
