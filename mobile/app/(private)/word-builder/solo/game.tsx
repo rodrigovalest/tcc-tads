@@ -10,8 +10,7 @@ import { MatchLanguage } from "../../../../models/types/match-language.type";
 
 import CountdownScreen from "../../../../components/CountdownScreen";
 import GameHeader from "../../../../components/GameHeader";
-import WordInput from "../../../../components/WordInput";
-import VoiceInput from "../../../../components/VoiceInput";
+import UnifiedWordInput from "../../../../components/UnifiedWordInput";
 import WordsGrid from "../../../../components/WordsGrid";
 import ExitGameModal from "../../../../components/ExitGameModal";
 import GameResultsScreen from "../../../../components/GameResultsScreen";
@@ -108,24 +107,28 @@ export default function WordBuilderGame() {
           </ScrollView>
 
           <View className="px-0 pb-4" style={{ backgroundColor: "#fff" }}>
-            {inputMode === "voice" ? (
-              <VoiceInput
-                onSubmitWord={addWord}
-                isGameActive={gameState.isGameActive}
-                language={
-                  matchLanguage === "pt"
-                    ? "pt-BR"
-                    : matchLanguage === "en"
-                    ? "en-US"
-                    : "es-ES"
-                }
-              />
-            ) : (
-              <WordInput
-                onSubmitWord={addWord}
-                isGameActive={gameState.isGameActive}
-              />
-            )}
+            <UnifiedWordInput
+              onSubmitWord={addWord}
+              isGameActive={gameState.isGameActive}
+              inputMode={inputMode || "typing"}
+              language={
+                matchLanguage === "pt"
+                  ? "pt-BR"
+                  : matchLanguage === "en"
+                  ? "en-US"
+                  : "es-ES"
+              }
+              title={
+                inputMode === "voice"
+                  ? t("wordBuilder.speakWord")
+                  : t("wordBuilder.enterWord")
+              }
+              placeholder={
+                inputMode === "voice"
+                  ? t("wordBuilder.tapToSpeak")
+                  : t("wordBuilder.enterWord")
+              }
+            />
           </View>
         </View>
 

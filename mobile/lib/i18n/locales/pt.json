@@ -188,8 +188,13 @@
     "matchModes": {
       "conversation": "Conversa",
       "justChilling": "Relaxando",
-      "wordBuilder": "Construtor de Palavras"
+      "wordBuilder": "Construtor de Palavras",
+      "timeAttackVocab": "Vocabulário Contra o Tempo"
     },
+    "sourceLanguage": "Idioma fonte",
+    "targetLanguage": "Idioma alvo",
+    "languageToLearn": "idioma que você quer aprender",
+    "responseLanguage": "idioma das respostas",
     "errors": {
       "somethingWentWrong": "Algo deu errado!"
     }
@@ -394,5 +399,27 @@
     "deleteMessage": "Excluir mensagem",
     "copyMessage": "Copiar mensagem",
     "replyToMessage": "Responder mensagem"
+  },
+  "timeAttackVocab": {
+    "setup": "Configuração do Vocabulário Contra o Tempo",
+    "wordsWillAppearIn": "As palavras aparecerão em",
+    "gameFormat": "Formato do jogo",
+    "gameMode": "Modo de jogo",
+    "translateThis": "Traduza esta palavra",
+    "from": "do",
+    "to": "para o",
+    "score": "Pontuação",
+    "wordsTranslated": "Palavras traduzidas",
+    "typeTranslation": "Digite a tradução",
+    "gameOver": "Fim de Jogo!",
+    "finalScore": "Pontuação final",
+    "correctTranslations": "Traduções corretas",
+    "incorrectTranslations": "Traduções incorretas",
+    "avgTimePerWord": "Tempo médio por palavra",
+    "playAgain": "Jogar Novamente",
+    "backToMenu": "Voltar ao Menu",
+    "speakTranslation": "Fale a tradução",
+    "tapToSpeak": "Toque para falar",
+    "enterTranslation": "Digite a tradução"
   }
 }
