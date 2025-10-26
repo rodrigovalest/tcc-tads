@@ -267,6 +267,10 @@
     "reRecord": "Grabar de nuevo",
     "voiceRecognitionError": "Error en el reconocimiento de voz. Inténtalo de nuevo."
   },
+  "voiceInput": {
+    "wordToSpeak": "Palabra a decir",
+    "instructions": "Toca el micrófono para hablar"
+  },
   "navigation": {
     "matches": "Partidas",
     "chat": "Chat",

@@ -171,6 +171,9 @@ export default function TimeAttackVocabGame() {
                   ? t("timeAttackVocab.tapToSpeak")
                   : t("timeAttackVocab.enterTranslation")
               }
+              targetWord={
+                inputMode === "voice" ? gameState.currentWord : undefined
+              }
             />
           </View>
         </View>

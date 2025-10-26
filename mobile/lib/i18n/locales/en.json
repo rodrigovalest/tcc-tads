@@ -283,6 +283,10 @@
     "reRecord": "Record again",
     "voiceRecognitionError": "Voice recognition error. Please try again."
   },
+  "voiceInput": {
+    "wordToSpeak": "Word to speak",
+    "instructions": "Tap the microphone to speak"
+  },
   "navigation": {
     "matches": "Matches",
     "chat": "Chat",
