@@ -103,7 +103,16 @@ export class MatchService {
     }
   }
 
-  async findAllMatchesWithAverageScore(userId: number): Promise<Array<{ match: Match; averageFluencyScore: number | null }>> {
-    return this.matchRepository.findAllMatchesWithAverageScore(userId);
+  async findAllMatchesWithAverageScore(
+    userId: number,
+    page: number = 1,
+    limit: number = 10,
+  ): Promise<{
+    data: Array<{ match: Match; averageFluencyScore: number | null }>;
+    total: number;
+    page: number;
+    limit: number;
+  }> {
+    return this.matchRepository.findAllMatchesWithAverageScore(userId, page, limit);
   }
 }

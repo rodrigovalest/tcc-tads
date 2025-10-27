@@ -58,7 +58,9 @@ describe('AuthController', () => {
     }).compile();
 
     app = moduleRef.createNestApplication();
-    app.useGlobalPipes(new ValidationPipe());
+    app.useGlobalPipes(new ValidationPipe({
+      transform: true,
+    }));
     app.useGlobalFilters(new HttpExceptionFilter());
 
     jwtService = moduleRef.get<JwtService>(JwtService);
@@ -108,49 +110,69 @@ describe('AuthController', () => {
         },
       }] as UserMatch[];
 
-      const mockMatchesWithAverageScore: Array<{ match: Match; averageFluencyScore: number | null }> = [
-        {
-          match: {
-            id: '1',
-            startTime: new Date(),
-            endTime: new Date(),
-            mode: MatchMode.JUST_CHILLING,
-            format: MatchFormat.SOLO,
-            language: MatchLanguage.EN,
-            status: MatchStatus.COMPLETED,
-            userMatches: userMatches,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          },
-          averageFluencyScore: 1,
-        }
-      ];
+      const mockMatchesWithAverageScore: {
+        data: Array<{ match: Match; averageFluencyScore: number | null }>;
+        total: number;
+        page: number;
+        limit: number;
+      } = {
+        data: [
+          {
+            match: {
+              id: '1',
+              startTime: new Date(),
+              endTime: new Date(),
+              mode: MatchMode.JUST_CHILLING,
+              format: MatchFormat.SOLO,
+              language: MatchLanguage.EN,
+              status: MatchStatus.COMPLETED,
+              userMatches: userMatches,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            },
+            averageFluencyScore: 1,
+          }
+        ],
+        total: 1,
+        page: 1,
+        limit: 10,
+      };
 
       matchService.findAllMatchesWithAverageScore.mockResolvedValue(mockMatchesWithAverageScore);
 
       // Act
       const response = await request(app.getHttpServer())
-        .get('/matches')
+        .get('/matches?page=1&limit=10')
         .set('Authorization', `Bearer ${mockedJwtToken}`)
         .expect(200);
 
       // Assert
-      expect(matchService.findAllMatchesWithAverageScore).toHaveBeenCalledWith(mockedLoggedJwtPayload.sub);
-      expect(response.body).toHaveLength(1);
+      expect(matchService.findAllMatchesWithAverageScore).toHaveBeenCalledWith(mockedLoggedJwtPayload.sub, 1, 10);
+      expect(response.body.data).toHaveLength(1);
 
-      const expectedResponse: ListMatchesResponseDto[] = [
-        {
-          id: '1',
-          startTime: mockMatchesWithAverageScore[0].match.startTime.toISOString(),
-          endTime: mockMatchesWithAverageScore[0].match.endTime.toISOString(),
-          mode: mockMatchesWithAverageScore[0].match.mode,
-          format: mockMatchesWithAverageScore[0].match.format,
-          language: mockMatchesWithAverageScore[0].match.language,
-          status: mockMatchesWithAverageScore[0].match.status,
-          averageFluencyScore: mockMatchesWithAverageScore[0].averageFluencyScore,
-          users: [{ id: 1, username: 'testuser', nationality: CountryCode.Afghanistan, photoUri: null }]
-        }
-      ];
+      const expectedResponse: {
+        data: ListMatchesResponseDto[];
+        total: number;
+        page: number;
+        limit: number;
+      } = {
+        data: [
+          {
+            id: '1',
+            startTime: mockMatchesWithAverageScore.data[0].match.startTime.toISOString(),
+            endTime: mockMatchesWithAverageScore.data[0].match.endTime.toISOString(),
+            mode: mockMatchesWithAverageScore.data[0].match.mode,
+            format: mockMatchesWithAverageScore.data[0].match.format,
+            language: mockMatchesWithAverageScore.data[0].match.language,
+            status: mockMatchesWithAverageScore.data[0].match.status,
+            averageFluencyScore: mockMatchesWithAverageScore.data[0].averageFluencyScore,
+            users: [{ id: 1, username: 'testuser', nationality: CountryCode.Afghanistan, photoUri: null }]
+          }
+        ], 
+        total: 1, 
+        page: 1, 
+        limit: 10 
+      };
       expect(response.body).toEqual(expectedResponse);
     });
 
