@@ -404,6 +404,13 @@
     "copyMessage": "Copiar mensagem",
     "replyToMessage": "Responder mensagem"
   },
+
+  "validation": {
+    "allFieldsRequired": "Por favor, preencha todos os campos.",
+    "selectAllOptions": "Selecione o idioma alvo, o modo de entrada e o nível.",
+    "sameLanguageError": "O idioma alvo não pode ser o mesmo do idioma de origem.",
+    "selectDifferentTargetLanguage": "Selecione um idioma alvo diferente."
+  },
   "timeAttackVocab": {
     "selectLevel": "Selecione o nível de vocabulário",
     "levels": {

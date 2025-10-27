@@ -178,6 +178,10 @@
     "matchLanguage": "Idioma de partida",
     "selectLanguage": "Seleccionar idioma",
     "selectGameMode": "Selecciona modo de juego",
+    "sourceLanguage": "Idioma de origen",
+    "targetLanguage": "Idioma de destino",
+    "languageToLearn": "idioma que quieres aprender",
+    "responseLanguage": "idioma de respuesta",
     "waiting": "Esperando...",
     "searchingOpponent": "Buscando oponente...",
     "matchFound": "¡Partida encontrada!",
@@ -189,7 +193,8 @@
     "matchModes": {
       "conversation": "Conversación",
       "justChilling": "Relajándose",
-      "wordBuilder": "Constructor de Palabras"
+      "wordBuilder": "Constructor de Palabras",
+      "timeAttackVocab": "Vocabulario Contra Reloj"
     },
     "rate": {
       "sucess": {
@@ -410,6 +415,13 @@
     "copyMessage": "Copiar mensaje",
     "replyToMessage": "Responder mensaje"
   },
+
+  "validation": {
+    "allFieldsRequired": "Por favor completa todos los campos.",
+    "selectAllOptions": "Selecciona el idioma destino, el modo de entrada y el nivel.",
+    "sameLanguageError": "El idioma destino no puede ser el mismo que el idioma de origen.",
+    "selectDifferentTargetLanguage": "Selecciona un idioma destino diferente."
+  },
   "profile": {
     "title": "Perfil",
     "editProfile": "Editar Perfil",
@@ -444,6 +456,11 @@
     },
     "title": "Vocabulario Contra Reloj",
     "setup": "Configuración de Vocabulario Contra Reloj",
+    "wordsWillAppearIn": "Las palabras aparecerán en",
+    "gameFormat": "Formato del juego: traducir del origen al destino",
+    "from": "de",
+    "to": "a",
+    "translateThis": "Traduce esta palabra",
     "selectSourceLanguage": "Selecciona tu idioma nativo",
     "selectTargetLanguage": "Selecciona el idioma que quieres practicar",
     "selectInputMode": "Selecciona cómo quieres responder",
@@ -457,12 +474,17 @@
     "timeUp": "¡Se acabó el tiempo!",
     "correctAnswers": "Respuestas correctas",
     "totalWords": "Palabras totales",
+    "finalScore": "Puntuación final",
+    "wordsTranslated": "Palabras traducidas",
+    "correctTranslations": "Traducciones correctas",
+    "incorrectTranslations": "Traducciones incorrectas",
+    "avgTimePerWord": "Tiempo medio por palabra",
+    "gameMode": "Modo de juego",
     "accuracy": "Precisión",
     "wordsPerMinute": "Palabras por minuto",
     "playAgain": "Jugar de nuevo",
     "backToMenu": "Volver al menú",
     "translate": "Traduce",
-    "to": "a",
     "skip": "Saltar",
     "submit": "Enviar",
     "listening": "Escuchando...",
@@ -483,6 +505,7 @@
     "needsImprovement": "Necesita mejorar",
     "keepPracticing": "Sigue practicando",
     "speakTranslation": "Habla la traducción",
-    "enterTranslation": "Ingresa la traducción"
+    "enterTranslation": "Ingresa la traducción",
+    "typeTranslation": "Escribe la traducción"
   }
 }

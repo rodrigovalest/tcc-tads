@@ -486,6 +486,13 @@
     "replyToMessage": "Reply to message"
   },
 
+  "validation": {
+    "allFieldsRequired": "Please fill all required fields.",
+    "selectAllOptions": "Select target language, input mode, and level.",
+    "sameLanguageError": "Target language cannot be the same as source language.",
+    "selectDifferentTargetLanguage": "Please select a different target language."
+  },
+
   "timeAttackVocab": {
     "selectLevel": "Select vocabulary level",
     "levels": {
@@ -495,6 +502,11 @@
     },
     "title": "Time Attack Vocab",
     "setup": "Time Attack Vocab Setup",
+    "wordsWillAppearIn": "Words will appear in",
+    "gameFormat": "Game format: translate from source to target",
+    "from": "from",
+    "to": "to",
+    "translateThis": "Translate this word",
     "selectSourceLanguage": "Select your native language",
     "selectTargetLanguage": "Select the language you want to practice",
     "selectInputMode": "Select how you want to respond",
@@ -508,12 +520,17 @@
     "timeUp": "Time's up!",
     "correctAnswers": "Correct answers",
     "totalWords": "Total words",
+    "finalScore": "Final score",
+    "wordsTranslated": "Words translated",
+    "correctTranslations": "Correct translations",
+    "incorrectTranslations": "Incorrect translations",
+    "avgTimePerWord": "Average time per word",
+    "gameMode": "Game mode",
     "accuracy": "Accuracy",
     "wordsPerMinute": "Words per minute",
     "playAgain": "Play Again",
     "backToMenu": "Back to Menu",
     "translate": "Translate",
-    "to": "to",
     "skip": "Skip",
     "submit": "Submit",
     "listening": "Listening...",
@@ -534,6 +551,7 @@
     "needsImprovement": "Needs improvement",
     "keepPracticing": "Keep practicing",
     "speakTranslation": "Speak the translation",
-    "enterTranslation": "Enter translation"
+    "enterTranslation": "Enter translation",
+    "typeTranslation": "Type the translation"
   }
 }
