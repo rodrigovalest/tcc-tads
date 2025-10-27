@@ -37,7 +37,6 @@ export const configureGoogleSignin = () => {
     });
 
     isConfigured = true;
-    console.log("Google Sign-in configured successfully");
   } catch (error) {
     console.error("Error configuring Google Sign-in:", error);
   }

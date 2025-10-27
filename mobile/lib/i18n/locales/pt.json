@@ -405,6 +405,12 @@
     "replyToMessage": "Responder mensagem"
   },
   "timeAttackVocab": {
+    "selectLevel": "Selecione o nível de vocabulário",
+    "levels": {
+      "basic": "Básico",
+      "intermediate": "Intermediário",
+      "advanced": "Avançado"
+    },
     "setup": "Configuração do Vocabulário Contra o Tempo",
     "wordsWillAppearIn": "As palavras aparecerão em",
     "gameFormat": "Formato do jogo",

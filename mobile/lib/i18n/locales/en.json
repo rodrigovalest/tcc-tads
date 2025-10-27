@@ -487,6 +487,12 @@
   },
 
   "timeAttackVocab": {
+    "selectLevel": "Select vocabulary level",
+    "levels": {
+      "basic": "Basic",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced"
+    },
     "title": "Time Attack Vocab",
     "setup": "Time Attack Vocab Setup",
     "selectSourceLanguage": "Select your native language",

@@ -436,6 +436,12 @@
     }
   },
   "timeAttackVocab": {
+    "selectLevel": "Selecciona el nivel de vocabulario",
+    "levels": {
+      "basic": "Básico",
+      "intermediate": "Intermedio",
+      "advanced": "Avanzado"
+    },
     "title": "Vocabulario Contra Reloj",
     "setup": "Configuración de Vocabulario Contra Reloj",
     "selectSourceLanguage": "Selecciona tu idioma nativo",

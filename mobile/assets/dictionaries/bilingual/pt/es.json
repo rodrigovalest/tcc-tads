@@ -1,0 +1,4478 @@
+{
+  "metadata": {
+    "source": "pt",
+    "target": "es",
+    "words": 446,
+    "level": "mixed",
+    "version": "1.0",
+    "generatedAt": "2025-10-27T01:49:31.820Z",
+    "source_data": "pivot(en): pt-en + en-es",
+    "levels": {
+      "basic": 212,
+      "intermediate": 96,
+      "advanced": 138
+    }
+  },
+  "words": {
+    "passar": {
+      "translations": [
+        "mano",
+        "pata",
+        "patas",
+        "manecilla",
+        "aguja"
+      ],
+      "level": "intermediate"
+    },
+    "bem": {
+      "translations": [
+        "derecho",
+        "diestra",
+        "correcto",
+        "justo",
+        "sano"
+      ],
+      "level": "basic"
+    },
+    "sair": {
+      "translations": [
+        "dátil",
+        "fecha",
+        "data",
+        "cita",
+        "compañero"
+      ],
+      "level": "basic"
+    },
+    "deixar": {
+      "translations": [
+        "conducir",
+        "manejar",
+        "timonear",
+        "ir en coche",
+        "ir en carro"
+      ],
+      "level": "intermediate"
+    },
+    "diminuir": {
+      "translations": [
+        "cortar",
+        "incidir",
+        "mondar",
+        "tranzar",
+        "retirar"
+      ],
+      "level": "advanced"
+    },
+    "claro": {
+      "translations": [
+        "luz",
+        "luminaria",
+        "iluminaria",
+        "fuego",
+        "mechero"
+      ],
+      "level": "basic"
+    },
+    "cortar": {
+      "translations": [
+        "cortar",
+        "incidir",
+        "mondar",
+        "tranzar",
+        "retirar"
+      ],
+      "level": "intermediate"
+    },
+    "apagar": {
+      "translations": [
+        "golpear",
+        "pegarle",
+        "batir",
+        "darle",
+        "fajar"
+      ],
+      "level": "intermediate"
+    },
+    "enganar": {
+      "translations": [
+        "tontería",
+        "pendejadas",
+        "cuento chino",
+        "idiotez",
+        "huevada"
+      ],
+      "level": "advanced"
+    },
+    "besteira": {
+      "translations": [
+        "tontería",
+        "tontada",
+        "tontuna",
+        "disparate",
+        "parida"
+      ],
+      "level": "advanced"
+    },
+    "se": {
+      "translations": [
+        "os",
+        "los",
+        "las",
+        "les",
+        "(leísmo) les"
+      ],
+      "level": "basic"
+    },
+    "por": {
+      "translations": [
+        "alrededor de",
+        "por",
+        "encima de",
+        "a punto de",
+        "sobre"
+      ],
+      "level": "basic"
+    },
+    "bater": {
+      "translations": [
+        "latido",
+        "pulsación",
+        "pulsaciones (por minuto)",
+        "ritmo",
+        "jurisdicción"
+      ],
+      "level": "basic"
+    },
+    "fazer": {
+      "translations": [
+        "ser",
+        "seer (desus.)",
+        "estar",
+        "tener",
+        "existir"
+      ],
+      "level": "basic"
+    },
+    "massa": {
+      "translations": [
+        "fresco",
+        "frío",
+        "tranquilo",
+        "sereno",
+        "apacible"
+      ],
+      "level": "basic"
+    },
+    "virar": {
+      "translations": [
+        "doblar",
+        "curvar",
+        "cimbrar",
+        "cimbrear",
+        "alabear"
+      ],
+      "level": "basic"
+    },
+    "idiota": {
+      "translations": [
+        "romo",
+        "desafilado",
+        "embotado",
+        "enromado",
+        "aburrido"
+      ],
+      "level": "intermediate"
+    },
+    "aguentar": {
+      "translations": [
+        "quedar",
+        "permanecer",
+        "resistir",
+        "aguantar",
+        "durar"
+      ],
+      "level": "advanced"
+    },
+    "terminar": {
+      "translations": [
+        "cerrar",
+        "tapar",
+        "clausurar",
+        "despellar",
+        "despillar"
+      ],
+      "level": "advanced"
+    },
+    "cara": {
+      "translations": [
+        "querido",
+        "caro",
+        "amable",
+        "tierno",
+        "precioso"
+      ],
+      "level": "basic"
+    },
+    "tirar": {
+      "translations": [
+        "resumen",
+        "extracto",
+        "abstracción",
+        "arte abstracto",
+        "extraído"
+      ],
+      "level": "basic"
+    },
+    "reserva": {
+      "translations": [
+        "stock",
+        "existencias",
+        "inventario",
+        "estocaje",
+        "reserva"
+      ],
+      "level": "advanced"
+    },
+    "agarrar": {
+      "translations": [
+        "tomar",
+        "coger",
+        "prender",
+        "violar",
+        "llevar"
+      ],
+      "level": "advanced"
+    },
+    "entrada": {
+      "translations": [
+        "conducir",
+        "manejar",
+        "timonear",
+        "ir en coche",
+        "ir en carro"
+      ],
+      "level": "advanced"
+    },
+    "passagem": {
+      "translations": [
+        "pasar",
+        "pasar de largo",
+        "fallecer",
+        "aprobar",
+        "transcurrir"
+      ],
+      "level": "advanced"
+    },
+    "levantar": {
+      "translations": [
+        "estar de pie",
+        "estar parado",
+        "levantarse",
+        "pararse",
+        "mantener"
+      ],
+      "level": "advanced"
+    },
+    "entender": {
+      "translations": [
+        "atrapada",
+        "partido",
+        "conquista",
+        "pega",
+        "traba"
+      ],
+      "level": "advanced"
+    },
+    "compreender": {
+      "translations": [
+        "atrapada",
+        "partido",
+        "conquista",
+        "pega",
+        "traba"
+      ],
+      "level": "advanced"
+    },
+    "a": {
+      "translations": [
+        "porque",
+        "pues",
+        "como",
+        "puesto que",
+        "por cuanto"
+      ],
+      "level": "basic"
+    },
+    "puta": {
+      "translations": [
+        "follar",
+        "follarse",
+        "joder",
+        "coger",
+        "chingar"
+      ],
+      "level": "basic"
+    },
+    "série": {
+      "translations": [
+        "poner",
+        "dejar",
+        "colocar",
+        "engastar",
+        "establecer"
+      ],
+      "level": "basic"
+    },
+    "caixa": {
+      "translations": [
+        "banca",
+        "banco",
+        "sucursal",
+        "almacén",
+        "hucha"
+      ],
+      "level": "basic"
+    },
+    "pegar": {
+      "translations": [
+        "tomar",
+        "coger",
+        "prender",
+        "violar",
+        "llevar"
+      ],
+      "level": "basic"
+    },
+    "ceder": {
+      "translations": [
+        "plegar",
+        "doblar",
+        "redoblegar",
+        "plisar",
+        "gandujar"
+      ],
+      "level": "basic"
+    },
+    "chato": {
+      "translations": [
+        "romo",
+        "desafilado",
+        "embotado",
+        "enromado",
+        "aburrido"
+      ],
+      "level": "basic"
+    },
+    "cercar": {
+      "translations": [
+        "círculo",
+        "circunferencia",
+        "esfera",
+        "curva",
+        "grupo"
+      ],
+      "level": "intermediate"
+    },
+    "juntar": {
+      "translations": [
+        "juntar",
+        "aunar",
+        "unir",
+        "empalmar",
+        "yuntar (desus.)"
+      ],
+      "level": "intermediate"
+    },
+    "partir": {
+      "translations": [
+        "romperse",
+        "romper",
+        "quebrar",
+        "escrachar",
+        "esñocar"
+      ],
+      "level": "intermediate"
+    },
+    "ataque": {
+      "translations": [
+        "apropiado",
+        "adecuado",
+        "apto",
+        "idóneo",
+        "aparejado"
+      ],
+      "level": "intermediate"
+    },
+    "próximo": {
+      "translations": [
+        "cerrar",
+        "tapar",
+        "clausurar",
+        "despellar",
+        "despillar"
+      ],
+      "level": "advanced"
+    },
+    "enrolar": {
+      "translations": [
+        "viento",
+        "aire",
+        "ventisca",
+        "ventarrón",
+        "simún"
+      ],
+      "level": "advanced"
+    },
+    "traseiro": {
+      "translations": [
+        "de atrás",
+        "trasero",
+        "posterior",
+        "anterior",
+        "viejo"
+      ],
+      "level": "advanced"
+    },
+    "aparelho": {
+      "translations": [
+        "poner",
+        "dejar",
+        "colocar",
+        "engastar",
+        "establecer"
+      ],
+      "level": "advanced"
+    },
+    "misturar": {
+      "translations": [
+        "tiro",
+        "lanzamiento",
+        "tirada",
+        "volado",
+        "sorteo"
+      ],
+      "level": "advanced"
+    },
+    "parte": {
+      "translations": [
+        "reparto",
+        "parte",
+        "repartir",
+        "distribuir",
+        "asignar"
+      ],
+      "level": "basic"
+    },
+    "comer": {
+      "translations": [
+        "follar",
+        "follarse",
+        "joder",
+        "coger",
+        "chingar"
+      ],
+      "level": "basic"
+    },
+    "ponto": {
+      "translations": [
+        "momento",
+        "fondo",
+        "punto",
+        "argumento",
+        "razón"
+      ],
+      "level": "basic"
+    },
+    "monte": {
+      "translations": [
+        "banca",
+        "banco",
+        "sucursal",
+        "almacén",
+        "hucha"
+      ],
+      "level": "basic"
+    },
+    "criar": {
+      "translations": [
+        "oso",
+        "úrsido",
+        "maleante",
+        "bajista",
+        "policía estatal"
+      ],
+      "level": "basic"
+    },
+    "ficar": {
+      "translations": [
+        "conseguir",
+        "obtener",
+        "coger",
+        "conciliar",
+        "granjear"
+      ],
+      "level": "basic"
+    },
+    "ligar": {
+      "translations": [
+        "anillo",
+        "argolla",
+        "sortija",
+        "alianza",
+        "aro"
+      ],
+      "level": "basic"
+    },
+    "pista": {
+      "translations": [
+        "plomo",
+        "sonda",
+        "escandallo",
+        "regleta",
+        "interlínea"
+      ],
+      "level": "basic"
+    },
+    "barra": {
+      "translations": [
+        "tornillo",
+        "bulón",
+        "perno",
+        "cerrojo",
+        "falleba"
+      ],
+      "level": "basic"
+    },
+    "sinal": {
+      "translations": [
+        "signo",
+        "muestra",
+        "símbolo",
+        "aviso",
+        "señal"
+      ],
+      "level": "basic"
+    },
+    "vazio": {
+      "translations": [
+        "depresión",
+        "hondonada",
+        "copa",
+        "casco",
+        "hueco"
+      ],
+      "level": "basic"
+    },
+    "soltar": {
+      "translations": [
+        "libre",
+        "sin obstáculos",
+        "despejado",
+        "desocupado",
+        "exento"
+      ],
+      "level": "intermediate"
+    },
+    "trocar": {
+      "translations": [
+        "intercambiar",
+        "canjear",
+        "trocar",
+        "cambalachear",
+        "permutar"
+      ],
+      "level": "intermediate"
+    },
+    "marcar": {
+      "translations": [
+        "dátil",
+        "fecha",
+        "data",
+        "cita",
+        "compañero"
+      ],
+      "level": "intermediate"
+    },
+    "seguir": {
+      "translations": [
+        "cola",
+        "rabo",
+        "hopo",
+        "nalgas",
+        "maslo"
+      ],
+      "level": "intermediate"
+    },
+    "incitar": {
+      "translations": [
+        "revolver",
+        "bullir",
+        "mesclar",
+        "mecer",
+        "mejer"
+      ],
+      "level": "advanced"
+    },
+    "retirar": {
+      "translations": [
+        "resumen",
+        "extracto",
+        "abstracción",
+        "arte abstracto",
+        "extraído"
+      ],
+      "level": "advanced"
+    },
+    "porcaria": {
+      "translations": [
+        "mierda",
+        "mojón",
+        "caca",
+        "excremento",
+        "hez"
+      ],
+      "level": "advanced"
+    },
+    "carregar": {
+      "translations": [
+        "tomar",
+        "coger",
+        "prender",
+        "violar",
+        "llevar"
+      ],
+      "level": "advanced"
+    },
+    "estúpido": {
+      "translations": [
+        "tic",
+        "espasmo",
+        "estremecimiento",
+        "repullo",
+        "sacudida"
+      ],
+      "level": "advanced"
+    },
+    "desligar": {
+      "translations": [
+        "romperse",
+        "romper",
+        "quebrar",
+        "escrachar",
+        "esñocar"
+      ],
+      "level": "advanced"
+    },
+    "tolo": {
+      "translations": [
+        "bobo",
+        "gilí",
+        "imbécil",
+        "necio",
+        "pendejo"
+      ],
+      "level": "basic"
+    },
+    "duro": {
+      "translations": [
+        "pelado",
+        "sin un duro",
+        "sin un peso",
+        "sin blanca",
+        "tieso"
+      ],
+      "level": "basic"
+    },
+    "cabo": {
+      "translations": [
+        "fin",
+        "fin (desus.)",
+        "lado",
+        "parte",
+        "extremo"
+      ],
+      "level": "basic"
+    },
+    "cume": {
+      "translations": [
+        "corona",
+        "guirnalda",
+        "coronilla",
+        "cumbre",
+        "pico"
+      ],
+      "level": "basic"
+    },
+    "ponta": {
+      "translations": [
+        "momento",
+        "fondo",
+        "punto",
+        "argumento",
+        "razón"
+      ],
+      "level": "basic"
+    },
+    "falso": {
+      "translations": [
+        "contrahecho",
+        "falsificado",
+        "trucho",
+        "de similor",
+        "bamba"
+      ],
+      "level": "basic"
+    },
+    "linha": {
+      "translations": [
+        "acento léxico",
+        "énfasis",
+        "acentuación",
+        "acento gráfico",
+        "tilde"
+      ],
+      "level": "basic"
+    },
+    "fundo": {
+      "translations": [
+        "suelo",
+        "tierra",
+        "huello",
+        "fondo",
+        "fundamento"
+      ],
+      "level": "basic"
+    },
+    "parar": {
+      "translations": [
+        "salir",
+        "abandonar",
+        "dejar",
+        "dejar [de]",
+        "parar"
+      ],
+      "level": "basic"
+    },
+    "tocar": {
+      "translations": [
+        "tocar",
+        "tactar",
+        "palpar",
+        "apalpar",
+        "tangir"
+      ],
+      "level": "basic"
+    },
+    "girar": {
+      "translations": [
+        "girar",
+        "rotar",
+        "dar vueltas",
+        "hilar",
+        "dorar la píldora"
+      ],
+      "level": "basic"
+    },
+    "coroa": {
+      "translations": [
+        "cola",
+        "rabo",
+        "hopo",
+        "nalgas",
+        "maslo"
+      ],
+      "level": "basic"
+    },
+    "louco": {
+      "translations": [
+        "loco",
+        "colgado",
+        "sonado",
+        "trastornado",
+        "tronado"
+      ],
+      "level": "basic"
+    },
+    "acabar": {
+      "translations": [
+        "redondo",
+        "circular",
+        "esférico",
+        "redondeado",
+        "redondeada"
+      ],
+      "level": "intermediate"
+    },
+    "montar": {
+      "translations": [
+        "follar",
+        "follarse",
+        "joder",
+        "coger",
+        "chingar"
+      ],
+      "level": "intermediate"
+    },
+    "negócio": {
+      "translations": [
+        "cosas",
+        "bártulos",
+        "trastos",
+        "cosa",
+        "coso"
+      ],
+      "level": "advanced"
+    },
+    "impedir": {
+      "translations": [
+        "bloque",
+        "bloqueta",
+        "block",
+        "manzana",
+        "cuadra"
+      ],
+      "level": "advanced"
+    },
+    "imbecil": {
+      "translations": [
+        "romo",
+        "desafilado",
+        "embotado",
+        "enromado",
+        "aburrido"
+      ],
+      "level": "advanced"
+    },
+    "guardar": {
+      "translations": [
+        "aguantar",
+        "agarrar",
+        "sujetar",
+        "sostener",
+        "tomar"
+      ],
+      "level": "advanced"
+    },
+    "tumulto": {
+      "translations": [
+        "alboroto",
+        "tumulto",
+        "disturbios",
+        "algarada",
+        "motín"
+      ],
+      "level": "advanced"
+    },
+    "multidão": {
+      "translations": [
+        "atestarse",
+        "atiborrarse",
+        "abarrotarse",
+        "henchirse",
+        "atarugarse"
+      ],
+      "level": "advanced"
+    },
+    "abandonar": {
+      "translations": [
+        "salir",
+        "abandonar",
+        "dejar",
+        "dejar [de]",
+        "parar"
+      ],
+      "level": "advanced"
+    },
+    "conseguir": {
+      "translations": [
+        "conseguir",
+        "obtener",
+        "coger",
+        "conciliar",
+        "granjear"
+      ],
+      "level": "advanced"
+    },
+    "vagabundo": {
+      "translations": [
+        "perezoso",
+        "haragán",
+        "huevón",
+        "desganado",
+        "aburrido"
+      ],
+      "level": "advanced"
+    },
+    "incomodar": {
+      "translations": [
+        "molestar",
+        "agobiar",
+        "brear",
+        "cargosear",
+        "fastidiar"
+      ],
+      "level": "advanced"
+    },
+    "apropriado": {
+      "translations": [
+        "apropiado",
+        "adecuado",
+        "apto",
+        "idóneo",
+        "aparejado"
+      ],
+      "level": "advanced"
+    },
+    "pá": {
+      "translations": [
+        "cuchilla",
+        "hoja",
+        "cuchillo",
+        "espada",
+        "pala"
+      ],
+      "level": "basic"
+    },
+    "dar": {
+      "translations": [
+        "reparto",
+        "parte",
+        "repartir",
+        "distribuir",
+        "asignar"
+      ],
+      "level": "basic"
+    },
+    "ter": {
+      "translations": [
+        "ser",
+        "seer (desus.)",
+        "estar",
+        "tener",
+        "existir"
+      ],
+      "level": "basic"
+    },
+    "seu": {
+      "translations": [
+        "os",
+        "los",
+        "las",
+        "les",
+        "(leísmo) les"
+      ],
+      "level": "basic"
+    },
+    "até": {
+      "translations": [
+        "por",
+        "cerca de",
+        "para",
+        "ante",
+        "frente a"
+      ],
+      "level": "basic"
+    },
+    "mato": {
+      "translations": [
+        "pincel",
+        "cepillo",
+        "escobilla",
+        "brocha",
+        "sedera"
+      ],
+      "level": "basic"
+    },
+    "pena": {
+      "translations": [
+        "tiempo",
+        "hora",
+        "eternidad",
+        "era",
+        "época"
+      ],
+      "level": "basic"
+    },
+    "caso": {
+      "translations": [
+        "caso",
+        "causa",
+        "pleito",
+        "argumento",
+        "caja"
+      ],
+      "level": "basic"
+    },
+    "tipo": {
+      "translations": [
+        "género",
+        "tipo",
+        "forma",
+        "clase",
+        "índole"
+      ],
+      "level": "basic"
+    },
+    "fora": {
+      "translations": [
+        "transparente",
+        "claro",
+        "despejado",
+        "libre",
+        "nítido"
+      ],
+      "level": "basic"
+    },
+    "capa": {
+      "translations": [
+        "tapa",
+        "cubierta",
+        "tapador",
+        "cubertura",
+        "tapadera"
+      ],
+      "level": "basic"
+    },
+    "canto": {
+      "translations": [
+        "llamar",
+        "convocar",
+        "gritar",
+        "hablar",
+        "telefonear"
+      ],
+      "level": "basic"
+    },
+    "sobre": {
+      "translations": [
+        "alrededor de",
+        "por",
+        "encima de",
+        "a punto de",
+        "sobre"
+      ],
+      "level": "basic"
+    },
+    "justo": {
+      "translations": [
+        "derecho",
+        "diestra",
+        "correcto",
+        "justo",
+        "sano"
+      ],
+      "level": "basic"
+    },
+    "tempo": {
+      "translations": [
+        "tiempo",
+        "hora",
+        "eternidad",
+        "era",
+        "época"
+      ],
+      "level": "basic"
+    },
+    "corte": {
+      "translations": [
+        "cortar",
+        "incidir",
+        "mondar",
+        "tranzar",
+        "retirar"
+      ],
+      "level": "basic"
+    },
+    "briga": {
+      "translations": [
+        "pelear",
+        "luchar",
+        "batirse",
+        "combatir",
+        "lucha"
+      ],
+      "level": "basic"
+    },
+    "grupo": {
+      "translations": [
+        "poner",
+        "dejar",
+        "colocar",
+        "engastar",
+        "establecer"
+      ],
+      "level": "basic"
+    },
+    "doido": {
+      "translations": [
+        "loco",
+        "colgado",
+        "sonado",
+        "trastornado",
+        "tronado"
+      ],
+      "level": "basic"
+    },
+    "casca": {
+      "translations": [
+        "piel",
+        "pellejo",
+        "tegumento",
+        "hollejo",
+        "cáscara"
+      ],
+      "level": "basic"
+    },
+    "resumo": {
+      "translations": [
+        "resumen",
+        "extracto",
+        "abstracción",
+        "arte abstracto",
+        "extraído"
+      ],
+      "level": "intermediate"
+    },
+    "otário": {
+      "translations": [
+        "bicho",
+        "cipote",
+        "huevo",
+        "ñafle",
+        "paloma"
+      ],
+      "level": "intermediate"
+    },
+    "roubar": {
+      "translations": [
+        "resumen",
+        "extracto",
+        "abstracción",
+        "arte abstracto",
+        "extraído"
+      ],
+      "level": "intermediate"
+    },
+    "cobrir": {
+      "translations": [
+        "tapa",
+        "cubierta",
+        "tapador",
+        "cubertura",
+        "tapadera"
+      ],
+      "level": "intermediate"
+    },
+    "antigo": {
+      "translations": [
+        "de atrás",
+        "trasero",
+        "posterior",
+        "anterior",
+        "viejo"
+      ],
+      "level": "intermediate"
+    },
+    "servir": {
+      "translations": [
+        "sí",
+        "hacer",
+        "facer (desus.)",
+        "far (desus.)",
+        "fer (desus.)"
+      ],
+      "level": "intermediate"
+    },
+    "severo": {
+      "translations": [
+        "rígido",
+        "duro",
+        "tieso",
+        "inflexible",
+        "serio"
+      ],
+      "level": "intermediate"
+    },
+    "reunir": {
+      "translations": [
+        "juntar",
+        "recoger",
+        "reunir",
+        "recabar",
+        "recolectar"
+      ],
+      "level": "intermediate"
+    },
+    "provar": {
+      "translations": [
+        "gusto",
+        "gustos",
+        "muestra",
+        "degustación",
+        "paladeo"
+      ],
+      "level": "intermediate"
+    },
+    "agitar": {
+      "translations": [
+        "agitar",
+        "sacudir",
+        "jamaquear",
+        "samaquear",
+        "zamaquear"
+      ],
+      "level": "intermediate"
+    },
+    "mancha": {
+      "translations": [
+        "marca",
+        "venero",
+        "nota",
+        "calificación",
+        "punto"
+      ],
+      "level": "intermediate"
+    },
+    "imitar": {
+      "translations": [
+        "imitación",
+        "burla",
+        "simulacro",
+        "imitar",
+        "remedar"
+      ],
+      "level": "intermediate"
+    },
+    "excluir": {
+      "translations": [
+        "tachar",
+        "borrar",
+        "golpear",
+        "pegar",
+        "asestar"
+      ],
+      "level": "advanced"
+    },
+    "esperar": {
+      "translations": [
+        "quedar",
+        "permanecer",
+        "resistir",
+        "aguantar",
+        "durar"
+      ],
+      "level": "advanced"
+    },
+    "parecer": {
+      "translations": [
+        "mirar",
+        "ojear",
+        "catar",
+        "lentear",
+        "lookear"
+      ],
+      "level": "advanced"
+    },
+    "ligação": {
+      "translations": [
+        "llamar",
+        "convocar",
+        "gritar",
+        "hablar",
+        "telefonear"
+      ],
+      "level": "advanced"
+    },
+    "domínio": {
+      "translations": [
+        "campo",
+        "agro",
+        "chacra",
+        "chácara",
+        "chagra"
+      ],
+      "level": "advanced"
+    },
+    "libertar": {
+      "translations": [
+        "libre",
+        "sin obstáculos",
+        "despejado",
+        "desocupado",
+        "exento"
+      ],
+      "level": "advanced"
+    },
+    "instante": {
+      "translations": [
+        "momento",
+        "fondo",
+        "punto",
+        "argumento",
+        "razón"
+      ],
+      "level": "advanced"
+    },
+    "resolver": {
+      "translations": [
+        "cuadro",
+        "cuadrado",
+        "escuadra",
+        "cartabón (45º)",
+        "plaza"
+      ],
+      "level": "advanced"
+    },
+    "controle": {
+      "translations": [
+        "verificación",
+        "chequeo",
+        "inspección",
+        "cotejo",
+        "examen"
+      ],
+      "level": "advanced"
+    },
+    "corrente": {
+      "translations": [
+        "poder",
+        "poderío",
+        "potestad",
+        "potencia",
+        "polenta"
+      ],
+      "level": "advanced"
+    },
+    "estrondo": {
+      "translations": [
+        "choque",
+        "fallo",
+        "error",
+        "crac",
+        "chocar"
+      ],
+      "level": "advanced"
+    },
+    "estragar": {
+      "translations": [
+        "romperse",
+        "romper",
+        "quebrar",
+        "escrachar",
+        "esñocar"
+      ],
+      "level": "advanced"
+    },
+    "circular": {
+      "translations": [
+        "círculo",
+        "circunferencia",
+        "esfera",
+        "curva",
+        "grupo"
+      ],
+      "level": "advanced"
+    },
+    "conjunto": {
+      "translations": [
+        "anillo",
+        "argolla",
+        "sortija",
+        "alianza",
+        "aro"
+      ],
+      "level": "advanced"
+    },
+    "espalhar": {
+      "translations": [
+        "extender",
+        "dispersar",
+        "esparcir",
+        "untar",
+        "diseminar"
+      ],
+      "level": "advanced"
+    },
+    "descartar": {
+      "translations": [
+        "basural",
+        "tiradero",
+        "vertedero",
+        "basurero",
+        "antro"
+      ],
+      "level": "advanced"
+    },
+    "jogar fora": {
+      "translations": [
+        "soplar",
+        "bufar",
+        "reventar",
+        "arruinar",
+        "cagar"
+      ],
+      "level": "advanced"
+    },
+    "apresentar": {
+      "translations": [
+        "poner",
+        "dejar",
+        "colocar",
+        "engastar",
+        "establecer"
+      ],
+      "level": "advanced"
+    },
+    "que": {
+      "translations": [
+        "que",
+        "para que",
+        "ese",
+        "esa",
+        "eso"
+      ],
+      "level": "basic"
+    },
+    "mal": {
+      "translations": [
+        "incorrecto",
+        "falso",
+        "equivocado",
+        "errado",
+        "erróneo"
+      ],
+      "level": "basic"
+    },
+    "ver": {
+      "translations": [
+        "vista",
+        "reproducción",
+        "visualización",
+        "visitas",
+        "vistas"
+      ],
+      "level": "basic"
+    },
+    "bom": {
+      "translations": [
+        "aprobación",
+        "visto bueno",
+        "okey",
+        "de acuerdo",
+        "sí"
+      ],
+      "level": "basic"
+    },
+    "fio": {
+      "translations": [
+        "cuchilla",
+        "hoja",
+        "cuchillo",
+        "espada",
+        "pala"
+      ],
+      "level": "basic"
+    },
+    "vara": {
+      "translations": [
+        "bicho",
+        "cipote",
+        "huevo",
+        "ñafle",
+        "paloma"
+      ],
+      "level": "basic"
+    },
+    "cair": {
+      "translations": [
+        "morder",
+        "tarascar",
+        "agarrar",
+        "picar",
+        "mordisquear"
+      ],
+      "level": "basic"
+    },
+    "frio": {
+      "translations": [
+        "frío",
+        "algente",
+        "frígido",
+        "hacer frío",
+        "hacer yelo"
+      ],
+      "level": "basic"
+    },
+    "vivo": {
+      "translations": [
+        "caliente",
+        "muy caliente",
+        "caluroso",
+        "cálido",
+        "hacer calor"
+      ],
+      "level": "basic"
+    },
+    "bobo": {
+      "translations": [
+        "bobo",
+        "gilí",
+        "imbécil",
+        "necio",
+        "pendejo"
+      ],
+      "level": "basic"
+    },
+    "raio": {
+      "translations": [
+        "sierra",
+        "cordillera",
+        "hornillo",
+        "estufa",
+        "escala"
+      ],
+      "level": "basic"
+    },
+    "arco": {
+      "translations": [
+        "hilo",
+        "línea",
+        "rasgo",
+        "trazo",
+        "vírgula"
+      ],
+      "level": "basic"
+    },
+    "lixo": {
+      "translations": [
+        "desperdicio",
+        "desecho(s)",
+        "basura",
+        "acribaduras",
+        "ahechadura(s)"
+      ],
+      "level": "basic"
+    },
+    "poder": {
+      "translations": [
+        "conseguir",
+        "obtener",
+        "coger",
+        "conciliar",
+        "granjear"
+      ],
+      "level": "basic"
+    },
+    "fugir": {
+      "translations": [
+        "mosco",
+        "mosca",
+        "volar",
+        "circunvolar",
+        "huir"
+      ],
+      "level": "basic"
+    },
+    "fonte": {
+      "translations": [
+        "entrar en acción",
+        "primavera",
+        "fuente",
+        "manantial",
+        "vertiente"
+      ],
+      "level": "basic"
+    },
+    "bunda": {
+      "translations": [
+        "culo",
+        "culamen",
+        "nalgas",
+        "trasero",
+        "pompis"
+      ],
+      "level": "basic"
+    },
+    "pingo": {
+      "translations": [
+        "momento",
+        "fondo",
+        "punto",
+        "argumento",
+        "razón"
+      ],
+      "level": "basic"
+    },
+    "gozar": {
+      "translations": [
+        "corrida",
+        "acabada",
+        "semen",
+        "leche",
+        "lefa"
+      ],
+      "level": "basic"
+    },
+    "merda": {
+      "translations": [
+        "follar",
+        "follarse",
+        "joder",
+        "coger",
+        "chingar"
+      ],
+      "level": "basic"
+    },
+    "traço": {
+      "translations": [
+        "característica",
+        "atracción",
+        "atractivo",
+        "prestación",
+        "cualidad"
+      ],
+      "level": "basic"
+    },
+    "falta": {
+      "translations": [
+        "inmundo",
+        "indecente",
+        "grosero",
+        "obsceno",
+        "repugnante"
+      ],
+      "level": "basic"
+    },
+    "matar": {
+      "translations": [
+        "cortar",
+        "incidir",
+        "mondar",
+        "tranzar",
+        "retirar"
+      ],
+      "level": "basic"
+    },
+    "cravo": {
+      "translations": [
+        "uña",
+        "garra",
+        "clavo",
+        "punta",
+        "estoperol"
+      ],
+      "level": "basic"
+    },
+    "assim": {
+      "translations": [
+        "que",
+        "para que",
+        "ese",
+        "esa",
+        "eso"
+      ],
+      "level": "basic"
+    },
+    "firme": {
+      "translations": [
+        "rígido",
+        "duro",
+        "tieso",
+        "inflexible",
+        "serio"
+      ],
+      "level": "basic"
+    },
+    "toque": {
+      "translations": [
+        "tocar",
+        "tactar",
+        "palpar",
+        "apalpar",
+        "tangir"
+      ],
+      "level": "basic"
+    },
+    "picar": {
+      "translations": [
+        "morder",
+        "tarascar",
+        "agarrar",
+        "picar",
+        "mordisquear"
+      ],
+      "level": "basic"
+    },
+    "sacar": {
+      "translations": [
+        "dibujar",
+        "jalar",
+        "tirar",
+        "desenvainar",
+        "desenfundar"
+      ],
+      "level": "basic"
+    },
+    "golpe": {
+      "translations": [
+        "injerto",
+        "empeltre",
+        "enjerto",
+        "injertar",
+        "enjertar"
+      ],
+      "level": "basic"
+    },
+    "deter": {
+      "translations": [
+        "aguantar",
+        "agarrar",
+        "sujetar",
+        "sostener",
+        "tomar"
+      ],
+      "level": "basic"
+    },
+    "marca": {
+      "translations": [
+        "hacer",
+        "artificiar",
+        "obrar",
+        "construir",
+        "edificar"
+      ],
+      "level": "basic"
+    },
+    "falha": {
+      "translations": [
+        "chinche",
+        "bicho",
+        "error",
+        "fallo",
+        "defecto"
+      ],
+      "level": "basic"
+    },
+    "volta": {
+      "translations": [
+        "montar",
+        "cabalgar",
+        "caballear",
+        "ruar",
+        "andar"
+      ],
+      "level": "basic"
+    },
+    "saque": {
+      "translations": [
+        "expoliar",
+        "despojar",
+        "dañar",
+        "arruinar",
+        "echar a perder"
+      ],
+      "level": "basic"
+    },
+    "fedor": {
+      "translations": [
+        "heder",
+        "apestar",
+        "cantar",
+        "oler mal",
+        "disused: pudir"
+      ],
+      "level": "basic"
+    },
+    "ótimo": {
+      "translations": [
+        "simpático",
+        "agradable",
+        "amable",
+        "bueno",
+        "placible"
+      ],
+      "level": "basic"
+    },
+    "agudo": {
+      "translations": [
+        "agudo",
+        "afilado",
+        "filoso",
+        "puntiagudo",
+        "punzocortante"
+      ],
+      "level": "basic"
+    },
+    "mudar": {
+      "translations": [
+        "cambiar",
+        "demudarse",
+        "demudar",
+        "modificar",
+        "mudar"
+      ],
+      "level": "basic"
+    },
+    "placa": {
+      "translations": [
+        "plato",
+        "placa",
+        "lámina",
+        "matrícula",
+        "grabado"
+      ],
+      "level": "basic"
+    },
+    "bando": {
+      "translations": [
+        "bandada",
+        "pajarería",
+        "hato",
+        "manada",
+        "rebaño"
+      ],
+      "level": "basic"
+    },
+    "prova": {
+      "translations": [
+        "prueba",
+        "probatura",
+        "examen",
+        "test",
+        "poner a prueba"
+      ],
+      "level": "basic"
+    },
+    "poste": {
+      "translations": [
+        "centro",
+        "meollo",
+        "pívot",
+        "pivote",
+        "central"
+      ],
+      "level": "basic"
+    },
+    "local": {
+      "translations": [
+        "mancha",
+        "grano",
+        "poquito",
+        "poquita",
+        "zona"
+      ],
+      "level": "basic"
+    },
+    "batida": {
+      "translations": [
+        "latido",
+        "pulsación",
+        "pulsaciones (por minuto)",
+        "ritmo",
+        "jurisdicción"
+      ],
+      "level": "intermediate"
+    },
+    "acordo": {
+      "translations": [
+        "reparto",
+        "parte",
+        "repartir",
+        "distribuir",
+        "asignar"
+      ],
+      "level": "intermediate"
+    },
+    "abater": {
+      "translations": [
+        "carnicero",
+        "carnicera",
+        "matarife",
+        "carnear",
+        "matar"
+      ],
+      "level": "intermediate"
+    },
+    "prever": {
+      "translations": [
+        "encanto",
+        "hechizo",
+        "conjuro",
+        "brujería",
+        "conjuración"
+      ],
+      "level": "intermediate"
+    },
+    "vencer": {
+      "translations": [
+        "aplastamiento",
+        "enamoramiento",
+        "flechazo",
+        "camote",
+        "chaladura"
+      ],
+      "level": "intermediate"
+    },
+    "lançar": {
+      "translations": [
+        "lanzar",
+        "hechizar",
+        "conjurar",
+        "moldear",
+        "escriturar"
+      ],
+      "level": "intermediate"
+    },
+    "seguro": {
+      "translations": [
+        "seguro",
+        "resguardado",
+        "asegurado",
+        "a salvo",
+        "a salvamano"
+      ],
+      "level": "intermediate"
+    },
+    "jargão": {
+      "translations": [
+        "hablar",
+        "disused: fablar",
+        "fabular",
+        "charlar",
+        "platicar"
+      ],
+      "level": "intermediate"
+    },
+    "pronto": {
+      "translations": [
+        "poner",
+        "dejar",
+        "colocar",
+        "engastar",
+        "establecer"
+      ],
+      "level": "intermediate"
+    },
+    "rígido": {
+      "translations": [
+        "rígido",
+        "duro",
+        "tieso",
+        "inflexible",
+        "serio"
+      ],
+      "level": "intermediate"
+    },
+    "gancho": {
+      "translations": [
+        "ladrón",
+        "ladrona",
+        "ratero",
+        "ratera",
+        "truhán"
+      ],
+      "level": "intermediate"
+    },
+    "guarda": {
+      "translations": [
+        "reloj",
+        "peluco",
+        "muñequera",
+        "extensible",
+        "guasho"
+      ],
+      "level": "intermediate"
+    },
+    "desviar": {
+      "translations": [
+        "escapar",
+        "liberarse",
+        "fugarse",
+        "furtarse",
+        "eludir"
+      ],
+      "level": "advanced"
+    },
+    "resumir": {
+      "translations": [
+        "resumen",
+        "extracto",
+        "abstracción",
+        "arte abstracto",
+        "extraído"
+      ],
+      "level": "advanced"
+    },
+    "engolir": {
+      "translations": [
+        "gota",
+        "caída",
+        "declive",
+        "descenso",
+        "arrezuz"
+      ],
+      "level": "advanced"
+    },
+    "covarde": {
+      "translations": [
+        "gatita",
+        "nenita",
+        "lolita",
+        "chiquita",
+        "cuchito"
+      ],
+      "level": "advanced"
+    },
+    "passeio": {
+      "translations": [
+        "montar",
+        "cabalgar",
+        "caballear",
+        "ruar",
+        "andar"
+      ],
+      "level": "advanced"
+    },
+    "separar": {
+      "translations": [
+        "romperse",
+        "romper",
+        "quebrar",
+        "escrachar",
+        "esñocar"
+      ],
+      "level": "advanced"
+    },
+    "esperto": {
+      "translations": [
+        "mosco",
+        "mosca",
+        "volar",
+        "circunvolar",
+        "huir"
+      ],
+      "level": "advanced"
+    },
+    "acalmar": {
+      "translations": [
+        "quieto",
+        "silencioso",
+        "tranquilo",
+        "calmo",
+        "pacífico"
+      ],
+      "level": "advanced"
+    },
+    "manchar": {
+      "translations": [
+        "sucio",
+        "chuco",
+        "shuco",
+        "verde",
+        "guarro"
+      ],
+      "level": "advanced"
+    },
+    "terreno": {
+      "translations": [
+        "campo",
+        "agro",
+        "chacra",
+        "chácara",
+        "chagra"
+      ],
+      "level": "advanced"
+    },
+    "repartir": {
+      "translations": [
+        "reparto",
+        "parte",
+        "repartir",
+        "distribuir",
+        "asignar"
+      ],
+      "level": "advanced"
+    },
+    "desistir": {
+      "translations": [
+        "salir",
+        "abandonar",
+        "dejar",
+        "dejar [de]",
+        "parar"
+      ],
+      "level": "advanced"
+    },
+    "suportar": {
+      "translations": [
+        "quedar",
+        "permanecer",
+        "resistir",
+        "aguantar",
+        "durar"
+      ],
+      "level": "advanced"
+    },
+    "objetivo": {
+      "translations": [
+        "momento",
+        "fondo",
+        "punto",
+        "argumento",
+        "razón"
+      ],
+      "level": "advanced"
+    },
+    "conduzir": {
+      "translations": [
+        "mano",
+        "pata",
+        "patas",
+        "manecilla",
+        "aguja"
+      ],
+      "level": "advanced"
+    },
+    "programa": {
+      "translations": [
+        "llamar",
+        "convocar",
+        "gritar",
+        "hablar",
+        "telefonear"
+      ],
+      "level": "advanced"
+    },
+    "concluir": {
+      "translations": [
+        "cerrar",
+        "tapar",
+        "clausurar",
+        "despellar",
+        "despillar"
+      ],
+      "level": "advanced"
+    },
+    "entregar": {
+      "translations": [
+        "mano",
+        "pata",
+        "patas",
+        "manecilla",
+        "aguja"
+      ],
+      "level": "advanced"
+    },
+    "distinto": {
+      "translations": [
+        "grande",
+        "gran",
+        "grosso",
+        "groso",
+        "grave"
+      ],
+      "level": "advanced"
+    },
+    "realizar": {
+      "translations": [
+        "sí",
+        "hacer",
+        "facer (desus.)",
+        "far (desus.)",
+        "fer (desus.)"
+      ],
+      "level": "advanced"
+    },
+    "perceber": {
+      "translations": [
+        "notación",
+        "anuncio",
+        "cédula",
+        "comunicación",
+        "notificación"
+      ],
+      "level": "advanced"
+    },
+    "contorno": {
+      "translations": [
+        "hilo",
+        "línea",
+        "rasgo",
+        "trazo",
+        "vírgula"
+      ],
+      "level": "advanced"
+    },
+    "parceiro": {
+      "translations": [
+        "compañero",
+        "partenaire",
+        "parcero",
+        "socio",
+        "copartícipe"
+      ],
+      "level": "advanced"
+    },
+    "desgastar": {
+      "translations": [
+        "calor friccional",
+        "escocimiento",
+        "irritación",
+        "cocedura",
+        "rozadura"
+      ],
+      "level": "advanced"
+    },
+    "apesar de": {
+      "translations": [
+        "después",
+        "después de",
+        "tras",
+        "en pos de",
+        "detrás de"
+      ],
+      "level": "advanced"
+    },
+    "tranquilo": {
+      "translations": [
+        "fresco",
+        "frío",
+        "tranquilo",
+        "sereno",
+        "apacible"
+      ],
+      "level": "advanced"
+    },
+    "fundamento": {
+      "translations": [
+        "suelo",
+        "tierra",
+        "huello",
+        "fondo",
+        "fundamento"
+      ],
+      "level": "advanced"
+    },
+    "arremessar": {
+      "translations": [
+        "lanzar",
+        "hechizar",
+        "conjurar",
+        "moldear",
+        "escriturar"
+      ],
+      "level": "advanced"
+    },
+    "considerar": {
+      "translations": [
+        "aguantar",
+        "agarrar",
+        "sujetar",
+        "sostener",
+        "tomar"
+      ],
+      "level": "advanced"
+    },
+    "sem dúvida": {
+      "translations": [
+        "de hecho",
+        "realmente",
+        "efectivamente",
+        "verdaderamente",
+        "en realidad"
+      ],
+      "level": "advanced"
+    },
+    "compensação": {
+      "translations": [
+        "despeje",
+        "despejo",
+        "desobstrucción",
+        "espacio",
+        "claro"
+      ],
+      "level": "advanced"
+    },
+    "completamente": {
+      "translations": [
+        "bien",
+        "totalmente",
+        "completamente",
+        "muy",
+        "bueno"
+      ],
+      "level": "advanced"
+    },
+    "aproximadamente": {
+      "translations": [
+        "alrededor de",
+        "por",
+        "encima de",
+        "a punto de",
+        "sobre"
+      ],
+      "level": "advanced"
+    },
+    "em": {
+      "translations": [
+        "alrededor de",
+        "por",
+        "encima de",
+        "a punto de",
+        "sobre"
+      ],
+      "level": "basic"
+    },
+    "de": {
+      "translations": [
+        "por",
+        "cerca de",
+        "para",
+        "ante",
+        "frente a"
+      ],
+      "level": "basic"
+    },
+    "mão": {
+      "translations": [
+        "reparto",
+        "parte",
+        "repartir",
+        "distribuir",
+        "asignar"
+      ],
+      "level": "basic"
+    },
+    "fim": {
+      "translations": [
+        "dátil",
+        "fecha",
+        "data",
+        "cita",
+        "compañero"
+      ],
+      "level": "basic"
+    },
+    "par": {
+      "translations": [
+        "parejo",
+        "llano",
+        "uniforme",
+        "constante",
+        "igual"
+      ],
+      "level": "basic"
+    },
+    "vão": {
+      "translations": [
+        "depresión",
+        "hondonada",
+        "copa",
+        "casco",
+        "hueco"
+      ],
+      "level": "basic"
+    },
+    "fino": {
+      "translations": [
+        "fino",
+        "flaco",
+        "delgado",
+        "enjuto",
+        "güin"
+      ],
+      "level": "basic"
+    },
+    "moça": {
+      "translations": [
+        "doncella",
+        "señorita",
+        "doméstica",
+        "empleada doméstica",
+        "muchacha de servicio"
+      ],
+      "level": "basic"
+    },
+    "como": {
+      "translations": [
+        "tan ... como",
+        "cuan",
+        "como",
+        "cuando",
+        "mientras"
+      ],
+      "level": "basic"
+    },
+    "base": {
+      "translations": [
+        "cama",
+        "lecho",
+        "catre",
+        "piltra",
+        "sobre"
+      ],
+      "level": "basic"
+    },
+    "tira": {
+      "translations": [
+        "tira",
+        "lista",
+        "relación",
+        "nómina",
+        "hacer una lista"
+      ],
+      "level": "basic"
+    },
+    "fita": {
+      "translations": [
+        "hilo",
+        "línea",
+        "rasgo",
+        "trazo",
+        "vírgula"
+      ],
+      "level": "basic"
+    },
+    "topo": {
+      "translations": [
+        "corona",
+        "guirnalda",
+        "coronilla",
+        "cumbre",
+        "pico"
+      ],
+      "level": "basic"
+    },
+    "jogo": {
+      "translations": [
+        "poner",
+        "dejar",
+        "colocar",
+        "engastar",
+        "establecer"
+      ],
+      "level": "basic"
+    },
+    "giro": {
+      "translations": [
+        "girar",
+        "rotar",
+        "dar vueltas",
+        "hilar",
+        "dorar la píldora"
+      ],
+      "level": "basic"
+    },
+    "unir": {
+      "translations": [
+        "juntar",
+        "aunar",
+        "unir",
+        "empalmar",
+        "yuntar (desus.)"
+      ],
+      "level": "basic"
+    },
+    "miúdo": {
+      "translations": [
+        "niño",
+        "buqui",
+        "chamaco",
+        "chamo",
+        "chango"
+      ],
+      "level": "basic"
+    },
+    "chefe": {
+      "translations": [
+        "cabeza",
+        "chola",
+        "coco",
+        "maceta",
+        "marote"
+      ],
+      "level": "basic"
+    },
+    "salto": {
+      "translations": [
+        "talón",
+        "calcaño",
+        "calcañar",
+        "calcañal",
+        "carcañal"
+      ],
+      "level": "basic"
+    },
+    "carta": {
+      "translations": [
+        "hilo",
+        "línea",
+        "rasgo",
+        "trazo",
+        "vírgula"
+      ],
+      "level": "basic"
+    },
+    "notar": {
+      "translations": [
+        "decir",
+        "contar",
+        "recontar",
+        "platicar",
+        "devisar (disused)"
+      ],
+      "level": "basic"
+    },
+    "porra": {
+      "translations": [
+        "corrida",
+        "acabada",
+        "semen",
+        "leche",
+        "lefa"
+      ],
+      "level": "basic"
+    },
+    "campo": {
+      "translations": [
+        "suelo",
+        "tierra",
+        "huello",
+        "fondo",
+        "fundamento"
+      ],
+      "level": "basic"
+    },
+    "banca": {
+      "translations": [
+        "banca",
+        "banco",
+        "sucursal",
+        "almacén",
+        "hucha"
+      ],
+      "level": "basic"
+    },
+    "levar": {
+      "translations": [
+        "tomar",
+        "coger",
+        "prender",
+        "violar",
+        "llevar"
+      ],
+      "level": "basic"
+    },
+    "subir": {
+      "translations": [
+        "escalar",
+        "subir",
+        "trepar",
+        "esquilar",
+        "esguilar"
+      ],
+      "level": "basic"
+    },
+    "certo": {
+      "translations": [
+        "derecho",
+        "diestra",
+        "correcto",
+        "justo",
+        "sano"
+      ],
+      "level": "basic"
+    },
+    "apoio": {
+      "translations": [
+        "estar de pie",
+        "estar parado",
+        "levantarse",
+        "pararse",
+        "mantener"
+      ],
+      "level": "basic"
+    },
+    "magro": {
+      "translations": [
+        "fino",
+        "flaco",
+        "delgado",
+        "enjuto",
+        "güin"
+      ],
+      "level": "basic"
+    },
+    "terra": {
+      "translations": [
+        "suelo",
+        "tierra",
+        "huello",
+        "fondo",
+        "fundamento"
+      ],
+      "level": "basic"
+    },
+    "presa": {
+      "translations": [
+        "atrapada",
+        "partido",
+        "conquista",
+        "pega",
+        "traba"
+      ],
+      "level": "basic"
+    },
+    "ferir": {
+      "translations": [
+        "magullar",
+        "contusionar",
+        "moretear",
+        "macar (disused)",
+        "mazar"
+      ],
+      "level": "basic"
+    },
+    "gerar": {
+      "translations": [
+        "oso",
+        "úrsido",
+        "maleante",
+        "bajista",
+        "policía estatal"
+      ],
+      "level": "basic"
+    },
+    "furar": {
+      "translations": [
+        "cortar",
+        "incidir",
+        "mondar",
+        "tranzar",
+        "retirar"
+      ],
+      "level": "basic"
+    },
+    "fenda": {
+      "translations": [
+        "romperse",
+        "romper",
+        "quebrar",
+        "escrachar",
+        "esñocar"
+      ],
+      "level": "basic"
+    },
+    "força": {
+      "translations": [
+        "fuerza",
+        "ñeque",
+        "polenta",
+        "obligar",
+        "compeler"
+      ],
+      "level": "basic"
+    },
+    "vazar": {
+      "translations": [
+        "soplar",
+        "bufar",
+        "reventar",
+        "arruinar",
+        "cagar"
+      ],
+      "level": "basic"
+    },
+    "corpo": {
+      "translations": [
+        "campo",
+        "agro",
+        "chacra",
+        "chácara",
+        "chagra"
+      ],
+      "level": "basic"
+    },
+    "banal": {
+      "translations": [
+        "luz",
+        "luminaria",
+        "iluminaria",
+        "fuego",
+        "mechero"
+      ],
+      "level": "basic"
+    },
+    "ânimo": {
+      "translations": [
+        "chinche",
+        "bicho",
+        "error",
+        "fallo",
+        "defecto"
+      ],
+      "level": "basic"
+    },
+    "comum": {
+      "translations": [
+        "en común",
+        "comunitario",
+        "en conjunto",
+        "mancomunado",
+        "conjunto"
+      ],
+      "level": "basic"
+    },
+    "rodar": {
+      "translations": [
+        "correr",
+        "apeonar",
+        "dirigir",
+        "gestionar",
+        "fluir"
+      ],
+      "level": "basic"
+    },
+    "plano": {
+      "translations": [
+        "desgastado",
+        "cansado",
+        "deshecho",
+        "desfecho",
+        "hecho polvo"
+      ],
+      "level": "basic"
+    },
+    "resto": {
+      "translations": [
+        "reposo",
+        "descanso",
+        "holganza",
+        "pausa",
+        "puente mecánico"
+      ],
+      "level": "basic"
+    },
+    "ativo": {
+      "translations": [
+        "cima",
+        "parte superior",
+        "parte de más arriba",
+        "ápex",
+        "cabecera"
+      ],
+      "level": "basic"
+    },
+    "pilha": {
+      "translations": [
+        "atestarse",
+        "atiborrarse",
+        "abarrotarse",
+        "henchirse",
+        "atarugarse"
+      ],
+      "level": "basic"
+    },
+    "aviso": {
+      "translations": [
+        "notación",
+        "anuncio",
+        "cédula",
+        "comunicación",
+        "notificación"
+      ],
+      "level": "basic"
+    },
+    "vista": {
+      "translations": [
+        "vista",
+        "reproducción",
+        "visualización",
+        "visitas",
+        "vistas"
+      ],
+      "level": "basic"
+    },
+    "passo": {
+      "translations": [
+        "brea",
+        "pez",
+        "zopisa",
+        "galipote",
+        "resina"
+      ],
+      "level": "basic"
+    },
+    "risco": {
+      "translations": [
+        "hilo",
+        "línea",
+        "rasgo",
+        "trazo",
+        "vírgula"
+      ],
+      "level": "basic"
+    },
+    "vadia": {
+      "translations": [
+        "zorra",
+        "zorrón",
+        "puta",
+        "putona",
+        "pendón"
+      ],
+      "level": "basic"
+    },
+    "enorme": {
+      "translations": [
+        "grande",
+        "gran",
+        "grosso",
+        "groso",
+        "grave"
+      ],
+      "level": "intermediate"
+    },
+    "perder": {
+      "translations": [
+        "romperse",
+        "romper",
+        "quebrar",
+        "escrachar",
+        "esñocar"
+      ],
+      "level": "intermediate"
+    },
+    "quarto": {
+      "translations": [
+        "reloj",
+        "peluco",
+        "muñequera",
+        "extensible",
+        "guasho"
+      ],
+      "level": "intermediate"
+    },
+    "apoiar": {
+      "translations": [
+        "de atrás",
+        "trasero",
+        "posterior",
+        "anterior",
+        "viejo"
+      ],
+      "level": "intermediate"
+    },
+    "agulha": {
+      "translations": [
+        "momento",
+        "fondo",
+        "punto",
+        "argumento",
+        "razón"
+      ],
+      "level": "intermediate"
+    },
+    "evitar": {
+      "translations": [
+        "escapar",
+        "liberarse",
+        "fugarse",
+        "furtarse",
+        "eludir"
+      ],
+      "level": "intermediate"
+    },
+    "travar": {
+      "translations": [
+        "choque",
+        "fallo",
+        "error",
+        "crac",
+        "chocar"
+      ],
+      "level": "intermediate"
+    },
+    "grande": {
+      "translations": [
+        "grande",
+        "gran",
+        "grosso",
+        "groso",
+        "grave"
+      ],
+      "level": "intermediate"
+    },
+    "ganhar": {
+      "translations": [
+        "conseguir",
+        "obtener",
+        "coger",
+        "conciliar",
+        "granjear"
+      ],
+      "level": "intermediate"
+    },
+    "erguer": {
+      "translations": [
+        "estar de pie",
+        "estar parado",
+        "levantarse",
+        "pararse",
+        "mantener"
+      ],
+      "level": "intermediate"
+    },
+    "torcer": {
+      "translations": [
+        "raíz",
+        "raíces",
+        "raigón",
+        "lexema",
+        "rootear"
+      ],
+      "level": "intermediate"
+    },
+    "beleza": {
+      "translations": [
+        "aprobación",
+        "visto bueno",
+        "okey",
+        "de acuerdo",
+        "sí"
+      ],
+      "level": "intermediate"
+    },
+    "dobrar": {
+      "translations": [
+        "doblar",
+        "curvar",
+        "cimbrar",
+        "cimbrear",
+        "alabear"
+      ],
+      "level": "intermediate"
+    },
+    "atirar": {
+      "translations": [
+        "soltar",
+        "desatar",
+        "liberar",
+        "desabrochar",
+        "desamarrar"
+      ],
+      "level": "intermediate"
+    },
+    "forçar": {
+      "translations": [
+        "fuerza",
+        "ñeque",
+        "polenta",
+        "obligar",
+        "compeler"
+      ],
+      "level": "intermediate"
+    },
+    "contra": {
+      "translations": [
+        "pelear",
+        "luchar",
+        "batirse",
+        "combatir",
+        "lucha"
+      ],
+      "level": "intermediate"
+    },
+    "talhar": {
+      "translations": [
+        "cortar",
+        "incidir",
+        "mondar",
+        "tranzar",
+        "retirar"
+      ],
+      "level": "intermediate"
+    },
+    "contar": {
+      "translations": [
+        "aguantar",
+        "agarrar",
+        "sujetar",
+        "sostener",
+        "tomar"
+      ],
+      "level": "intermediate"
+    },
+    "desvio": {
+      "translations": [
+        "variante",
+        "libramiento",
+        "puenteo",
+        "baipás",
+        "bypass"
+      ],
+      "level": "intermediate"
+    },
+    "grampo": {
+      "translations": [
+        "chinche",
+        "bicho",
+        "error",
+        "fallo",
+        "defecto"
+      ],
+      "level": "intermediate"
+    },
+    "tentar": {
+      "translations": [
+        "intentar",
+        "tratar de",
+        "ver de",
+        "esforzarse",
+        "procurar"
+      ],
+      "level": "intermediate"
+    },
+    "firmar": {
+      "translations": [
+        "signo",
+        "muestra",
+        "símbolo",
+        "aviso",
+        "señal"
+      ],
+      "level": "intermediate"
+    },
+    "maluco": {
+      "translations": [
+        "loco",
+        "colgado",
+        "sonado",
+        "trastornado",
+        "tronado"
+      ],
+      "level": "intermediate"
+    },
+    "raspar": {
+      "translations": [
+        "piel",
+        "pellejo",
+        "tegumento",
+        "hollejo",
+        "cáscara"
+      ],
+      "level": "intermediate"
+    },
+    "ladrão": {
+      "translations": [
+        "ladrón",
+        "ladrona",
+        "ratero",
+        "ratera",
+        "truhán"
+      ],
+      "level": "intermediate"
+    },
+    "estalo": {
+      "translations": [
+        "agrietarse",
+        "crakearse",
+        "craquearse",
+        "cascarse",
+        "quebrarse"
+      ],
+      "level": "intermediate"
+    },
+    "colega": {
+      "translations": [
+        "tipo",
+        "güey",
+        "buey",
+        "cuate",
+        "gallo"
+      ],
+      "level": "intermediate"
+    },
+    "esboço": {
+      "translations": [
+        "corriente",
+        "corriente de aire",
+        "trago",
+        "cerveza de barril",
+        "calado"
+      ],
+      "level": "intermediate"
+    },
+    "propor": {
+      "translations": [
+        "moverse",
+        "mudarse",
+        "hacer mudanza",
+        "mover",
+        "trasladar"
+      ],
+      "level": "intermediate"
+    },
+    "momento": {
+      "translations": [
+        "momento",
+        "fondo",
+        "punto",
+        "argumento",
+        "razón"
+      ],
+      "level": "advanced"
+    },
+    "dividir": {
+      "translations": [
+        "reparto",
+        "parte",
+        "repartir",
+        "distribuir",
+        "asignar"
+      ],
+      "level": "advanced"
+    },
+    "deduzir": {
+      "translations": [
+        "dibujar",
+        "jalar",
+        "tirar",
+        "desenvainar",
+        "desenfundar"
+      ],
+      "level": "advanced"
+    },
+    "robusto": {
+      "translations": [
+        "filudo",
+        "escabroso",
+        "despelotado",
+        "a lo natural",
+        "al lote"
+      ],
+      "level": "advanced"
+    },
+    "aceitar": {
+      "translations": [
+        "tomar",
+        "coger",
+        "prender",
+        "violar",
+        "llevar"
+      ],
+      "level": "advanced"
+    },
+    "começar": {
+      "translations": [
+        "plomo",
+        "sonda",
+        "escandallo",
+        "regleta",
+        "interlínea"
+      ],
+      "level": "advanced"
+    },
+    "emprego": {
+      "translations": [
+        "trabajo",
+        "curro",
+        "laburo",
+        "chamba",
+        "cheje"
+      ],
+      "level": "advanced"
+    },
+    "difícil": {
+      "translations": [
+        "resumen",
+        "extracto",
+        "abstracción",
+        "arte abstracto",
+        "extraído"
+      ],
+      "level": "advanced"
+    },
+    "assalto": {
+      "translations": [
+        "redondo",
+        "circular",
+        "esférico",
+        "redondeado",
+        "redondeada"
+      ],
+      "level": "advanced"
+    },
+    "filhote": {
+      "translations": [
+        "becerro",
+        "becerra",
+        "ternero",
+        "ternera",
+        "vaquilla"
+      ],
+      "level": "advanced"
+    },
+    "posição": {
+      "translations": [
+        "estar de pie",
+        "estar parado",
+        "levantarse",
+        "pararse",
+        "mantener"
+      ],
+      "level": "advanced"
+    },
+    "término": {
+      "translations": [
+        "fin",
+        "fin (desus.)",
+        "lado",
+        "parte",
+        "extremo"
+      ],
+      "level": "advanced"
+    },
+    "gostoso": {
+      "translations": [
+        "caliente",
+        "muy caliente",
+        "caluroso",
+        "cálido",
+        "hacer calor"
+      ],
+      "level": "advanced"
+    },
+    "partida": {
+      "translations": [
+        "dejar",
+        "legar",
+        "depositar",
+        "salir de",
+        "abandonar"
+      ],
+      "level": "advanced"
+    },
+    "caminho": {
+      "translations": [
+        "hilo",
+        "línea",
+        "rasgo",
+        "trazo",
+        "vírgula"
+      ],
+      "level": "advanced"
+    },
+    "reduzir": {
+      "translations": [
+        "cortar",
+        "incidir",
+        "mondar",
+        "tranzar",
+        "retirar"
+      ],
+      "level": "advanced"
+    },
+    "impulso": {
+      "translations": [
+        "conducir",
+        "manejar",
+        "timonear",
+        "ir en coche",
+        "ir en carro"
+      ],
+      "level": "advanced"
+    },
+    "arrumar": {
+      "translations": [
+        "conseguir",
+        "obtener",
+        "coger",
+        "conciliar",
+        "granjear"
+      ],
+      "level": "advanced"
+    },
+    "colocar": {
+      "translations": [
+        "poner",
+        "dejar",
+        "colocar",
+        "engastar",
+        "establecer"
+      ],
+      "level": "advanced"
+    },
+    "amassar": {
+      "translations": [
+        "aplastamiento",
+        "enamoramiento",
+        "flechazo",
+        "camote",
+        "chaladura"
+      ],
+      "level": "advanced"
+    },
+    "revolta": {
+      "translations": [
+        "alboroto",
+        "tumulto",
+        "disturbios",
+        "algarada",
+        "motín"
+      ],
+      "level": "advanced"
+    },
+    "maldito": {
+      "translations": [
+        "maldecir",
+        "condenar",
+        "reprobar",
+        "anatematizar",
+        "imprecar"
+      ],
+      "level": "advanced"
+    },
+    "cumprir": {
+      "translations": [
+        "cumplir",
+        "completar",
+        "despedir",
+        "descargar",
+        "dar de alta"
+      ],
+      "level": "advanced"
+    },
+    "assistir": {
+      "translations": [
+        "reloj",
+        "peluco",
+        "muñequera",
+        "extensible",
+        "guasho"
+      ],
+      "level": "advanced"
+    },
+    "esconder": {
+      "translations": [
+        "tapa",
+        "cubierta",
+        "tapador",
+        "cubertura",
+        "tapadera"
+      ],
+      "level": "advanced"
+    },
+    "encontro": {
+      "translations": [
+        "dátil",
+        "fecha",
+        "data",
+        "cita",
+        "compañero"
+      ],
+      "level": "advanced"
+    },
+    "trabalho": {
+      "translations": [
+        "trabajo",
+        "curro",
+        "laburo",
+        "chamba",
+        "cheje"
+      ],
+      "level": "advanced"
+    },
+    "reclamar": {
+      "translations": [
+        "reclamación",
+        "declaración",
+        "proposición",
+        "afirmación",
+        "reivindicación"
+      ],
+      "level": "advanced"
+    },
+    "incômodo": {
+      "translations": [
+        "molestar",
+        "agobiar",
+        "brear",
+        "cargosear",
+        "fastidiar"
+      ],
+      "level": "advanced"
+    },
+    "ponteiro": {
+      "translations": [
+        "mano",
+        "pata",
+        "patas",
+        "manecilla",
+        "aguja"
+      ],
+      "level": "advanced"
+    },
+    "arruinar": {
+      "translations": [
+        "expoliar",
+        "despojar",
+        "dañar",
+        "arruinar",
+        "echar a perder"
+      ],
+      "level": "advanced"
+    },
+    "examinar": {
+      "translations": [
+        "verificación",
+        "chequeo",
+        "inspección",
+        "cotejo",
+        "examen"
+      ],
+      "level": "advanced"
+    },
+    "preparar": {
+      "translations": [
+        "sí",
+        "hacer",
+        "facer (desus.)",
+        "far (desus.)",
+        "fer (desus.)"
+      ],
+      "level": "advanced"
+    },
+    "aparecer": {
+      "translations": [
+        "amanecer",
+        "alborear",
+        "aclarar",
+        "clarecer",
+        "caer en cuenta de"
+      ],
+      "level": "advanced"
+    },
+    "desgraça": {
+      "translations": [
+        "soplar",
+        "bufar",
+        "reventar",
+        "arruinar",
+        "cagar"
+      ],
+      "level": "advanced"
+    },
+    "cultivar": {
+      "translations": [
+        "criar",
+        "procrear",
+        "engendrar",
+        "aparearse",
+        "copular"
+      ],
+      "level": "advanced"
+    },
+    "gentalha": {
+      "translations": [
+        "turba",
+        "tropel",
+        "germanía",
+        "marabunta",
+        "caterva"
+      ],
+      "level": "advanced"
+    },
+    "proteger": {
+      "translations": [
+        "guarda",
+        "guardia",
+        "guardés",
+        "shafo",
+        "vigilante"
+      ],
+      "level": "advanced"
+    },
+    "construir": {
+      "translations": [
+        "hacer",
+        "artificiar",
+        "obrar",
+        "construir",
+        "edificar"
+      ],
+      "level": "advanced"
+    },
+    "compensar": {
+      "translations": [
+        "pagar",
+        "comprar",
+        "cashquear",
+        "garpar",
+        "costear"
+      ],
+      "level": "advanced"
+    },
+    "conhecido": {
+      "translations": [
+        "amigo",
+        "amiga",
+        "chochera",
+        "amistad",
+        "novio"
+      ],
+      "level": "advanced"
+    },
+    "aborrecer": {
+      "translations": [
+        "cardar",
+        "peinar",
+        "burlarse de",
+        "molestar",
+        "tomar el pelo"
+      ],
+      "level": "advanced"
+    },
+    "resultado": {
+      "translations": [
+        "golpear",
+        "pegarle",
+        "batir",
+        "darle",
+        "fajar"
+      ],
+      "level": "advanced"
+    },
+    "intervalo": {
+      "translations": [
+        "encanto",
+        "hechizo",
+        "conjuro",
+        "brujería",
+        "conjuración"
+      ],
+      "level": "advanced"
+    },
+    "estimular": {
+      "translations": [
+        "espuela",
+        "acicate",
+        "espolín",
+        "chocoyas",
+        "espolón"
+      ],
+      "level": "advanced"
+    },
+    "cruzamento": {
+      "translations": [
+        "cruz",
+        "aspa",
+        "sotuer",
+        "santiguamiento",
+        "señal de la cruz"
+      ],
+      "level": "advanced"
+    },
+    "lançamento": {
+      "translations": [
+        "tiro",
+        "lanzamiento",
+        "tirada",
+        "volado",
+        "sorteo"
+      ],
+      "level": "advanced"
+    },
+    "além disso": {
+      "translations": [
+        "exhortar",
+        "incentivar",
+        "estimular",
+        "fomentar",
+        "desarrollar"
+      ],
+      "level": "advanced"
+    },
+    "inclinação": {
+      "translations": [
+        "pendiente",
+        "cuesta",
+        "terraplén",
+        "declivio",
+        "declividad"
+      ],
+      "level": "advanced"
+    },
+    "companheiro": {
+      "translations": [
+        "amigo",
+        "amiga",
+        "chochera",
+        "amistad",
+        "novio"
+      ],
+      "level": "advanced"
+    },
+    "esconderijo": {
+      "translations": [
+        "tapa",
+        "cubierta",
+        "tapador",
+        "cubertura",
+        "tapadera"
+      ],
+      "level": "advanced"
+    },
+    "acompanhante": {
+      "translations": [
+        "dátil",
+        "fecha",
+        "data",
+        "cita",
+        "compañero"
+      ],
+      "level": "advanced"
+    },
+    "mais ou menos": {
+      "translations": [
+        "alrededor de",
+        "por",
+        "encima de",
+        "a punto de",
+        "sobre"
+      ],
+      "level": "advanced"
+    },
+    "o": {
+      "translations": [
+        "os",
+        "los",
+        "las",
+        "les",
+        "(leísmo) les"
+      ],
+      "level": "basic"
+    },
+    "ir": {
+      "translations": [
+        "cabeza",
+        "chola",
+        "coco",
+        "maceta",
+        "marote"
+      ],
+      "level": "basic"
+    },
+    "cu": {
+      "translations": [
+        "culo",
+        "ojete",
+        "imbécil",
+        "estúpido",
+        "tarado"
+      ],
+      "level": "basic"
+    },
+    "gata": {
+      "translations": [
+        "apropiado",
+        "adecuado",
+        "apto",
+        "idóneo",
+        "aparejado"
+      ],
+      "level": "basic"
+    },
+    "vaso": {
+      "translations": [
+        "aseo",
+        "arreglo",
+        "vestidor",
+        "baño",
+        "inodoro"
+      ],
+      "level": "basic"
+    },
+    "nada": {
+      "translations": [
+        "cero",
+        "nada",
+        "nulo",
+        "nula",
+        "raíz"
+      ],
+      "level": "basic"
+    },
+    "erro": {
+      "translations": [
+        "incorrecto",
+        "falso",
+        "equivocado",
+        "errado",
+        "erróneo"
+      ],
+      "level": "basic"
+    },
+    "casa": {
+      "translations": [
+        "cuadro",
+        "cuadrado",
+        "escuadra",
+        "cartabón (45º)",
+        "plaza"
+      ],
+      "level": "basic"
+    },
+    "fuga": {
+      "translations": [
+        "romperse",
+        "romper",
+        "quebrar",
+        "escrachar",
+        "esñocar"
+      ],
+      "level": "basic"
+    },
+    "luta": {
+      "translations": [
+        "pelear",
+        "luchar",
+        "batirse",
+        "combatir",
+        "lucha"
+      ],
+      "level": "basic"
+    },
+    "ralé": {
+      "translations": [
+        "atestarse",
+        "atiborrarse",
+        "abarrotarse",
+        "henchirse",
+        "atarugarse"
+      ],
+      "level": "basic"
+    },
+    "nota": {
+      "translations": [
+        "marca",
+        "venero",
+        "nota",
+        "calificación",
+        "punto"
+      ],
+      "level": "basic"
+    },
+    "logo": {
+      "translations": [
+        "por eso",
+        "por consiguiente",
+        "por lo tanto",
+        "por ende",
+        "ergo"
+      ],
+      "level": "basic"
+    },
+    "laço": {
+      "translations": [
+        "arco",
+        "lazo",
+        "arquearse",
+        "curvar",
+        "doblar"
+      ],
+      "level": "basic"
+    },
+    "gota": {
+      "translations": [
+        "gota",
+        "caída",
+        "declive",
+        "descenso",
+        "arrezuz"
+      ],
+      "level": "basic"
+    },
+    "rapaz": {
+      "translations": [
+        "juventud",
+        "adolescencia",
+        "mocedad",
+        "años mozos",
+        "joven"
+      ],
+      "level": "basic"
+    },
+    "socar": {
+      "translations": [
+        "estocada",
+        "empuje",
+        "envión",
+        "impulso",
+        "propulsión"
+      ],
+      "level": "basic"
+    },
+    "lidar": {
+      "translations": [
+        "reparto",
+        "parte",
+        "repartir",
+        "distribuir",
+        "asignar"
+      ],
+      "level": "basic"
+    },
+    "morar": {
+      "translations": [
+        "quedar",
+        "permanecer",
+        "resistir",
+        "aguantar",
+        "durar"
+      ],
+      "level": "basic"
+    },
+    "hábil": {
+      "translations": [
+        "ágil",
+        "hábil",
+        "listo",
+        "talentoso",
+        "habiloso"
+      ],
+      "level": "basic"
+    },
+    "perto": {
+      "translations": [
+        "alrededor de",
+        "por",
+        "encima de",
+        "a punto de",
+        "sobre"
+      ],
+      "level": "basic"
+    },
+    "saber": {
+      "translations": [
+        "sabiduría",
+        "tradición",
+        "erudición",
+        "acervo",
+        "folklor"
+      ],
+      "level": "basic"
+    },
+    "bruto": {
+      "translations": [
+        "filudo",
+        "escabroso",
+        "despelotado",
+        "a lo natural",
+        "al lote"
+      ],
+      "level": "basic"
+    },
+    "letra": {
+      "translations": [
+        "mano",
+        "pata",
+        "patas",
+        "manecilla",
+        "aguja"
+      ],
+      "level": "basic"
+    },
+    "cuzão": {
+      "translations": [
+        "follar",
+        "follarse",
+        "joder",
+        "coger",
+        "chingar"
+      ],
+      "level": "basic"
+    },
+    "dizer": {
+      "translations": [
+        "decir",
+        "contar",
+        "recontar",
+        "platicar",
+        "devisar (disused)"
+      ],
+      "level": "basic"
+    },
+    "falar": {
+      "translations": [
+        "hablar",
+        "disused: fablar",
+        "fabular",
+        "charlar",
+        "platicar"
+      ],
+      "level": "basic"
+    },
+    "forma": {
+      "translations": [
+        "último",
+        "postrero",
+        "postrer",
+        "postrimero",
+        "postremo"
+      ],
+      "level": "basic"
+    },
+    "junta": {
+      "translations": [
+        "tablero",
+        "tabla",
+        "pizarra",
+        "pizarrón",
+        "consejo"
+      ],
+      "level": "basic"
+    },
+    "jovem": {
+      "translations": [
+        "niño",
+        "buqui",
+        "chamaco",
+        "chamo",
+        "chango"
+      ],
+      "level": "basic"
+    },
+    "queda": {
+      "translations": [
+        "bucear",
+        "somorgujar",
+        "hacer un clavado",
+        "zambullirse",
+        "zabullirse"
+      ],
+      "level": "basic"
+    },
+    "mesmo": {
+      "translations": [
+        "aun así",
+        "a pesar de todo",
+        "de todos modos",
+        "de todas formas",
+        "comoquiera"
+      ],
+      "level": "basic"
+    },
+    "legal": {
+      "translations": [
+        "fresco",
+        "frío",
+        "tranquilo",
+        "sereno",
+        "apacible"
+      ],
+      "level": "basic"
+    },
+    "lugar": {
+      "translations": [
+        "lugar",
+        "sitio",
+        "locus",
+        "logar (disused)",
+        "plaza"
+      ],
+      "level": "basic"
+    },
+    "achar": {
+      "translations": [
+        "adivinar",
+        "conjeturar",
+        "barruntar",
+        "sospechar",
+        "deducir"
+      ],
+      "level": "basic"
+    },
+    "visão": {
+      "translations": [
+        "luz",
+        "luminaria",
+        "iluminaria",
+        "fuego",
+        "mechero"
+      ],
+      "level": "basic"
+    },
+    "supor": {
+      "translations": [
+        "adivinar",
+        "conjeturar",
+        "barruntar",
+        "sospechar",
+        "deducir"
+      ],
+      "level": "basic"
+    },
+    "plebe": {
+      "translations": [
+        "atestarse",
+        "atiborrarse",
+        "abarrotarse",
+        "henchirse",
+        "atarugarse"
+      ],
+      "level": "basic"
+    },
+    "suave": {
+      "translations": [
+        "dulce",
+        "rico",
+        "sabroso",
+        "gustoso",
+        "azucarado"
+      ],
+      "level": "basic"
+    },
+    "obter": {
+      "translations": [
+        "conseguir",
+        "obtener",
+        "coger",
+        "conciliar",
+        "granjear"
+      ],
+      "level": "basic"
+    },
+    "ralar": {
+      "translations": [
+        "rasguño",
+        "arañazo",
+        "pastear",
+        "apacentar",
+        "pastar"
+      ],
+      "level": "basic"
+    },
+    "borda": {
+      "translations": [
+        "volado",
+        "dobladillo",
+        "regazo",
+        "falda",
+        "delantal"
+      ],
+      "level": "basic"
+    },
+    "cruel": {
+      "translations": [
+        "violento",
+        "destructivo",
+        "feroz",
+        "despiadado",
+        "brutal"
+      ],
+      "level": "basic"
+    },
+    "carga": {
+      "translations": [
+        "redondo",
+        "circular",
+        "esférico",
+        "redondeado",
+        "redondeada"
+      ],
+      "level": "basic"
+    },
+    "jogar": {
+      "translations": [
+        "jugar",
+        "trebejar",
+        "tocar",
+        "tangir",
+        "tañer"
+      ],
+      "level": "basic"
+    },
+    "ápice": {
+      "translations": [
+        "primero",
+        "primo",
+        "primoroso",
+        "excelente",
+        "principal"
+      ],
+      "level": "basic"
+    },
+    "velho": {
+      "translations": [
+        "antiguo",
+        "viejo",
+        "vejancón",
+        "anciano",
+        "provecto"
+      ],
+      "level": "basic"
+    },
+    "motim": {
+      "translations": [
+        "alboroto",
+        "tumulto",
+        "disturbios",
+        "algarada",
+        "motín"
+      ],
+      "level": "basic"
+    },
+    "fardo": {
+      "translations": [
+        "carga",
+        "lastre",
+        "escollo",
+        "rémora",
+        "cargamento"
+      ],
+      "level": "basic"
+    },
+    "calmo": {
+      "translations": [
+        "quieto",
+        "silencioso",
+        "tranquilo",
+        "calmo",
+        "pacífico"
+      ],
+      "level": "basic"
+    },
+    "raiva": {
+      "translations": [
+        "calor friccional",
+        "escocimiento",
+        "irritación",
+        "cocedura",
+        "rozadura"
+      ],
+      "level": "basic"
+    },
+    "médio": {
+      "translations": [
+        "pretender",
+        "intentar",
+        "intencionar",
+        "proponerse",
+        "destinar"
+      ],
+      "level": "basic"
+    },
+    "trama": {
+      "translations": [
+        "argumento",
+        "trama",
+        "hilo argumental",
+        "intriga",
+        "plano"
+      ],
+      "level": "basic"
+    },
+    "dobra": {
+      "translations": [
+        "plegar",
+        "doblar",
+        "redoblegar",
+        "plisar",
+        "gandujar"
+      ],
+      "level": "basic"
+    },
+    "trave": {
+      "translations": [
+        "poste",
+        "colgar",
+        "fijar",
+        "correo",
+        "publicación"
+      ],
+      "level": "basic"
+    },
+    "porção": {
+      "translations": [
+        "reparto",
+        "parte",
+        "repartir",
+        "distribuir",
+        "asignar"
+      ],
+      "level": "intermediate"
+    },
+    "cabeça": {
+      "translations": [
+        "cabeza",
+        "chola",
+        "coco",
+        "maceta",
+        "marote"
+      ],
+      "level": "intermediate"
+    },
+    "chamar": {
+      "translations": [
+        "nombre",
+        "fama",
+        "reputación",
+        "renombre",
+        "nombrar"
+      ],
+      "level": "intermediate"
+    },
+    "ajudar": {
+      "translations": [
+        "mano",
+        "pata",
+        "patas",
+        "manecilla",
+        "aguja"
+      ],
+      "level": "intermediate"
+    },
+    "brusco": {
+      "translations": [
+        "romo",
+        "obtuso",
+        "desafilado",
+        "despuntado",
+        "contundente"
+      ],
+      "level": "intermediate"
+    },
+    "pedaço": {
+      "translations": [
+        "parte",
+        "porción",
+        "pedazo",
+        "trozo",
+        "refacción"
+      ],
+      "level": "intermediate"
+    },
+    "-idade": {
+      "translations": [
+        "-iento",
+        "-oso",
+        "-iego",
+        "-ento",
+        "-ito"
+      ],
+      "level": "intermediate"
+    },
+    "bêbado": {
+      "translations": [
+        "borracho",
+        "ebrio",
+        "pedo",
+        "tomado",
+        "beodo"
+      ],
+      "level": "intermediate"
+    },
+    "já que": {
+      "translations": [
+        "tan ... como",
+        "cuan",
+        "como",
+        "cuando",
+        "mientras"
+      ],
+      "level": "intermediate"
+    },
+    "credo!": {
+      "translations": [
+        "molestar",
+        "agobiar",
+        "brear",
+        "cargosear",
+        "fastidiar"
+      ],
+      "level": "intermediate"
+    },
+    "margem": {
+      "translations": [
+        "banca",
+        "banco",
+        "sucursal",
+        "almacén",
+        "hucha"
+      ],
+      "level": "intermediate"
+    },
+    "último": {
+      "translations": [
+        "último",
+        "postrero",
+        "postrer",
+        "postrimero",
+        "postremo"
+      ],
+      "level": "intermediate"
+    },
+    "errado": {
+      "translations": [
+        "incorrecto",
+        "falso",
+        "equivocado",
+        "errado",
+        "erróneo"
+      ],
+      "level": "intermediate"
+    },
+    "quadro": {
+      "translations": [
+        "tablero",
+        "tabla",
+        "pizarra",
+        "pizarrón",
+        "consejo"
+      ],
+      "level": "intermediate"
+    },
+    "depois": {
+      "translations": [
+        "después",
+        "después de",
+        "tras",
+        "en pos de",
+        "detrás de"
+      ],
+      "level": "intermediate"
+    },
+    "escuro": {
+      "translations": [
+        "oscuro",
+        "negro",
+        "tenebroso",
+        "siniestro",
+        "lúgubre"
+      ],
+      "level": "intermediate"
+    },
+    "bonito": {
+      "translations": [
+        "simpático",
+        "agradable",
+        "amable",
+        "bueno",
+        "placible"
+      ],
+      "level": "intermediate"
+    },
+    "falhar": {
+      "translations": [
+        "romperse",
+        "romper",
+        "quebrar",
+        "escrachar",
+        "esñocar"
+      ],
+      "level": "intermediate"
+    },
+    "senhor": {
+      "translations": [
+        "amo",
+        "capitán",
+        "patrón",
+        "maestro",
+        "máster"
+      ],
+      "level": "intermediate"
+    },
+    "gélido": {
+      "translations": [
+        "frío",
+        "algente",
+        "frígido",
+        "hacer frío",
+        "hacer yelo"
+      ],
+      "level": "intermediate"
+    },
+    "fresco": {
+      "translations": [
+        "fresco",
+        "frío",
+        "tranquilo",
+        "sereno",
+        "apacible"
+      ],
+      "level": "intermediate"
+    },
+    "viajar": {
+      "translations": [
+        "viaje",
+        "saltito",
+        "viajata",
+        "recorrido",
+        "trayecto"
+      ],
+      "level": "intermediate"
+    },
+    "amável": {
+      "translations": [
+        "género",
+        "tipo",
+        "forma",
+        "clase",
+        "índole"
+      ],
+      "level": "intermediate"
+    },
+    "atrair": {
+      "translations": [
+        "dibujar",
+        "jalar",
+        "tirar",
+        "desenvainar",
+        "desenfundar"
+      ],
+      "level": "intermediate"
+    },
+    "trilha": {
+      "translations": [
+        "rastro",
+        "huella",
+        "carrilera",
+        "carrilada",
+        "rodera"
+      ],
+      "level": "intermediate"
+    },
+    "correr": {
+      "translations": [
+        "correr",
+        "apeonar",
+        "dirigir",
+        "gestionar",
+        "fluir"
+      ],
+      "level": "intermediate"
+    },
+    "chegar": {
+      "translations": [
+        "lugar",
+        "sitio",
+        "locus",
+        "logar (disused)",
+        "plaza"
+      ],
+      "level": "intermediate"
+    },
+    "buscar": {
+      "translations": [
+        "conseguir",
+        "obtener",
+        "coger",
+        "conciliar",
+        "granjear"
+      ],
+      "level": "intermediate"
+    }
+  }
+}

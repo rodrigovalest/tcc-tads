@@ -6,210 +6,21 @@ import {
 } from "../models/interfaces/time_attack_vocab_game";
 import { MatchLanguage } from "../models/types/match-language.type";
 import matchService from "../services/match-service";
+import {
+  createWordPool,
+  isTranslationCorrect,
+  translateWord,
+  WordPool,
+} from "../services/translation";
+import type { WordLevel } from "../services/translation/translation-service";
 
 const GAME_DURATION = 60;
 const POINTS_PER_CORRECT_WORD = 10;
 
-const WORD_TRANSLATIONS: Record<
-  string,
-  Record<string, Record<string, string[]>>
-> = {
-  en: {
-    pt: {
-      cat: ["gato", "gata"],
-      dog: ["cachorro", "cão"],
-      house: ["casa"],
-      tree: ["árvore", "arvore"],
-      water: ["água", "agua"],
-      food: ["comida", "alimento"],
-      book: ["livro"],
-      car: ["carro", "automóvel"],
-      phone: ["telefone", "celular"],
-      computer: ["computador"],
-      hello: ["olá", "oi", "ola"],
-      world: ["mundo"],
-      time: ["tempo", "hora"],
-      love: ["amor"],
-      life: ["vida"],
-      happy: ["feliz", "alegre"],
-      good: ["bom", "boa"],
-      work: ["trabalho", "trabalhar"],
-    },
-    es: {
-      cat: ["gato"],
-      dog: ["perro"],
-      house: ["casa"],
-      tree: ["árbol", "arbol"],
-      water: ["agua"],
-      food: ["comida", "alimento"],
-      book: ["libro"],
-      car: ["coche", "carro"],
-      phone: ["teléfono", "telefono", "móvil", "movil"],
-      computer: ["computadora", "ordenador"],
-      hello: ["hola"],
-      world: ["mundo"],
-      time: ["tiempo", "hora"],
-      love: ["amor"],
-      life: ["vida"],
-      happy: ["feliz", "alegre"],
-      good: ["bueno", "bien"],
-      work: ["trabajo", "trabajar"],
-    },
-  },
-  pt: {
-    en: {
-      gato: ["cat"],
-      cachorro: ["dog"],
-      casa: ["house"],
-      árvore: ["tree"],
-      água: ["water"],
-      comida: ["food"],
-      livro: ["book"],
-      carro: ["car"],
-      telefone: ["phone"],
-      computador: ["computer"],
-    },
-    es: {
-      gato: ["gato"],
-      cachorro: ["perro"],
-      casa: ["casa"],
-      árvore: ["árbol", "arbol"],
-      água: ["agua"],
-      comida: ["comida"],
-      livro: ["libro"],
-      carro: ["coche", "carro"],
-      telefone: ["teléfono", "telefono"],
-      computador: ["computadora"],
-    },
-  },
-  es: {
-    en: {
-      gato: ["cat"],
-      perro: ["dog"],
-      casa: ["house"],
-      árbol: ["tree"],
-      agua: ["water"],
-      comida: ["food"],
-      libro: ["book"],
-      coche: ["car"],
-      teléfono: ["phone"],
-      computadora: ["computer"],
-    },
-    pt: {
-      gato: ["gato"],
-      perro: ["cachorro"],
-      casa: ["casa"],
-      árbol: ["árvore", "arvore"],
-      agua: ["água", "agua"],
-      comida: ["comida"],
-      libro: ["livro"],
-      coche: ["carro"],
-      teléfono: ["telefone"],
-      computadora: ["computador"],
-    },
-  },
-};
-
-const MOCK_WORDS: Record<string, Record<string, string[]>> = {
-  en: {
-    pt: [
-      "cat",
-      "dog",
-      "house",
-      "tree",
-      "water",
-      "food",
-      "book",
-      "car",
-      "phone",
-      "computer",
-      "hello",
-      "world",
-      "time",
-      "love",
-      "life",
-      "happy",
-      "good",
-      "work",
-    ],
-    es: [
-      "cat",
-      "dog",
-      "house",
-      "tree",
-      "water",
-      "food",
-      "book",
-      "car",
-      "phone",
-      "computer",
-      "hello",
-      "world",
-      "time",
-      "love",
-      "life",
-      "happy",
-      "good",
-      "work",
-    ],
-  },
-  pt: {
-    en: [
-      "gato",
-      "cachorro",
-      "casa",
-      "árvore",
-      "água",
-      "comida",
-      "livro",
-      "carro",
-      "telefone",
-      "computador",
-    ],
-    es: [
-      "gato",
-      "cachorro",
-      "casa",
-      "árvore",
-      "água",
-      "comida",
-      "livro",
-      "carro",
-      "telefone",
-      "computador",
-    ],
-  },
-  es: {
-    en: [
-      "gato",
-      "perro",
-      "casa",
-      "árbol",
-      "agua",
-      "comida",
-      "libro",
-      "coche",
-      "teléfono",
-      "computadora",
-    ],
-    pt: [
-      "gato",
-      "perro",
-      "casa",
-      "árbol",
-      "agua",
-      "comida",
-      "libro",
-      "coche",
-      "teléfono",
-      "computadora",
-    ],
-  },
-};
-
 export const useTimeAttackVocabGame = (
   sourceLanguage: MatchLanguage | null,
-  targetLanguage: MatchLanguage | null
+  targetLanguage: MatchLanguage | null,
+  level?: WordLevel | null
 ) => {
   const safeSourceLanguage: MatchLanguage = (sourceLanguage ||
     "en") as MatchLanguage;
@@ -238,14 +49,27 @@ export const useTimeAttackVocabGame = (
   const evaluationsRef = useRef<IWordTranslationEvaluation[]>([]);
   const currentWordTimeRef = useRef<number>(0);
   const matchIdRef = useRef<string | null>(null);
+  const wordPoolRef = useRef<WordPool | null>(null);
+
+  // Inicializa o word pool
+  const initializeWordPool = useCallback(() => {
+    if (wordPoolRef.current) {
+      wordPoolRef.current.reset();
+    } else {
+      wordPoolRef.current = createWordPool(
+        safeSourceLanguage,
+        safeTargetLanguage,
+        level || undefined
+      );
+    }
+  }, [safeSourceLanguage, safeTargetLanguage, level]);
 
   const getRandomWord = useCallback(() => {
-    const words =
-      MOCK_WORDS[safeSourceLanguage]?.[safeTargetLanguage] || MOCK_WORDS.en.pt;
-    const randomIndex = Math.floor(Math.random() * words.length);
-    const word = words[randomIndex];
-    return word;
-  }, [safeSourceLanguage, safeTargetLanguage]);
+    if (!wordPoolRef.current) {
+      initializeWordPool();
+    }
+    return wordPoolRef.current!.getNextWord();
+  }, [initializeWordPool]);
 
   const finalizeGame = useCallback(async () => {
     if (endedRef.current) return;
@@ -309,6 +133,8 @@ export const useTimeAttackVocabGame = (
     startTimeRef.current = 0;
     currentWordTimeRef.current = 0;
 
+    // Inicializa o word pool
+    initializeWordPool();
     const newWord = getRandomWord();
 
     setGameResult(null);
@@ -323,7 +149,12 @@ export const useTimeAttackVocabGame = (
       sourceLanguage: safeSourceLanguage,
       targetLanguage: safeTargetLanguage,
     });
-  }, [getRandomWord, safeSourceLanguage, safeTargetLanguage]);
+  }, [
+    getRandomWord,
+    safeSourceLanguage,
+    safeTargetLanguage,
+    initializeWordPool,
+  ]);
 
   const startGame = useCallback(async () => {
     setIsCountingDown(false);
@@ -370,27 +201,25 @@ export const useTimeAttackVocabGame = (
       const currentTime = Date.now();
       const timeSpent = (currentTime - currentWordTimeRef.current) / 1000;
 
-      const normalizeText = (text: string) =>
-        text
-          .toLowerCase()
-          .trim()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, ""); // Remove acentos
+      // Usa o novo sistema de tradução
+      const isCorrect = isTranslationCorrect(
+        gameState.currentWord,
+        translation.trim(),
+        safeSourceLanguage,
+        safeTargetLanguage
+      );
 
-      const normalizedTranslation = normalizeText(translation);
-      const correctTranslations =
-        WORD_TRANSLATIONS[safeSourceLanguage]?.[safeTargetLanguage]?.[
-          gameState.currentWord
-        ] || [];
-
-      const isCorrect = correctTranslations.some(
-        (correct) => normalizeText(correct) === normalizedTranslation
+      // Pega a primeira tradução correta para exibir
+      const correctTranslations = translateWord(
+        gameState.currentWord,
+        safeSourceLanguage,
+        safeTargetLanguage
       );
 
       const evaluation: IWordTranslationEvaluation = {
         word: gameState.currentWord,
         userTranslation: translation.trim(),
-        correctTranslation: correctTranslations[0] || "N/A",
+        correctTranslation: correctTranslations?.[0] || "N/A",
         isCorrect,
         timeSpent,
       };
@@ -407,7 +236,13 @@ export const useTimeAttackVocabGame = (
         score: isCorrect ? prev.score + POINTS_PER_CORRECT_WORD : prev.score,
       }));
     },
-    [gameState.isGameActive, gameState.currentWord, getRandomWord]
+    [
+      gameState.isGameActive,
+      gameState.currentWord,
+      getRandomWord,
+      safeSourceLanguage,
+      safeTargetLanguage,
+    ]
   );
 
   const handleExitGame = useCallback(() => {
@@ -432,6 +267,12 @@ export const useTimeAttackVocabGame = (
     matchIdRef.current = null;
     startTimeRef.current = 0;
     currentWordTimeRef.current = 0;
+
+    // Reseta o word pool
+    if (wordPoolRef.current) {
+      wordPoolRef.current.reset();
+    }
+
     setGameResult(null);
     setShowExitModal(false);
     setIsCountingDown(false);

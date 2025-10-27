@@ -17,8 +17,13 @@ import TimeAttackVocabResultsScreen from "../../../../components/TimeAttackVocab
 export default function TimeAttackVocabGame() {
   const router = useRouter();
   const { t } = useI18n();
-  const { sourceLanguage, targetLanguage, inputMode, resetTimeAttackVocab } =
-    useTimeAttackVocabStore();
+  const {
+    sourceLanguage,
+    targetLanguage,
+    inputMode,
+    level,
+    resetTimeAttackVocab,
+  } = useTimeAttackVocabStore();
 
   const {
     gameState,
@@ -34,7 +39,8 @@ export default function TimeAttackVocabGame() {
     resetGame,
   } = useTimeAttackVocabGame(
     sourceLanguage as MatchLanguage,
-    targetLanguage as MatchLanguage
+    targetLanguage as MatchLanguage,
+    level
   );
 
   useEffect(() => {
@@ -170,9 +176,6 @@ export default function TimeAttackVocabGame() {
                 inputMode === "voice"
                   ? t("timeAttackVocab.tapToSpeak")
                   : t("timeAttackVocab.enterTranslation")
-              }
-              targetWord={
-                inputMode === "voice" ? gameState.currentWord : undefined
               }
             />
           </View>

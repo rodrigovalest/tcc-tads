@@ -13,14 +13,17 @@ import { MatchLanguage } from "../../../models/types/match-language.type";
 import Button from "../../../components/Button";
 import MatchLanguageSelector from "../../../components/MatchLanguageSelector";
 import InputModeSelector from "../../../components/InputModeSelector";
+import VocabularyLevelSelector from "../../../components/VocabularyLevelSelector";
 
 export default function TimeAttackVocabLanguageSelection() {
   const {
     sourceLanguage,
     targetLanguage,
     inputMode,
+    level,
     setTargetLanguage,
     setInputMode,
+    setLevel,
     resetTimeAttackVocab,
   } = useTimeAttackVocabStore();
   const { t } = useI18n();
@@ -125,6 +128,16 @@ export default function TimeAttackVocabLanguageSelection() {
             <InputModeSelector selected={inputMode} onSelect={setInputMode} />
           </View>
 
+          <Text className="text-xl font-nunito-bold text-appBlack mb-3">
+            {t("timeAttackVocab.selectLevel") || "Select vocabulary level"}
+          </Text>
+          <View className="mb-8">
+            <VocabularyLevelSelector
+              selected={level}
+              onSelect={setLevel as any}
+            />
+          </View>
+
           {sourceLanguage && targetLanguage && (
             <View className="bg-blue-50 rounded-lg p-4 mb-8 border border-blue-200">
               <Text className="text-lg font-nunito-semibold text-blue-800 text-center">
@@ -140,7 +153,9 @@ export default function TimeAttackVocabLanguageSelection() {
           <Button
             title={t("common.play")}
             onPress={onPlay}
-            disabled={!sourceLanguage || !targetLanguage || !inputMode}
+            disabled={
+              !sourceLanguage || !targetLanguage || !inputMode || !level
+            }
             bgColor="bg-black"
             textColor="text-white"
             borderColor="border-black"
@@ -150,22 +165,6 @@ export default function TimeAttackVocabLanguageSelection() {
             iconRightSize={20}
             iconRightColor="white"
           />
-
-          {/* Debug Button - only show when voice input is selected */}
-          {inputMode === "voice" && (
-            <Button
-              title="🎤 Debug Reconhecimento de Voz"
-              onPress={() => router.push("./voice-debug")}
-              bgColor="bg-yellow-500"
-              textColor="text-black"
-              borderColor="border-yellow-500"
-              bgColorActivate="bg-yellow-600"
-              className="py-3 mt-3"
-              iconRight="bug"
-              iconRightSize={18}
-              iconRightColor="black"
-            />
-          )}
         </View>
       </ScrollView>
     </SafeAreaView>
