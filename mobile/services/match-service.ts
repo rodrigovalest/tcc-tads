@@ -6,8 +6,13 @@ import ICreateSoloMatchResponse from "../models/responses/create-solo-match-resp
 import ICompleteSoloMatchResponse from "../models/responses/complete-solo-match-response";
 
 const matchService = {
-  getMatchHistory: async (): Promise<IMatchHistoryResponse[]> => {
-    const response = await api.get<IMatchHistoryResponse[]>("/matches");
+  getMatchHistory: async (
+    page: number | unknown = 1, 
+    limit: number | unknown = 10
+  ): Promise<IMatchHistoryResponse> => {
+    const response = await api.get<IMatchHistoryResponse>("/matches", {
+      params: { page, limit },
+    });
     return response.data;
   },
 
