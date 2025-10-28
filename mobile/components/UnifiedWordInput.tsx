@@ -1,7 +1,7 @@
 import React from "react";
 import useI18n from "../hooks/useI18n";
 import WordInput from "./WordInput";
-import VoiceWordInput from "./VoiceWordInput";
+import VoiceInput from "./VoiceInput";
 
 interface UnifiedWordInputProps {
   onSubmitWord: (word: string) => void;
@@ -24,7 +24,7 @@ const UnifiedWordInput: React.FC<UnifiedWordInputProps> = ({
 
   if (inputMode === "voice") {
     return (
-      <VoiceWordInput
+      <VoiceInput
         onSubmitWord={onSubmitWord}
         isGameActive={isGameActive}
         language={language}
