@@ -1,0 +1,6018 @@
+{
+  "metadata": {
+    "source": "en",
+    "target": "es",
+    "words": 600,
+    "level": "mixed",
+    "version": "1.0",
+    "generatedAt": "2025-10-26T17:35:57.683Z",
+    "source_data": "c:\\Users\\mathe\\StudioProjects\\tcc-tads\\mobile\\data\\wiktextract",
+    "levels": {
+      "basic": 217,
+      "intermediate": 213,
+      "advanced": 170
+    }
+  },
+  "words": {
+    "face": {
+      "translations": [
+        "cara",
+        "faz",
+        "rostro",
+        "jeta",
+        "haz"
+      ],
+      "level": "basic"
+    },
+    "match": {
+      "translations": [
+        "partido",
+        "igual",
+        "equivalencia",
+        "correspondencia",
+        "pareja"
+      ],
+      "level": "basic"
+    },
+    "stall": {
+      "translations": [
+        "compartimento",
+        "compartimiento",
+        "casilla",
+        "establo",
+        "establía"
+      ],
+      "level": "basic"
+    },
+    "roll": {
+      "translations": [
+        "hacer rodar",
+        "rodear",
+        "rular",
+        "arrodear",
+        "rodar"
+      ],
+      "level": "basic"
+    },
+    "mean": {
+      "translations": [
+        "pretender",
+        "intentar",
+        "intencionar",
+        "proponerse",
+        "destinar"
+      ],
+      "level": "basic"
+    },
+    "catch": {
+      "translations": [
+        "atrapada",
+        "partido",
+        "conquista",
+        "pega",
+        "traba"
+      ],
+      "level": "basic"
+    },
+    "set": {
+      "translations": [
+        "poner",
+        "dejar",
+        "colocar",
+        "engastar",
+        "establecer"
+      ],
+      "level": "basic"
+    },
+    "cool": {
+      "translations": [
+        "fresco",
+        "frío",
+        "tranquilo",
+        "sereno",
+        "apacible"
+      ],
+      "level": "basic"
+    },
+    "bunch": {
+      "translations": [
+        "manojo",
+        "puñado",
+        "ramo",
+        "bonchote",
+        "gavilla"
+      ],
+      "level": "basic"
+    },
+    "work": {
+      "translations": [
+        "trabajo",
+        "curro",
+        "laburo",
+        "chamba",
+        "cheje"
+      ],
+      "level": "basic"
+    },
+    "hole": {
+      "translations": [
+        "agujero",
+        "hoyo",
+        "pozo",
+        "buso (disused)",
+        "forambre (disused)"
+      ],
+      "level": "basic"
+    },
+    "beat": {
+      "translations": [
+        "latido",
+        "pulsación",
+        "pulsaciones (por minuto)",
+        "ritmo",
+        "jurisdicción"
+      ],
+      "level": "basic"
+    },
+    "cover": {
+      "translations": [
+        "tapa",
+        "cubierta",
+        "tapador",
+        "cubertura",
+        "tapadera"
+      ],
+      "level": "basic"
+    },
+    "pitch": {
+      "translations": [
+        "brea",
+        "pez",
+        "zopisa",
+        "galipote",
+        "resina"
+      ],
+      "level": "basic"
+    },
+    "double": {
+      "translations": [
+        "doble",
+        "duplo",
+        "dúplex",
+        "duplado (disused)",
+        "duplicado"
+      ],
+      "level": "basic"
+    },
+    "-y": {
+      "translations": [
+        "-iento",
+        "-oso",
+        "-iego",
+        "-ento",
+        "-ito"
+      ],
+      "level": "basic"
+    },
+    "time": {
+      "translations": [
+        "tiempo",
+        "hora",
+        "eternidad",
+        "era",
+        "época"
+      ],
+      "level": "basic"
+    },
+    "look": {
+      "translations": [
+        "mirar",
+        "ojear",
+        "catar",
+        "lentear",
+        "lookear"
+      ],
+      "level": "basic"
+    },
+    "lead": {
+      "translations": [
+        "plomo",
+        "sonda",
+        "escandallo",
+        "regleta",
+        "interlínea"
+      ],
+      "level": "basic"
+    },
+    "sweet": {
+      "translations": [
+        "dulce",
+        "rico",
+        "sabroso",
+        "gustoso",
+        "azucarado"
+      ],
+      "level": "basic"
+    },
+    "snack": {
+      "translations": [
+        "tentempié",
+        "refrigerio",
+        "bocadillo)",
+        "aperitivo",
+        "bocado"
+      ],
+      "level": "basic"
+    },
+    "play hooky": {
+      "translations": [
+        "hacer novillos",
+        "hacerse la rata",
+        "capar clase",
+        "comer jobo",
+        "echarse la pera"
+      ],
+      "level": "basic"
+    },
+    "hit": {
+      "translations": [
+        "golpear",
+        "pegarle",
+        "batir",
+        "darle",
+        "fajar"
+      ],
+      "level": "basic"
+    },
+    "lock": {
+      "translations": [
+        "cerradura",
+        "candado",
+        "chapa",
+        "piesllo",
+        "cerrojo"
+      ],
+      "level": "basic"
+    },
+    "light": {
+      "translations": [
+        "luz",
+        "luminaria",
+        "iluminaria",
+        "fuego",
+        "mechero"
+      ],
+      "level": "basic"
+    },
+    "crowd": {
+      "translations": [
+        "atestarse",
+        "atiborrarse",
+        "abarrotarse",
+        "henchirse",
+        "atarugarse"
+      ],
+      "level": "basic"
+    },
+    "issue": {
+      "translations": [
+        "flujo",
+        "emisión",
+        "envío",
+        "incisión",
+        "herederos"
+      ],
+      "level": "basic"
+    },
+    "clearance": {
+      "translations": [
+        "despeje",
+        "despejo",
+        "desobstrucción",
+        "espacio",
+        "claro"
+      ],
+      "level": "basic"
+    },
+    "kid": {
+      "translations": [
+        "niño",
+        "buqui",
+        "chamaco",
+        "chamo",
+        "chango"
+      ],
+      "level": "basic"
+    },
+    "play": {
+      "translations": [
+        "jugar",
+        "trebejar",
+        "tocar",
+        "tangir",
+        "tañer"
+      ],
+      "level": "basic"
+    },
+    "drunk": {
+      "translations": [
+        "borracho",
+        "ebrio",
+        "pedo",
+        "tomado",
+        "beodo"
+      ],
+      "level": "basic"
+    },
+    "back": {
+      "translations": [
+        "de atrás",
+        "trasero",
+        "posterior",
+        "anterior",
+        "viejo"
+      ],
+      "level": "basic"
+    },
+    "dull": {
+      "translations": [
+        "romo",
+        "desafilado",
+        "embotado",
+        "enromado",
+        "aburrido"
+      ],
+      "level": "basic"
+    },
+    "trip": {
+      "translations": [
+        "viaje",
+        "saltito",
+        "viajata",
+        "recorrido",
+        "trayecto"
+      ],
+      "level": "basic"
+    },
+    "pussy": {
+      "translations": [
+        "gatita",
+        "nenita",
+        "lolita",
+        "chiquita",
+        "cuchito"
+      ],
+      "level": "basic"
+    },
+    "fuck": {
+      "translations": [
+        "follar",
+        "follarse",
+        "joder",
+        "coger",
+        "chingar"
+      ],
+      "level": "basic"
+    },
+    "ride": {
+      "translations": [
+        "montar",
+        "cabalgar",
+        "caballear",
+        "ruar",
+        "andar"
+      ],
+      "level": "basic"
+    },
+    "track": {
+      "translations": [
+        "rastro",
+        "huella",
+        "carrilera",
+        "carrilada",
+        "rodera"
+      ],
+      "level": "basic"
+    },
+    "tease": {
+      "translations": [
+        "cardar",
+        "peinar",
+        "burlarse de",
+        "molestar",
+        "tomar el pelo"
+      ],
+      "level": "basic"
+    },
+    "gossip": {
+      "translations": [
+        "chismoso",
+        "chismosa",
+        "copuchento",
+        "argüendero",
+        "argüendera"
+      ],
+      "level": "basic"
+    },
+    "bullshit": {
+      "translations": [
+        "tontería",
+        "pendejadas",
+        "cuento chino",
+        "idiotez",
+        "huevada"
+      ],
+      "level": "basic"
+    },
+    "tip": {
+      "translations": [
+        "punta",
+        "ápice",
+        "ápex",
+        "inclinar",
+        "verter"
+      ],
+      "level": "basic"
+    },
+    "bend": {
+      "translations": [
+        "doblar",
+        "curvar",
+        "cimbrar",
+        "cimbrear",
+        "alabear"
+      ],
+      "level": "basic"
+    },
+    "heat": {
+      "translations": [
+        "calor",
+        "picante",
+        "picor",
+        "ímpetu",
+        "intensidad"
+      ],
+      "level": "basic"
+    },
+    "sign": {
+      "translations": [
+        "signo",
+        "muestra",
+        "símbolo",
+        "aviso",
+        "señal"
+      ],
+      "level": "basic"
+    },
+    "mold": {
+      "translations": [
+        "molde",
+        "troquel",
+        "modelo",
+        "copia",
+        "reproducción"
+      ],
+      "level": "basic"
+    },
+    "drive": {
+      "translations": [
+        "conducir",
+        "manejar",
+        "timonear",
+        "ir en coche",
+        "ir en carro"
+      ],
+      "level": "basic"
+    },
+    "clear": {
+      "translations": [
+        "transparente",
+        "claro",
+        "despejado",
+        "libre",
+        "nítido"
+      ],
+      "level": "basic"
+    },
+    "cross": {
+      "translations": [
+        "cruz",
+        "aspa",
+        "sotuer",
+        "santiguamiento",
+        "señal de la cruz"
+      ],
+      "level": "basic"
+    },
+    "rogue": {
+      "translations": [
+        "canalla",
+        "granuja",
+        "bribón",
+        "truhan",
+        "pícaro"
+      ],
+      "level": "basic"
+    },
+    "charge": {
+      "translations": [
+        "cobranza",
+        "cobro",
+        "arremetida",
+        "acometida",
+        "embestida"
+      ],
+      "level": "basic"
+    },
+    "call": {
+      "translations": [
+        "llamar",
+        "convocar",
+        "gritar",
+        "hablar",
+        "telefonear"
+      ],
+      "level": "basic"
+    },
+    "point": {
+      "translations": [
+        "momento",
+        "fondo",
+        "punto",
+        "argumento",
+        "razón"
+      ],
+      "level": "basic"
+    },
+    "right": {
+      "translations": [
+        "derecho",
+        "diestra",
+        "correcto",
+        "justo",
+        "sano"
+      ],
+      "level": "basic"
+    },
+    "spare": {
+      "translations": [
+        "de reserva",
+        "de repuesto",
+        "de recambio",
+        "de refacción",
+        "de retén"
+      ],
+      "level": "basic"
+    },
+    "you": {
+      "translations": [
+        "os",
+        "los",
+        "las",
+        "les",
+        "(leísmo) les"
+      ],
+      "level": "basic"
+    },
+    "row": {
+      "translations": [
+        "fila",
+        "línea",
+        "hilera",
+        "pista",
+        "renglón"
+      ],
+      "level": "basic"
+    },
+    "head": {
+      "translations": [
+        "cabeza",
+        "chola",
+        "coco",
+        "maceta",
+        "marote"
+      ],
+      "level": "basic"
+    },
+    "line": {
+      "translations": [
+        "hilo",
+        "línea",
+        "rasgo",
+        "trazo",
+        "vírgula"
+      ],
+      "level": "basic"
+    },
+    "leak": {
+      "translations": [
+        "gotera",
+        "agujero",
+        "rotura",
+        "vía",
+        "pérdida"
+      ],
+      "level": "basic"
+    },
+    "spell": {
+      "translations": [
+        "encanto",
+        "hechizo",
+        "conjuro",
+        "brujería",
+        "conjuración"
+      ],
+      "level": "basic"
+    },
+    "further": {
+      "translations": [
+        "exhortar",
+        "incentivar",
+        "estimular",
+        "fomentar",
+        "desarrollar"
+      ],
+      "level": "basic"
+    },
+    "run": {
+      "translations": [
+        "correr",
+        "apeonar",
+        "dirigir",
+        "gestionar",
+        "fluir"
+      ],
+      "level": "basic"
+    },
+    "top": {
+      "translations": [
+        "cima",
+        "parte superior",
+        "parte de más arriba",
+        "ápex",
+        "cabecera"
+      ],
+      "level": "basic"
+    },
+    "bank": {
+      "translations": [
+        "banca",
+        "banco",
+        "sucursal",
+        "almacén",
+        "hucha"
+      ],
+      "level": "basic"
+    },
+    "hand": {
+      "translations": [
+        "mano",
+        "pata",
+        "patas",
+        "manecilla",
+        "aguja"
+      ],
+      "level": "basic"
+    },
+    "that": {
+      "translations": [
+        "que",
+        "para que",
+        "ese",
+        "esa",
+        "eso"
+      ],
+      "level": "basic"
+    },
+    "spot": {
+      "translations": [
+        "mancha",
+        "grano",
+        "poquito",
+        "poquita",
+        "zona"
+      ],
+      "level": "basic"
+    },
+    "spur": {
+      "translations": [
+        "espuela",
+        "acicate",
+        "espolín",
+        "chocoyas",
+        "espolón"
+      ],
+      "level": "basic"
+    },
+    "plot": {
+      "translations": [
+        "argumento",
+        "trama",
+        "hilo argumental",
+        "intriga",
+        "plano"
+      ],
+      "level": "basic"
+    },
+    "spoil": {
+      "translations": [
+        "expoliar",
+        "despojar",
+        "dañar",
+        "arruinar",
+        "echar a perder"
+      ],
+      "level": "basic"
+    },
+    "dirty": {
+      "translations": [
+        "sucio",
+        "chuco",
+        "shuco",
+        "verde",
+        "guarro"
+      ],
+      "level": "basic"
+    },
+    "watch": {
+      "translations": [
+        "reloj",
+        "peluco",
+        "muñequera",
+        "extensible",
+        "guasho"
+      ],
+      "level": "basic"
+    },
+    "great": {
+      "translations": [
+        "grande",
+        "gran",
+        "grosso",
+        "groso",
+        "grave"
+      ],
+      "level": "basic"
+    },
+    "plain": {
+      "translations": [
+        "sencillo",
+        "llano",
+        "mondo",
+        "a palo seco",
+        "pleno"
+      ],
+      "level": "basic"
+    },
+    "square": {
+      "translations": [
+        "cuadro",
+        "cuadrado",
+        "escuadra",
+        "cartabón (45º)",
+        "plaza"
+      ],
+      "level": "basic"
+    },
+    "change": {
+      "translations": [
+        "cambiar",
+        "demudarse",
+        "demudar",
+        "modificar",
+        "mudar"
+      ],
+      "level": "basic"
+    },
+    "supply": {
+      "translations": [
+        "proveer",
+        "abastecer",
+        "suministrar",
+        "suplir",
+        "abastar"
+      ],
+      "level": "basic"
+    },
+    "shit": {
+      "translations": [
+        "mierda",
+        "mojón",
+        "caca",
+        "excremento",
+        "hez"
+      ],
+      "level": "basic"
+    },
+    "like": {
+      "translations": [
+        "gustar",
+        "disfrutar",
+        "gozar",
+        "fruir",
+        "amar"
+      ],
+      "level": "basic"
+    },
+    "fold": {
+      "translations": [
+        "plegar",
+        "doblar",
+        "redoblegar",
+        "plisar",
+        "gandujar"
+      ],
+      "level": "basic"
+    },
+    "butt": {
+      "translations": [
+        "culo",
+        "culamen",
+        "nalgas",
+        "trasero",
+        "pompis"
+      ],
+      "level": "basic"
+    },
+    "stage": {
+      "translations": [
+        "etapa",
+        "fase",
+        "estadio",
+        "escenario",
+        "escena"
+      ],
+      "level": "basic"
+    },
+    "strike": {
+      "translations": [
+        "tachar",
+        "borrar",
+        "golpear",
+        "pegar",
+        "asestar"
+      ],
+      "level": "basic"
+    },
+    "cut": {
+      "translations": [
+        "cortar",
+        "incidir",
+        "mondar",
+        "tranzar",
+        "retirar"
+      ],
+      "level": "basic"
+    },
+    "take": {
+      "translations": [
+        "tomar",
+        "coger",
+        "prender",
+        "violar",
+        "llevar"
+      ],
+      "level": "basic"
+    },
+    "ring": {
+      "translations": [
+        "anillo",
+        "argolla",
+        "sortija",
+        "alianza",
+        "aro"
+      ],
+      "level": "basic"
+    },
+    "loop": {
+      "translations": [
+        "lazo",
+        "lazada",
+        "gaza",
+        "recodo",
+        "vuelta"
+      ],
+      "level": "basic"
+    },
+    "break": {
+      "translations": [
+        "romperse",
+        "romper",
+        "quebrar",
+        "escrachar",
+        "esñocar"
+      ],
+      "level": "basic"
+    },
+    "waste": {
+      "translations": [
+        "desperdicio",
+        "desecho(s)",
+        "basura",
+        "acribaduras",
+        "ahechadura(s)"
+      ],
+      "level": "basic"
+    },
+    "crack": {
+      "translations": [
+        "agrietarse",
+        "crakearse",
+        "craquearse",
+        "cascarse",
+        "quebrarse"
+      ],
+      "level": "basic"
+    },
+    "place": {
+      "translations": [
+        "lugar",
+        "sitio",
+        "locus",
+        "logar (disused)",
+        "plaza"
+      ],
+      "level": "basic"
+    },
+    "joint": {
+      "translations": [
+        "en común",
+        "comunitario",
+        "en conjunto",
+        "mancomunado",
+        "conjunto"
+      ],
+      "level": "basic"
+    },
+    "nonsense": {
+      "translations": [
+        "tontería",
+        "tontada",
+        "tontuna",
+        "disparate",
+        "parida"
+      ],
+      "level": "intermediate"
+    },
+    "do": {
+      "translations": [
+        "sí",
+        "hacer",
+        "facer (desus.)",
+        "far (desus.)",
+        "fer (desus.)"
+      ],
+      "level": "basic"
+    },
+    "hot": {
+      "translations": [
+        "caliente",
+        "muy caliente",
+        "caluroso",
+        "cálido",
+        "hacer calor"
+      ],
+      "level": "basic"
+    },
+    "fire": {
+      "translations": [
+        "fuego",
+        "incendio",
+        "lumbre",
+        "estufa",
+        "horno"
+      ],
+      "level": "basic"
+    },
+    "shot": {
+      "translations": [
+        "desgastado",
+        "cansado",
+        "deshecho",
+        "desfecho",
+        "hecho polvo"
+      ],
+      "level": "basic"
+    },
+    "host": {
+      "translations": [
+        "anfitrión",
+        "hospedador",
+        "hospedero",
+        "hospedante",
+        "anfitriona"
+      ],
+      "level": "basic"
+    },
+    "turn": {
+      "translations": [
+        "girar",
+        "virar",
+        "tornar",
+        "doblar",
+        "tornear"
+      ],
+      "level": "basic"
+    },
+    "sort": {
+      "translations": [
+        "tipo",
+        "género",
+        "suerte",
+        "clase",
+        "índole"
+      ],
+      "level": "basic"
+    },
+    "dock": {
+      "translations": [
+        "acedera",
+        "romaza",
+        "vinagrera",
+        "maslo",
+        "mástel (disused)"
+      ],
+      "level": "basic"
+    },
+    "seal": {
+      "translations": [
+        "foca",
+        "lobo marino",
+        "lobo del mar",
+        "sello",
+        "precinto"
+      ],
+      "level": "basic"
+    },
+    "urge": {
+      "translations": [
+        "impulso",
+        "impulsión",
+        "ímpetu",
+        "deseo",
+        "gana"
+      ],
+      "level": "basic"
+    },
+    "sharp": {
+      "translations": [
+        "agudo",
+        "afilado",
+        "filoso",
+        "puntiagudo",
+        "punzocortante"
+      ],
+      "level": "basic"
+    },
+    "punch": {
+      "translations": [
+        "puñetazo",
+        "puñete",
+        "puñada",
+        "piñazo",
+        "zocotroco"
+      ],
+      "level": "basic"
+    },
+    "check": {
+      "translations": [
+        "verificación",
+        "chequeo",
+        "inspección",
+        "cotejo",
+        "examen"
+      ],
+      "level": "basic"
+    },
+    "fancy": {
+      "translations": [
+        "fantasía",
+        "magín",
+        "elegante",
+        "chic",
+        "paltón"
+      ],
+      "level": "basic"
+    },
+    "boast": {
+      "translations": [
+        "presunción",
+        "alarde",
+        "fanfarronada",
+        "vanagloria",
+        "ostentación"
+      ],
+      "level": "basic"
+    },
+    "handle": {
+      "translations": [
+        "asa",
+        "mango",
+        "manija",
+        "tirador",
+        "manilla"
+      ],
+      "level": "basic"
+    },
+    "render": {
+      "translations": [
+        "volver",
+        "dejar",
+        "convertir",
+        "hacer",
+        "transformar"
+      ],
+      "level": "basic"
+    },
+    "prompt": {
+      "translations": [
+        "rápido",
+        "pronto",
+        "raudo",
+        "célere",
+        "puntual"
+      ],
+      "level": "basic"
+    },
+    "feature": {
+      "translations": [
+        "característica",
+        "atracción",
+        "atractivo",
+        "prestación",
+        "cualidad"
+      ],
+      "level": "basic"
+    },
+    "slingshot": {
+      "translations": [
+        "baladora",
+        "biombo",
+        "catapulta",
+        "cauchera",
+        "charpe"
+      ],
+      "level": "intermediate"
+    },
+    "reprobate": {
+      "translations": [
+        "arrojado",
+        "excluido",
+        "desterrado",
+        "relegado",
+        "reprobado"
+      ],
+      "level": "intermediate"
+    },
+    "rag": {
+      "translations": [
+        "jirón",
+        "trapo",
+        "bayeta",
+        "gamuza",
+        "harapo"
+      ],
+      "level": "basic"
+    },
+    "deal": {
+      "translations": [
+        "reparto",
+        "parte",
+        "repartir",
+        "distribuir",
+        "asignar"
+      ],
+      "level": "basic"
+    },
+    "pass": {
+      "translations": [
+        "pasar",
+        "pasar de largo",
+        "fallecer",
+        "aprobar",
+        "transcurrir"
+      ],
+      "level": "basic"
+    },
+    "slap": {
+      "translations": [
+        "bofetada",
+        "cachetada",
+        "guantada",
+        "bofetón",
+        "guantazo"
+      ],
+      "level": "basic"
+    },
+    "drink": {
+      "translations": [
+        "beber",
+        "tomar",
+        "abrevar",
+        "trincar",
+        "pimplar"
+      ],
+      "level": "basic"
+    },
+    "stale": {
+      "translations": [
+        "duro",
+        "revenido",
+        "pasado",
+        "rancio",
+        "viciado"
+      ],
+      "level": "basic"
+    },
+    "secure": {
+      "translations": [
+        "seguro",
+        "resguardado",
+        "asegurado",
+        "a salvo",
+        "a salvamano"
+      ],
+      "level": "basic"
+    },
+    "bundle": {
+      "translations": [
+        "haz",
+        "atado",
+        "fajo",
+        "conjunto",
+        "gavilla"
+      ],
+      "level": "basic"
+    },
+    "bougie": {
+      "translations": [
+        "de postín",
+        "ficho",
+        "fichudo",
+        "bucloso",
+        "popof"
+      ],
+      "level": "basic"
+    },
+    "popcorn": {
+      "translations": [
+        "palomitas de maíz",
+        "cabritas",
+        "cancha",
+        "canchita",
+        "canguil"
+      ],
+      "level": "intermediate"
+    },
+    "shut up": {
+      "translations": [
+        "cerrar",
+        "clausurar",
+        "encerrar",
+        "guardar",
+        "resguardar"
+      ],
+      "level": "intermediate"
+    },
+    "support": {
+      "translations": [
+        "apoyar",
+        "sostener",
+        "apuntalar",
+        "suportar",
+        "dar soporte"
+      ],
+      "level": "intermediate"
+    },
+    "arrange": {
+      "translations": [
+        "disponer",
+        "organizar",
+        "preparar",
+        "establecer",
+        "montar"
+      ],
+      "level": "intermediate"
+    },
+    "die": {
+      "translations": [
+        "morir",
+        "fallecer",
+        "diñar",
+        "diñarla",
+        "espichar"
+      ],
+      "level": "basic"
+    },
+    "bed": {
+      "translations": [
+        "cama",
+        "lecho",
+        "catre",
+        "piltra",
+        "sobre"
+      ],
+      "level": "basic"
+    },
+    "fit": {
+      "translations": [
+        "apropiado",
+        "adecuado",
+        "apto",
+        "idóneo",
+        "aparejado"
+      ],
+      "level": "basic"
+    },
+    "make": {
+      "translations": [
+        "hacer",
+        "artificiar",
+        "obrar",
+        "construir",
+        "edificar"
+      ],
+      "level": "basic"
+    },
+    "ball": {
+      "translations": [
+        "bola",
+        "esfera",
+        "pelota",
+        "balón",
+        "ovillo"
+      ],
+      "level": "basic"
+    },
+    "dawn": {
+      "translations": [
+        "amanecer",
+        "alborear",
+        "aclarar",
+        "clarecer",
+        "caer en cuenta de"
+      ],
+      "level": "basic"
+    },
+    "well": {
+      "translations": [
+        "bien",
+        "totalmente",
+        "completamente",
+        "muy",
+        "bueno"
+      ],
+      "level": "basic"
+    },
+    "gear": {
+      "translations": [
+        "pertrecho",
+        "pertrechos",
+        "aparejo",
+        "aparejos",
+        "apero"
+      ],
+      "level": "basic"
+    },
+    "nice": {
+      "translations": [
+        "simpático",
+        "agradable",
+        "amable",
+        "bueno",
+        "placible"
+      ],
+      "level": "basic"
+    },
+    "shock": {
+      "translations": [
+        "choque",
+        "pasmo",
+        "electrocución",
+        "electrochoque",
+        "choque eléctrico"
+      ],
+      "level": "basic"
+    },
+    "cheat": {
+      "translations": [
+        "hacer trampa",
+        "enfullar",
+        "jaranear",
+        "machetearse",
+        "machetear"
+      ],
+      "level": "basic"
+    },
+    "prank": {
+      "translations": [
+        "travesura",
+        "broma",
+        "inocentada",
+        "jaimitada",
+        "diablura"
+      ],
+      "level": "basic"
+    },
+    "blunt": {
+      "translations": [
+        "romo",
+        "obtuso",
+        "desafilado",
+        "despuntado",
+        "contundente"
+      ],
+      "level": "basic"
+    },
+    "shift": {
+      "translations": [
+        "turno",
+        "jornada",
+        "jornal",
+        "cambio",
+        "desviación"
+      ],
+      "level": "basic"
+    },
+    "Indian": {
+      "translations": [
+        "indio",
+        "hindú",
+        "indo",
+        "indígena",
+        "indiano"
+      ],
+      "level": "basic"
+    },
+    "indeed": {
+      "translations": [
+        "de hecho",
+        "realmente",
+        "efectivamente",
+        "verdaderamente",
+        "en realidad"
+      ],
+      "level": "basic"
+    },
+    "release": {
+      "translations": [
+        "liberación",
+        "libramiento",
+        "versión",
+        "lanzamiento",
+        "soltado"
+      ],
+      "level": "intermediate"
+    },
+    "stupidity": {
+      "translations": [
+        "estupidez",
+        "burricie",
+        "tontería",
+        "idiotez",
+        "cretinez"
+      ],
+      "level": "advanced"
+    },
+    "get": {
+      "translations": [
+        "conseguir",
+        "obtener",
+        "coger",
+        "conciliar",
+        "granjear"
+      ],
+      "level": "basic"
+    },
+    "pig": {
+      "translations": [
+        "cerdo",
+        "chancho",
+        "chon",
+        "coche",
+        "cochi"
+      ],
+      "level": "basic"
+    },
+    "tie": {
+      "translations": [
+        "lazo",
+        "vínculo",
+        "atadura",
+        "empate",
+        "empatadera"
+      ],
+      "level": "basic"
+    },
+    "aim": {
+      "translations": [
+        "puntería",
+        "objetivo",
+        "intención",
+        "meta",
+        "finalidad"
+      ],
+      "level": "basic"
+    },
+    "date": {
+      "translations": [
+        "dátil",
+        "fecha",
+        "data",
+        "cita",
+        "compañero"
+      ],
+      "level": "basic"
+    },
+    "dive": {
+      "translations": [
+        "bucear",
+        "somorgujar",
+        "hacer un clavado",
+        "zambullirse",
+        "zabullirse"
+      ],
+      "level": "basic"
+    },
+    "calf": {
+      "translations": [
+        "becerro",
+        "becerra",
+        "ternero",
+        "ternera",
+        "vaquilla"
+      ],
+      "level": "basic"
+    },
+    "slip": {
+      "translations": [
+        "deslizarse",
+        "resbalar",
+        "deleznarse",
+        "esbarar",
+        "esbararse"
+      ],
+      "level": "basic"
+    },
+    "foul": {
+      "translations": [
+        "inmundo",
+        "indecente",
+        "grosero",
+        "obsceno",
+        "repugnante"
+      ],
+      "level": "basic"
+    },
+    "raid": {
+      "translations": [
+        "incursión",
+        "correría",
+        "razia",
+        "raid",
+        "rebato"
+      ],
+      "level": "basic"
+    },
+    "hood": {
+      "translations": [
+        "capirote",
+        "capucha",
+        "pasamontaña",
+        "pasamontañas",
+        "birrete"
+      ],
+      "level": "basic"
+    },
+    "close": {
+      "translations": [
+        "cerrar",
+        "tapar",
+        "clausurar",
+        "despellar",
+        "despillar"
+      ],
+      "level": "basic"
+    },
+    "white": {
+      "translations": [
+        "blanco",
+        "albo",
+        "albar",
+        "albero (desus.)",
+        "dosalbo"
+      ],
+      "level": "basic"
+    },
+    "party": {
+      "translations": [
+        "parte contratante",
+        "participante",
+        "partícipe",
+        "partido",
+        "fiesta"
+      ],
+      "level": "basic"
+    },
+    "block": {
+      "translations": [
+        "bloque",
+        "bloqueta",
+        "block",
+        "manzana",
+        "cuadra"
+      ],
+      "level": "basic"
+    },
+    "mount": {
+      "translations": [
+        "montura",
+        "caballería",
+        "soporte",
+        "montar",
+        "cabalgar"
+      ],
+      "level": "basic"
+    },
+    "toilet": {
+      "translations": [
+        "aseo",
+        "arreglo",
+        "vestidor",
+        "baño",
+        "inodoro"
+      ],
+      "level": "intermediate"
+    },
+    "broken": {
+      "translations": [
+        "roto",
+        "quebrado",
+        "fracturado",
+        "discontinuo",
+        "cortado"
+      ],
+      "level": "intermediate"
+    },
+    "escape": {
+      "translations": [
+        "escapar",
+        "liberarse",
+        "fugarse",
+        "furtarse",
+        "eludir"
+      ],
+      "level": "intermediate"
+    },
+    "bounce": {
+      "translations": [
+        "rebotar",
+        "repercutir",
+        "botar",
+        "resurtir",
+        "recudir"
+      ],
+      "level": "intermediate"
+    },
+    "badass": {
+      "translations": [
+        "choro",
+        "malote",
+        "chulo",
+        "capo",
+        "padrote"
+      ],
+      "level": "intermediate"
+    },
+    "dismiss": {
+      "translations": [
+        "despedir",
+        "echar",
+        "descharchar",
+        "cesantear",
+        "librar"
+      ],
+      "level": "intermediate"
+    },
+    "abstract": {
+      "translations": [
+        "resumen",
+        "extracto",
+        "abstracción",
+        "arte abstracto",
+        "extraído"
+      ],
+      "level": "intermediate"
+    },
+    "bat": {
+      "translations": [
+        "murciélago",
+        "ratón volador",
+        "murciégalo",
+        "morciguillo",
+        "murceguillo"
+      ],
+      "level": "basic"
+    },
+    "lie": {
+      "translations": [
+        "estar acostado",
+        "estar echado",
+        "yacer",
+        "estar tumbado",
+        "estar alebrado"
+      ],
+      "level": "basic"
+    },
+    "hey": {
+      "translations": [
+        "oír",
+        "hey",
+        "ey",
+        "eh",
+        "hao"
+      ],
+      "level": "basic"
+    },
+    "dick": {
+      "translations": [
+        "bicho",
+        "cipote",
+        "huevo",
+        "ñafle",
+        "paloma"
+      ],
+      "level": "basic"
+    },
+    "cast": {
+      "translations": [
+        "lanzar",
+        "hechizar",
+        "conjurar",
+        "moldear",
+        "escriturar"
+      ],
+      "level": "basic"
+    },
+    "bear": {
+      "translations": [
+        "oso",
+        "úrsido",
+        "maleante",
+        "bajista",
+        "policía estatal"
+      ],
+      "level": "basic"
+    },
+    "land": {
+      "translations": [
+        "tierra",
+        "propiedad",
+        "terreno",
+        "posesión",
+        "hacienda"
+      ],
+      "level": "basic"
+    },
+    "dude": {
+      "translations": [
+        "tipo",
+        "mae",
+        "tío",
+        "bato",
+        "compay"
+      ],
+      "level": "basic"
+    },
+    "weed": {
+      "translations": [
+        "mala hierba",
+        "maleza",
+        "hierbajo",
+        "yuyo",
+        "monte"
+      ],
+      "level": "basic"
+    },
+    "miss": {
+      "translations": [
+        "fallar",
+        "errar",
+        "marrar",
+        "evitar",
+        "evadir"
+      ],
+      "level": "basic"
+    },
+    "about": {
+      "translations": [
+        "alrededor de",
+        "por",
+        "encima de",
+        "a punto de",
+        "sobre"
+      ],
+      "level": "basic"
+    },
+    "stock": {
+      "translations": [
+        "stock",
+        "existencias",
+        "inventario",
+        "estocaje",
+        "reserva"
+      ],
+      "level": "basic"
+    },
+    "stand": {
+      "translations": [
+        "estar de pie",
+        "estar parado",
+        "levantarse",
+        "pararse",
+        "mantener"
+      ],
+      "level": "basic"
+    },
+    "loose": {
+      "translations": [
+        "soltar",
+        "desatar",
+        "liberar",
+        "desabrochar",
+        "desamarrar"
+      ],
+      "level": "basic"
+    },
+    "leave": {
+      "translations": [
+        "dejar",
+        "legar",
+        "depositar",
+        "salir de",
+        "abandonar"
+      ],
+      "level": "basic"
+    },
+    "split": {
+      "translations": [
+        "partir",
+        "dividir",
+        "escindir",
+        "hender",
+        "hendir"
+      ],
+      "level": "basic"
+    },
+    "stick": {
+      "translations": [
+        "ramita",
+        "astilla",
+        "palo",
+        "tortol",
+        "tortor"
+      ],
+      "level": "basic"
+    },
+    "penis": {
+      "translations": [
+        "pene",
+        "carajo",
+        "pirula",
+        "pirulo",
+        "pito"
+      ],
+      "level": "basic"
+    },
+    "field": {
+      "translations": [
+        "campo",
+        "agro",
+        "chacra",
+        "chácara",
+        "chagra"
+      ],
+      "level": "basic"
+    },
+    "drill": {
+      "translations": [
+        "perforar",
+        "agujerear",
+        "taladrar",
+        "horadar",
+        "drilear"
+      ],
+      "level": "basic"
+    },
+    "claim": {
+      "translations": [
+        "reclamación",
+        "declaración",
+        "proposición",
+        "afirmación",
+        "reivindicación"
+      ],
+      "level": "basic"
+    },
+    "shill": {
+      "translations": [
+        "testaferro",
+        "hombre de paja",
+        "calanchín",
+        "testaférrea",
+        "entruchón"
+      ],
+      "level": "basic"
+    },
+    "flunk": {
+      "translations": [
+        "aplazar",
+        "reprobar",
+        "suspender",
+        "catear",
+        "raspar"
+      ],
+      "level": "basic"
+    },
+    "bother": {
+      "translations": [
+        "molestar",
+        "agobiar",
+        "brear",
+        "cargosear",
+        "fastidiar"
+      ],
+      "level": "intermediate"
+    },
+    "marble": {
+      "translations": [
+        "mármol",
+        "canica",
+        "balita",
+        "bola",
+        "bola de cristal"
+      ],
+      "level": "intermediate"
+    },
+    "notice": {
+      "translations": [
+        "notación",
+        "anuncio",
+        "cédula",
+        "comunicación",
+        "notificación"
+      ],
+      "level": "intermediate"
+    },
+    "engage": {
+      "translations": [
+        "atraer",
+        "interesar",
+        "captivar",
+        "cautivar",
+        "trabar conversación con"
+      ],
+      "level": "intermediate"
+    },
+    "approach": {
+      "translations": [
+        "acercarse",
+        "aproximarse",
+        "avecinarse",
+        "dirigirse a",
+        "acercarse a"
+      ],
+      "level": "advanced"
+    },
+    "challenge": {
+      "translations": [
+        "desafío",
+        "reto",
+        "disputa",
+        "trastorno",
+        "repercusión"
+      ],
+      "level": "advanced"
+    },
+    "speed bump": {
+      "translations": [
+        "reductor de velocidad",
+        "resalto",
+        "badén",
+        "banda sonora",
+        "chapa acostado"
+      ],
+      "level": "advanced"
+    },
+    "so": {
+      "translations": [
+        "para que",
+        "así que",
+        "ansina [es] que",
+        "entonces",
+        "conque"
+      ],
+      "level": "basic"
+    },
+    "OK": {
+      "translations": [
+        "aprobación",
+        "visto bueno",
+        "okey",
+        "de acuerdo",
+        "sí"
+      ],
+      "level": "basic"
+    },
+    "bow": {
+      "translations": [
+        "arco",
+        "lazo",
+        "arquearse",
+        "curvar",
+        "doblar"
+      ],
+      "level": "basic"
+    },
+    "dear": {
+      "translations": [
+        "querido",
+        "caro",
+        "amable",
+        "tierno",
+        "precioso"
+      ],
+      "level": "basic"
+    },
+    "stir": {
+      "translations": [
+        "revolver",
+        "bullir",
+        "mesclar",
+        "mecer",
+        "mejer"
+      ],
+      "level": "basic"
+    },
+    "test": {
+      "translations": [
+        "prueba",
+        "probatura",
+        "examen",
+        "test",
+        "poner a prueba"
+      ],
+      "level": "basic"
+    },
+    "sour": {
+      "translations": [
+        "agrio",
+        "ácido",
+        "acedo",
+        "chocoya",
+        "avinagrado"
+      ],
+      "level": "basic"
+    },
+    "part": {
+      "translations": [
+        "parte",
+        "porción",
+        "pedazo",
+        "trozo",
+        "refacción"
+      ],
+      "level": "basic"
+    },
+    "kite": {
+      "translations": [
+        "aguililla",
+        "milano",
+        "cometa",
+        "barrilete",
+        "cachirulo"
+      ],
+      "level": "basic"
+    },
+    "load": {
+      "translations": [
+        "carga",
+        "lastre",
+        "escollo",
+        "rémora",
+        "cargamento"
+      ],
+      "level": "basic"
+    },
+    "snap": {
+      "translations": [
+        "chasquido",
+        "crujido",
+        "chasquido de dedos",
+        "fotografía",
+        "foto"
+      ],
+      "level": "basic"
+    },
+    "skip": {
+      "translations": [
+        "saltar",
+        "saltear",
+        "saltarse",
+        "saltearse",
+        "obviar"
+      ],
+      "level": "basic"
+    },
+    "slum": {
+      "translations": [
+        "barrio marginal",
+        "barrio pobre",
+        "barrio bajo",
+        "asentamiento",
+        "barriada bruja"
+      ],
+      "level": "basic"
+    },
+    "taro": {
+      "translations": [
+        "taro",
+        "achín",
+        "ñampí",
+        "ñame",
+        "ocumo chino"
+      ],
+      "level": "basic"
+    },
+    "lick": {
+      "translations": [
+        "lamer",
+        "lamber",
+        "lambear",
+        "lambetear",
+        "lametear"
+      ],
+      "level": "basic"
+    },
+    "blond": {
+      "translations": [
+        "rubio",
+        "macho",
+        "blondo",
+        "royo",
+        "canche"
+      ],
+      "level": "intermediate"
+    },
+    "stink": {
+      "translations": [
+        "heder",
+        "apestar",
+        "cantar",
+        "oler mal",
+        "disused: pudir"
+      ],
+      "level": "intermediate"
+    },
+    "quiet": {
+      "translations": [
+        "quieto",
+        "silencioso",
+        "tranquilo",
+        "calmo",
+        "pacífico"
+      ],
+      "level": "intermediate"
+    },
+    "crazy": {
+      "translations": [
+        "loco",
+        "colgado",
+        "sonado",
+        "trastornado",
+        "tronado"
+      ],
+      "level": "intermediate"
+    },
+    "draft": {
+      "translations": [
+        "corriente",
+        "corriente de aire",
+        "trago",
+        "cerveza de barril",
+        "calado"
+      ],
+      "level": "intermediate"
+    },
+    "model": {
+      "translations": [
+        "modelo",
+        "maqueta",
+        "ejemplo",
+        "ejemplar",
+        "modélico"
+      ],
+      "level": "intermediate"
+    },
+    "prime": {
+      "translations": [
+        "primero",
+        "primo",
+        "primoroso",
+        "excelente",
+        "principal"
+      ],
+      "level": "intermediate"
+    },
+    "rally": {
+      "translations": [
+        "mitin",
+        "mitín",
+        "rally",
+        "reagrupar",
+        "reunir"
+      ],
+      "level": "intermediate"
+    },
+    "slack": {
+      "translations": [
+        "flojera",
+        "soltura",
+        "charco",
+        "carbonilla",
+        "carboncillo"
+      ],
+      "level": "intermediate"
+    },
+    "squat": {
+      "translations": [
+        "rechoncho",
+        "retaco",
+        "en cuclillas",
+        "de cuclillas",
+        "cuclillas"
+      ],
+      "level": "intermediate"
+    },
+    "bully": {
+      "translations": [
+        "bravucón",
+        "abusón",
+        "matón",
+        "abusador",
+        "peleón"
+      ],
+      "level": "intermediate"
+    },
+    "spring": {
+      "translations": [
+        "entrar en acción",
+        "primavera",
+        "fuente",
+        "manantial",
+        "vertiente"
+      ],
+      "level": "intermediate"
+    },
+    "Muslim": {
+      "translations": [
+        "musulmán",
+        "musulmana",
+        "muslim",
+        "moro",
+        "muslime"
+      ],
+      "level": "intermediate"
+    },
+    "switch": {
+      "translations": [
+        "interruptor",
+        "suich",
+        "suiche",
+        "switch (suich)",
+        "aguja"
+      ],
+      "level": "intermediate"
+    },
+    "thread": {
+      "translations": [
+        "hilo",
+        "hebra",
+        "hilaza",
+        "bouclé",
+        "buclé"
+      ],
+      "level": "intermediate"
+    },
+    "bruise": {
+      "translations": [
+        "magullar",
+        "contusionar",
+        "moretear",
+        "macar (disused)",
+        "mazar"
+      ],
+      "level": "intermediate"
+    },
+    "insane": {
+      "translations": [
+        "enfermo mental",
+        "loco",
+        "demente",
+        "enajenado",
+        "alienado"
+      ],
+      "level": "intermediate"
+    },
+    "clever": {
+      "translations": [
+        "ágil",
+        "hábil",
+        "listo",
+        "talentoso",
+        "habiloso"
+      ],
+      "level": "intermediate"
+    },
+    "hassle": {
+      "translations": [
+        "lío",
+        "apuro",
+        "tropiezo",
+        "fastidio",
+        "joda"
+      ],
+      "level": "intermediate"
+    },
+    "certain": {
+      "translations": [
+        "seguro",
+        "determinado",
+        "definitivo",
+        "certero",
+        "[estar] cierto"
+      ],
+      "level": "intermediate"
+    },
+    "perform": {
+      "translations": [
+        "hacer",
+        "realizar",
+        "efectuar",
+        "ejecutar",
+        "llevar a cabo"
+      ],
+      "level": "intermediate"
+    },
+    "butcher": {
+      "translations": [
+        "carnicero",
+        "carnicera",
+        "matarife",
+        "carnear",
+        "matar"
+      ],
+      "level": "intermediate"
+    },
+    "closure": {
+      "translations": [
+        "cierre",
+        "conclusión",
+        "clausura",
+        "cerradura",
+        "adherencia"
+      ],
+      "level": "intermediate"
+    },
+    "come on": {
+      "translations": [
+        "estar en sus días",
+        "estar con visita",
+        "hala",
+        "vamos",
+        "venga"
+      ],
+      "level": "intermediate"
+    },
+    "disregard": {
+      "translations": [
+        "descuido",
+        "indiferencia",
+        "desatención",
+        "desconsideración",
+        "abulia"
+      ],
+      "level": "advanced"
+    },
+    "fly": {
+      "translations": [
+        "mosco",
+        "mosca",
+        "volar",
+        "circunvolar",
+        "huir"
+      ],
+      "level": "basic"
+    },
+    "fan": {
+      "translations": [
+        "abanico",
+        "abano",
+        "paipay",
+        "paipái",
+        "perico"
+      ],
+      "level": "basic"
+    },
+    "gay": {
+      "translations": [
+        "feliz",
+        "alegre",
+        "festivo",
+        "vívido",
+        "colorido"
+      ],
+      "level": "basic"
+    },
+    "free": {
+      "translations": [
+        "libre",
+        "sin obstáculos",
+        "despejado",
+        "desocupado",
+        "exento"
+      ],
+      "level": "basic"
+    },
+    "bite": {
+      "translations": [
+        "morder",
+        "tarascar",
+        "agarrar",
+        "picar",
+        "mordisquear"
+      ],
+      "level": "basic"
+    },
+    "maid": {
+      "translations": [
+        "doncella",
+        "señorita",
+        "doméstica",
+        "empleada doméstica",
+        "muchacha de servicio"
+      ],
+      "level": "basic"
+    },
+    "blow": {
+      "translations": [
+        "soplar",
+        "bufar",
+        "reventar",
+        "arruinar",
+        "cagar"
+      ],
+      "level": "basic"
+    },
+    "lean": {
+      "translations": [
+        "inclinarse",
+        "debruzar",
+        "debruzarse",
+        "propender",
+        "declinarse"
+      ],
+      "level": "basic"
+    },
+    "dark": {
+      "translations": [
+        "oscuro",
+        "negro",
+        "tenebroso",
+        "siniestro",
+        "lúgubre"
+      ],
+      "level": "basic"
+    },
+    "whip": {
+      "translations": [
+        "fusta",
+        "látigo",
+        "flagelo",
+        "coyunda",
+        "chicote"
+      ],
+      "level": "basic"
+    },
+    "type": {
+      "translations": [
+        "clase",
+        "tipo",
+        "índole",
+        "jaez",
+        "rubro"
+      ],
+      "level": "basic"
+    },
+    "damn": {
+      "translations": [
+        "maldecir",
+        "condenar",
+        "reprobar",
+        "anatematizar",
+        "imprecar"
+      ],
+      "level": "basic"
+    },
+    "deed": {
+      "translations": [
+        "hecho",
+        "acto",
+        "acción",
+        "obra",
+        "fecho (disused)"
+      ],
+      "level": "basic"
+    },
+    "above": {
+      "translations": [
+        "encima",
+        "arriba",
+        "sobre",
+        "encima de",
+        "suso"
+      ],
+      "level": "intermediate"
+    },
+    "prick": {
+      "translations": [
+        "astilla",
+        "pincho",
+        "aguja",
+        "punzada",
+        "piquete"
+      ],
+      "level": "intermediate"
+    },
+    "shoot": {
+      "translations": [
+        "disparar",
+        "tirar",
+        "chejear",
+        "abalear",
+        "brotar"
+      ],
+      "level": "intermediate"
+    },
+    "order": {
+      "translations": [
+        "orden",
+        "mandato",
+        "pedido",
+        "comanda",
+        "ordenar"
+      ],
+      "level": "intermediate"
+    },
+    "guard": {
+      "translations": [
+        "guarda",
+        "guardia",
+        "guardés",
+        "shafo",
+        "vigilante"
+      ],
+      "level": "intermediate"
+    },
+    "stuff": {
+      "translations": [
+        "cosas",
+        "bártulos",
+        "trastos",
+        "cosa",
+        "coso"
+      ],
+      "level": "intermediate"
+    },
+    "bonus": {
+      "translations": [
+        "bonificación",
+        "plus",
+        "ñapa",
+        "yapa",
+        "llapa"
+      ],
+      "level": "intermediate"
+    },
+    "press": {
+      "translations": [
+        "prensa",
+        "pres",
+        "prensar",
+        "presionar",
+        "oprimir"
+      ],
+      "level": "intermediate"
+    },
+    "frame": {
+      "translations": [
+        "levantar la estructura",
+        "armar",
+        "enmarcar",
+        "concebir",
+        "contextualizar"
+      ],
+      "level": "intermediate"
+    },
+    "flake": {
+      "translations": [
+        "escama",
+        "hojuela",
+        "copa",
+        "copo",
+        "ampo"
+      ],
+      "level": "intermediate"
+    },
+    "serve": {
+      "translations": [
+        "servicio",
+        "servir",
+        "desempeñar",
+        "fungir",
+        "operar"
+      ],
+      "level": "intermediate"
+    },
+    "settle": {
+      "translations": [
+        "resolver",
+        "dirimir",
+        "zanjar",
+        "solventar",
+        "solver (desus.)"
+      ],
+      "level": "intermediate"
+    },
+    "fathom": {
+      "translations": [
+        "braza",
+        "sondar",
+        "sondear",
+        "fondear",
+        "hondear"
+      ],
+      "level": "intermediate"
+    },
+    "breach": {
+      "translations": [
+        "brecha",
+        "batería",
+        "boquete",
+        "adentramiento",
+        "penetración"
+      ],
+      "level": "intermediate"
+    },
+    "reverse": {
+      "translations": [
+        "al revés",
+        "en sentido contrario",
+        "reverso",
+        "inverso",
+        "contrario"
+      ],
+      "level": "advanced"
+    },
+    "engross": {
+      "translations": [
+        "acaparar",
+        "arramblar",
+        "apandar",
+        "alzarse con",
+        "monopolizar"
+      ],
+      "level": "advanced"
+    },
+    "clutter": {
+      "translations": [
+        "desorden",
+        "revoltijo",
+        "enredo",
+        "desbarajuste",
+        "atiborramiento"
+      ],
+      "level": "advanced"
+    },
+    "outline": {
+      "translations": [
+        "contorno",
+        "delineación",
+        "delineamento",
+        "delineamiento",
+        "croquis"
+      ],
+      "level": "advanced"
+    },
+    "cluster": {
+      "translations": [
+        "aglomeración",
+        "agrupamiento",
+        "amontonamiento",
+        "cluster",
+        "clúster"
+      ],
+      "level": "advanced"
+    },
+    "stumble": {
+      "translations": [
+        "tropezón",
+        "traspié",
+        "desliz",
+        "torpeza",
+        "tropiezo"
+      ],
+      "level": "advanced"
+    },
+    "pick up": {
+      "translations": [
+        "coger",
+        "asir",
+        "pepenar",
+        "mejorar",
+        "repuntar"
+      ],
+      "level": "advanced"
+    },
+    "cut off": {
+      "translations": [
+        "cortar",
+        "recortar",
+        "cercenar",
+        "escindir",
+        "truncar"
+      ],
+      "level": "advanced"
+    },
+    "beat up": {
+      "translations": [
+        "apalear",
+        "pegar",
+        "coñacear",
+        "percutir",
+        "tundir"
+      ],
+      "level": "advanced"
+    },
+    "poignant": {
+      "translations": [
+        "puntiagudo",
+        "punzocortante",
+        "cortopunzante",
+        "claro",
+        "elocuente"
+      ],
+      "level": "advanced"
+    },
+    "due date": {
+      "translations": [
+        "fecha probable de parto",
+        "fecha probable del parto",
+        "fecha límite",
+        "fecha debida",
+        "fin de plazo"
+      ],
+      "level": "advanced"
+    },
+    "mainstream": {
+      "translations": [
+        "normal",
+        "aceptado",
+        "cotidiano",
+        "convencional",
+        "hegemónico"
+      ],
+      "level": "advanced"
+    },
+    "performance": {
+      "translations": [
+        "actuación",
+        "cumplimiento",
+        "ejecución",
+        "desempeño",
+        "efectuación"
+      ],
+      "level": "advanced"
+    },
+    "countenance": {
+      "translations": [
+        "semblante",
+        "apariencia",
+        "expresión",
+        "rostro",
+        "faz"
+      ],
+      "level": "advanced"
+    },
+    "pin": {
+      "translations": [
+        "alfiler",
+        "aguja",
+        "pasador",
+        "tranquilla",
+        "bolo"
+      ],
+      "level": "basic"
+    },
+    "tap": {
+      "translations": [
+        "tapón",
+        "espiche",
+        "machuelo",
+        "derivación",
+        "chuzar"
+      ],
+      "level": "basic"
+    },
+    "wit": {
+      "translations": [
+        "mentalidad",
+        "cordura",
+        "intelectualidad",
+        "intelecto",
+        "agudeza"
+      ],
+      "level": "basic"
+    },
+    "rub": {
+      "translations": [
+        "frotación",
+        "frotamiento",
+        "frote",
+        "frotar",
+        "fregar"
+      ],
+      "level": "basic"
+    },
+    "try": {
+      "translations": [
+        "intentar",
+        "tratar de",
+        "ver de",
+        "esforzarse",
+        "procurar"
+      ],
+      "level": "basic"
+    },
+    "duck": {
+      "translations": [
+        "agacharse",
+        "esconderse",
+        "sumergirse",
+        "sumergir",
+        "hundir"
+      ],
+      "level": "intermediate"
+    },
+    "stud": {
+      "translations": [
+        "semental",
+        "garañón",
+        "padrillo",
+        "criadero",
+        "galán"
+      ],
+      "level": "intermediate"
+    },
+    "bolt": {
+      "translations": [
+        "tornillo",
+        "bulón",
+        "perno",
+        "cerrojo",
+        "falleba"
+      ],
+      "level": "intermediate"
+    },
+    "skin": {
+      "translations": [
+        "piel",
+        "pellejo",
+        "tegumento",
+        "hollejo",
+        "cáscara"
+      ],
+      "level": "intermediate"
+    },
+    "fail": {
+      "translations": [
+        "fracasar",
+        "zozobrar",
+        "escollar (Americanism)",
+        "negar",
+        "no conseguir"
+      ],
+      "level": "intermediate"
+    },
+    "fool": {
+      "translations": [
+        "bobo",
+        "gilí",
+        "imbécil",
+        "necio",
+        "pendejo"
+      ],
+      "level": "intermediate"
+    },
+    "drop": {
+      "translations": [
+        "gota",
+        "caída",
+        "declive",
+        "descenso",
+        "arrezuz"
+      ],
+      "level": "intermediate"
+    },
+    "kink": {
+      "translations": [
+        "arruga",
+        "pliegue",
+        "doblez",
+        "dobladura",
+        "doblegadura"
+      ],
+      "level": "intermediate"
+    },
+    "touch": {
+      "translations": [
+        "tocar",
+        "tactar",
+        "palpar",
+        "apalpar",
+        "tangir"
+      ],
+      "level": "intermediate"
+    },
+    "broke": {
+      "translations": [
+        "pelado",
+        "sin un duro",
+        "sin un peso",
+        "sin blanca",
+        "tieso"
+      ],
+      "level": "intermediate"
+    },
+    "fling": {
+      "translations": [
+        "aventura",
+        "lío",
+        "rollo",
+        "devaneo",
+        "escarceo amoroso"
+      ],
+      "level": "intermediate"
+    },
+    "brush": {
+      "translations": [
+        "pincel",
+        "cepillo",
+        "escobilla",
+        "brocha",
+        "sedera"
+      ],
+      "level": "intermediate"
+    },
+    "slide": {
+      "translations": [
+        "deslizar",
+        "resbalar",
+        "deleznarse",
+        "pasarse",
+        "mandarse"
+      ],
+      "level": "intermediate"
+    },
+    "major": {
+      "translations": [
+        "significativo",
+        "mayúsculo",
+        "protagónico",
+        "grosso",
+        "groso"
+      ],
+      "level": "intermediate"
+    },
+    "agree": {
+      "translations": [
+        "estar de acuerdo",
+        "coincidir",
+        "concordar",
+        "acordar",
+        "concurrir"
+      ],
+      "level": "intermediate"
+    },
+    "range": {
+      "translations": [
+        "sierra",
+        "cordillera",
+        "hornillo",
+        "estufa",
+        "escala"
+      ],
+      "level": "intermediate"
+    },
+    "chafe": {
+      "translations": [
+        "calor friccional",
+        "escocimiento",
+        "irritación",
+        "cocedura",
+        "rozadura"
+      ],
+      "level": "intermediate"
+    },
+    "yield": {
+      "translations": [
+        "ceder",
+        "ceder el paso",
+        "producir",
+        "dar",
+        "rendir"
+      ],
+      "level": "intermediate"
+    },
+    "flush": {
+      "translations": [
+        "plano",
+        "alineado",
+        "al ras",
+        "raso",
+        "a ras"
+      ],
+      "level": "intermediate"
+    },
+    "buddy": {
+      "translations": [
+        "compañero",
+        "acompañante",
+        "camarada",
+        "cuate",
+        "amiguete"
+      ],
+      "level": "intermediate"
+    },
+    "spray": {
+      "translations": [
+        "spray",
+        "aerosol",
+        "difusión",
+        "esprey",
+        "ramito"
+      ],
+      "level": "intermediate"
+    },
+    "water": {
+      "translations": [
+        "agua",
+        "linfa",
+        "wata",
+        "aguacha",
+        "aguas"
+      ],
+      "level": "intermediate"
+    },
+    "accent": {
+      "translations": [
+        "acento léxico",
+        "énfasis",
+        "acentuación",
+        "acento gráfico",
+        "tilde"
+      ],
+      "level": "intermediate"
+    },
+    "ticket": {
+      "translations": [
+        "entrada",
+        "boleto",
+        "billete",
+        "tiquete",
+        "tique"
+      ],
+      "level": "intermediate"
+    },
+    "wanker": {
+      "translations": [
+        "pajero",
+        "pajera",
+        "pajillero",
+        "pajillera",
+        "pajizo"
+      ],
+      "level": "intermediate"
+    },
+    "rugged": {
+      "translations": [
+        "filudo",
+        "escabroso",
+        "despelotado",
+        "a lo natural",
+        "al lote"
+      ],
+      "level": "intermediate"
+    },
+    "wander": {
+      "translations": [
+        "vagar",
+        "divagar",
+        "errar",
+        "deambular",
+        "yirar"
+      ],
+      "level": "intermediate"
+    },
+    "gentle": {
+      "translations": [
+        "tierno",
+        "delicado",
+        "gentil",
+        "cuidadoso",
+        "grácil"
+      ],
+      "level": "intermediate"
+    },
+    "casual": {
+      "translations": [
+        "casual",
+        "ocasional",
+        "accidental",
+        "indiferente",
+        "informal"
+      ],
+      "level": "intermediate"
+    },
+    "subject": {
+      "translations": [
+        "sujeto",
+        "subjeto",
+        "materia",
+        "tema",
+        "asunto"
+      ],
+      "level": "advanced"
+    },
+    "mongrel": {
+      "translations": [
+        "perro mestizo",
+        "cacri",
+        "comecuandohay",
+        "comecuanduay",
+        "chucho"
+      ],
+      "level": "advanced"
+    },
+    "whistle": {
+      "translations": [
+        "silbato",
+        "pito",
+        "chifle",
+        "pitido",
+        "chiflido"
+      ],
+      "level": "advanced"
+    },
+    "overall": {
+      "translations": [
+        "total",
+        "completo",
+        "general",
+        "global",
+        "comprensivo"
+      ],
+      "level": "advanced"
+    },
+    "drizzle": {
+      "translations": [
+        "lloviznar",
+        "chispear",
+        "pringar",
+        "pintear",
+        "garuar"
+      ],
+      "level": "advanced"
+    },
+    "question": {
+      "translations": [
+        "pregunta",
+        "cuestión",
+        "tema",
+        "asunto",
+        "tópico"
+      ],
+      "level": "advanced"
+    },
+    "bad luck": {
+      "translations": [
+        "mala pata",
+        "mala suerte",
+        "mala leche",
+        "gafe",
+        "desgracia"
+      ],
+      "level": "advanced"
+    },
+    "come back": {
+      "translations": [
+        "volver",
+        "volverse",
+        "estar de vuelta",
+        "estarse de vuelta",
+        "regresar"
+      ],
+      "level": "advanced"
+    },
+    "guinea pig": {
+      "translations": [
+        "conejillo de Indias",
+        "cobaya",
+        "acure",
+        "curí",
+        "curiel"
+      ],
+      "level": "advanced"
+    },
+    "regardless": {
+      "translations": [
+        "en cualquier caso",
+        "pese a todo",
+        "ocurra lo que ocurra",
+        "sin reguardo",
+        "sin miramiento"
+      ],
+      "level": "advanced"
+    },
+    "crack down": {
+      "translations": [
+        "suprimir",
+        "poner mano dura contra",
+        "sojuzgar",
+        "reprimir",
+        "doblegar"
+      ],
+      "level": "advanced"
+    },
+    "outstanding": {
+      "translations": [
+        "destacado",
+        "excepcional",
+        "extraordinario",
+        "sobresaliente",
+        "prominente"
+      ],
+      "level": "advanced"
+    },
+    "split one's sides": {
+      "translations": [
+        "reírse a carcajadas",
+        "desternillarse",
+        "mondarse",
+        "troncharse",
+        "troncharse de risa"
+      ],
+      "level": "advanced"
+    },
+    "burst out laughing": {
+      "translations": [
+        "reírse a carcajadas",
+        "desternillarse",
+        "mondarse",
+        "troncharse",
+        "troncharse de risa"
+      ],
+      "level": "advanced"
+    },
+    "be": {
+      "translations": [
+        "ser",
+        "seer (desus.)",
+        "estar",
+        "tener",
+        "existir"
+      ],
+      "level": "basic"
+    },
+    "end": {
+      "translations": [
+        "fin",
+        "fin (desus.)",
+        "lado",
+        "parte",
+        "extremo"
+      ],
+      "level": "basic"
+    },
+    "wow": {
+      "translations": [
+        "¡guau!",
+        "¡guao!",
+        "hala",
+        "arrea",
+        "atiza"
+      ],
+      "level": "basic"
+    },
+    "mop": {
+      "translations": [
+        "chascona",
+        "coleto",
+        "fregona",
+        "lampazo",
+        "mapo"
+      ],
+      "level": "basic"
+    },
+    "lap": {
+      "translations": [
+        "volado",
+        "dobladillo",
+        "regazo",
+        "falda",
+        "delantal"
+      ],
+      "level": "basic"
+    },
+    "wall": {
+      "translations": [
+        "muro",
+        "muralla",
+        "pared",
+        "murallón",
+        "casamuro"
+      ],
+      "level": "intermediate"
+    },
+    "thin": {
+      "translations": [
+        "fino",
+        "flaco",
+        "delgado",
+        "enjuto",
+        "güin"
+      ],
+      "level": "intermediate"
+    },
+    "case": {
+      "translations": [
+        "caso",
+        "causa",
+        "pleito",
+        "argumento",
+        "caja"
+      ],
+      "level": "intermediate"
+    },
+    "kind": {
+      "translations": [
+        "género",
+        "tipo",
+        "forma",
+        "clase",
+        "índole"
+      ],
+      "level": "intermediate"
+    },
+    "hold": {
+      "translations": [
+        "aguantar",
+        "agarrar",
+        "sujetar",
+        "sostener",
+        "tomar"
+      ],
+      "level": "intermediate"
+    },
+    "home": {
+      "translations": [
+        "hogar",
+        "domicilio",
+        "morada",
+        "casalicio",
+        "jato"
+      ],
+      "level": "intermediate"
+    },
+    "dump": {
+      "translations": [
+        "basural",
+        "tiradero",
+        "vertedero",
+        "basurero",
+        "antro"
+      ],
+      "level": "intermediate"
+    },
+    "file": {
+      "translations": [
+        "archivo",
+        "ficha",
+        "fichero",
+        "gestionar",
+        "presentar"
+      ],
+      "level": "intermediate"
+    },
+    "numb": {
+      "translations": [
+        "entumecido",
+        "entumido",
+        "insensible",
+        "entorpecido",
+        "dormido"
+      ],
+      "level": "intermediate"
+    },
+    "wank": {
+      "translations": [
+        "masturbarse",
+        "cascársela",
+        "pajearse",
+        "hacerse la/una paja",
+        "pelársela"
+      ],
+      "level": "intermediate"
+    },
+    "prop": {
+      "translations": [
+        "apoyo",
+        "puntal",
+        "sostén",
+        "apeo",
+        "paral"
+      ],
+      "level": "intermediate"
+    },
+    "boil": {
+      "translations": [
+        "furúnculo",
+        "forúnculo",
+        "divieso",
+        "hervor",
+        "hervir"
+      ],
+      "level": "intermediate"
+    },
+    "cram": {
+      "translations": [
+        "atestar",
+        "atiborrar",
+        "embutir",
+        "atacuñarse",
+        "atocuñar"
+      ],
+      "level": "intermediate"
+    },
+    "core": {
+      "translations": [
+        "corazón",
+        "tuétano",
+        "carozo",
+        "corozo",
+        "tútano (desus.)"
+      ],
+      "level": "intermediate"
+    },
+    "riot": {
+      "translations": [
+        "alboroto",
+        "tumulto",
+        "disturbios",
+        "algarada",
+        "motín"
+      ],
+      "level": "intermediate"
+    },
+    "wrong": {
+      "translations": [
+        "incorrecto",
+        "falso",
+        "equivocado",
+        "errado",
+        "erróneo"
+      ],
+      "level": "intermediate"
+    },
+    "shake": {
+      "translations": [
+        "agitar",
+        "sacudir",
+        "jamaquear",
+        "samaquear",
+        "zamaquear"
+      ],
+      "level": "intermediate"
+    },
+    "stiff": {
+      "translations": [
+        "rígido",
+        "duro",
+        "tieso",
+        "inflexible",
+        "serio"
+      ],
+      "level": "intermediate"
+    },
+    "crush": {
+      "translations": [
+        "aplastamiento",
+        "enamoramiento",
+        "flechazo",
+        "camote",
+        "chaladura"
+      ],
+      "level": "intermediate"
+    },
+    "blade": {
+      "translations": [
+        "cuchilla",
+        "hoja",
+        "cuchillo",
+        "espada",
+        "pala"
+      ],
+      "level": "intermediate"
+    },
+    "bribe": {
+      "translations": [
+        "soborno",
+        "coima",
+        "mordida",
+        "alfadía",
+        "cañonazo"
+      ],
+      "level": "intermediate"
+    },
+    "naked": {
+      "translations": [
+        "desnudo",
+        "en cueros",
+        "en pelota",
+        "en pelotas",
+        "en bolas"
+      ],
+      "level": "intermediate"
+    },
+    "usher": {
+      "translations": [
+        "acomodador",
+        "acomodadora",
+        "ujier",
+        "usier",
+        "ordenanza"
+      ],
+      "level": "intermediate"
+    },
+    "friend": {
+      "translations": [
+        "amigo",
+        "amiga",
+        "chochera",
+        "amistad",
+        "novio"
+      ],
+      "level": "advanced"
+    },
+    "strive": {
+      "translations": [
+        "esforzarse por",
+        "afanarse",
+        "aplicarse",
+        "romperse el lomo",
+        "deslomarse"
+      ],
+      "level": "advanced"
+    },
+    "litter": {
+      "translations": [
+        "cama",
+        "lecho",
+        "litera",
+        "artolas",
+        "camada"
+      ],
+      "level": "advanced"
+    },
+    "lavish": {
+      "translations": [
+        "generoso",
+        "pródigo",
+        "dadivoso",
+        "derrochador",
+        "exuberante"
+      ],
+      "level": "advanced"
+    },
+    "player": {
+      "translations": [
+        "jugador",
+        "jugadora",
+        "actor",
+        "instrumentista",
+        "tañedor"
+      ],
+      "level": "advanced"
+    },
+    "strain": {
+      "translations": [
+        "cepa",
+        "raza",
+        "linaje",
+        "variedad",
+        "trazas"
+      ],
+      "level": "advanced"
+    },
+    "retort": {
+      "translations": [
+        "réplica",
+        "contrarréplica",
+        "despachurramiento",
+        "espachurramiento",
+        "despachurro"
+      ],
+      "level": "advanced"
+    },
+    "buffer": {
+      "translations": [
+        "escrepa",
+        "búfer",
+        "parachoques",
+        "amortiguador",
+        "intercesor"
+      ],
+      "level": "advanced"
+    },
+    "asshole": {
+      "translations": [
+        "culo",
+        "ojete",
+        "imbécil",
+        "estúpido",
+        "tarado"
+      ],
+      "level": "advanced"
+    },
+    "bearing": {
+      "translations": [
+        "de soporte",
+        "de apoyo",
+        "rodamiento",
+        "balero",
+        "cojinete"
+      ],
+      "level": "advanced"
+    },
+    "blunder": {
+      "translations": [
+        "error",
+        "condoro",
+        "descache",
+        "torpeza",
+        "desliz"
+      ],
+      "level": "advanced"
+    },
+    "sneaker": {
+      "translations": [
+        "pillo",
+        "tenis",
+        "bamba",
+        "botín",
+        "champión"
+      ],
+      "level": "advanced"
+    },
+    "whatever": {
+      "translations": [
+        "cualquier",
+        "quequier (disused)",
+        "no importa",
+        "da igual",
+        "lo que sea"
+      ],
+      "level": "advanced"
+    },
+    "argument": {
+      "translations": [
+        "argumento",
+        "discusión",
+        "bronca",
+        "riña",
+        "pelea"
+      ],
+      "level": "advanced"
+    },
+    "verbatim": {
+      "translations": [
+        "literalmente",
+        "textualmente",
+        "palabra por palabra",
+        "transcriptamente",
+        "trasuntivamente"
+      ],
+      "level": "advanced"
+    },
+    "make out": {
+      "translations": [
+        "librar",
+        "enviar",
+        "distinguir",
+        "divisar",
+        "vislumbrar"
+      ],
+      "level": "advanced"
+    },
+    "clear up": {
+      "translations": [
+        "esclarecer",
+        "aclarar",
+        "clarificar",
+        "dilucidar",
+        "escampar"
+      ],
+      "level": "advanced"
+    },
+    "aggregate": {
+      "translations": [
+        "agregado",
+        "conjunto",
+        "resultado global",
+        "global",
+        "total"
+      ],
+      "level": "advanced"
+    },
+    "reprimand": {
+      "translations": [
+        "reprimenda",
+        "reprensión",
+        "amonestación",
+        "admonición",
+        "latigazo"
+      ],
+      "level": "advanced"
+    },
+    "good riddance": {
+      "translations": [
+        "adiós Madrid, que te quedes sin gente",
+        "adiós y buen viaje",
+        "adiós y hasta nunca",
+        "a enemigo que huye, puente de plata",
+        "al fin"
+      ],
+      "level": "advanced"
+    },
+    "by": {
+      "translations": [
+        "por",
+        "cerca de",
+        "para",
+        "ante",
+        "frente a"
+      ],
+      "level": "basic"
+    },
+    "cum": {
+      "translations": [
+        "corrida",
+        "acabada",
+        "semen",
+        "leche",
+        "lefa"
+      ],
+      "level": "intermediate"
+    },
+    "pit": {
+      "translations": [
+        "fosa",
+        "agujero",
+        "pit",
+        "box",
+        "foso"
+      ],
+      "level": "intermediate"
+    },
+    "for": {
+      "translations": [
+        "porque",
+        "pues",
+        "como",
+        "puesto que",
+        "por cuanto"
+      ],
+      "level": "intermediate"
+    },
+    "pee": {
+      "translations": [
+        "pis",
+        "pipí",
+        "pichí",
+        "chis",
+        "meado"
+      ],
+      "level": "intermediate"
+    },
+    "fix": {
+      "translations": [
+        "arreglar",
+        "reparar",
+        "componer",
+        "apañar",
+        "atufar"
+      ],
+      "level": "intermediate"
+    },
+    "rut": {
+      "translations": [
+        "estro",
+        "brama",
+        "celo",
+        "berrea",
+        "cachondez"
+      ],
+      "level": "intermediate"
+    },
+    "food": {
+      "translations": [
+        "alimento",
+        "comida",
+        "víveres",
+        "jama",
+        "manduca"
+      ],
+      "level": "intermediate"
+    },
+    "hack": {
+      "translations": [
+        "cortar",
+        "hackear",
+        "hakear",
+        "jaquear",
+        "truco"
+      ],
+      "level": "intermediate"
+    },
+    "buff": {
+      "translations": [
+        "aficionado",
+        "color del ante",
+        "mejora",
+        "beneficio",
+        "bruñido"
+      ],
+      "level": "intermediate"
+    },
+    "heel": {
+      "translations": [
+        "talón",
+        "calcaño",
+        "calcañar",
+        "calcañal",
+        "carcañal"
+      ],
+      "level": "intermediate"
+    },
+    "feed": {
+      "translations": [
+        "alimentar",
+        "dar de comer",
+        "apaniguar (disused)",
+        "cebar",
+        "refeccionar (disused)"
+      ],
+      "level": "intermediate"
+    },
+    "tell": {
+      "translations": [
+        "decir",
+        "contar",
+        "recontar",
+        "platicar",
+        "devisar (disused)"
+      ],
+      "level": "intermediate"
+    },
+    "list": {
+      "translations": [
+        "tira",
+        "lista",
+        "relación",
+        "nómina",
+        "hacer una lista"
+      ],
+      "level": "intermediate"
+    },
+    "stab": {
+      "translations": [
+        "puñalada",
+        "cuchillada",
+        "acuchillamiento",
+        "estocada",
+        "punzada"
+      ],
+      "level": "intermediate"
+    },
+    "view": {
+      "translations": [
+        "vista",
+        "reproducción",
+        "visualización",
+        "visitas",
+        "vistas"
+      ],
+      "level": "intermediate"
+    },
+    "rock": {
+      "translations": [
+        "piedra",
+        "roca",
+        "peñasco",
+        "peña",
+        "molón"
+      ],
+      "level": "intermediate"
+    },
+    "horn": {
+      "translations": [
+        "cuerno",
+        "cacho",
+        "asta",
+        "guampa",
+        "queratina"
+      ],
+      "level": "intermediate"
+    },
+    "root": {
+      "translations": [
+        "raíz",
+        "raíces",
+        "raigón",
+        "lexema",
+        "rootear"
+      ],
+      "level": "intermediate"
+    },
+    "even": {
+      "translations": [
+        "parejo",
+        "llano",
+        "uniforme",
+        "constante",
+        "igual"
+      ],
+      "level": "intermediate"
+    },
+    "over": {
+      "translations": [
+        "terminado",
+        "acabado",
+        "excesivamente",
+        "sobre",
+        "entre"
+      ],
+      "level": "intermediate"
+    },
+    "moot": {
+      "translations": [
+        "discutible",
+        "debatible",
+        "irrelevante",
+        "por gusto",
+        "por las puras"
+      ],
+      "level": "intermediate"
+    },
+    "pimp": {
+      "translations": [
+        "chulo",
+        "proxeneta",
+        "rufián",
+        "cafiche",
+        "cabrón"
+      ],
+      "level": "intermediate"
+    },
+    "rest": {
+      "translations": [
+        "reposo",
+        "descanso",
+        "holganza",
+        "pausa",
+        "puente mecánico"
+      ],
+      "level": "intermediate"
+    },
+    "slut": {
+      "translations": [
+        "zorra",
+        "zorrón",
+        "puta",
+        "putona",
+        "pendón"
+      ],
+      "level": "intermediate"
+    },
+    "funk": {
+      "translations": [
+        "hedor",
+        "funk",
+        "apestar",
+        "ahúmar",
+        "yesca"
+      ],
+      "level": "intermediate"
+    },
+    "twin": {
+      "translations": [
+        "gemelo",
+        "gemela",
+        "mellizo (dizygotic)",
+        "melliza (dizygotic)",
+        "chachagua"
+      ],
+      "level": "intermediate"
+    },
+    "warp": {
+      "translations": [
+        "deformación",
+        "torcimiento",
+        "curvatura",
+        "torción",
+        "alabeo"
+      ],
+      "level": "intermediate"
+    },
+    "brown": {
+      "translations": [
+        "marrón",
+        "café",
+        "canelo",
+        "carmelita",
+        "carmelito"
+      ],
+      "level": "intermediate"
+    },
+    "bound": {
+      "translations": [
+        "limitado",
+        "constreñido",
+        "restringido",
+        "ligado",
+        "vinculado"
+      ],
+      "level": "intermediate"
+    },
+    "breed": {
+      "translations": [
+        "criar",
+        "procrear",
+        "engendrar",
+        "aparearse",
+        "copular"
+      ],
+      "level": "intermediate"
+    },
+    "speak": {
+      "translations": [
+        "hablar",
+        "disused: fablar",
+        "fabular",
+        "charlar",
+        "platicar"
+      ],
+      "level": "intermediate"
+    },
+    "power": {
+      "translations": [
+        "poder",
+        "poderío",
+        "potestad",
+        "potencia",
+        "polenta"
+      ],
+      "level": "intermediate"
+    },
+    "crown": {
+      "translations": [
+        "corona",
+        "guirnalda",
+        "coronilla",
+        "cumbre",
+        "pico"
+      ],
+      "level": "intermediate"
+    },
+    "sense": {
+      "translations": [
+        "sentido",
+        "sensación",
+        "significado",
+        "acepción",
+        "significación"
+      ],
+      "level": "intermediate"
+    },
+    "crook": {
+      "translations": [
+        "ladrón",
+        "ladrona",
+        "ratero",
+        "ratera",
+        "truhán"
+      ],
+      "level": "intermediate"
+    },
+    "drain": {
+      "translations": [
+        "desagüe",
+        "drenaje",
+        "desaguador",
+        "desaguadero",
+        "dren"
+      ],
+      "level": "intermediate"
+    },
+    "apply": {
+      "translations": [
+        "aplicar",
+        "utilizar",
+        "emplear",
+        "aplicarse",
+        "dirigirse"
+      ],
+      "level": "intermediate"
+    },
+    "hairy": {
+      "translations": [
+        "peludo",
+        "velludo",
+        "peloso",
+        "velloso",
+        "vellido"
+      ],
+      "level": "intermediate"
+    },
+    "graze": {
+      "translations": [
+        "rasguño",
+        "arañazo",
+        "pastear",
+        "apacentar",
+        "pastar"
+      ],
+      "level": "intermediate"
+    },
+    "treat": {
+      "translations": [
+        "tratar",
+        "negociar",
+        "rogar",
+        "tractar (desus.)",
+        "invitar"
+      ],
+      "level": "intermediate"
+    },
+    "notch": {
+      "translations": [
+        "escotadura",
+        "ranura",
+        "muesca",
+        "entalladura",
+        "tarja"
+      ],
+      "level": "intermediate"
+    },
+    "choke": {
+      "translations": [
+        "sofocarse",
+        "ahogarse",
+        "atragantarse",
+        "atorarse",
+        "engolliparse"
+      ],
+      "level": "intermediate"
+    },
+    "shaft": {
+      "translations": [
+        "asta",
+        "astil",
+        "haz",
+        "rayo",
+        "vara"
+      ],
+      "level": "intermediate"
+    },
+    "season": {
+      "translations": [
+        "estación",
+        "temporada",
+        "período",
+        "época (del año)",
+        "habituar"
+      ],
+      "level": "advanced"
+    },
+    "thrust": {
+      "translations": [
+        "estocada",
+        "empuje",
+        "envión",
+        "impulso",
+        "propulsión"
+      ],
+      "level": "advanced"
+    },
+    "stroke": {
+      "translations": [
+        "golpe",
+        "pedalada",
+        "remada",
+        "brazada",
+        "trazo"
+      ],
+      "level": "advanced"
+    },
+    "profit": {
+      "translations": [
+        "ganancia",
+        "beneficio",
+        "provecho",
+        "lucro",
+        "dividendo"
+      ],
+      "level": "advanced"
+    },
+    "random": {
+      "translations": [
+        "rondón",
+        "fulano",
+        "cualquiera",
+        "aleatorio",
+        "estocástico"
+      ],
+      "level": "advanced"
+    },
+    "jacket": {
+      "translations": [
+        "chaqueta",
+        "campera",
+        "casaca",
+        "cazadora",
+        "chamarra"
+      ],
+      "level": "advanced"
+    },
+    "cuddle": {
+      "translations": [
+        "abrazo",
+        "mimo",
+        "abrazar",
+        "hacer arrumacos",
+        "acurrucarse"
+      ],
+      "level": "advanced"
+    },
+    "tackle": {
+      "translations": [
+        "equipo",
+        "aparejo",
+        "jarcia",
+        "entrada",
+        "tacleada"
+      ],
+      "level": "advanced"
+    },
+    "pierce": {
+      "translations": [
+        "perforar",
+        "ponchar",
+        "puncionar",
+        "punzar",
+        "pinchar"
+      ],
+      "level": "advanced"
+    },
+    "tether": {
+      "translations": [
+        "soga",
+        "dogal",
+        "ronzal",
+        "atadura",
+        "atadijo"
+      ],
+      "level": "advanced"
+    },
+    "quarrel": {
+      "translations": [
+        "brega",
+        "discusión",
+        "pelea",
+        "pelotera",
+        "rencilla"
+      ],
+      "level": "advanced"
+    },
+    "pointer": {
+      "translations": [
+        "puntero",
+        "aguja",
+        "saeta",
+        "índex",
+        "saetilla"
+      ],
+      "level": "advanced"
+    },
+    "cunning": {
+      "translations": [
+        "astuto",
+        "pillo",
+        "listo",
+        "cuco",
+        "pícaro"
+      ],
+      "level": "advanced"
+    },
+    "wrinkle": {
+      "translations": [
+        "arruga",
+        "aspereza",
+        "ruga",
+        "enruga",
+        "imperfección"
+      ],
+      "level": "advanced"
+    },
+    "vicious": {
+      "translations": [
+        "violento",
+        "destructivo",
+        "feroz",
+        "despiadado",
+        "brutal"
+      ],
+      "level": "advanced"
+    },
+    "annatto": {
+      "translations": [
+        "achiote",
+        "caituco",
+        "bija",
+        "onoto",
+        "urucú"
+      ],
+      "level": "advanced"
+    },
+    "standard": {
+      "translations": [
+        "estándar",
+        "stándar",
+        "stándard",
+        "estándard",
+        "dechado"
+      ],
+      "level": "advanced"
+    },
+    "sluggish": {
+      "translations": [
+        "perezoso",
+        "haragán",
+        "huevón",
+        "desganado",
+        "aburrido"
+      ],
+      "level": "advanced"
+    },
+    "discharge": {
+      "translations": [
+        "cumplir",
+        "completar",
+        "despedir",
+        "descargar",
+        "dar de alta"
+      ],
+      "level": "advanced"
+    },
+    "diversion": {
+      "translations": [
+        "distracción",
+        "diversión",
+        "despiste",
+        "despistada",
+        "destanteada"
+      ],
+      "level": "advanced"
+    },
+    "appetizer": {
+      "translations": [
+        "aperitivo",
+        "antojito",
+        "boca",
+        "boquitas",
+        "bocadito"
+      ],
+      "level": "advanced"
+    },
+    "conjecture": {
+      "translations": [
+        "conjetura",
+        "suposición",
+        "especulación",
+        "teoría",
+        "hipótesis"
+      ],
+      "level": "advanced"
+    },
+    "break down": {
+      "translations": [
+        "descomponerse",
+        "averiarse",
+        "romperse",
+        "malograrse",
+        "fallar"
+      ],
+      "level": "advanced"
+    },
+    "on the way": {
+      "translations": [
+        "en ruta",
+        "en camino",
+        "en rumbo",
+        "en el camino",
+        "camino"
+      ],
+      "level": "advanced"
+    },
+    "chamber pot": {
+      "translations": [
+        "bacinilla",
+        "pelela",
+        "orinal",
+        "bacín",
+        "beque"
+      ],
+      "level": "advanced"
+    },
+    "as": {
+      "translations": [
+        "tan ... como",
+        "cuan",
+        "como",
+        "cuando",
+        "mientras"
+      ],
+      "level": "basic"
+    },
+    "no": {
+      "translations": [
+        "no",
+        "ninguno",
+        "ninguna",
+        "ningún",
+        "nada de"
+      ],
+      "level": "basic"
+    },
+    "age": {
+      "translations": [
+        "edad",
+        "tercera edad",
+        "mayoría",
+        "era",
+        "época"
+      ],
+      "level": "intermediate"
+    },
+    "tan": {
+      "translations": [
+        "bronce",
+        "tostado",
+        "bronceado",
+        "moreno",
+        "corteza de roble"
+      ],
+      "level": "intermediate"
+    },
+    "eat": {
+      "translations": [
+        "comer",
+        "jamear",
+        "morfar",
+        "manducar",
+        "yantar"
+      ],
+      "level": "intermediate"
+    },
+    "old": {
+      "translations": [
+        "antiguo",
+        "viejo",
+        "vejancón",
+        "anciano",
+        "provecto"
+      ],
+      "level": "intermediate"
+    },
+    "key": {
+      "translations": [
+        "llave",
+        "llavín",
+        "cuña",
+        "clave",
+        "leyenda"
+      ],
+      "level": "intermediate"
+    },
+    "mob": {
+      "translations": [
+        "turba",
+        "tropel",
+        "germanía",
+        "marabunta",
+        "caterva"
+      ],
+      "level": "intermediate"
+    },
+    "name": {
+      "translations": [
+        "nombre",
+        "fama",
+        "reputación",
+        "renombre",
+        "nombrar"
+      ],
+      "level": "intermediate"
+    },
+    "last": {
+      "translations": [
+        "último",
+        "postrero",
+        "postrer",
+        "postrimero",
+        "postremo"
+      ],
+      "level": "intermediate"
+    },
+    "tick": {
+      "translations": [
+        "garrapata",
+        "rezno",
+        "sanchina",
+        "cabarra",
+        "tictac"
+      ],
+      "level": "intermediate"
+    },
+    "cold": {
+      "translations": [
+        "frío",
+        "algente",
+        "frígido",
+        "hacer frío",
+        "hacer yelo"
+      ],
+      "level": "intermediate"
+    },
+    "draw": {
+      "translations": [
+        "dibujar",
+        "jalar",
+        "tirar",
+        "desenvainar",
+        "desenfundar"
+      ],
+      "level": "intermediate"
+    },
+    "jerk": {
+      "translations": [
+        "tic",
+        "espasmo",
+        "estremecimiento",
+        "repullo",
+        "sacudida"
+      ],
+      "level": "intermediate"
+    },
+    "wine": {
+      "translations": [
+        "vino",
+        "mostagán",
+        "morapio",
+        "vinazo",
+        "pitarra (homebrewed)"
+      ],
+      "level": "intermediate"
+    },
+    "quit": {
+      "translations": [
+        "salir",
+        "abandonar",
+        "dejar",
+        "dejar [de]",
+        "parar"
+      ],
+      "level": "intermediate"
+    },
+    "spin": {
+      "translations": [
+        "girar",
+        "rotar",
+        "dar vueltas",
+        "hilar",
+        "dorar la píldora"
+      ],
+      "level": "intermediate"
+    },
+    "tail": {
+      "translations": [
+        "cola",
+        "rabo",
+        "hopo",
+        "nalgas",
+        "maslo"
+      ],
+      "level": "intermediate"
+    },
+    "mock": {
+      "translations": [
+        "imitación",
+        "burla",
+        "simulacro",
+        "imitar",
+        "remedar"
+      ],
+      "level": "intermediate"
+    },
+    "pipe": {
+      "translations": [
+        "caramillo",
+        "flauta f)",
+        "tubo de órgano",
+        "tubería",
+        "tubo"
+      ],
+      "level": "intermediate"
+    },
+    "fate": {
+      "translations": [
+        "destino",
+        "azar",
+        "hado",
+        "fátum",
+        "destinación"
+      ],
+      "level": "intermediate"
+    },
+    "lore": {
+      "translations": [
+        "sabiduría",
+        "tradición",
+        "erudición",
+        "acervo",
+        "folklor"
+      ],
+      "level": "intermediate"
+    },
+    "chip": {
+      "translations": [
+        "astilla",
+        "cepa",
+        "fragmento",
+        "desconchado",
+        "mella"
+      ],
+      "level": "intermediate"
+    },
+    "only": {
+      "translations": [
+        "único",
+        "señero",
+        "hijo único",
+        "unigénito",
+        "singular"
+      ],
+      "level": "intermediate"
+    },
+    "pace": {
+      "translations": [
+        "paso",
+        "trote",
+        "galope",
+        "ritmo",
+        "cadencia"
+      ],
+      "level": "intermediate"
+    },
+    "wave": {
+      "translations": [
+        "ondular",
+        "olear",
+        "ondear",
+        "saludar con la mano abierta",
+        "holear"
+      ],
+      "level": "intermediate"
+    },
+    "pile": {
+      "translations": [
+        "montón",
+        "rimero",
+        "pila",
+        "cúmulo",
+        "hacina"
+      ],
+      "level": "intermediate"
+    },
+    "need": {
+      "translations": [
+        "necesidad",
+        "necesidades",
+        "necesitar",
+        "requerir",
+        "precisar"
+      ],
+      "level": "intermediate"
+    },
+    "goad": {
+      "translations": [
+        "picana",
+        "puya",
+        "aguijada",
+        "aguijadera",
+        "terigüela"
+      ],
+      "level": "intermediate"
+    },
+    "sway": {
+      "translations": [
+        "balanceo",
+        "influencia",
+        "influjo",
+        "preponderancia",
+        "poderío"
+      ],
+      "level": "intermediate"
+    },
+    "post": {
+      "translations": [
+        "poste",
+        "colgar",
+        "fijar",
+        "correo",
+        "publicación"
+      ],
+      "level": "intermediate"
+    },
+    "tune": {
+      "translations": [
+        "melodía",
+        "tonada",
+        "temazo",
+        "afinar",
+        "concurrir"
+      ],
+      "level": "intermediate"
+    },
+    "whoa": {
+      "translations": [
+        "so",
+        "cho",
+        "to",
+        "guau",
+        "híjole"
+      ],
+      "level": "intermediate"
+    },
+    "jinx": {
+      "translations": [
+        "maleficio",
+        "maldición",
+        "pava",
+        "yeta",
+        "gafe"
+      ],
+      "level": "intermediate"
+    },
+    "okra": {
+      "translations": [
+        "quingombó",
+        "quimbombó",
+        "gombo",
+        "molondrón",
+        "ocra"
+      ],
+      "level": "intermediate"
+    },
+    "abide": {
+      "translations": [
+        "quedar",
+        "permanecer",
+        "resistir",
+        "aguantar",
+        "durar"
+      ],
+      "level": "advanced"
+    },
+    "money": {
+      "translations": [
+        "dinero",
+        "cobres",
+        "lana",
+        "pasta",
+        "pisto"
+      ],
+      "level": "advanced"
+    },
+    "sieve": {
+      "translations": [
+        "cedazo",
+        "criba",
+        "tamiz",
+        "colador",
+        "harnero"
+      ],
+      "level": "advanced"
+    },
+    "roach": {
+      "translations": [
+        "leucisco",
+        "rutilo",
+        "bacha",
+        "calilla",
+        "calillón"
+      ],
+      "level": "advanced"
+    },
+    "sleep": {
+      "translations": [
+        "dormir",
+        "jatear",
+        "sornar",
+        "apolillar",
+        "apolar"
+      ],
+      "level": "advanced"
+    },
+    "still": {
+      "translations": [
+        "quieto",
+        "glaxo",
+        "seguir siendo",
+        "todavía",
+        "aún"
+      ],
+      "level": "advanced"
+    },
+    "flash": {
+      "translations": [
+        "destellar",
+        "flashear",
+        "destellear",
+        "despechugarse",
+        "destetarse"
+      ],
+      "level": "advanced"
+    },
+    "flock": {
+      "translations": [
+        "bandada",
+        "pajarería",
+        "hato",
+        "manada",
+        "rebaño"
+      ],
+      "level": "advanced"
+    },
+    "crash": {
+      "translations": [
+        "choque",
+        "fallo",
+        "error",
+        "crac",
+        "chocar"
+      ],
+      "level": "advanced"
+    },
+    "guess": {
+      "translations": [
+        "adivinar",
+        "conjeturar",
+        "barruntar",
+        "sospechar",
+        "deducir"
+      ],
+      "level": "advanced"
+    },
+    "hatch": {
+      "translations": [
+        "escotilla",
+        "escotillón",
+        "pasaplatos",
+        "compuerta",
+        "portillo"
+      ],
+      "level": "advanced"
+    },
+    "queue": {
+      "translations": [
+        "cola de un animal",
+        "coleta",
+        "fila",
+        "cola",
+        "línea"
+      ],
+      "level": "advanced"
+    },
+    "taste": {
+      "translations": [
+        "gusto",
+        "gustos",
+        "muestra",
+        "degustación",
+        "paladeo"
+      ],
+      "level": "advanced"
+    },
+    "stain": {
+      "translations": [
+        "mancha",
+        "lamparón",
+        "rodal",
+        "mácula",
+        "churretón"
+      ],
+      "level": "advanced"
+    },
+    "crane": {
+      "translations": [
+        "grulla",
+        "grúa",
+        "güinche",
+        "guinche",
+        "titán"
+      ],
+      "level": "advanced"
+    },
+    "trick": {
+      "translations": [
+        "truco",
+        "artimaña",
+        "engañifa",
+        "treta",
+        "triquiñuela"
+      ],
+      "level": "advanced"
+    },
+    "click": {
+      "translations": [
+        "chasquido",
+        "clic",
+        "pulsado",
+        "aprieto",
+        "cliqueo"
+      ],
+      "level": "advanced"
+    },
+    "climb": {
+      "translations": [
+        "escalar",
+        "subir",
+        "trepar",
+        "esquilar",
+        "esguilar"
+      ],
+      "level": "advanced"
+    },
+    "shout": {
+      "translations": [
+        "grito",
+        "vociferación",
+        "gritoneo",
+        "voceo",
+        "gritar"
+      ],
+      "level": "advanced"
+    },
+    "youth": {
+      "translations": [
+        "juventud",
+        "adolescencia",
+        "mocedad",
+        "años mozos",
+        "joven"
+      ],
+      "level": "advanced"
+    },
+    "pinch": {
+      "translations": [
+        "pellizcar",
+        "repizcar",
+        "peñiscar",
+        "peñizcar",
+        "afanar"
+      ],
+      "level": "advanced"
+    },
+    "crawl": {
+      "translations": [
+        "arrastrarse",
+        "reptar",
+        "rampar",
+        "gatear",
+        "ir a paso de tortuga"
+      ],
+      "level": "advanced"
+    },
+    "bogus": {
+      "translations": [
+        "falso",
+        "falsificado",
+        "adulterado",
+        "trapicheado",
+        "barato"
+      ],
+      "level": "advanced"
+    },
+    "scoop": {
+      "translations": [
+        "cucharón",
+        "cazo",
+        "hataca",
+        "cacillo",
+        "paila"
+      ],
+      "level": "advanced"
+    },
+    "grits": {
+      "translations": [
+        "gofio",
+        "sémola de maíz",
+        "polenta",
+        "chuchoca",
+        "sémola maicera"
+      ],
+      "level": "advanced"
+    },
+    "ground": {
+      "translations": [
+        "suelo",
+        "tierra",
+        "huello",
+        "fondo",
+        "fundamento"
+      ],
+      "level": "advanced"
+    },
+    "silver": {
+      "translations": [
+        "plata",
+        "argento",
+        "luna",
+        "(monedas de) plata",
+        "platería"
+      ],
+      "level": "advanced"
+    },
+    "pigeon": {
+      "translations": [
+        "paloma",
+        "palomo",
+        "pichón",
+        "urpi",
+        "tortolito"
+      ],
+      "level": "advanced"
+    },
+    "appeal": {
+      "translations": [
+        "apelación",
+        "recurso",
+        "postura",
+        "petición",
+        "aliciente"
+      ],
+      "level": "advanced"
+    },
+    "period": {
+      "translations": [
+        "período",
+        "periodo",
+        "punto",
+        "hora",
+        "de época"
+      ],
+      "level": "advanced"
+    },
+    "pebble": {
+      "translations": [
+        "canto",
+        "canto pelado",
+        "canto rodado",
+        "guijarro",
+        "peladilla"
+      ],
+      "level": "advanced"
+    },
+    "hollow": {
+      "translations": [
+        "depresión",
+        "hondonada",
+        "copa",
+        "casco",
+        "hueco"
+      ],
+      "level": "advanced"
+    },
+    "tricky": {
+      "translations": [
+        "difícil",
+        "dificultoso",
+        "chungo",
+        "se las trae",
+        "tener su intríngulis"
+      ],
+      "level": "advanced"
+    },
+    "nibble": {
+      "translations": [
+        "apolillar",
+        "carcomer",
+        "chancomer",
+        "comisquear",
+        "comichear"
+      ],
+      "level": "advanced"
+    },
+    "screen": {
+      "translations": [
+        "mampara",
+        "pantalla",
+        "biombo",
+        "tamiz",
+        "malla"
+      ],
+      "level": "advanced"
+    },
+    "tipple": {
+      "translations": [
+        "era",
+        "volquete",
+        "copa",
+        "trago",
+        "botella"
+      ],
+      "level": "advanced"
+    },
+    "account": {
+      "translations": [
+        "cuenta",
+        "reporte",
+        "explicación",
+        "explicaciones",
+        "exégesis"
+      ],
+      "level": "advanced"
+    },
+    "collect": {
+      "translations": [
+        "juntar",
+        "recoger",
+        "reunir",
+        "recabar",
+        "recolectar"
+      ],
+      "level": "advanced"
+    },
+    "partner": {
+      "translations": [
+        "compañero",
+        "partenaire",
+        "parcero",
+        "socio",
+        "copartícipe"
+      ],
+      "level": "advanced"
+    },
+    "grocery": {
+      "translations": [
+        "abarrotería",
+        "abastecedor",
+        "abasto",
+        "almacén",
+        "bodega"
+      ],
+      "level": "advanced"
+    },
+    "blemish": {
+      "translations": [
+        "mancha",
+        "marca",
+        "maca",
+        "tacha",
+        "tara"
+      ],
+      "level": "advanced"
+    },
+    "rip off": {
+      "translations": [
+        "arrancar",
+        "desgajar",
+        "arranchar",
+        "talar",
+        "escarzar"
+      ],
+      "level": "advanced"
+    },
+    "lock up": {
+      "translations": [
+        "encerrar",
+        "enllavar",
+        "guardar bajo llavín",
+        "guardar enllavado",
+        "guardar llaveado"
+      ],
+      "level": "advanced"
+    },
+    "therefore": {
+      "translations": [
+        "por eso",
+        "por consiguiente",
+        "por lo tanto",
+        "por ende",
+        "ergo"
+      ],
+      "level": "advanced"
+    },
+    "regarding": {
+      "translations": [
+        "en cuanto a",
+        "en lo tocante a",
+        "con respecto a",
+        "respectando",
+        "respectivo a"
+      ],
+      "level": "advanced"
+    },
+    "indicator": {
+      "translations": [
+        "señalizador",
+        "indicador",
+        "índex",
+        "índice",
+        "direccional"
+      ],
+      "level": "advanced"
+    },
+    "appearance": {
+      "translations": [
+        "aparición",
+        "aparecimiento",
+        "apariencia",
+        "hechura",
+        "estampa"
+      ],
+      "level": "advanced"
+    },
+    "nincompoop": {
+      "translations": [
+        "bendito",
+        "bobo",
+        "ceporro",
+        "gilipollas",
+        "imbécil"
+      ],
+      "level": "advanced"
+    },
+    "flamboyant": {
+      "translations": [
+        "extravagante",
+        "exuberante",
+        "vistoso",
+        "ostentoso",
+        "churrigueresco"
+      ],
+      "level": "advanced"
+    },
+    "grandstand": {
+      "translations": [
+        "gradas",
+        "gradería",
+        "graderío",
+        "palco",
+        "platea"
+      ],
+      "level": "advanced"
+    },
+    "workaround": {
+      "translations": [
+        "elusión",
+        "solución alternativa",
+        "ajuste",
+        "arreglo",
+        "paliativo"
+      ],
+      "level": "advanced"
+    },
+    "counterfeit": {
+      "translations": [
+        "contrahecho",
+        "falsificado",
+        "trucho",
+        "de similor",
+        "bamba"
+      ],
+      "level": "advanced"
+    },
+    "traffic jam": {
+      "translations": [
+        "embotellamiento",
+        "atasco",
+        "caravana",
+        "cola",
+        "fila"
+      ],
+      "level": "advanced"
+    },
+    "drug addict": {
+      "translations": [
+        "drogadicto",
+        "drogadicta",
+        "toxicómano",
+        "toxicómana",
+        "pichicatero"
+      ],
+      "level": "advanced"
+    },
+    "what the fuck": {
+      "translations": [
+        "qué putas",
+        "qué diablos",
+        "qué carajo",
+        "qué mierda",
+        "qué coño"
+      ],
+      "level": "advanced"
+    },
+    "bug": {
+      "translations": [
+        "chinche",
+        "bicho",
+        "error",
+        "fallo",
+        "defecto"
+      ],
+      "level": "intermediate"
+    },
+    "pay": {
+      "translations": [
+        "pagar",
+        "comprar",
+        "cashquear",
+        "garpar",
+        "costear"
+      ],
+      "level": "intermediate"
+    },
+    "bar": {
+      "translations": [
+        "barra",
+        "tortor",
+        "tableta",
+        "pastilla (de jabón)",
+        "bar"
+      ],
+      "level": "intermediate"
+    },
+    "jam": {
+      "translations": [
+        "mermelada",
+        "atasco",
+        "aprieto",
+        "brete",
+        "apuro"
+      ],
+      "level": "intermediate"
+    },
+    "guy": {
+      "translations": [
+        "tipo",
+        "güey",
+        "buey",
+        "cuate",
+        "gallo"
+      ],
+      "level": "intermediate"
+    },
+    "gap": {
+      "translations": [
+        "brecha",
+        "hueco",
+        "rehendija",
+        "redendija",
+        "boquete"
+      ],
+      "level": "intermediate"
+    },
+    "swap": {
+      "translations": [
+        "intercambiar",
+        "canjear",
+        "trocar",
+        "cambalachear",
+        "permutar"
+      ],
+      "level": "intermediate"
+    },
+    "zero": {
+      "translations": [
+        "cero",
+        "nada",
+        "nulo",
+        "nula",
+        "raíz"
+      ],
+      "level": "intermediate"
+    },
+    "love": {
+      "translations": [
+        "amor",
+        "cariño",
+        "hacer el amor",
+        "amar",
+        "querer"
+      ],
+      "level": "intermediate"
+    },
+    "wind": {
+      "translations": [
+        "viento",
+        "aire",
+        "ventisca",
+        "ventarrón",
+        "simún"
+      ],
+      "level": "intermediate"
+    },
+    "join": {
+      "translations": [
+        "juntar",
+        "aunar",
+        "unir",
+        "empalmar",
+        "yuntar (desus.)"
+      ],
+      "level": "intermediate"
+    },
+    "suck": {
+      "translations": [
+        "mamada",
+        "chupar",
+        "sorber",
+        "succionar",
+        "chupetear"
+      ],
+      "level": "intermediate"
+    },
+    "mark": {
+      "translations": [
+        "marca",
+        "venero",
+        "nota",
+        "calificación",
+        "punto"
+      ],
+      "level": "intermediate"
+    },
+    "drag": {
+      "translations": [
+        "resistencia",
+        "bocanada",
+        "calada",
+        "pelma",
+        "embole"
+      ],
+      "level": "intermediate"
+    },
+    "nail": {
+      "translations": [
+        "uña",
+        "garra",
+        "clavo",
+        "punta",
+        "estoperol"
+      ],
+      "level": "intermediate"
+    },
+    "toss": {
+      "translations": [
+        "tiro",
+        "lanzamiento",
+        "tirada",
+        "volado",
+        "sorteo"
+      ],
+      "level": "intermediate"
+    },
+    "move": {
+      "translations": [
+        "moverse",
+        "mudarse",
+        "hacer mudanza",
+        "mover",
+        "trasladar"
+      ],
+      "level": "intermediate"
+    },
+    "clog": {
+      "translations": [
+        "zueco",
+        "bloqueo",
+        "obstrucción",
+        "azolve",
+        "azolvamiento"
+      ],
+      "level": "intermediate"
+    },
+    "into": {
+      "translations": [
+        "adentro de",
+        "dentro",
+        "en",
+        "vacilarle",
+        "fliparle"
+      ],
+      "level": "intermediate"
+    },
+    "lurk": {
+      "translations": [
+        "acechar",
+        "agazaparse",
+        "ocultarse",
+        "esconderse",
+        "merodear"
+      ],
+      "level": "intermediate"
+    },
+    "camp": {
+      "translations": [
+        "campamento",
+        "acampada",
+        "campamento militar",
+        "facción",
+        "bando"
+      ],
+      "level": "intermediate"
+    },
+    "sack": {
+      "translations": [
+        "bolsa",
+        "saco",
+        "costal",
+        "chácara",
+        "shicra"
+      ],
+      "level": "intermediate"
+    },
+    "pine": {
+      "translations": [
+        "pino",
+        "ansia",
+        "anhelo",
+        "añoranza",
+        "marchitar"
+      ],
+      "level": "intermediate"
+    },
+    "plug": {
+      "translations": [
+        "enchufe",
+        "clavija",
+        "plug",
+        "plag",
+        "plog"
+      ],
+      "level": "intermediate"
+    },
+    "hone": {
+      "translations": [
+        "asperón",
+        "afiladera",
+        "aguzadera",
+        "amoladera",
+        "muela"
+      ],
+      "level": "intermediate"
+    },
+    "mess": {
+      "translations": [
+        "desorden",
+        "desarreglo",
+        "leonera",
+        "desmadre",
+        "belén"
+      ],
+      "level": "intermediate"
+    },
+    "gush": {
+      "translations": [
+        "borbollón",
+        "borbotón",
+        "manar",
+        "salir a chorros",
+        "salir a borbotones"
+      ],
+      "level": "intermediate"
+    },
+    "idle": {
+      "translations": [
+        "desocupado",
+        "ocioso",
+        "vagabundo",
+        "vaguear",
+        "holgazanear"
+      ],
+      "level": "intermediate"
+    },
+    "board": {
+      "translations": [
+        "tablero",
+        "tabla",
+        "pizarra",
+        "pizarrón",
+        "consejo"
+      ],
+      "level": "advanced"
+    },
+    "after": {
+      "translations": [
+        "después",
+        "después de",
+        "tras",
+        "en pos de",
+        "detrás de"
+      ],
+      "level": "advanced"
+    },
+    "plant": {
+      "translations": [
+        "planta",
+        "mata",
+        "vegetal",
+        "vegetable",
+        "fabricación"
+      ],
+      "level": "advanced"
+    },
+    "graft": {
+      "translations": [
+        "injerto",
+        "empeltre",
+        "enjerto",
+        "injertar",
+        "enjertar"
+      ],
+      "level": "advanced"
+    },
+    "force": {
+      "translations": [
+        "fuerza",
+        "ñeque",
+        "polenta",
+        "obligar",
+        "compeler"
+      ],
+      "level": "advanced"
+    },
+    "fight": {
+      "translations": [
+        "pelear",
+        "luchar",
+        "batirse",
+        "combatir",
+        "lucha"
+      ],
+      "level": "advanced"
+    },
+    "round": {
+      "translations": [
+        "redondo",
+        "circular",
+        "esférico",
+        "redondeado",
+        "redondeada"
+      ],
+      "level": "advanced"
+    },
+    "plate": {
+      "translations": [
+        "plato",
+        "placa",
+        "lámina",
+        "matrícula",
+        "grabado"
+      ],
+      "level": "advanced"
+    },
+    "judge": {
+      "translations": [
+        "juez",
+        "jueza",
+        "judgador (disused)",
+        "experto",
+        "árbitro"
+      ],
+      "level": "advanced"
+    },
+    "count": {
+      "translations": [
+        "contar",
+        "escrutar",
+        "cuantiar",
+        "importar",
+        "cuenta"
+      ],
+      "level": "advanced"
+    },
+    "score": {
+      "translations": [
+        "tantos",
+        "puntaje",
+        "puntuación",
+        "marcador",
+        "veintena"
+      ],
+      "level": "advanced"
+    },
+    "trunk": {
+      "translations": [
+        "tronco",
+        "cepa",
+        "baúl",
+        "trompa",
+        "cajuela"
+      ],
+      "level": "advanced"
+    },
+    "scale": {
+      "translations": [
+        "escala",
+        "envergadura",
+        "magnitud",
+        "tamaño",
+        "inmensidad"
+      ],
+      "level": "advanced"
+    },
+    "frost": {
+      "translations": [
+        "escarcha",
+        "helada",
+        "hielo",
+        "carama",
+        "cencellada"
+      ],
+      "level": "advanced"
+    },
+    "dough": {
+      "translations": [
+        "masa",
+        "pasta",
+        "amasijo",
+        "amasadura",
+        "textal (teshtal)"
+      ],
+      "level": "advanced"
+    },
+    "tacky": {
+      "translations": [
+        "pegajoso",
+        "chopo",
+        "cutre",
+        "chafa",
+        "patito"
+      ],
+      "level": "advanced"
+    },
+    "grave": {
+      "translations": [
+        "tumba",
+        "sepultura",
+        "grabar",
+        "esculpir",
+        "tallar"
+      ],
+      "level": "advanced"
+    },
+    "slope": {
+      "translations": [
+        "pendiente",
+        "cuesta",
+        "terraplén",
+        "declivio",
+        "declividad"
+      ],
+      "level": "advanced"
+    },
+    "bluff": {
+      "translations": [
+        "farol",
+        "bluf",
+        "blof",
+        "bluff",
+        "finta"
+      ],
+      "level": "advanced"
+    },
+    "drift": {
+      "translations": [
+        "deriva",
+        "derrape",
+        "derivar",
+        "ir a la deriva",
+        "vagar"
+      ],
+      "level": "advanced"
+    },
+    "court": {
+      "translations": [
+        "patio",
+        "callejón",
+        "corte",
+        "tribunal",
+        "juzgado"
+      ],
+      "level": "advanced"
+    },
+    "coast": {
+      "translations": [
+        "costa",
+        "litoral",
+        "poner en neutral",
+        "planear",
+        "poner en neutro"
+      ],
+      "level": "advanced"
+    },
+    "circle": {
+      "translations": [
+        "círculo",
+        "circunferencia",
+        "esfera",
+        "curva",
+        "grupo"
+      ],
+      "level": "advanced"
+    },
+    "button": {
+      "translations": [
+        "botón",
+        "pulsador",
+        "llamador",
+        "prendedor",
+        "capullo"
+      ],
+      "level": "advanced"
+    },
+    "spread": {
+      "translations": [
+        "extender",
+        "dispersar",
+        "esparcir",
+        "untar",
+        "diseminar"
+      ],
+      "level": "advanced"
+    },
+    "washer": {
+      "translations": [
+        "lavadora",
+        "lavarropa[s]",
+        "lavavajilla[s]",
+        "lavandera",
+        "paño"
+      ],
+      "level": "advanced"
+    },
+    "center": {
+      "translations": [
+        "centro",
+        "meollo",
+        "pívot",
+        "pivote",
+        "central"
+      ],
+      "level": "advanced"
+    },
+    "course": {
+      "translations": [
+        "transcurso",
+        "curso",
+        "decurso",
+        "materia",
+        "plato"
+      ],
+      "level": "advanced"
+    },
+    "anyway": {
+      "translations": [
+        "aun así",
+        "a pesar de todo",
+        "de todos modos",
+        "de todas formas",
+        "comoquiera"
+      ],
+      "level": "advanced"
+    },
+    "manage": {
+      "translations": [
+        "manejar",
+        "gerenciar",
+        "gestionar",
+        "gerentear",
+        "manachear"
+      ],
+      "level": "advanced"
+    },
+    "bypass": {
+      "translations": [
+        "variante",
+        "libramiento",
+        "puenteo",
+        "baipás",
+        "bypass"
+      ],
+      "level": "advanced"
+    },
+    "driver": {
+      "translations": [
+        "conductor",
+        "conductora",
+        "chofer",
+        "manejador",
+        "chófer"
+      ],
+      "level": "advanced"
+    },
+    "master": {
+      "translations": [
+        "amo",
+        "capitán",
+        "patrón",
+        "maestro",
+        "máster"
+      ],
+      "level": "advanced"
+    },
+    "rebuke": {
+      "translations": [
+        "reproche",
+        "reprensión",
+        "reprimenda",
+        "reprobación",
+        "regañina"
+      ],
+      "level": "advanced"
+    },
+    "review": {
+      "translations": [
+        "repaso",
+        "revisión",
+        "repasos",
+        "revisiones",
+        "crítica"
+      ],
+      "level": "advanced"
+    },
+    "scheme": {
+      "translations": [
+        "régimen",
+        "proyecto",
+        "ardid",
+        "artimaña",
+        "maquinación"
+      ],
+      "level": "advanced"
+    },
+    "thwart": {
+      "translations": [
+        "atravesado",
+        "contestatario",
+        "frustrar",
+        "contrariar",
+        "chasquear"
+      ],
+      "level": "advanced"
+    }
+  }
+}

@@ -103,8 +103,6 @@ async function loadDictionaryForLanguage(
     ]);
     const loaded = { aff: affText, dic: dicText };
     assetsCache![language] = loaded;
-    if (__DEV__)
-      console.log(`[WordValidation] Loaded dictionary for ${language}`);
     return loaded;
   } catch (e) {
     console.warn(
