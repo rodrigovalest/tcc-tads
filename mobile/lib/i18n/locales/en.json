@@ -201,7 +201,8 @@
       "conversation": "Conversation",
       "justChilling": "Just Chilling",
       "wordBuilder": "Word Builder",
-      "timeAttackVocab": "Time Attack Vocab"
+      "timeAttackVocab": "Time Attack Vocab",
+      "guessWho": "Guess Who?"
     },
     "sourceLanguage": "Source language",
     "targetLanguage": "Target language",

@@ -75,6 +75,8 @@ export default function LanguageSelection() {
       router.replace("/(private)/word-builder/solo/game");
     } else if (matchMode === "just-chilling" && matchFormat === "duo") {
       router.replace("/(private)/just-chilling/duo/waiting");
+    } else if (matchMode === "guess-who" && matchFormat === "duo") {
+      router.replace("/(private)/guess-who/duo/waiting");
     } else {
       console.warn(`No route found for ${matchMode}/${matchFormat}`);
       router.replace("/(private)/(tabs)/matches");

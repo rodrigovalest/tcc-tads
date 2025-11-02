@@ -19,7 +19,13 @@ export const AVALIABLE_MATCH_MODES: Record<MatchMode, IAvaliableMatchMode> = {
     title: "Time Attack Vocab",
     matchFormat: ["solo"],
     matchMode: "time-attack-vocab",
-    image: require("../assets/images/match_modes/word-builder.png"),
+    image: require("../assets/images/match_modes/time-attack-vocab.png"),
+  },
+  "guess-who": {
+    title: "Guess Who",
+    matchFormat: ["duo"],
+    matchMode: "guess-who",
+    image: require("../assets/images/match_modes/guess_who.png"),
   },
 };
 
@@ -39,6 +45,10 @@ export const getLocalizedMatchModes = (): Record<
     "time-attack-vocab": {
       ...AVALIABLE_MATCH_MODES["time-attack-vocab"],
       title: i18n.t("match.matchModes.timeAttackVocab"),
+    },
+    "guess-who": {
+      ...AVALIABLE_MATCH_MODES["guess-who"],
+      title: i18n.t("match.matchModes.guessWho"),
     },
   };
 };
