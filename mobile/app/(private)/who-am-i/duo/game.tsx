@@ -29,33 +29,32 @@ export default function WhoAmI() {
     endCall,
     myCharacter,
     opponentCharacter,
-    generateNewCharacters,
+    generateNewCharacter,
     notifyCorrectAnswer,
     usedCharacters,
     // Mantém compatibilidade
     myCharacterImage,
     opponentCharacterImage,
     generateNewImages,
+    isImageRole,
+    switchRoles,
+    myCharacterHints,
+    opponentCharacterHints,
   } = useWhoAmIDuo(() => {
     router.replace('/(private)/(tabs)/matches');
   }, () => {
-    // Debug: verificar os personagens quando o adversário acerta
-    console.log("[ADVERSARY_CORRECT] myCharacter:", myCharacter?.name);
-    console.log("[ADVERSARY_CORRECT] opponentCharacter:", opponentCharacter?.name);
-    console.log("[ADVERSARY_CORRECT] myCharacterImage:", myCharacterImage);
-    console.log("[ADVERSARY_CORRECT] opponentCharacterImage:", opponentCharacterImage);
+   
     
-  
+    // Mostra a imagem do personagem atual (que ambos estavam tentando adivinhar)
     const imageToShow = myCharacterImage || myCharacter?.image || null;
     console.log("[ADVERSARY_CORRECT] Imagem que será mostrada:", imageToShow);
-    
+  
     setCorrectAnswerImage(imageToShow);
     setShowAdversaryCorrect(true);
     
-    // Fecha automaticamente após 1 segundo
     setTimeout(() => {
       setShowAdversaryCorrect(false);
-      generateNewCharacters();
+      generateNewCharacter();
     }, 1000);
   });
 
@@ -82,14 +81,10 @@ export default function WhoAmI() {
   const handleNailedIt = () => {
     // Debug: verificar os personagens no momento do clique
     console.log("[NAILED_IT] myCharacter:", myCharacter?.name);
-    console.log("[NAILED_IT] opponentCharacter:", opponentCharacter?.name);
-    console.log("[NAILED_IT] opponentCharacterImage:", opponentCharacterImage);
-    console.log("[NAILED_IT] myCharacterImage:", myCharacterImage);
+    console.log("[NAILED_IT] isImageRole:", isImageRole);
     
-    // Captura a imagem que estava sendo adivinhada no momento exato
-    // Quando EU acerto, eu estava tentando adivinhar quem o adversário é
-    // Então devemos mostrar a imagem do personagem do adversário (opponentCharacterImage)
-    const imageToShow = opponentCharacterImage || opponentCharacter?.image || null;
+    // Mostra a imagem do personagem atual (que ambos estão tentando adivinhar)
+    const imageToShow = myCharacterImage || myCharacter?.image || null;
     console.log("[NAILED_IT] Imagem que será mostrada:", imageToShow);
     
     setCorrectAnswerImage(imageToShow);
@@ -97,10 +92,13 @@ export default function WhoAmI() {
     
     notifyCorrectAnswer(); // Notifica o adversário que você acertou
     
+    // Alterna os papéis antes de gerar novos personagens
+    switchRoles();
+    
     // Fecha automaticamente após 1 segundo
     setTimeout(() => {
       setShowCorrectAnswer(false);
-      generateNewCharacters();
+      generateNewCharacter();
     }, 1000);
   };
 
@@ -146,24 +144,50 @@ export default function WhoAmI() {
 
         <View className="absolute bottom-20 left-4 right-4 bg-appBlack rounded-2xl border-appBlack border-2 p-6">
           <View className="flex items-center justify-center">
-            <Text className="text-white text-lg font-nunito-bold mb-4">Category:</Text>
-            <View className="w-64 h-48 rounded-xl overflow-hidden mb-4 bg-appLightGrey">
-              {opponentCharacterImage ? (
-                <Image 
-                  source={opponentCharacterImage} 
-                  className="w-full h-full"
-                  resizeMode="cover"
-                />
-              ) : (
-                <View className="w-full h-full bg-appMediumGrey flex items-center justify-center">
-                  <Text className="text-white text-lg font-nunito-bold">Loading...</Text>
-                </View>
-              )}
-            </View>
-            <Text className="text-white mb-2 font-nunito-bold">{buddy!.username} is:</Text>
-            {opponentCharacter && (
+            <Text className="text-white text-lg font-nunito-bold mb-4">
+              {isImageRole ? "Category:" : "Hints:"}
+            </Text>
+            
+            {isImageRole ? (
+              // Papel: Ver imagem do personagem atual
+              <View className="w-64 h-48 rounded-xl overflow-hidden mb-4 bg-appLightGrey">
+                {myCharacterImage ? (
+                  <Image 
+                    source={myCharacterImage} 
+                    className="w-full h-full"
+                    resizeMode="cover"
+                  />
+                ) : (
+                  <View className="w-full h-full bg-appMediumGrey flex items-center justify-center">
+                    <Text className="text-white text-lg font-nunito-bold">Loading...</Text>
+                  </View>
+                )}
+              </View>
+            ) : (
+
+              <View className="w-64 h-48 rounded-xl mb-4 bg-appLightGrey p-4 overflow-y-auto">
+                {myCharacter && myCharacter.hints.length > 0 ? (
+                  <View className="flex-1">
+                    {myCharacter.hints.map((hint, index) => (
+                      <Text key={index} className="text-white text-sm font-nunito-medium mb-2">
+                        • {hint}
+                      </Text>
+                    ))}
+                  </View>
+                ) : (
+                  <View className="w-full h-full bg-appMediumGrey flex items-center justify-center">
+                    <Text className="text-white text-lg font-nunito-bold">Loading hints...</Text>
+                  </View>
+                )}
+              </View>
+            )}
+            
+            <Text className="text-white mb-2 font-nunito-bold">
+              {isImageRole ? "Guess who this is:" : "Guess who this is (hints):"}
+            </Text>
+            {myCharacter && (
               <Text className="text-yellow-300 mb-4 font-nunito-bold text-center px-4">
-                {opponentCharacter.name}
+                {myCharacter.name}
               </Text>
             )}
             <TouchableOpacity
@@ -175,8 +199,8 @@ export default function WhoAmI() {
             <TouchableOpacity
               className="bg-appMediumRed rounded-full py-4 px-8 w-64"
               onPress={() => {
-                console.log('Give up pressionado - gerando novos personagens');
-                generateNewCharacters();
+                console.log('Give up pressionado - gerando novo personagem');
+                generateNewCharacter();
               }}
             >
               <Text className="text-white font-nunito-bold text-center text-lg">Give up</Text>

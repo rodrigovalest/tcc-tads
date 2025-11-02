@@ -13,7 +13,7 @@ import webSocketService from "../services/web-socket-service";
 import useMatchStore from "../store/match-store";
 
 
-const turnServerUrl = process.env.EXPO_PUBLIC_API_URL ?? '10.182.240.50';
+const turnServerUrl = process.env.EXPO_PUBLIC_API_URL ?? '192.168.1.7';
 const turnServerPort = process.env.EXPO_PUBLIC_TURN_SERVER_PORT ?? '3478';
 const turnServerUsername = process.env.EXPO_PUBLIC_TURN_SERVER_USERNAME ?? 'webrtcuser';
 const turnServerCredential = process.env.EXPO_PUBLIC_TURN_SERVER_CREDENTIAL ?? 'webrctpass';
