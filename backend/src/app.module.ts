@@ -8,6 +8,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { JustChillingModule } from './just-chilling/just-chilling.module';
 import { ChatModule } from './chat/chat.module';
 import { MatchRateModule } from './match-rate/match-rate.module';
+import { GuessWhoModule } from './guess-who/guess-who.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -40,6 +41,8 @@ import { MatchRateModule } from './match-rate/match-rate.module';
     MatchRateModule,
     
     ChatModule,
+    
+    GuessWhoModule,
   ],
   controllers: [],
   providers: [],
