@@ -1,18 +1,19 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { JustChillingDuoService } from '../../just-chilling/services/just-chilling-duo.service';
 import { MatchService } from '../../match/services/match.service';
 import { QueueService } from '../../match/services/queue.service';
-import { IUserJwtPayload } from 'src/auth/models/user-jwt-payload.interface';
-import { MatchFormat } from 'src/match/entities/match-format.enum';
-import { MatchLanguage } from 'src/match/entities/match-language.enum';
-import { MatchMode } from 'src/match/entities/match-mode.enum';
-import { Match } from 'src/match/entities/match.entity';
-import { UserQueue } from 'src/match/entities/user-queue.entity';
+import { IUserJwtPayload } from '../../auth/models/user-jwt-payload.interface';
+import { MatchFormat } from '../../match/entities/match-format.enum';
+import { MatchLanguage } from '../../match/entities/match-language.enum';
+import { MatchMode } from '../../match/entities/match-mode.enum';
+import { Match } from '../../match/entities/match.entity';
+import { UserQueue } from '../../match/entities/user-queue.entity';
+import { UserService } from '../../user/services/user.service';
 
 @Injectable()
 export class GuessWhoService {
   constructor(
+    private readonly userService: UserService,
     private readonly queueService: QueueService,
     private readonly eventEmitter: EventEmitter2,
     private readonly matchService: MatchService,
@@ -48,27 +49,32 @@ export class GuessWhoService {
     );
 
     if (queueSize >= 2) {
-      const users: UserQueue[] = await this.queueService.dequeueUsers(
+      const usersQueue: UserQueue[] = await this.queueService.dequeueUsers(
         MatchMode.GUESS_WHO,
         MatchFormat.DUO,
         language,
         2,
       );
 
+      const user1 = await this.userService.findById(usersQueue[0].userId);
+      const user2 = await this.userService.findById(usersQueue[1].userId);
+
       const match: Match = await this.matchService.createMatch(
         MatchMode.GUESS_WHO,
         MatchFormat.DUO,
         language,
-        users,
+        usersQueue,
       );
 
       this.logger.log(
-        `Starting guess-who ${match} with users: ${users.map((u) => `${u.userId}`).join(', ')}`,
+        `Starting guess-who ${match} with users: ${usersQueue.map((u) => `${u.userId}`).join(', ')}`,
       );
 
       this.eventEmitter.emit('guess-who:duo:match-started', {
-        user1: users[0],
-        user2: users[1],
+        userQueue1: usersQueue[0],
+        userQueue2: usersQueue[1],
+        user1PhotoUri: user1!.photo ?? null,
+        user2PhotoUri: user2!.photo ?? null,
         language: language,
         match,
       });

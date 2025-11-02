@@ -100,8 +100,10 @@ export class GuessWhoGateway implements OnGatewayDisconnect {
 
   @OnEvent('guess-who:duo:match-started')
   handleDuoMatchStarted(payload: {
-    user1: UserQueue;
-    user2: UserQueue;
+    userQueue1: UserQueue;
+    userQueue2: UserQueue;
+    user1PhotoUri: string | null;
+    user2PhotoUri: string | null;
     language: MatchLanguage;
     match: Match;
   }) {
@@ -109,6 +111,8 @@ export class GuessWhoGateway implements OnGatewayDisconnect {
       user: UserQueue,
       isOfferer: boolean,
       pair: UserQueue,
+      userPhotoUri: string | null,
+      pairPhotoUri: string | null,
     ) => {
       const socket = this.server.sockets.sockets.get(user.socketId);
 
@@ -127,12 +131,14 @@ export class GuessWhoGateway implements OnGatewayDisconnect {
             userId: pair.userId,
             username: pair.username,
             nationality: pair.nationality,
+            photoUri: pairPhotoUri,
           },
+          yourPhotoUri: userPhotoUri,
         });
       }
     };
 
-    notifyUser(payload.user1, true, payload.user2);
-    notifyUser(payload.user2, false, payload.user1);
+    notifyUser(payload.userQueue1, true, payload.userQueue2, payload.user1PhotoUri, payload.user2PhotoUri);
+    notifyUser(payload.userQueue2, false, payload.userQueue1, payload.user2PhotoUri, payload.user1PhotoUri);
   }
 }
