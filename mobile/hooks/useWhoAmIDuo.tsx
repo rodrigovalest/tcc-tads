@@ -53,6 +53,8 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: () => void
   const [opponentCharacter, setOpponentCharacter] = useState<WhoAmICharacter | null>(null);
   const [previousMyCharacter, setPreviousMyCharacter] = useState<WhoAmICharacter | null>(null);
   const [usedCharacters, setUsedCharacters] = useState<WhoAmICharacter[]>([]);
+  const isGeneratingCharacter = useRef<boolean>(false);
+  const lastSyncedCharacterId = useRef<number | null>(null);
   
   // Sistema de papéis: true = vê imagem, false = vê dicas
   // Inicializa baseado no isOfferer para garantir papéis diferentes
@@ -106,42 +108,86 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: () => void
 
   const syncCharacterWithOpponent = (character: WhoAmICharacter) => {
     if (webSocketService.isConnected()) {
-      console.log('no sync foi',character);
-      console.log("[SYNC] Enviando personagem:", character.id);
+      console.log("[SYNC] Enviando personagem:", character.id, character.name);
+      console.log("[SYNC] Personagem tem hints:", character.hints?.length || 0);
+      
+      // Marca como o último sincronizado ANTES de enviar (para evitar receber nossa própria mensagem)
+      lastSyncedCharacterId.current = character.id;
+      
       webSocketService.emit("who-am-i:duo:sync-character", {
         matchId,
         characterId: character.id
       });
     } else {
-      console.log("[SYNC] WebSocket não conectado, não foi possível sincronizar personagem");
+      console.log("[SYNC] WebSocket não conectado, tentando novamente em breve...");
+      // Tenta novamente após um pequeno delay
+      setTimeout(() => {
+        if (webSocketService.isConnected()) {
+          console.log("[SYNC] WebSocket conectado, sincronizando agora:", character.id);
+          lastSyncedCharacterId.current = character.id;
+          webSocketService.emit("who-am-i:duo:sync-character", {
+            matchId,
+            characterId: character.id
+          });
+        } else {
+          console.error("[SYNC] WebSocket ainda não conectado após retry");
+        }
+      }, 500);
     }
   };
 
   const generateNewCharacter = () => {
+    // Previne múltiplas chamadas simultâneas
+    if (isGeneratingCharacter.current) {
+      console.log("[NEW_CHARACTER] Já está gerando personagem, ignorando chamada duplicada");
+      return;
+    }
+
+    isGeneratingCharacter.current = true;
+    console.log("[NEW_CHARACTER] ========== INICIANDO GERAÇÃO ==========");
     console.log("[NEW_CHARACTER] Gerando novo personagem");
+    console.log("[NEW_CHARACTER] Estado atual - isImageRole:", isImageRole);
+    console.log("[NEW_CHARACTER] isOfferer:", isOfferer);
+    
+    // APENAS o jogador que chama esta função sorteia o personagem
+    // O outro jogador receberá via WebSocket
     const selectedCharacter = selectRandomCharacter();
+    console.log("[NEW_CHARACTER] Personagem selecionado:", selectedCharacter.name, "ID:", selectedCharacter.id);
+    console.log("[NEW_CHARACTER] Personagem tem hints:", selectedCharacter.hints?.length || 0);
+    console.log("[NEW_CHARACTER] Personagem tem image:", !!selectedCharacter.image);
     
-    //if (myCharacter) {
-      //setUsedCharacters(prev => [...prev, myCharacter]);
-    //}
-    
-    // Ambos os usuários recebem o mesmo personagem
+    // Define o personagem localmente primeiro
     setMyCharacter(selectedCharacter);
     setOpponentCharacter(selectedCharacter);
-    //console.log("selecionado foi: ", selectedCharacter.name);
+    
+    // Marca qual personagem foi sincronizado
+    lastSyncedCharacterId.current = selectedCharacter.id;
+    
+    // IMPORTANTE: Sincroniza o personagem com o oponente PRIMEIRO
+    // Aguarda um pouco para garantir que o personagem seja recebido antes de alternar papéis
     syncCharacterWithOpponent(selectedCharacter);
     
-    // Alterna os papéis a cada nova rodada
-    const newRole = !isImageRole;
-    setIsImageRole(newRole);
-    console.log("[NEW_ROUND] Alternando papéis para nova rodada:", newRole ? "imagem" : "dicas");
-    syncRolesWithOpponent(newRole);
-    
-    if (webSocketService.isConnected()) {
-      webSocketService.emit("who-am-i:duo:new-round", {
-        matchId,
-      });
-    }
+    // Pequeno delay para garantir que o personagem seja recebido pelo outro jogador
+    // antes de alternar os papéis
+    setTimeout(() => {
+      // Alterna os papéis a cada nova rodada
+      // Se estava vendo imagem, agora vê dicas e vice-versa
+      const newRole = !isImageRole;
+      setIsImageRole(newRole);
+      console.log("[NEW_ROUND] Alternando papéis para nova rodada:", newRole ? "imagem" : "dicas");
+      
+      // Sincroniza os papéis com o oponente (oposto do atual)
+      syncRolesWithOpponent(newRole);
+      
+      if (webSocketService.isConnected()) {
+        webSocketService.emit("who-am-i:duo:new-round", {
+          matchId,
+        });
+      }
+      
+      isGeneratingCharacter.current = false;
+      console.log("[NEW_CHARACTER] ========== GERAÇÃO CONCLUÍDA ==========");
+    }, 300); // Pequeno delay para garantir sincronização
   };
 
   const notifyCorrectAnswer = () => {
@@ -257,33 +303,59 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: () => void
       return;
     }
 
-    const timeout = setTimeout(() => {
+    // Aguarda a conexão do WebSocket antes de iniciar
+    const initializeFirstCharacter = async () => {
+      // Aguarda um pouco para garantir que o WebSocket está conectado
+      let retries = 0;
+      while (!webSocketService.isConnected() && retries < 5) {
+        await new Promise(resolve => setTimeout(resolve, 500));
+        retries++;
+      }
+      
+      if (!webSocketService.isConnected()) {
+        console.error("[MATCH] WebSocket não conectado após tentativas, inicializando mesmo assim");
+      }
+
       if (isOfferer === true) {
-        console.log("[MATCH] Sou o offerer, selecionando personagem");
+        console.log("[MATCH] Sou o offerer, selecionando personagem inicial");
         const selectedCharacter = selectRandomCharacter();
         console.log("[MATCH] Personagem selecionado:", selectedCharacter.name);
+        console.log("[MATCH] Personagem tem hints:", selectedCharacter.hints?.length || 0);
+        console.log("[MATCH] Personagem tem image:", !!selectedCharacter.image);
+        
+        // Define o personagem localmente primeiro (para garantir que está disponível)
         setMyCharacter(selectedCharacter);
         setOpponentCharacter(selectedCharacter);
         setUsedCharacters(prev => [...prev, selectedCharacter]);
+        
+        // Define o papel do offerer como imagem desde o início
+        setIsImageRole(true);
+        
+        // Sincroniza o personagem com o oponente
         syncCharacterWithOpponent(selectedCharacter);
+        
+        // Sincroniza os papéis: offerer vê imagem, não-offerer vê dicas
+        syncRolesWithOpponent(true);
+        
+        console.log("[MATCH] Personagem e papéis sincronizados - Offerer vê imagem, Não-offerer vê dicas");
       } else if (isOfferer === false) {
-        console.log("[MATCH] Não sou o offerer, aguardando sincronização");
-      } else {
-        console.log("[MATCH] isOfferer ainda não definido após timeout, tentando mesmo assim");
-        const selectedCharacter = selectRandomCharacter();
-        console.log("[MATCH] Fallback - Personagem:", selectedCharacter.name);
-        setMyCharacter(selectedCharacter);
-        setOpponentCharacter(selectedCharacter);
-        setUsedCharacters(prev => [...prev, selectedCharacter]);
-        syncCharacterWithOpponent(selectedCharacter);
+        console.log("[MATCH] Não sou o offerer, aguardando sincronização do personagem");
+        // Não-offerer vê dicas por padrão (oposto do offerer)
+        setIsImageRole(false);
       }
-    }, 1000);
+    };
+
+    const timeout = setTimeout(initializeFirstCharacter, 800);
 
     return () => clearTimeout(timeout);
   }, [matchId, isOfferer]);
 
   useEffect(() => {
     if (!matchId) return;
+
+    console.log("[WS_LISTENERS] Registrando listeners para matchId:", matchId);
+    console.log("[WS_LISTENERS] WebSocket conectado:", webSocketService.isConnected());
+    console.log("[WS_LISTENERS] isOfferer:", isOfferer);
 
     webSocketService.on("who-am-i:duo:webrtc:offer", async ({ offer }) => {
       if (!peerConnection.current)
@@ -312,24 +384,65 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: () => void
     });
 
     webSocketService.on("who-am-i:duo:sync-character", ({ characterId }) => {
-      console.log("[SYNC] Recebendo personagem:", characterId);
+      console.log("[SYNC] ========== RECEBENDO PERSONAGEM ==========");
+      console.log("[SYNC] characterId recebido:", characterId);
+      console.log("[SYNC] isOfferer:", isOfferer);
+      console.log("[SYNC] matchId:", matchId);
+      console.log("[SYNC] Personagem atual antes de receber:", myCharacter?.name, "ID:", myCharacter?.id);
+      console.log("[SYNC] lastSyncedCharacterId:", lastSyncedCharacterId.current);
+      
+      // Ignora se estivermos gerando um personagem (evita conflito)
+      if (isGeneratingCharacter.current) {
+        console.log("[SYNC] Ignorando - estamos gerando personagem localmente");
+        return;
+      }
+      
+      // Ignora se já recebemos este personagem recentemente (evita mensagens duplicadas/antigas)
+      if (lastSyncedCharacterId.current === characterId) {
+        console.log("[SYNC] Ignorando - personagem já foi sincronizado recentemente");
+        return;
+      }
+      
       const receivedCharacter = WHO_AM_I_CHARACTERS.find(char => char.id === characterId);
       
       if (receivedCharacter) {
         console.log("[SYNC] Personagem encontrado:", receivedCharacter.name);
+        console.log("[SYNC] Personagem hints (quantidade):", receivedCharacter.hints?.length || 0);
+        console.log("[SYNC] Personagem hints (conteúdo):", receivedCharacter.hints);
+        console.log("[SYNC] Personagem image:", receivedCharacter.image);
         
-        // Ambos os usuários recebem o mesmo personagem
+        // Marca este personagem como o último sincronizado
+        lastSyncedCharacterId.current = characterId;
+        
+        // Define o mesmo personagem para ambos os jogadores
+        // IMPORTANTE: Sempre atualiza, mesmo que já tenha um personagem
         setMyCharacter(receivedCharacter);
         setOpponentCharacter(receivedCharacter);
         
         console.log("[SYNC] Personagem definido para ambos:", receivedCharacter.name);
+        console.log("[SYNC] Estado após definir - myCharacter:", receivedCharacter);
         
-        setUsedCharacters(prev => [...prev, receivedCharacter]);
+        setUsedCharacters(prev => {
+          // Evita duplicatas
+          if (prev.some(char => char.id === receivedCharacter.id)) {
+            return prev;
+          }
+          return [...prev, receivedCharacter];
+        });
+        
+        // NÃO altera o papel aqui quando recebe um novo personagem em uma nova rodada
+        // O papel será sincronizado via sync-roles
+        console.log("[SYNC] ========== PERSONAGEM DEFINIDO ==========");
+        console.log("[SYNC] Aguardando sincronização de papéis...");
+      } else {
+        console.error("[SYNC] Personagem não encontrado com ID:", characterId);
       }
     });
 
-    webSocketService.on("who-am-i:duo:new-round", ({ from }) => {
-      console.log("[NEW_ROUND] Oponente iniciou nova rodada:", from);
+    webSocketService.on("who-am-i:duo:new-round", () => {
+      console.log("[NEW_ROUND] Oponente iniciou nova rodada");
+      console.log("[NEW_ROUND] myCharacter atual:", myCharacter?.name);
+      console.log("[NEW_ROUND] isImageRole atual:", isImageRole);
     });
 
     webSocketService.on("who-am-i:duo:adversary-correct", ({ from }) => {
@@ -339,18 +452,28 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: () => void
 
     webSocketService.on("who-am-i:duo:switch-roles", ({ isImageRole: newRole }) => {
       console.log("[ROLES] Recebendo alternância de papéis:", newRole ? "imagem" : "dicas");
+      console.log("[ROLES] myCharacter antes da alternância:", myCharacter?.name);
+      console.log("[ROLES] myCharacter hints antes:", myCharacter?.hints?.length || 0);
       // Garante que o papel seja sempre oposto ao do adversário
       const oppositeRole = !newRole;
       setIsImageRole(oppositeRole);
       console.log("[ROLES] Definindo papel oposto:", oppositeRole ? "imagem" : "dicas");
+      console.log("[ROLES] myCharacter após alternância:", myCharacter?.name);
     });
 
     webSocketService.on("who-am-i:duo:sync-roles", ({ isImageRole: newRole }) => {
+      console.log("[ROLES] ========== RECEBENDO SINCRONIZAÇÃO DE PAPÉIS ==========");
       console.log("[ROLES] Recebendo sincronização de papéis:", newRole ? "imagem" : "dicas");
-      console.log("newRole::::", newRole);
+      console.log("[ROLES] myCharacter antes de sync-roles:", myCharacter?.name);
+      console.log("[ROLES] myCharacter hints antes:", myCharacter?.hints?.length || 0);
+      
       const oppositeRole = !newRole;
       setIsImageRole(oppositeRole);
+      
       console.log("[ROLES] Definindo papel oposto:", oppositeRole ? "imagem" : "dicas");
+      console.log("[ROLES] myCharacter após sync-roles:", myCharacter?.name);
+      console.log("[ROLES] myCharacter hints após:", myCharacter?.hints?.length || 0);
+      console.log("[ROLES] ========== PAPÉIS SINCRONIZADOS ==========");
     });
 
     webSocketService.onDisconnect(() => {

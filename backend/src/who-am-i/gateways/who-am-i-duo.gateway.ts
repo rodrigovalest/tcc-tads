@@ -131,6 +131,51 @@ export class WhoAmIDuoGateway implements OnGatewayDisconnect {
     });
   }
 
+  @UseGuards(JwtWsAuthGuard)
+  @SubscribeMessage('who-am-i:duo:sync-character')
+  handleSyncCharacter(
+    @CurrentWsUser() user: IUserJwtPayload,
+    @MessageBody() payload: { matchId: string; characterId: number },
+    @ConnectedSocket() client: Socket
+  ) {
+    this.logger.log(`[sync-character] User ${user.sub} syncing character ${payload.characterId} for match ${payload.matchId}`);
+
+    // Retransmite o personagem para os outros clientes na sala
+    client.to(payload.matchId).emit('who-am-i:duo:sync-character', {
+      characterId: payload.characterId,
+    });
+  }
+
+  @UseGuards(JwtWsAuthGuard)
+  @SubscribeMessage('who-am-i:duo:sync-roles')
+  handleSyncRoles(
+    @CurrentWsUser() user: IUserJwtPayload,
+    @MessageBody() payload: { matchId: string; isImageRole: boolean },
+    @ConnectedSocket() client: Socket
+  ) {
+    this.logger.log(`[sync-roles] User ${user.sub} syncing roles (isImageRole: ${payload.isImageRole}) for match ${payload.matchId}`);
+
+    // Retransmite os papéis para os outros clientes na sala
+    client.to(payload.matchId).emit('who-am-i:duo:sync-roles', {
+      isImageRole: payload.isImageRole,
+    });
+  }
+
+  @UseGuards(JwtWsAuthGuard)
+  @SubscribeMessage('who-am-i:duo:switch-roles')
+  handleSwitchRoles(
+    @CurrentWsUser() user: IUserJwtPayload,
+    @MessageBody() payload: { matchId: string; isImageRole: boolean },
+    @ConnectedSocket() client: Socket
+  ) {
+    this.logger.log(`[switch-roles] User ${user.sub} switching roles (isImageRole: ${payload.isImageRole}) for match ${payload.matchId}`);
+
+    // Retransmite a alternância de papéis para os outros clientes na sala
+    client.to(payload.matchId).emit('who-am-i:duo:switch-roles', {
+      isImageRole: payload.isImageRole,
+    });
+  }
+
   async handleDisconnect(client: Socket) {
     await this.whoAmIDuoService.handleDisconnect(client.id);
   }
