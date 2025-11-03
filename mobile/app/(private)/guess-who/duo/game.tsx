@@ -1,110 +1,98 @@
-import { SafeAreaView, Text, View, TouchableOpacity, StyleSheet } from 'react-native';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import Feather from '@expo/vector-icons/Feather';
-import useAuthStore from '../../../../store/auth-store';
-import { useRouter } from 'expo-router';
-import useJustChillingDuo from '../../../../hooks/useJustChillingDuo';
-import { RTCView } from 'react-native-webrtc';
-import { useEffect } from 'react';
-import useMatchStore from '../../../../store/match-store';
+import { Text, View } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { useEffect, useState } from "react";
+import { GuessWhoStage } from "../../../../models/types/guess-who-stage.type";
+import Animated, { FadeIn, FadeOut, SlideInUp } from "react-native-reanimated";
+import { useRouter } from "expo-router";
+import useAuthStore from "../../../../store/auth-store";
+import useMatchStore from "../../../../store/match-store";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { COLORS } from "../../../../constants/colors";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function JustChillingDuoGame() {
+export default function GuessWhoDuoGame() {
+  const [stage, setStage] = useState<GuessWhoStage>("intro");
+
   const { user: loggedUser } = useAuthStore();
-  const { buddy, matchId } = useMatchStore();
+  const { buddy } = useMatchStore();
   const router = useRouter();
-  const { 
-    localStream, 
-    remoteStream, 
-    start,
-    switchAudio,
-    switchVideo,
-    isMicMuted,
-    isVideoMuted,
-    endCall,
-  } = useJustChillingDuo(() => {
-    router.replace("/(private)/match-rate-duo");
-  });
 
   useEffect(() => {
-    start();
-
-    return () => {
-      endCall();
-    }
+    const timers = [
+      setTimeout(() => setStage("reveal"), 3000),
+      setTimeout(() => setStage("game"), 6000),
+    ];
+    return () => timers.forEach(clearTimeout);
   }, []);
 
-  const onMute = () => {
-    switchAudio();
-  };
-
-  const onVideoOff = () => {
-    switchVideo();
-  };
-
-  const onEndCall = () => {
-    endCall();
-  }
-
   return (
-    <SafeAreaView className='w-full h-full bg-appBgWhite'>
-      {remoteStream && (
-        <RTCView
-          streamURL={remoteStream.toURL()}
-          objectFit="cover"
-          style={StyleSheet.absoluteFillObject}
-        />
+    <LinearGradient
+      colors={["#501E3F", "#49AA8F"]}
+      start={{ x: 0.5, y: 0 }}
+      end={{ x: 0.5, y: 1 }}
+      className="flex-1 items-center justify-center px-6"
+    >
+      {stage === "intro" && (
+        <Animated.View
+          entering={FadeIn.duration(800)}
+          exiting={FadeOut.duration(500)}
+          className="items-center"
+        >
+          <Text className="text-appBgWhite text-4xl font-nunito-bold text-center">Guess Who?</Text>
+
+          <View className="flex-row justify-between items-center w-full px-10 my-6">
+            <View className="items-center">
+              <View className="p-2 bg-appBgWhite rounded-[1000px]">
+                <MaterialCommunityIcons
+                  name="account"
+                  size={50}
+                  color={COLORS.appDarkGrey}
+                />
+              </View>
+
+              <Text className="my-2 text-appDarkGrey text-xl font-nunito-medium">
+                {loggedUser?.username || "You"}
+              </Text>
+            </View>
+
+            <Text className="text-appBgWhite text-2xl font-nunito-bold">
+              vs.
+            </Text>
+
+            <View className="items-center">
+              <View className="p-2 bg-appBgWhite rounded-[1000px]">
+                <MaterialCommunityIcons
+                  name="account"
+                  size={50}
+                  color={COLORS.appDarkGrey}
+                />
+              </View>
+
+              <Text className="my-2 text-appDarkGrey text-xl font-nunito-medium">
+                {buddy?.username || "Buddy"}
+              </Text>
+            </View>
+          </View>
+        </Animated.View>
       )}
 
-      <Text
-        className="absolute top-14 right-6 bg-appBgWhite rounded-3xl py-1 px-4 border-appBlack border-2 flex items-center justify-center text-lg font-nunito-semibold text-appBlack"
-      >
-        {buddy!.username}
-      </Text>
-
-      <View className="absolute bottom-40 right-6 bg-appBgWhite w-40 h-48 rounded-2xl border-appBlack border-2 flex items-center justify-center">
-        {localStream && !isVideoMuted && (
-          <View className='h-32 w-32 rounded-2xl border-appBlack border-2 mb-2 overflow-hidden bg-appBlack'>
-            <RTCView
-              streamURL={localStream.toURL()}
-              objectFit="cover"
-              zOrder={1}
-              style={StyleSheet.absoluteFillObject}
-            />
-          </View>
-        )}
-
-        <Text className='text-lg font-nunito-semibold text-appBlack'>
-          {loggedUser!.username} (you)
-        </Text>
-      </View>
-
-      <View className="absolute bottom-0 left-0 right-0 bg-appBlack px-10 pt-8 pb-10 flex-row justify-between items-center rounded-t-3xl">
-        <TouchableOpacity
-          className="bg-[#4F4F47] rounded-full p-4"
-          onPress={onMute}
+      {stage === "reveal" && (
+        <Animated.View
+          entering={SlideInUp.springify().damping(14)}
+          exiting={FadeOut.duration(400)}
+          className="items-center"
         >
-          <Feather
-            name={isMicMuted ? "mic" : "mic-off"}
-            size={26}
-            color="#FEFBF4"
-          />
-        </TouchableOpacity>
+          <Text className="text-white text-3xl font-semibold">
+            Buddy é: 👩‍🚀 Astronauta!
+          </Text>
+        </Animated.View>
+      )}
 
-        <TouchableOpacity
-          className="bg-[#4F4F47] rounded-full p-4"
-          onPress={onVideoOff}
-        >
-          <Feather
-            name={isVideoMuted ? "video" : "video-off"}
-            size={26}
-            color="#FEFBF4"
-          />
-        </TouchableOpacity>
-
-        <TouchableOpacity className="bg-appMediumRed rounded-full p-4" onPress={onEndCall}>
-          <MaterialIcons name="call-end" size={26} color="#FEFBF4" />
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+      {stage === "game" && (
+        <Animated.View entering={FadeIn.duration(800)} className="items-center">
+          <Text className="text-white text-2xl font-semibold">Tabuleiro</Text>
+        </Animated.View>
+      )}
+    </LinearGradient>
   );
 }

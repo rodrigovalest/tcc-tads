@@ -13,6 +13,7 @@ type MatchState = {
   matchId: string | null;
   isOfferer: boolean | null;
   buddy: IUserBuddy | null;
+  yourPhotoUri: string | null;
 
   setMatchMode: (mode: MatchMode) => Promise<void>;
   setMatchFormat: (format: MatchFormat) => Promise<void>;
@@ -21,6 +22,7 @@ type MatchState = {
   setMatchId: (matchId: string) => Promise<void>;
   setIsOfferer: (isOfferer: boolean) => Promise<void>;
   setUserBuddy: (buddy: IUserBuddy) => Promise<void>;
+  setYourPhotoUri: (photoUri: string | null) => Promise<void>;
   resetMatch: () => Promise<void>;
 };
 
@@ -32,6 +34,7 @@ const useMatchStore = create<MatchState>((set, get) => ({
   matchId: null,
   isOfferer: null,
   buddy: null,
+  yourPhotoUri: null,
 
   setMatchMode: async (matchMode) => {
     set({ matchMode });
@@ -59,6 +62,10 @@ const useMatchStore = create<MatchState>((set, get) => ({
   
   setUserBuddy: async (buddy: IUserBuddy) => {
     set({ buddy });
+  },
+
+  setYourPhotoUri: async (yourPhotoUri: string | null) => {
+    set({ yourPhotoUri });
   },
 
   resetMatch: async () => {

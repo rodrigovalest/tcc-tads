@@ -1,10 +1,10 @@
 import Spinner from '../../../../components/Spinner';
 import React from 'react';
 import { Text, Image, SafeAreaView } from 'react-native';
-import useMatchmaking from '../../../../hooks/useMatchmaking';
 import useI18n from '../../../../hooks/useI18n';
+import useMatchmaking from '../../../../hooks/useMatchmaking';
 
-export default function JustChillingWaiting() {
+export default function GuessWhoWaiting() {
   useMatchmaking();
   const { t } = useI18n();
 
