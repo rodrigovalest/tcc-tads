@@ -9,7 +9,15 @@ import IMatchmakingResponse from "../models/responses/matchmaking-response";
 const useMatchmaking = () => {
   const router = useRouter();
   const { token } = useAuthStore();
-  const { matchFormat, matchLanguage, matchMode, setMatchId, setIsOfferer, resetMatch, setUserBuddy } = useMatchStore();
+  const {
+    matchFormat,
+    matchLanguage,
+    matchMode,
+    setMatchId,
+    setIsOfferer,
+    resetMatch,
+    setUserBuddy,
+  } = useMatchStore();
 
   useEffect(() => {
     if (!token || !matchFormat || !matchLanguage || !matchMode) {
@@ -17,7 +25,7 @@ const useMatchmaking = () => {
       webSocketService.disconnect();
       router.replace("/(private)/(tabs)/matches");
       return;
-    };
+    }
 
     webSocketService.connect(token);
 
@@ -27,8 +35,8 @@ const useMatchmaking = () => {
       router.replace("/(private)/(tabs)/matches");
     });
 
-    webSocketService.on('exception', (error) => {
-      console.error('[matchmaking exception listener]: ', error);
+    webSocketService.on("exception", (error) => {
+      console.error("[matchmaking exception listener]: ", error);
 
       Toast.show({
         type: "error",
@@ -42,24 +50,25 @@ const useMatchmaking = () => {
       router.push("/(private)/(tabs)/matches");
     });
 
-    webSocketService.on(`${matchMode}:${matchFormat}:match-started`, async (data: IMatchmakingResponse) => {
-      console.log(`[just-chilling:duo:match-started]`, data);
-
-      setMatchId(data.matchId);
-      setIsOfferer(data.isOfferer);
-      setUserBuddy(data.buddy);
-      router.replace(`/(private)/${data.matchMode}/${matchFormat}/game`);
-    });
+    webSocketService.on(
+      `${matchMode}:${matchFormat}:match-started`,
+      async (data: IMatchmakingResponse) => {
+        setMatchId(data.matchId);
+        setIsOfferer(data.isOfferer);
+        setUserBuddy(data.buddy);
+        router.replace(`/(private)/${data.matchMode}/${matchFormat}/game`);
+      }
+    );
 
     webSocketService.emit(`${matchMode}:${matchFormat}:enqueue`, {
       matchLanguage: matchLanguage,
     });
 
     return () => {
-      webSocketService.off('disconnect');
-      webSocketService.off('exception');
-    }
+      webSocketService.off("disconnect");
+      webSocketService.off("exception");
+    };
   }, []);
-}
+};
 
 export default useMatchmaking;

@@ -7,16 +7,17 @@ import {
   RTCIceCandidate,
   MediaStreamConstraints,
   EventOnAddStream,
-  EventOnCandidate
+  EventOnCandidate,
 } from "react-native-webrtc";
 import webSocketService from "../services/web-socket-service";
 import useMatchStore from "../store/match-store";
 
-
-const turnServerUrl = process.env.EXPO_PUBLIC_API_URL ?? '192.168.0.101';
-const turnServerPort = process.env.EXPO_PUBLIC_TURN_SERVER_PORT ?? '3478';
-const turnServerUsername = process.env.EXPO_PUBLIC_TURN_SERVER_USERNAME ?? 'webrtcuser';
-const turnServerCredential = process.env.EXPO_PUBLIC_TURN_SERVER_CREDENTIAL ?? 'webrctpass';
+const turnServerUrl = process.env.EXPO_PUBLIC_API_URL ?? "192.168.0.101";
+const turnServerPort = process.env.EXPO_PUBLIC_TURN_SERVER_PORT ?? "3478";
+const turnServerUsername =
+  process.env.EXPO_PUBLIC_TURN_SERVER_USERNAME ?? "webrtcuser";
+const turnServerCredential =
+  process.env.EXPO_PUBLIC_TURN_SERVER_CREDENTIAL ?? "webrctpass";
 
 const PEER_CONSTRAINTS = {
   iceServers: [
@@ -37,7 +38,6 @@ const SESSION_CONSTRAINTS: RTCOfferOptions = {
   offerToReceiveAudio: true,
   offerToReceiveVideo: true,
 };
-
 
 const useJustChillingDuo = (redirectOnEnd: () => void) => {
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
@@ -71,8 +71,8 @@ const useJustChillingDuo = (redirectOnEnd: () => void) => {
     peerConnection.current?.close();
     peerConnection.current = null;
 
-    localStream?.getTracks().forEach(track => track.stop());
-    remoteStream?.getTracks().forEach(track => track.stop());
+    localStream?.getTracks().forEach((track) => track.stop());
+    remoteStream?.getTracks().forEach((track) => track.stop());
     setLocalStream(null);
     setRemoteStream(null);
 
@@ -84,13 +84,13 @@ const useJustChillingDuo = (redirectOnEnd: () => void) => {
   };
 
   const initializeConnection = async () => {
-    if (!matchId || isOfferer === null)
-      return;
+    if (!matchId || isOfferer === null) return;
 
     const pc = new RTCPeerConnection(PEER_CONSTRAINTS);
     peerConnection.current = pc;
 
-    await mediaDevices.getUserMedia(MEDIA_CONSTRAINTS)
+    await mediaDevices
+      .getUserMedia(MEDIA_CONSTRAINTS)
       .then((localMediaStream) => {
         setLocalStream(localMediaStream);
         pc.addStream(localMediaStream);
@@ -98,7 +98,7 @@ const useJustChillingDuo = (redirectOnEnd: () => void) => {
 
     pc.onaddstream = (event: EventOnAddStream) => {
       setRemoteStream(event.stream);
-    }
+    };
 
     pc.onicecandidate = (event: EventOnCandidate) => {
       if (event.candidate) {
@@ -110,8 +110,6 @@ const useJustChillingDuo = (redirectOnEnd: () => void) => {
     };
 
     pc.oniceconnectionstatechange = () => {
-      console.log("[ICE] Estado ICE:", pc.connectionState);
-
       if (["disconnected", "failed", "closed"].includes(pc.connectionState)) {
         endCall();
       }
@@ -132,10 +130,11 @@ const useJustChillingDuo = (redirectOnEnd: () => void) => {
     if (!matchId) return;
 
     webSocketService.on("just-chilling:duo:webrtc:offer", async ({ offer }) => {
-      if (!peerConnection.current)
-        await initializeConnection();
+      if (!peerConnection.current) await initializeConnection();
 
-      await peerConnection.current?.setRemoteDescription(new RTCSessionDescription(offer));
+      await peerConnection.current?.setRemoteDescription(
+        new RTCSessionDescription(offer)
+      );
       const answer = await peerConnection.current?.createAnswer();
 
       if (answer) {
@@ -148,13 +147,23 @@ const useJustChillingDuo = (redirectOnEnd: () => void) => {
       }
     });
 
-    webSocketService.on("just-chilling:duo:webrtc:answer", async ({ answer }) => {
-      await peerConnection.current?.setRemoteDescription(new RTCSessionDescription(answer));
-    });
+    webSocketService.on(
+      "just-chilling:duo:webrtc:answer",
+      async ({ answer }) => {
+        await peerConnection.current?.setRemoteDescription(
+          new RTCSessionDescription(answer)
+        );
+      }
+    );
 
-    webSocketService.on("just-chilling:duo:webrtc:ice-candidate", async ({ candidate }) => {
-      await peerConnection.current?.addIceCandidate(new RTCIceCandidate(candidate));
-    });
+    webSocketService.on(
+      "just-chilling:duo:webrtc:ice-candidate",
+      async ({ candidate }) => {
+        await peerConnection.current?.addIceCandidate(
+          new RTCIceCandidate(candidate)
+        );
+      }
+    );
 
     webSocketService.onDisconnect(() => {
       endCall();

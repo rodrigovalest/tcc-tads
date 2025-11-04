@@ -15,6 +15,12 @@ export const AVALIABLE_MATCH_MODES: Record<MatchMode, IAvaliableMatchMode> = {
     matchMode: "word-builder",
     image: require("../assets/images/match_modes/word-builder.png"),
   },
+  "time-attack-vocab": {
+    title: "Time Attack Vocab",
+    matchFormat: ["solo"],
+    matchMode: "time-attack-vocab",
+    image: require("../assets/images/match_modes/word-builder.png"),
+  },
 };
 
 export const getLocalizedMatchModes = (): Record<
@@ -29,6 +35,10 @@ export const getLocalizedMatchModes = (): Record<
     "word-builder": {
       ...AVALIABLE_MATCH_MODES["word-builder"],
       title: i18n.t("match.matchModes.wordBuilder"),
+    },
+    "time-attack-vocab": {
+      ...AVALIABLE_MATCH_MODES["time-attack-vocab"],
+      title: i18n.t("match.matchModes.timeAttackVocab"),
     },
   };
 };
