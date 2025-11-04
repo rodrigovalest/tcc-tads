@@ -1,6 +1,6 @@
-// Base User interface - reutilizável em todo o sistema
 export interface BaseUser {
   id: number;
+  name: string;
   username: string;
   email: string;
   nationality: string;

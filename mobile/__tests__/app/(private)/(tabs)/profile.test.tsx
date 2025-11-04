@@ -93,6 +93,7 @@ const mockUser = {
 
 const mockFullUser = {
   id: 1,
+  name: 'Test User',
   username: 'testuser',
   email: 'test@example.com',
   nationality: 'BR',
@@ -180,7 +181,8 @@ describe('Profile Screen', () => {
       expect(queryByTestId('spinner')).toBeFalsy();
     });
 
-    expect(getByText('testuser')).toBeTruthy();
+    expect(getByText('Test User')).toBeTruthy();
+    expect(getByText('@testuser')).toBeTruthy();
     expect(getByText('test@example.com')).toBeTruthy();
     expect(getByText('This is a test description')).toBeTruthy();
     expect(getByText('Country BR')).toBeTruthy();
@@ -239,13 +241,14 @@ describe('Profile Screen', () => {
     const userWithoutPhoto = { ...mockFullUser, photoUri: undefined };
     mockUserService.findById.mockResolvedValue(userWithoutPhoto);
 
-    const { getByTestId, queryByTestId } = renderWithProviders(<Profile />);
+    const { getByTestId, getByText, queryByTestId } = renderWithProviders(<Profile />);
 
     await waitFor(() => {
       expect(queryByTestId('spinner')).toBeFalsy();
     });
 
     expect(getByTestId('icon-account')).toBeTruthy();
+    expect(getByText('Test User')).toBeTruthy();
   });
 
   it('should display user status indicator', async () => {

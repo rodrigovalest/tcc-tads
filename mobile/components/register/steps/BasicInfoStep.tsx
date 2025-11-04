@@ -32,6 +32,24 @@ export const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
     <View className="space-y-4">
       <Controller
         control={control}
+        name="name"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            label={`${t("auth.name")} *`}
+            value={value}
+            onChangeText={(text) => {
+              onChange(text);
+              updateFormData("name", text);
+            }}
+            onBlur={onBlur}
+            placeholder={t("auth.enterName")}
+            error={errors.name?.message as string}
+          />
+        )}
+      />
+
+      <Controller
+        control={control}
         name="username"
         render={({ field: { onChange, onBlur, value } }) => (
           <Input

@@ -9,6 +9,7 @@ export function useRegisterSubmission() {
   const { t } = useI18n();
   const { mutate: register, isPending } = useRegister();
   const createRegisterData = useCallback((formData: MultiStepRegisterData): RegisterRequest => ({
+    name: formData.name,
     username: formData.username,
     email: formData.email,
     password: formData.password,

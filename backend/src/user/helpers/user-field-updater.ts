@@ -5,6 +5,13 @@ type FieldUpdater = (user: User, value: any) => void;
 
 export class UserFieldUpdater {
   private static readonly fieldUpdaters: Record<string, FieldUpdater> = {
+    name: (user, value: string) => {
+      const trimmedValue = value?.trim();
+      if (trimmedValue) {
+        user.name = trimmedValue;
+      }
+    },
+
     username: (user, value: string) => {
       const trimmedValue = value?.trim();
       if (trimmedValue) {

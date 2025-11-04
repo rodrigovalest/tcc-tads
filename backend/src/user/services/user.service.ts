@@ -97,10 +97,12 @@ export class UserService {
       return [];
     }
     
+    const searchTerm = username.trim();
     const users = await this.userRepository.find({
-      where: {
-        username: username.trim()
-      },
+      where: [
+        { username: searchTerm },
+        { name: searchTerm }
+      ],
       relations: ['languages', 'interestTopics']
     });
     

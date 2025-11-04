@@ -30,6 +30,7 @@ describe('MessageService', () => {
 
   const mockUser: User = {
     id: 1,
+    name: 'Test User',
     username: 'testuser',
     email: 'test@example.com',
     password: 'hashedpassword',
@@ -47,6 +48,7 @@ describe('MessageService', () => {
 
   const mockReceiver: User = {
     id: 2,
+    name: 'Receiver User',
     username: 'receiver',
     email: 'receiver@example.com',
     password: 'hashedpassword',

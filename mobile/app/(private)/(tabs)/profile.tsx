@@ -94,7 +94,10 @@ export default function Profile() {
           </View>
           
           <Text className='text-2xl font-nunito-bold mt-4 text-appDarkGrey'>
-            {fullUser?.username || authUser?.username}
+            {fullUser?.name}
+          </Text>
+          <Text className='text-appMediumGrey font-nunito-semibold mt-1'>
+            @{fullUser?.username || authUser?.username}
           </Text>
           <Text className='text-appMediumGrey font-nunito-medium mt-1'>
             {fullUser?.email || authUser?.email}
