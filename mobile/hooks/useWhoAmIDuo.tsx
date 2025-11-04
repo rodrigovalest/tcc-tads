@@ -12,7 +12,7 @@ import { WhoAmICharacter, WhoAmICharacterPair } from "../models/types/who-am-i-c
 import { WHO_AM_I_CHARACTERS } from "../constants/who-am-i-characters";
 
 
-const turnServerUrl = process.env.EXPO_PUBLIC_API_URL ?? '192.168.1.7';
+const turnServerUrl = process.env.EXPO_PUBLIC_API_URL ?? '10.40.51.50';
 const turnServerPort = process.env.EXPO_PUBLIC_TURN_SERVER_PORT ?? '3478';
 const turnServerUsername = process.env.EXPO_PUBLIC_TURN_SERVER_USERNAME ?? 'webrtcuser';
 const turnServerCredential = process.env.EXPO_PUBLIC_TURN_SERVER_CREDENTIAL ?? 'webrctpass';
@@ -149,35 +149,35 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: () => void
     console.log("[NEW_CHARACTER] Estado atual - isImageRole:", isImageRole);
     console.log("[NEW_CHARACTER] isOfferer:", isOfferer);
     
-    // APENAS o jogador que chama esta função sorteia o personagem
-    // O outro jogador receberá via WebSocket
-    const selectedCharacter = selectRandomCharacter();
-    console.log("[NEW_CHARACTER] Personagem selecionado:", selectedCharacter.name, "ID:", selectedCharacter.id);
-    console.log("[NEW_CHARACTER] Personagem tem hints:", selectedCharacter.hints?.length || 0);
-    console.log("[NEW_CHARACTER] Personagem tem image:", !!selectedCharacter.image);
+    // IMPORTANTE: Alterna os papéis ANTES de definir o novo personagem
+    // Isso evita que o jogador que deve ver dicas veja a imagem por alguns segundos
+    // Alterna os papéis a cada nova rodada
+    // Se estava vendo imagem, agora vê dicas e vice-versa
+    const newRole = !isImageRole;
+    setIsImageRole(newRole);
+    console.log("[NEW_ROUND] Alternando papéis para nova rodada:", newRole ? "imagem" : "dicas");
     
-    // Define o personagem localmente primeiro
-    setMyCharacter(selectedCharacter);
-    setOpponentCharacter(selectedCharacter);
+    // Sincroniza os papéis com o oponente (oposto do atual) PRIMEIRO
+    syncRolesWithOpponent(newRole);
     
-    // Marca qual personagem foi sincronizado
-    lastSyncedCharacterId.current = selectedCharacter.id;
-    
-    // IMPORTANTE: Sincroniza o personagem com o oponente PRIMEIRO
-    // Aguarda um pouco para garantir que o personagem seja recebido antes de alternar papéis
-    syncCharacterWithOpponent(selectedCharacter);
-    
-    // Pequeno delay para garantir que o personagem seja recebido pelo outro jogador
-    // antes de alternar os papéis
+    // Pequeno delay para garantir que os papéis sejam sincronizados antes de definir o personagem
     setTimeout(() => {
-      // Alterna os papéis a cada nova rodada
-      // Se estava vendo imagem, agora vê dicas e vice-versa
-      const newRole = !isImageRole;
-      setIsImageRole(newRole);
-      console.log("[NEW_ROUND] Alternando papéis para nova rodada:", newRole ? "imagem" : "dicas");
+      // APENAS o jogador que chama esta função sorteia o personagem
+      // O outro jogador receberá via WebSocket
+      const selectedCharacter = selectRandomCharacter();
+      console.log("[NEW_CHARACTER] Personagem selecionado:", selectedCharacter.name, "ID:", selectedCharacter.id);
+      console.log("[NEW_CHARACTER] Personagem tem hints:", selectedCharacter.hints?.length || 0);
+      console.log("[NEW_CHARACTER] Personagem tem image:", !!selectedCharacter.image);
       
-      // Sincroniza os papéis com o oponente (oposto do atual)
-      syncRolesWithOpponent(newRole);
+      // Define o personagem localmente
+      setMyCharacter(selectedCharacter);
+      setOpponentCharacter(selectedCharacter);
+      
+      // Marca qual personagem foi sincronizado
+      lastSyncedCharacterId.current = selectedCharacter.id;
+      
+      // Sincroniza o personagem com o oponente
+      syncCharacterWithOpponent(selectedCharacter);
       
       if (webSocketService.isConnected()) {
         webSocketService.emit("who-am-i:duo:new-round", {
@@ -187,7 +187,7 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: () => void
       
       isGeneratingCharacter.current = false;
       console.log("[NEW_CHARACTER] ========== GERAÇÃO CONCLUÍDA ==========");
-    }, 300); // Pequeno delay para garantir sincronização
+    }, 100); // Pequeno delay para garantir sincronização dos papéis
   };
 
   const notifyCorrectAnswer = () => {

@@ -21,9 +21,11 @@ export default function WhoAmI() {
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
   const [showAdversaryCorrect, setShowAdversaryCorrect] = useState(false);
   const [correctAnswerImage, setCorrectAnswerImage] = useState<ImageSourcePropType | null>(null);
+  const [adversaryCorrectImage, setAdversaryCorrectImage] = useState<ImageSourcePropType | null>(null);
   const [timeLeft, setTimeLeft] = useState(TIMER_DURATION);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const endTimeRef = useRef<number>(0);
+  const characterImageRef = useRef<ImageSourcePropType | null>(null);
   
   const { 
     localStream, 
@@ -52,10 +54,16 @@ export default function WhoAmI() {
   }, () => {
     // Quando o adversário acerta, apenas mostra o modal
     // NÃO gera novo personagem aqui, pois o jogador que acertou já vai gerar
-    const imageToShow = myCharacterImage || myCharacter?.image || null;
+    // Mostra a mesma imagem que o jogador que acertou vê (ambos têm o mesmo personagem)
+    // Usa a referência atualizada da imagem para evitar problemas de closure
+    const imageToShow = characterImageRef.current || myCharacterImage || myCharacter?.image || opponentCharacterImage || opponentCharacter?.image || null;
     console.log("[ADVERSARY_CORRECT] Imagem que será mostrada:", imageToShow);
+    console.log("[ADVERSARY_CORRECT] characterImageRef.current:", characterImageRef.current);
+    console.log("[ADVERSARY_CORRECT] myCharacter:", myCharacter?.name);
+    console.log("[ADVERSARY_CORRECT] myCharacterImage:", myCharacterImage);
+    console.log("[ADVERSARY_CORRECT] opponentCharacterImage:", opponentCharacterImage);
   
-    setCorrectAnswerImage(imageToShow);
+    setAdversaryCorrectImage(imageToShow);
     setShowAdversaryCorrect(true);
     
     setTimeout(() => {
@@ -106,7 +114,11 @@ export default function WhoAmI() {
     console.log("[GAME] myCharacter hints:", myCharacter?.hints?.length || 0);
     console.log("[GAME] isImageRole:", isImageRole);
     console.log("[GAME] should show hints:", !isImageRole && myCharacter && myCharacter.hints?.length > 0);
-  }, [myCharacter, isImageRole]);
+    
+    // Atualiza a referência da imagem do personagem sempre que ele mudar
+    const currentImage = myCharacterImage || myCharacter?.image || opponentCharacterImage || opponentCharacter?.image || null;
+    characterImageRef.current = currentImage;
+  }, [myCharacter, myCharacterImage, opponentCharacter, opponentCharacterImage, isImageRole]);
 
   const onMute = () => {
     switchAudio();
@@ -127,7 +139,8 @@ export default function WhoAmI() {
     console.log("[NAILED_IT] myCharacter hints:", myCharacter?.hints);
     
     // Mostra a imagem do personagem atual (que ambos estão tentando adivinhar)
-    const imageToShow = myCharacterImage || myCharacter?.image || null;
+    // Usa a imagem do personagem que está sendo adivinhado (sempre o mesmo para ambos)
+    const imageToShow = myCharacterImage || myCharacter?.image || opponentCharacterImage || opponentCharacter?.image || null;
     console.log("[NAILED_IT] Imagem que será mostrada:", imageToShow);
     
     setCorrectAnswerImage(imageToShow);
@@ -135,8 +148,9 @@ export default function WhoAmI() {
     
     notifyCorrectAnswer(); // Notifica o adversário que você acertou
     
-    // Não precisa chamar switchRoles aqui, pois generateNewCharacter já faz isso
-    // Fecha automaticamente após 1 segundo e gera novo personagem
+    
+    // Fecha o modal e gera novo personagem
+    // O generateNewCharacter já alterna os papéis ANTES de definir o novo personagem
     setTimeout(() => {
       setShowCorrectAnswer(false);
       generateNewCharacter();
@@ -205,41 +219,52 @@ export default function WhoAmI() {
               {isImageRole ? "Category:" : "Hints:"}
             </Text>
             
-            {isImageRole ? (
-              // Papel: Ver imagem do personagem atual
-              <View className="w-64 h-48 rounded-xl overflow-hidden mb-4 bg-appLightGrey">
-                {myCharacterImage ? (
-                  <Image 
-                    source={myCharacterImage} 
-                    className="w-full h-full"
-                    resizeMode="cover"
-                  />
-                ) : (
-                  <View className="w-full h-full bg-appMediumGrey flex items-center justify-center">
-                    <Text className="text-white text-lg font-nunito-bold">Loading...</Text>
+            {(() => {
+              // IMPORTANTE: Verifica o papel ANTES de acessar qualquer dado do personagem
+              // Isso evita que a imagem seja renderizada quando o jogador deveria ver dicas
+              if (isImageRole === true) {
+                // Papel: Ver imagem do personagem atual
+                // Só acessa myCharacterImage se isImageRole for true
+                const imageToShow = myCharacterImage || myCharacter?.image || null;
+                return (
+                  <View className="w-64 h-48 rounded-xl overflow-hidden mb-4 bg-appLightGrey">
+                    {imageToShow ? (
+                      <Image 
+                        source={imageToShow} 
+                        className="w-full h-full"
+                        resizeMode="cover"
+                      />
+                    ) : (
+                      <View className="w-full h-full bg-appMediumGrey flex items-center justify-center">
+                        <Text className="text-white text-lg font-nunito-bold">Loading...</Text>
+                      </View>
+                    )}
                   </View>
-                )}
-              </View>
-            ) : (
-
-              <View className="w-80 h-60 bg-black rounded-xl mb-4 bg-appLightGrey p-4 overflow-y-auto">
-                {myCharacter && myCharacter.hints && myCharacter.hints.length > 0 ? (
-                  <View className="flex-1">
-                    {myCharacter.hints.map((hint, index) => (
-                      <Text key={index} className="text-white text-sm font-nunito-medium mb-2">
-                        • {hint}
-                      </Text>
-                    ))}
+                );
+              } else {
+                // Papel: Ver dicas do personagem atual
+                // Quando isImageRole é false, NUNCA mostra a imagem, mesmo que exista
+                return (
+                  <View className="w-80 h-60 bg-black rounded-xl mb-4 bg-appLightGrey p-4 overflow-y-auto">
+                    {myCharacter && myCharacter.hints && myCharacter.hints.length > 0 ? (
+                      <View className="flex-1">
+                        {myCharacter.hints.map((hint, index) => (
+                          <Text key={index} className="text-white text-sm font-nunito-medium mb-2">
+                            • {hint}
+                          </Text>
+                        ))}
+                      </View>
+                    ) : (
+                      <View className="w-full h-full bg-appMediumGrey flex items-center justify-center">
+                        <Text className="text-white text-lg font-nunito-bold">
+                          {myCharacter ? "Carregando dicas..." : "Aguardando personagem..."}
+                        </Text>
+                      </View>
+                    )}
                   </View>
-                ) : (
-                  <View className="w-full h-full bg-appMediumGrey flex items-center justify-center">
-                    <Text className="text-white text-lg font-nunito-bold">
-                      {myCharacter ? "Carregando dicas..." : "Aguardando personagem..."}
-                    </Text>
-                  </View>
-                )}
-              </View>
-            )}
+                );
+              }
+            })()}
             
             <Text className="text-white mb-2 font-nunito-bold">
               {isImageRole ? "Guess who this is:" : "Guess who this is (hints):"}
@@ -257,10 +282,7 @@ export default function WhoAmI() {
             </TouchableOpacity>
             <TouchableOpacity
               className="bg-appMediumRed rounded-full py-4 px-8 w-64"
-              onPress={() => {
-                console.log('Give up pressionado - gerando novo personagem');
-                generateNewCharacter();
-              }}
+              onPress={handleNailedIt}
             >
               <Text className="text-white font-nunito-bold text-center text-lg">Give up</Text>
             </TouchableOpacity>
@@ -303,7 +325,7 @@ export default function WhoAmI() {
 
       <AdversaryCorrectAnswerModal
         visible={showAdversaryCorrect}
-        correctImage={correctAnswerImage}
+        correctImage={adversaryCorrectImage}
       />
     </SafeAreaView>
   );
