@@ -36,8 +36,11 @@ export const FriendCard: React.FC<FriendCardProps> = ({
           )}
         </View>
         <View className="flex-1">
-          <Text className="text-lg font-nunito-bold text-appBlack mb-1">
-            {friendship.friend.username}
+          <Text className="text-lg font-nunito-bold text-appBlack">
+            {friendship.friend.name}
+          </Text>
+          <Text className="text-sm font-nunito-medium text-appMediumGrey mb-1">
+            @{friendship.friend.username}
           </Text>
           
           {friendship.friend.languages && friendship.friend.languages.length > 0 && (
