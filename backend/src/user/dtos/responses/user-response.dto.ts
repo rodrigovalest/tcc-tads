@@ -15,6 +15,7 @@ export class UserInterestTopicResponseDto {
 
 export class UserResponseDto {
   readonly id: number;
+  readonly name: string;
   readonly username: string;
   readonly email: string;
   readonly nationality: CountryCode;

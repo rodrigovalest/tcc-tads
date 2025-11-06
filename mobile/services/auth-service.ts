@@ -134,6 +134,7 @@ class AuthService {
   ): FormData {
     const builder = new FormDataBuilder();
     const {
+      name,
       username,
       email,
       nationality,
@@ -144,6 +145,7 @@ class AuthService {
     } = data;
     builder.append("photo", photoFile);
     [
+      { key: "name", value: name },
       { key: "username", value: username },
       { key: "email", value: email },
       { key: "nationality", value: nationality },

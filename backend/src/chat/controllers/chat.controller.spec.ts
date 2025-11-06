@@ -32,6 +32,7 @@ describe('ChatController', () => {
     id: 1,
     sender: {
       id: 1,
+      name: 'Test User',
       username: 'testuser',
       email: 'test@example.com',
       nationality: CountryCode.UnitedStates,
@@ -43,6 +44,7 @@ describe('ChatController', () => {
     },
     receiver: {
       id: 2,
+      name: 'Receiver User',
       username: 'receiver',
       email: 'receiver@example.com',
       nationality: CountryCode.Brazil,
@@ -116,6 +118,7 @@ describe('ChatController', () => {
       const mockConversations: ConversationResponseDto[] = [{
         friend: {
           id: 2,
+          name: 'Friend User',
           username: 'friend',
           email: 'friend@example.com',
           nationality: CountryCode.Brazil,

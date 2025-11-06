@@ -6,12 +6,14 @@ export class UserBuilder {
   private user: User;
 
   constructor(
+    name: string,
     username: string,
     email: string,
     hashedPassword: string,
     nationality: CountryCode
   ) {
     this.user = new User(
+      name?.trim(),
       username?.trim(),
       email?.toLowerCase().trim(),
       hashedPassword,
@@ -40,6 +42,7 @@ export class UserBuilder {
 
   static fromDto(createUserDto: CreateUserRequestDto, hashedPassword: string): UserBuilder {
     return new UserBuilder(
+      createUserDto.name,
       createUserDto.username,
       createUserDto.email,
       hashedPassword,

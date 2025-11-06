@@ -94,6 +94,7 @@ describe('AuthController', () => {
         updatedAt: new Date(),
         user: {
           id: 1,
+          name: 'Test User',
           username: 'testuser',
           email: 'testuser@example.com',
           password: 'hashedpassword',

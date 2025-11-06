@@ -13,6 +13,7 @@ import { UserResponseDto } from '../dtos/responses/user-response.dto';
 // Helper function to create test user response
 const createTestUserResponse = (overrides: Partial<UserResponseDto> = {}): UserResponseDto => ({
   id: 1,
+  name: 'Test User',
   username: 'testuser',
   email: 'test@example.com',
   nationality: CountryCode.Brazil,
@@ -72,6 +73,7 @@ describe('UserController', () => {
   it('createUser_WithValidData_Returns201Created', async () => {
     // Arrange    
     const dto = {
+      name: 'Tralalero User',
       username: 'tralalero',
       email: 'tralalero@example.com',
       password: '123456',
@@ -95,6 +97,7 @@ describe('UserController', () => {
     // Assert
     expect(userService.createWithPhoto).toHaveBeenCalledWith(
       expect.objectContaining({
+        name: dto.name,
         username: dto.username,
         email: dto.email,
         password: dto.password,
@@ -109,6 +112,7 @@ describe('UserController', () => {
   it('createUser_WithInvalidEmailAndPassword_Returns400BadRequest', async () => {
     // Arrange    
     const dto = {
+      name: 'Lirili User',
       username: 'lirili',
       email: 'email-invalido',
       password: '123',
@@ -136,6 +140,7 @@ describe('UserController', () => {
   it('createUser_WhenUserAlreadyExists_Throws409Conflict', async () => {
     // Arrange
     const dto = {
+      name: 'Existing User',
       username: 'existinguser',
       email: 'existing@example.com',
       password: '123456',
@@ -158,6 +163,7 @@ describe('UserController', () => {
 
     expect(userService.createWithPhoto).toHaveBeenCalledWith(
       expect.objectContaining({
+        name: dto.name,
         username: dto.username,
         email: dto.email,
         password: dto.password,

@@ -52,10 +52,15 @@ export const ConversationCard: React.FC<ConversationCardProps> = ({
         </View>
 
         <View className="flex-1">
-          <View className="flex-row items-center justify-between mb-1">
-            <Text className="text-lg font-nunito-bold text-appBlack">
-              {conversation.friend.username}
-            </Text>
+          <View className="flex-row items-center justify-between">
+            <View className="flex-1">
+              <Text className="text-lg font-nunito-bold text-appBlack">
+                {conversation.friend.name}
+              </Text>
+              <Text className="text-sm font-nunito-medium text-appMediumGrey mb-1">
+                @{conversation.friend.username}
+              </Text>
+            </View>
             
             {hasUnread && (
               <View className="bg-appMediumRed rounded-full w-6 h-6 items-center justify-center">

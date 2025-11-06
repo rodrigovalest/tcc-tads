@@ -4,6 +4,7 @@ export interface LanguageFluency {
 }
 
 export interface MultiStepRegisterData {
+  name: string;
   username: string;
   email: string;
   password: string;
@@ -18,6 +19,7 @@ export interface MultiStepRegisterData {
 }
 
 export interface RegisterRequest {
+  name: string;
   username: string;
   email: string;
   password: string;
@@ -31,6 +33,7 @@ export interface RegisterRequest {
 }
 
 export interface RegisterFormData {
+  name: string;
   username: string;
   email: string;
   password: string;

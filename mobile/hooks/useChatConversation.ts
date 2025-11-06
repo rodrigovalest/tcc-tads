@@ -86,15 +86,8 @@ export const useChatConversation = (friendId: number) => {
     setState(prev => ({ ...prev, sending: true }));
     
     try {
-      const sentMessage = await FriendshipService.sendMessage(friendId, messageText);
-      
-      setState(prev => ({
-        ...prev,
-        messages: addMessageIfNotExists(prev.messages, sentMessage),
-        sending: false
-      }));
-      
       chatWebSocket.sendMessage(friendId, messageText);
+      setState(prev => ({ ...prev, sending: false }));
       scrollToBottom();
       
     } catch (error: any) {
@@ -138,7 +131,7 @@ export const useChatConversation = (friendId: number) => {
     chatWebSocket.joinConversation(friendId);
 
     const handleMessageReceived = (message: Message) => {
-      if (message.sender.id === friendId) {
+      if (message.sender.id === friendId || message.receiver.id === friendId) {
         setState(prev => ({
           ...prev,
           messages: addMessageIfNotExists(prev.messages, message)

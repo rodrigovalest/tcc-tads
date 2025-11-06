@@ -101,13 +101,14 @@ describe('UserService', () => {
 
   // Helper function to create test user
   const createTestUser = (): User => {
-    const user = new User('testuser', 'test@example.com', 'hashedPassword', CountryCode.Brazil);
+    const user = new User('Test User', 'testuser', 'test@example.com', 'hashedPassword', CountryCode.Brazil);
     user.id = 1;
     return user;
   };
 
   // Helper function to create test user DTO
   const createTestUserDto = (): CreateUserRequestDto => ({
+    name: 'Test User',
     username: 'testuser',
     email: 'test@example.com',
     password: 'password123',
@@ -120,6 +121,7 @@ describe('UserService', () => {
   // Helper function to create test response DTO
   const createTestResponseDto = (): UserResponseDto => ({
     id: 1,
+    name: 'Test User',
     username: 'testuser',
     email: 'test@example.com',
     nationality: CountryCode.Brazil,

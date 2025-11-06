@@ -42,7 +42,7 @@ export class FriendshipService {
       .leftJoinAndSelect('friend.languages', 'languages')
       .leftJoinAndSelect('friend.interestTopics', 'interestTopics')
       .where('friendship.userId = :userId', { userId })
-      .andWhere('friend.username ILIKE :searchTerm', { searchTerm: `%${searchTerm}%` })
+      .andWhere('(friend.username ILIKE :searchTerm OR friend.name ILIKE :searchTerm)', { searchTerm: `%${searchTerm}%` })
       .orderBy('friendship.createdAt', 'DESC')
       .getMany();
 
