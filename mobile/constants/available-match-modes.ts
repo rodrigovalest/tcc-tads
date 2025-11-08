@@ -21,6 +21,12 @@ export const AVALIABLE_MATCH_MODES: Record<MatchMode, IAvaliableMatchMode> = {
     matchMode: "time-attack-vocab",
     image: require("../assets/images/match_modes/word-builder.png"),
   },
+  "who-am-i": {
+    title: "Who Am I",
+    matchFormat: ["duo"],
+    matchMode: "who-am-i",
+    image: require("../assets/images/match_modes/who-am-i.png"),
+  },
 };
 
 export const getLocalizedMatchModes = (): Record<
@@ -39,6 +45,10 @@ export const getLocalizedMatchModes = (): Record<
     "time-attack-vocab": {
       ...AVALIABLE_MATCH_MODES["time-attack-vocab"],
       title: i18n.t("match.matchModes.timeAttackVocab"),
+    },
+    "who-am-i": {
+      ...AVALIABLE_MATCH_MODES["who-am-i"],
+      title: i18n.t("match.matchModes.whoAmI"),
     },
   };
 };
