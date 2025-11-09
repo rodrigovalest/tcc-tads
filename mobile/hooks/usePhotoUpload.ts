@@ -75,8 +75,6 @@ export const usePhotoUpload = ({
 
       if (!result.canceled && result.assets[0]) {
         onPhotoChange(result.assets[0].uri);
-      } else {
-        console.log("❌ Camera capture cancelled or failed");
       }
     } catch (error) {
       Alert.alert(

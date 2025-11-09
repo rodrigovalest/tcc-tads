@@ -12,6 +12,7 @@ interface GameHeaderProps {
   currentLetter: string;
   gameLanguage: MatchLanguage;
   onExit: () => void;
+  gameType?: "word-builder" | "time-attack-vocab";
 }
 
 const GameHeader: React.FC<GameHeaderProps> = ({
@@ -19,6 +20,7 @@ const GameHeader: React.FC<GameHeaderProps> = ({
   currentLetter,
   gameLanguage,
   onExit,
+  gameType = "word-builder",
 }) => {
   const { t } = useI18n();
 
@@ -56,10 +58,14 @@ const GameHeader: React.FC<GameHeaderProps> = ({
             style={{ marginRight: 8 }}
           />
           <Text className="text-xl font-nunito-extrabold text-appDarkGrey">
-            {formatTime(timeLeft)} | {t("wordBuilder.letter")}{" "}
-            {currentLetter.toUpperCase()}
+            {formatTime(timeLeft)} |{" "}
+            {gameType === "time-attack-vocab"
+              ? currentLetter
+              : `${t("wordBuilder.letter")} ${currentLetter.toUpperCase()}`}
           </Text>
-          <Text className="text-xl ml-2">{languageFlag}</Text>
+          {gameType === "word-builder" && (
+            <Text className="text-xl ml-2">{languageFlag}</Text>
+          )}
         </View>
       </View>
     </View>

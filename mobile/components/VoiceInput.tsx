@@ -1,240 +1,279 @@
-import React, { useState, useEffect, useRef } from "react";
-import { View, Text, TouchableOpacity, Animated, Alert } from "react-native";
-import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  ScrollView,
+  Platform,
+} from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+import Voice, { SpeechResultsEvent } from "@react-native-voice/voice";
 import { COLORS } from "../constants/colors";
-import Button from "./Button";
 import useI18n from "../hooks/useI18n";
-import VoiceRecognitionService from "../services/voice-recognition-service";
 
 interface VoiceInputProps {
   onSubmitWord: (word: string) => void;
   isGameActive: boolean;
   language?: string;
+  placeholder?: string;
+  title?: string;
 }
 
 const VoiceInput: React.FC<VoiceInputProps> = ({
   onSubmitWord,
   isGameActive,
-  language = "pt-BR",
+  language,
+  placeholder,
+  title,
 }) => {
   const [isListening, setIsListening] = useState(false);
-  const [recognizedText, setRecognizedText] = useState("");
-  const [isProcessing, setIsProcessing] = useState(false);
-  const pulseAnimation = useRef(new Animated.Value(1)).current;
-  const voiceService = useRef<VoiceRecognitionService | null>(null);
+  const [words, setWords] = useState<string[]>([]);
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
   const { t } = useI18n();
 
-  useEffect(() => {
-    if (isGameActive) {
-      voiceService.current = new VoiceRecognitionService({
-        onResult: (text: string) => {
-          const cleanText = text
-            .toLowerCase()
-            .trim()
-            .replace(/[^a-zA-ZáéíóúàèìòùâêîôûãõñçÁÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕÑÇ\s]/g, "")
-            .split(" ")[0];
-          setRecognizedText(cleanText);
-          setIsListening(false);
-          setIsProcessing(false);
-        },
-        onError: (error) => {
-          const errorCode =
-            error.error?.code || error.error?.message || "unknown";
+  async function onSpeechResults({ value }: SpeechResultsEvent) {
+    const recognizedText = value ?? [];
+    const fullText = recognizedText
+      .join(" ")
+      .replace(/[^a-zA-ZáéíóúàèìòùâêîôûãõñçÁÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕÑÇ\s]/g, "")
+      .trim();
 
-          if (errorCode === "7" || errorCode === "7/No match") {
-            setIsListening(false);
-            setIsProcessing(false);
-            return;
-          }
+    // Separa em palavras individuais
+    const newWords = fullText.split(/\s+/).filter((word) => word.length > 0);
 
-          console.error("Voice recognition error:", error);
-          setIsListening(false);
-          setIsProcessing(false);
-
-          Alert.alert(
-            t("common.error"),
-            t("wordBuilder.voiceRecognitionError"),
-            [{ text: t("common.ok") }]
-          );
-        },
-        onStart: () => {
-          setIsListening(true);
-          setIsProcessing(false);
-          startPulseAnimation();
-        },
-        onEnd: () => {
-          setIsListening(false);
-          stopPulseAnimation();
-        },
-      });
+    if (newWords.length > 0) {
+      setWords((prevWords) => [...prevWords, ...newWords]);
+      setIsListening(false);
+      await Voice.stop();
     }
+  }
+
+  function onSpeechError(error: any) {
+    const errorCode = error.error?.code || error.error?.message || "unknown";
+
+    // Ignora erros 5 (Client side error) e 7 (No match) pois são comuns e não críticos
+    // O erro 5 geralmente ocorre quando o reconhecimento termina abruptamente mas ainda captura a palavra
+    if (
+      errorCode === "5" ||
+      errorCode === "7" ||
+      errorCode === "5/Client side error" ||
+      errorCode === "7/No match"
+    ) {
+      console.log("Voice recognition: Non-critical error ignored:", errorCode);
+      return;
+    }
+
+    console.error("Voice recognition error:", error);
+    // Desliga o microfone apenas para erros críticos
+    setIsListening(false);
+  }
+
+  function onSpeechEnd() {
+    // Desliga o microfone quando a gravação terminar sem resultado
+    setIsListening(false);
+  }
+
+  async function handleListening() {
+    try {
+      if (isListening) {
+        await Voice.stop();
+        setIsListening(false);
+      } else {
+        await Voice.start(language || "pt-BR");
+        setIsListening(true);
+      }
+    } catch (e) {
+      console.error("Error handling listening:", e);
+      setIsListening(false);
+    }
+  }
+
+  useEffect(() => {
+    Voice.onSpeechResults = onSpeechResults;
+    Voice.onSpeechError = onSpeechError;
+    Voice.onSpeechEnd = onSpeechEnd;
 
     return () => {
-      voiceService.current?.destroy();
+      Voice.destroy().then(Voice.removeAllListeners);
     };
-  }, [isGameActive]);
+  }, []);
 
-  const startPulseAnimation = () => {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(pulseAnimation, {
-          toValue: 1.3,
-          duration: 800,
-          useNativeDriver: true,
-        }),
-        Animated.timing(pulseAnimation, {
-          toValue: 1,
-          duration: 800,
-          useNativeDriver: true,
-        }),
-      ])
-    ).start();
-  };
+  function handleRemoveWord(index: number) {
+    setWords((prevWords) => prevWords.filter((_, i) => i !== index));
+  }
 
-  const stopPulseAnimation = () => {
-    Animated.timing(pulseAnimation, {
-      toValue: 1,
-      duration: 200,
-      useNativeDriver: true,
-    }).start();
-  };
+  function handleMoveWord(fromIndex: number, toIndex: number) {
+    setWords((prevWords) => {
+      const newWords = [...prevWords];
+      const [movedWord] = newWords.splice(fromIndex, 1);
+      newWords.splice(toIndex, 0, movedWord);
+      return newWords;
+    });
+  }
 
-  const handleVoiceButtonPress = async () => {
-    if (!isGameActive) return;
-
-    if (isListening) {
-      await voiceService.current?.stopListening();
-      setIsListening(false);
-      setIsProcessing(false);
-    } else {
-      setRecognizedText("");
-      setIsProcessing(true);
-      const started = await voiceService.current?.startListening(language);
-      if (!started) {
-        setIsProcessing(false);
-      }
+  function handleSubmit() {
+    if (words.length > 0 && isGameActive) {
+      // Envia todas as palavras como uma única string
+      const finalText = words.join(" ").toLowerCase();
+      onSubmitWord(finalText);
+      setWords([]);
     }
-  };
+  }
 
-  const handleSubmit = () => {
-    if (recognizedText.trim().length > 0 && isGameActive) {
-      onSubmitWord(recognizedText.trim().toLowerCase());
-      setRecognizedText("");
-    }
-  };
-
-  const handleReRecord = () => {
-    setRecognizedText("");
-    handleVoiceButtonPress();
-  };
-
-  const getMicrophoneColor = () => {
-    if (!isGameActive) return COLORS.appMediumGrey;
-    if (isListening) return COLORS.appMediumRed;
-    if (isProcessing) return "#ff8800";
-    return COLORS.appBlack;
-  };
-
-  const getMicrophoneSize = () => {
-    return isListening ? 40 : 32;
-  };
+  const canSubmit = words.length > 0 && isGameActive;
 
   return (
     <View className="px-4 pt-2 pb-4">
       <View className="bg-appLightGrey rounded-xl p-4 border-2 border-appDarkGrey">
-        <Text className="text-lg font-nunito-bold text-appDarkGrey mb-3">
-          {t("wordBuilder.speakWord")}
+        <Text className="text-lg font-nunito-bold text-appDarkGrey mb-4">
+          {title || t("wordBuilder.speakWord")}
         </Text>
 
-        <View className="items-center mb-4">
-          <TouchableOpacity
-            onPress={handleVoiceButtonPress}
-            disabled={!isGameActive || isProcessing}
-            className={`w-20 h-20 rounded-full items-center justify-center border-2 ${
-              isListening
-                ? "bg-red-100 border-red-400"
-                : "bg-appBgWhite border-appMediumGrey"
-            }`}
-          >
-            <Animated.View
-              style={{
-                transform: [{ scale: isListening ? pulseAnimation : 1 }],
-              }}
-            >
+        {/* Área de palavras reconhecidas */}
+        <View className="mb-4 min-h-[100px] bg-appBgWhite border-2 border-appMediumGrey rounded-lg p-3">
+          {words.length === 0 ? (
+            <View className="flex-1 justify-center items-center py-6">
               <MaterialIcons
-                name="mic"
-                size={getMicrophoneSize()}
-                color={getMicrophoneColor()}
+                name="mic-none"
+                size={32}
+                color={COLORS.appMediumGrey}
               />
-            </Animated.View>
-          </TouchableOpacity>
+              <Text className="text-center text-appMediumGrey font-nunito-medium mt-2">
+                {placeholder || t("wordBuilder.tapToSpeak")}
+              </Text>
+            </View>
+          ) : (
+            <View className="flex-row flex-wrap gap-2">
+              {words.map((word, index) => (
+                <View
+                  key={`${word}-${index}`}
+                  className="flex-row items-center bg-appBlack rounded-full px-3 py-2"
+                  style={{
+                    elevation: 2,
+                    shadowColor: "#000",
+                    shadowOffset: { width: 0, height: 1 },
+                    shadowOpacity: 0.2,
+                    shadowRadius: 1.5,
+                  }}
+                >
+                  {/* Botão para mover para esquerda */}
+                  {index > 0 && (
+                    <TouchableOpacity
+                      onPress={() => handleMoveWord(index, index - 1)}
+                      className="mr-1 p-1"
+                      disabled={!isGameActive}
+                      hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                    >
+                      <MaterialIcons
+                        name="chevron-left"
+                        size={20}
+                        color={COLORS.appBgWhite}
+                      />
+                    </TouchableOpacity>
+                  )}
 
-          <Text className="text-sm font-nunito-medium text-appDarkGrey mt-2 text-center">
-            {isListening
-              ? t("wordBuilder.listening")
-              : isProcessing
-              ? t("wordBuilder.processing")
-              : t("wordBuilder.tapToSpeak")}
-          </Text>
+                  {/* Palavra */}
+                  <Text className="text-appBgWhite font-nunito-bold text-base px-1">
+                    {word}
+                  </Text>
+
+                  {/* Botão para mover para direita */}
+                  {index < words.length - 1 && (
+                    <TouchableOpacity
+                      onPress={() => handleMoveWord(index, index + 1)}
+                      className="p-1"
+                      disabled={!isGameActive}
+                      hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                    >
+                      <MaterialIcons
+                        name="chevron-right"
+                        size={20}
+                        color={COLORS.appBgWhite}
+                      />
+                    </TouchableOpacity>
+                  )}
+
+                  {/* Botão de deletar */}
+                  <TouchableOpacity
+                    onPress={() => handleRemoveWord(index)}
+                    className="ml-1 p-1"
+                    disabled={!isGameActive}
+                    hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                  >
+                    <MaterialIcons
+                      name="close"
+                      size={20}
+                      color={COLORS.appBgWhite}
+                    />
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </View>
+          )}
         </View>
 
-        {recognizedText ? (
-          <View className="bg-appBgWhite border border-appMediumGrey rounded-lg p-4 mb-3">
-            <Text className="text-lg font-nunito-medium text-appBlack text-center">
-              "{recognizedText}"
-            </Text>
-          </View>
-        ) : null}
+        {/* Botões de controle */}
+        <View className="flex-row items-center space-x-3">
+          {/* Botão do microfone */}
+          <TouchableOpacity
+            onPress={handleListening}
+            disabled={!isGameActive}
+            className="flex-1 rounded-lg items-center justify-center border-2 py-3"
+            style={{
+              backgroundColor: isListening
+                ? COLORS.appRed
+                : isGameActive
+                ? COLORS.appBlack
+                : COLORS.appLightGrey,
+              borderColor: isListening
+                ? COLORS.appRed
+                : isGameActive
+                ? COLORS.appBlack
+                : COLORS.appMediumGrey,
+              opacity: isGameActive ? 1 : 0.6,
+            }}
+          >
+            <View className="flex-row items-center">
+              <MaterialIcons
+                name={isListening ? "mic" : "mic-none"}
+                size={24}
+                color={isGameActive ? COLORS.appBgWhite : COLORS.appMediumGrey}
+              />
+              <Text
+                className="ml-2 font-nunito-bold"
+                style={{
+                  color: isGameActive
+                    ? COLORS.appBgWhite
+                    : COLORS.appMediumGrey,
+                  fontSize: 16,
+                }}
+              >
+                {isListening
+                  ? t("wordBuilder.listening")
+                  : t("wordBuilder.tapToSpeak")}
+              </Text>
+            </View>
+          </TouchableOpacity>
 
-        <View className="flex-row space-x-2">
-          {recognizedText ? (
-            <>
-              <Button
-                title={t("wordBuilder.reRecord")}
-                onPress={handleReRecord}
-                disabled={!isGameActive}
-                className="flex-1"
-                textSize="sm"
-                bgColor="bg-appMediumGrey"
-                bgColorActivate="bg-appDarkGrey"
-                textColor="text-appBgWhite"
-                textColorActivate="text-appBgWhite"
-                iconLeft="microphone"
-                iconLeftSize={16}
-              />
-              <Button
-                title={t("wordBuilder.submit")}
-                onPress={handleSubmit}
-                disabled={!isGameActive || recognizedText.trim().length === 0}
-                className="flex-1"
-                textSize="sm"
-                bgColor="bg-appDarkGrey"
-                bgColorActivate="bg-appBlack"
-                textColor="text-appBgWhite"
-                textColorActivate="text-appBgWhite"
-                iconLeft="paper-plane"
-                iconLeftSize={16}
-              />
-            </>
-          ) : (
-            <Button
-              title={
-                isListening
-                  ? t("wordBuilder.stopListening")
-                  : t("wordBuilder.startListening")
-              }
-              onPress={handleVoiceButtonPress}
-              disabled={!isGameActive}
-              className="w-full"
-              textSize="base"
-              bgColor={isListening ? "bg-red-500" : "bg-appDarkGrey"}
-              bgColorActivate={isListening ? "bg-red-600" : "bg-appBlack"}
-              textColor="text-appBgWhite"
-              textColorActivate="text-appBgWhite"
-              iconLeft={isListening ? "stop" : "microphone"}
-              iconLeftSize={18}
+          {/* Botão de enviar */}
+          <TouchableOpacity
+            onPress={handleSubmit}
+            disabled={!canSubmit}
+            className="w-14 h-14 rounded-lg items-center justify-center border-2"
+            style={{
+              backgroundColor: canSubmit
+                ? COLORS.appBlack
+                : COLORS.appLightGrey,
+              borderColor: canSubmit ? COLORS.appBlack : COLORS.appMediumGrey,
+              opacity: canSubmit ? 1 : 0.6,
+            }}
+          >
+            <MaterialIcons
+              name="send"
+              size={20}
+              color={canSubmit ? COLORS.appBgWhite : COLORS.appMediumGrey}
             />
-          )}
+          </TouchableOpacity>
         </View>
       </View>
     </View>

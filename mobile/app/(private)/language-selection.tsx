@@ -8,6 +8,7 @@ import Toast from "react-native-toast-message";
 import { AVALIABLE_MATCH_MODES } from "../../constants/available-match-modes";
 import IAvaliableMatchMode from "../../models/interfaces/avaliable_match_mode";
 import useMatchStore from "../../store/match-store";
+import useTimeAttackVocabStore from "../../store/time-attack-vocab-store";
 import useI18n from "../../hooks/useI18n";
 
 import Button from "../../components/Button";
@@ -26,6 +27,8 @@ export default function LanguageSelection() {
     setMatchFormat,
     setInputMode,
   } = useMatchStore();
+  const { sourceLanguage, setSourceLanguage, resetTimeAttackVocab } =
+    useTimeAttackVocabStore();
   const { t } = useI18n();
   const router = useRouter();
 
@@ -39,10 +42,24 @@ export default function LanguageSelection() {
 
   const onBack = async () => {
     await resetMatch();
+    await resetTimeAttackVocab();
     router.replace("/(private)/(tabs)/matches");
   };
 
   const onPlay = () => {
+    if (matchMode === "time-attack-vocab") {
+      if (!sourceLanguage) {
+        Toast.show({
+          type: "error",
+          text1: t("validation.languageRequired"),
+          text2: t("validation.selectSourceLanguage"),
+        });
+        return;
+      }
+      router.navigate("/time-attack-vocab/language-selection" as any);
+      return;
+    }
+
     if (!matchMode || !matchFormat || !matchLanguage) return;
 
     if (matchMode === "word-builder" && !inputMode) {
@@ -90,23 +107,39 @@ export default function LanguageSelection() {
             {t("match.gameMode")}: {selectedMatchMode.title}
           </Text>
 
-          <Text className="text-xl font-nunito-bold text-appBlack mb-2">
-            {t("match.matchFormat")}
-          </Text>
+          {matchMode !== "time-attack-vocab" && (
+            <>
+              <Text className="text-xl font-nunito-bold text-appBlack mb-2">
+                {t("match.matchFormat")}
+              </Text>
 
-          <View className="mb-8">
-            <MatchFormatSelector
-              avaliableMatchFormats={selectedMatchMode.matchFormat}
-              selected={matchFormat}
-              onSelect={setMatchFormat}
-            />
-          </View>
-          <View className="mb-8">
-            <MatchLanguageSelector
-              selected={matchLanguage}
-              onSelect={setMatchLanguage}
-            />
-          </View>
+              <View className="mb-8">
+                <MatchFormatSelector
+                  avaliableMatchFormats={selectedMatchMode.matchFormat}
+                  selected={matchFormat}
+                  onSelect={setMatchFormat}
+                />
+              </View>
+            </>
+          )}
+          {matchMode === "time-attack-vocab" ? (
+            <View className="mb-8">
+              <Text className="text-lg font-nunito-bold text-appBlack mb-3">
+                {t("match.sourceLanguage")} ({t("match.languageToLearn")})
+              </Text>
+              <MatchLanguageSelector
+                selected={sourceLanguage}
+                onSelect={setSourceLanguage}
+              />
+            </View>
+          ) : (
+            <View className="mb-8">
+              <MatchLanguageSelector
+                selected={matchLanguage}
+                onSelect={setMatchLanguage}
+              />
+            </View>
+          )}
 
           {matchMode === "word-builder" && (
             <View className="mb-8">
@@ -115,19 +148,27 @@ export default function LanguageSelection() {
           )}
 
           <Button
-            title={t("common.play")}
+            title={
+              matchMode === "time-attack-vocab"
+                ? t("common.next")
+                : t("common.play")
+            }
             onPress={onPlay}
             disabled={
-              matchFormat === null ||
-              matchLanguage === null ||
-              (matchMode === "word-builder" && inputMode === null)
+              matchMode === "time-attack-vocab"
+                ? sourceLanguage === null
+                : matchFormat === null ||
+                  matchLanguage === null ||
+                  (matchMode === "word-builder" && inputMode === null)
             }
             bgColor="bg-black"
             textColor="text-white"
             borderColor="border-black"
             bgColorActivate="bg-gray-800"
             className="py-4"
-            iconRight={"play"}
+            iconRight={
+              matchMode === "time-attack-vocab" ? "arrow-forward" : "play"
+            }
             iconRightSize={20}
             iconRightColor="white"
           />

@@ -191,8 +191,13 @@
     "matchModes": {
       "conversation": "Conversa",
       "justChilling": "Relaxando",
-      "wordBuilder": "Construtor de Palavras"
+      "wordBuilder": "Construtor de Palavras",
+      "timeAttackVocab": "Vocabulário Contra o Tempo"
     },
+    "sourceLanguage": "Idioma fonte",
+    "targetLanguage": "Idioma alvo",
+    "languageToLearn": "idioma que você quer aprender",
+    "responseLanguage": "idioma das respostas",
     "errors": {
       "somethingWentWrong": "Algo deu errado!"
     }
@@ -233,6 +238,10 @@
     "stopListening": "Parar de escutar",
     "reRecord": "Gravar novamente",
     "voiceRecognitionError": "Erro no reconhecimento de voz. Tente novamente."
+  },
+  "voiceInput": {
+    "wordToSpeak": "Palavra a falar",
+    "instructions": "Toque no microfone para falar"
   },
   "navigation": {
     "matches": "Partidas",
@@ -425,5 +434,39 @@
     "callerCancelled": "A chamada foi cancelada",
     "callTimeout": "Tempo esgotado",
     "noResponse": "Sem resposta do amigo"
+
+  "validation": {
+    "allFieldsRequired": "Por favor, preencha todos os campos.",
+    "selectAllOptions": "Selecione o idioma alvo, o modo de entrada e o nível.",
+    "sameLanguageError": "O idioma alvo não pode ser o mesmo do idioma de origem.",
+    "selectDifferentTargetLanguage": "Selecione um idioma alvo diferente."
+  },
+  "timeAttackVocab": {
+    "selectLevel": "Selecione o nível de vocabulário",
+    "levels": {
+      "basic": "Básico",
+      "intermediate": "Intermediário",
+      "advanced": "Avançado"
+    },
+    "setup": "Configuração do Vocabulário Contra o Tempo",
+    "wordsWillAppearIn": "As palavras aparecerão em",
+    "gameFormat": "Formato do jogo",
+    "gameMode": "Modo de jogo",
+    "translateThis": "Traduza esta palavra",
+    "from": "do",
+    "to": "para o",
+    "score": "Pontuação",
+    "wordsTranslated": "Palavras traduzidas",
+    "typeTranslation": "Digite a tradução",
+    "gameOver": "Fim de Jogo!",
+    "finalScore": "Pontuação final",
+    "correctTranslations": "Traduções corretas",
+    "incorrectTranslations": "Traduções incorretas",
+    "avgTimePerWord": "Tempo médio por palavra",
+    "playAgain": "Jogar Novamente",
+    "backToMenu": "Voltar ao Menu",
+    "speakTranslation": "Fale a tradução",
+    "tapToSpeak": "Toque para falar",
+    "enterTranslation": "Digite a tradução"
   }
 }

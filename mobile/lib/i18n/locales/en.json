@@ -203,8 +203,13 @@
     "matchModes": {
       "conversation": "Conversation",
       "justChilling": "Just Chilling",
-      "wordBuilder": "Word Builder"
+      "wordBuilder": "Word Builder",
+      "timeAttackVocab": "Time Attack Vocab"
     },
+    "sourceLanguage": "Source language",
+    "targetLanguage": "Target language",
+    "languageToLearn": "language you want to learn",
+    "responseLanguage": "response language",
     "rate": {
       "sucess": {
         "title": "Rating submitted",
@@ -281,6 +286,10 @@
     "reRecord": "Record again",
     "voiceRecognitionError": "Voice recognition error. Please try again."
   },
+  "voiceInput": {
+    "wordToSpeak": "Word to speak",
+    "instructions": "Tap the microphone to speak"
+  },
   "navigation": {
     "matches": "Matches",
     "chat": "Chat",
@@ -326,9 +335,24 @@
     "th": "Thai"
   },
   "profileOld": {
+  "profile": {
+    "title": "Profile",
+    "editProfile": "Edit Profile",
+    "aboutMe": "About me",
+    "languages": "Languages",
+    "interests": "Interests",
+    "accountInfo": "Account Information",
+    "memberSince": "Member since",
+    "lastLogin": "Last login",
+    "accountStatus": "Account status",
+    "active": "Active",
+    "inactive": "Inactive",
+    "never": "Never",
     "loading": "Loading profile...",
     "error": "Failed to load profile",
+    "errorLoading": "Error loading profile",
     "retry": "Try again",
+    "tryAgain": "Try Again",
     "fluency": {
       "beginner": "Beginner",
       "intermediate": "Intermediate",
@@ -517,5 +541,73 @@
     "callerCancelled": "The call was cancelled",
     "callTimeout": "Call timeout",
     "noResponse": "No response from friend"
+
+  "validation": {
+    "allFieldsRequired": "Please fill all required fields.",
+    "selectAllOptions": "Select target language, input mode, and level.",
+    "sameLanguageError": "Target language cannot be the same as source language.",
+    "selectDifferentTargetLanguage": "Please select a different target language."
+  },
+
+  "timeAttackVocab": {
+    "selectLevel": "Select vocabulary level",
+    "levels": {
+      "basic": "Basic",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced"
+    },
+    "title": "Time Attack Vocab",
+    "setup": "Time Attack Vocab Setup",
+    "wordsWillAppearIn": "Words will appear in",
+    "gameFormat": "Game format: translate from source to target",
+    "from": "from",
+    "to": "to",
+    "translateThis": "Translate this word",
+    "selectSourceLanguage": "Select your native language",
+    "selectTargetLanguage": "Select the language you want to practice",
+    "selectInputMode": "Select how you want to respond",
+    "inputModes": {
+      "text": "Type",
+      "voice": "Voice"
+    },
+    "startGame": "Start Game",
+    "gameOver": "Game Over!",
+    "score": "Score",
+    "timeUp": "Time's up!",
+    "correctAnswers": "Correct answers",
+    "totalWords": "Total words",
+    "finalScore": "Final score",
+    "wordsTranslated": "Words translated",
+    "correctTranslations": "Correct translations",
+    "incorrectTranslations": "Incorrect translations",
+    "avgTimePerWord": "Average time per word",
+    "gameMode": "Game mode",
+    "accuracy": "Accuracy",
+    "wordsPerMinute": "Words per minute",
+    "playAgain": "Play Again",
+    "backToMenu": "Back to Menu",
+    "translate": "Translate",
+    "skip": "Skip",
+    "submit": "Submit",
+    "listening": "Listening...",
+    "processing": "Processing...",
+    "tapToSpeak": "Tap to speak",
+    "tapToStop": "Tap to stop",
+    "voiceError": "Voice recognition error",
+    "tryAgainVoice": "Try again",
+    "correct": "Correct!",
+    "incorrect": "Incorrect",
+    "expectedAnswer": "Expected answer",
+    "yourAnswer": "Your answer",
+    "timeLeft": "Time left",
+    "seconds": "seconds",
+    "results": "Results",
+    "excellent": "Excellent!",
+    "good": "Good!",
+    "needsImprovement": "Needs improvement",
+    "keepPracticing": "Keep practicing",
+    "speakTranslation": "Speak the translation",
+    "enterTranslation": "Enter translation",
+    "typeTranslation": "Type the translation"
   }
 }
