@@ -335,7 +335,6 @@
     "th": "Thai"
   },
   "profileOld": {
-  "profile": {
     "title": "Profile",
     "editProfile": "Edit Profile",
     "aboutMe": "About me",
@@ -541,7 +540,7 @@
     "callerCancelled": "The call was cancelled",
     "callTimeout": "Call timeout",
     "noResponse": "No response from friend"
-
+  },
   "validation": {
     "allFieldsRequired": "Please fill all required fields.",
     "selectAllOptions": "Select target language, input mode, and level.",

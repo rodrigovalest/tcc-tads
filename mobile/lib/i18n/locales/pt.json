@@ -434,7 +434,7 @@
     "callerCancelled": "A chamada foi cancelada",
     "callTimeout": "Tempo esgotado",
     "noResponse": "Sem resposta do amigo"
-
+  },
   "validation": {
     "allFieldsRequired": "Por favor, preencha todos os campos.",
     "selectAllOptions": "Selecione o idioma alvo, o modo de entrada e o nível.",

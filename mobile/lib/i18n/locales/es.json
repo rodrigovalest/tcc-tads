@@ -428,7 +428,7 @@
     "accept": "Aceptar",
     "reject": "Rechazar",
     "endCall": "Finalizar Llamada"
-
+  },
   "validation": {
     "allFieldsRequired": "Por favor completa todos los campos.",
     "selectAllOptions": "Selecciona el idioma destino, el modo de entrada y el nivel.",
@@ -476,6 +476,7 @@
     "callerCancelled": "La llamada fue cancelada",
     "callTimeout": "Tiempo agotado",
     "noResponse": "Sin respuesta del amigo"
+  },
   "timeAttackVocab": {
     "selectLevel": "Selecciona el nivel de vocabulario",
     "levels": {
