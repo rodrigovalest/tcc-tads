@@ -2,10 +2,10 @@ import Spinner from '../../../../components/Spinner';
 import React from 'react';
 import { Text, Image, SafeAreaView } from 'react-native';
 import useI18n from '../../../../hooks/useI18n';
-import useMatchmaking from '../../../../hooks/useMatchmaking';
+import useGuessWhoMatchmaking from '../../../../hooks/useGuessWhoMatchmaking';
 
 export default function GuessWhoWaiting() {
-  useMatchmaking();
+  useGuessWhoMatchmaking();
   const { t } = useI18n();
 
   return (

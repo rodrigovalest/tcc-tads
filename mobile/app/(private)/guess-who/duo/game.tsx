@@ -1,4 +1,11 @@
-import { Text, View } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useState } from "react";
 import { GuessWhoStage } from "../../../../models/types/guess-who-stage.type";
@@ -6,15 +13,37 @@ import Animated, { FadeIn, FadeOut, SlideInUp } from "react-native-reanimated";
 import { useRouter } from "expo-router";
 import useAuthStore from "../../../../store/auth-store";
 import useMatchStore from "../../../../store/match-store";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  Feather,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import { COLORS } from "../../../../constants/colors";
-import { SafeAreaView } from "react-native-safe-area-context";
+import useGuessWhoDuo from "../../../../hooks/useGuessWhoDuo";
+import useGuessWhoStore from "../../../../store/guess-who-store";
+import { CHARACTERS } from "../../../../constants/guess-who-characters";
+import { RTCView } from "react-native-webrtc";
+import GuessWhoVideoCardComponent from "../../../../components/guess-who/GuessWhoVideoCard";
+import GuessWhoTimerComponent from "../../../../components/guess-who/GuessWhoTimer";
 
 export default function GuessWhoDuoGame() {
   const [stage, setStage] = useState<GuessWhoStage>("intro");
+  const {
+    localStream,
+    remoteStream,
+    start,
+    switchAudio,
+    switchVideo,
+    isMicMuted,
+    isVideoMuted,
+    endCall,
+  } = useGuessWhoDuo(() => {
+    router.replace("/(private)/match-rate-duo");
+  });
 
   const { user: loggedUser } = useAuthStore();
   const { buddy } = useMatchStore();
+  const { characters, pairCharacter } = useGuessWhoStore();
   const router = useRouter();
 
   useEffect(() => {
@@ -25,33 +54,69 @@ export default function GuessWhoDuoGame() {
     return () => timers.forEach(clearTimeout);
   }, []);
 
+  useEffect(() => {
+    start();
+
+    return () => {
+      endCall();
+    };
+  }, []);
+
+  const onMute = () => {
+    switchAudio();
+  };
+
+  const onVideoOff = () => {
+    switchVideo();
+  };
+
+  const onEndCall = () => {
+    endCall();
+  };
+
   return (
     <LinearGradient
       colors={["#501E3F", "#49AA8F"]}
       start={{ x: 0.5, y: 0 }}
       end={{ x: 0.5, y: 1 }}
-      className="flex-1 items-center justify-center px-6"
+      className="flex-1 items-center justify-center"
     >
       {stage === "intro" && (
         <Animated.View
           entering={FadeIn.duration(800)}
-          exiting={FadeOut.duration(500)}
-          className="items-center"
+          exiting={FadeOut.duration(1000)}
+          className="items-center px-6"
         >
-          <Text className="text-appBgWhite text-4xl font-nunito-bold text-center">Guess Who?</Text>
+          <Text className="text-appBgWhite text-4xl font-nunito-bold text-center">
+            Guess Who
+          </Text>
 
           <View className="flex-row justify-between items-center w-full px-10 my-6">
             <View className="items-center">
-              <View className="p-2 bg-appBgWhite rounded-[1000px]">
-                <MaterialCommunityIcons
-                  name="account"
-                  size={50}
-                  color={COLORS.appDarkGrey}
+              <View className="relative">
+                <View className="p-1 bg-appBgWhite rounded-full">
+                  {loggedUser?.photoUri ? (
+                    <Image
+                      source={{ uri: loggedUser.photoUri }}
+                      className="w-20 h-20 rounded-full"
+                    />
+                  ) : (
+                    <MaterialCommunityIcons
+                      name="account"
+                      size={70}
+                      color={COLORS.appDarkGrey}
+                    />
+                  )}
+                </View>
+
+                <Image
+                  source={require("../../../../assets/images/flags/brazil.png")}
+                  className="w-8 h-8 rounded-full absolute -top-2 -right-2 border-2 border-white"
                 />
               </View>
 
-              <Text className="my-2 text-appDarkGrey text-xl font-nunito-medium">
-                {loggedUser?.username || "You"}
+              <Text className="my-2 text-appBgWhite text-xl font-nunito-medium">
+                {loggedUser?.username || "João"}
               </Text>
             </View>
 
@@ -60,16 +125,30 @@ export default function GuessWhoDuoGame() {
             </Text>
 
             <View className="items-center">
-              <View className="p-2 bg-appBgWhite rounded-[1000px]">
-                <MaterialCommunityIcons
-                  name="account"
-                  size={50}
-                  color={COLORS.appDarkGrey}
+              <View className="relative">
+                <View className="p-1 bg-appBgWhite rounded-full">
+                  {buddy?.photoUri ? (
+                    <Image
+                      source={{ uri: buddy.photoUri }}
+                      className="w-20 h-20 rounded-full"
+                    />
+                  ) : (
+                    <MaterialCommunityIcons
+                      name="account"
+                      size={70}
+                      color={COLORS.appDarkGrey}
+                    />
+                  )}
+                </View>
+
+                <Image
+                  source={require("../../../../assets/images/flags/brazil.png")}
+                  className="w-8 h-8 rounded-full absolute -top-2 -right-2 border-2 border-white"
                 />
               </View>
 
-              <Text className="my-2 text-appDarkGrey text-xl font-nunito-medium">
-                {buddy?.username || "Buddy"}
+              <Text className="my-2 text-appBgWhite text-xl font-nunito-medium">
+                {buddy?.username || "Adam"}
               </Text>
             </View>
           </View>
@@ -79,18 +158,134 @@ export default function GuessWhoDuoGame() {
       {stage === "reveal" && (
         <Animated.View
           entering={SlideInUp.springify().damping(14)}
-          exiting={FadeOut.duration(400)}
+          exiting={FadeOut.duration(1000)}
           className="items-center"
         >
-          <Text className="text-white text-3xl font-semibold">
-            Buddy é: 👩‍🚀 Astronauta!
-          </Text>
+          <View className="bg-[#E5FF55] rounded-2xl pb-6 px-8 items-center mt-12 relative">
+            <View className="absolute -top-12">
+              <Image
+                source={CHARACTERS[pairCharacter!.image]}
+                className="w-36 h-36"
+                resizeMode="contain"
+              />
+            </View>
+
+            <Text className="text-appDarkGrey text-base font-nunito-medium mt-28">
+              Buddy character's is:
+            </Text>
+
+            <Text className="text-appDarkGrey text-4xl font-nunito-bold">
+              {pairCharacter!.name}
+            </Text>
+          </View>
         </Animated.View>
       )}
 
       {stage === "game" && (
-        <Animated.View entering={FadeIn.duration(800)} className="items-center">
-          <Text className="text-white text-2xl font-semibold">Tabuleiro</Text>
+        <Animated.View
+          entering={FadeIn.duration(800)}
+          className="w-full h-full items-center bg-gradient-to-b from-[#3B1347] to-[#0C141F]"
+        >
+          {/* --- Header --- */}
+          <View className="flex-row justify-between items-center w-full px-6 pt-8">
+            {/* Player 1 */}
+            <GuessWhoVideoCardComponent
+              stream={localStream}
+              name={loggedUser?.username || "you"}
+              countryFlag={require("../../../../assets/images/flags/brazil.png")}
+            />
+
+            {/* Timer */}
+            <GuessWhoTimerComponent
+              startTime={new Date()}
+              endTime={new Date(new Date().getTime() + 15000)}
+            />
+
+            {/* Player 2 */}
+            <GuessWhoVideoCardComponent
+              stream={remoteStream}
+              name={buddy?.username || "Buddy"}
+              countryFlag={require("../../../../assets/images/flags/brazil.png")}
+            />
+          </View>
+
+          {/* Board */}
+          <View className="bg-appDarkGrey w-[95%] justify-center items-center p-4 mt-4 rounded-2xl">
+            <View className="bg-[#E5FF55] rounded-2xl pb-2 px-4 items-center mt-12 w-auto">
+              <View className="absolute -top-12">
+                <Image
+                  source={CHARACTERS[pairCharacter!.image]}
+                  className="w-20 h-20"
+                  resizeMode="contain"
+                />
+              </View>
+
+              <Text className="text-appDarkGrey text-xs font-nunito-medium mt-10">
+                Buddy character's is
+              </Text>
+
+              <Text className="text-appDarkGrey text-xl font-nunito-bold">
+                {pairCharacter!.name}
+              </Text>
+            </View>
+
+            <ScrollView
+              contentContainerStyle={{ alignItems: "center" }}
+              className="mt-8 mb-2 flex-grow"
+            >
+              <View className="flex-wrap flex-row justify-center">
+                {characters!.map((char) => {
+                  return (
+                    <View key={char.id} className={"w-[22%] mx-[1%] items-center mt-3"}>
+                      <Image
+                        source={CHARACTERS[char.image]}
+                        className="w-full h-20"
+                        resizeMode="contain"
+                      />
+                      <Text className={"text-sm font-medium mt-1 text-white"}>
+                        {char.name}
+                      </Text>
+                    </View>
+                  );
+                })}
+              </View>
+            </ScrollView>
+          </View>
+
+          {/* --- Bottom controls */}
+          <View
+            className="absolute bottom-0 left-0 right-0 bg-appBlack px-10 pt-8 pb-10 flex-row justify-between items-center rounded-t-3xl"
+            style={{ width: '100%' }}
+          >
+            <TouchableOpacity
+              className="bg-[#4F4F47] rounded-full p-4"
+              onPress={onMute}
+            >
+              <Feather
+                name={isMicMuted ? "mic" : "mic-off"}
+                size={26}
+                color="#FEFBF4"
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              className="bg-[#4F4F47] rounded-full p-4"
+              onPress={onVideoOff}
+            >
+              <Feather
+                name={isVideoMuted ? "video" : "video-off"}
+                size={26}
+                color="#FEFBF4"
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              className="bg-appMediumRed rounded-full p-4"
+              onPress={onEndCall}
+            >
+              <MaterialIcons name="call-end" size={26} color="#FEFBF4" />
+            </TouchableOpacity>
+          </View>
         </Animated.View>
       )}
     </LinearGradient>

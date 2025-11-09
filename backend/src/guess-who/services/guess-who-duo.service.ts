@@ -9,6 +9,8 @@ import { MatchMode } from '../../match/entities/match-mode.enum';
 import { Match } from '../../match/entities/match.entity';
 import { UserQueue } from '../../match/entities/user-queue.entity';
 import { UserService } from '../../user/services/user.service';
+import { CHARACTERS } from '../constants/characters';
+import { UserMatch } from 'src/match/entities/user-match.entity';
 
 @Injectable()
 export class GuessWhoService {
@@ -78,6 +80,19 @@ export class GuessWhoService {
         language: language,
         match,
       });
+
+      const shuffled = this.shuffle([...CHARACTERS]);
+      const characters = shuffled.slice(0, 16);
+      const characterUser1 = this.pickRandom(characters);
+      const characterUser2 = this.pickRandom(characters);
+
+      this.eventEmitter.emit('guess-who:duo:characters-selected', {
+        userQueue1: usersQueue[0],
+        userQueue2: usersQueue[1],
+        characters,
+        characterUser1,
+        characterUser2,
+      });
     }
   }
 
@@ -90,5 +105,18 @@ export class GuessWhoService {
     }
 
     await this.matchService.completeMatch(socketId);
+  }
+
+  
+  private shuffle<T>(array: T[]): T[] {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  private pickRandom<T>(list: T[]): T {
+    return list[Math.floor(Math.random() * list.length)];
   }
 }

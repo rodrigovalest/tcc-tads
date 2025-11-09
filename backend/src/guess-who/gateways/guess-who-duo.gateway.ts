@@ -14,6 +14,8 @@ import { Match } from '../../match/entities/match.entity';
 import { UserQueue } from '../../match/entities/user-queue.entity';
 import { WsExceptionFilter } from '../../shared/filters/ws-exception.filter';
 import { WsValidationPipe } from '../../shared/pipes/WsValidationPipe';
+import { Character } from '../entities/character.entity';
+import { UserMatch } from 'src/match/entities/user-match.entity';
 
 @UsePipes(new WsValidationPipe())
 @UseFilters(new WsExceptionFilter())
@@ -106,12 +108,14 @@ export class GuessWhoGateway implements OnGatewayDisconnect {
     user2PhotoUri: string | null;
     language: MatchLanguage;
     match: Match;
+    characters: Character[];
+    characterUser1: Character;
+    characterUser2: Character;
   }) {
     const notifyUser = (
       user: UserQueue,
       isOfferer: boolean,
       pair: UserQueue,
-      userPhotoUri: string | null,
       pairPhotoUri: string | null,
     ) => {
       const socket = this.server.sockets.sockets.get(user.socketId);
@@ -133,12 +137,40 @@ export class GuessWhoGateway implements OnGatewayDisconnect {
             nationality: pair.nationality,
             photoUri: pairPhotoUri,
           },
-          yourPhotoUri: userPhotoUri,
         });
       }
     };
 
-    notifyUser(payload.userQueue1, true, payload.userQueue2, payload.user1PhotoUri, payload.user2PhotoUri);
-    notifyUser(payload.userQueue2, false, payload.userQueue1, payload.user2PhotoUri, payload.user1PhotoUri);
+    notifyUser(payload.userQueue1, true, payload.userQueue2, payload.user2PhotoUri);
+    notifyUser(payload.userQueue2, false, payload.userQueue1, payload.user1PhotoUri);
+  }
+
+  @OnEvent('guess-who:duo:characters-selected')
+  handleDuoCharactersSelected(payload: {
+    userQueue1: UserQueue;
+    userQueue2: UserQueue;
+    characters: Character[];
+    characterUser1: Character;
+    characterUser2: Character;
+  }) {
+    const notifyUser = (
+      userSocketId: string,
+      characters: Character[],
+      pairCharacter: Character,
+    ) => {
+      const socket = this.server.sockets.sockets.get(userSocketId);
+
+      if (socket) {
+        socket.emit('guess-who:duo:characters-selected', {
+          message: 'characters selected for guess who duo match',
+          timestamp: new Date().toISOString(),
+          characters: characters,
+          pairCharacter: pairCharacter,
+        });
+      }
+    };
+
+    notifyUser(payload.userQueue1.socketId, payload.characters, payload.characterUser2);
+    notifyUser(payload.userQueue2.socketId, payload.characters, payload.characterUser1);
   }
 }
