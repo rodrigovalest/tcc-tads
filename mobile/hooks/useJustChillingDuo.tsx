@@ -75,9 +75,6 @@ const useJustChillingDuo = (redirectOnEnd: () => void) => {
     remoteStream?.getTracks().forEach(track => track.stop());
     setLocalStream(null);
     setRemoteStream(null);
-    if (webSocketService.isConnected()) {
-      webSocketService.disconnect();
-    }
     redirectOnEnd();
   };
 
@@ -108,8 +105,6 @@ const useJustChillingDuo = (redirectOnEnd: () => void) => {
     };
 
     pc.oniceconnectionstatechange = () => {
-      console.log("[ICE] Estado ICE:", pc.connectionState);
-
       if (["disconnected", "failed", "closed"].includes(pc.connectionState)) {
         endCall();
       }
@@ -162,7 +157,6 @@ const useJustChillingDuo = (redirectOnEnd: () => void) => {
       webSocketService.off("just-chilling:duo:webrtc:offer");
       webSocketService.off("just-chilling:duo:webrtc:answer");
       webSocketService.off("just-chilling:duo:webrtc:ice-candidate");
-      endCall();
     };
   }, []);
 

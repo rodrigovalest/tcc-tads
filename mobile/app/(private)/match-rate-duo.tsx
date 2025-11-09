@@ -62,7 +62,7 @@ export default function MatchRateDuo() {
     router.replace("/(private)/(tabs)/matches");
   };
 
-  if (!buddy || !matchId || isPending) {
+  if (!buddy || !matchId || !matchLanguage || isPending) {
     return <SafeAreaView className="bg-appBgWhite items-center justify-center w-full h-full"><Spinner /></SafeAreaView>;
   }
 
@@ -73,7 +73,7 @@ export default function MatchRateDuo() {
     >
       <ScrollView className="mt-8 mb-3">
         <Text className="text-3xl px-8 font-nunito-bold text-appBlack mb-4">
-          {t("match.rate.title", { name: buddy.username, language: getMatchLanguageName(matchLanguage!).toLowerCase() }) || `How do you rate {buddy.username}'s ${getMatchLanguageName(matchLanguage!).toLowerCase()} skills?`}
+          {t("match.rate.title", { name: buddy.username, language: getMatchLanguageName(matchLanguage).toLowerCase() }) || `How do you rate ${buddy.username}'s ${getMatchLanguageName(matchLanguage).toLowerCase()} skills?`}
         </Text>
 
         <Text className="text-appDarkGrey text-lg px-8 font-nunito-medium mb-6">

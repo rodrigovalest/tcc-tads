@@ -22,13 +22,11 @@ export const GlobalCallModals: React.FC = () => {
   
   useEffect(() => {
     if (matchId && buddy && matchId !== previousMatchIdRef.current) {
-      previousMatchIdRef.current = matchId;
-      
+      previousMatchIdRef.current = matchId;  
       const timeoutId = setTimeout(() => {
         try {
           router.push('/(private)/just-chilling/duo/game');
         } catch (error) {
-          console.error('[GlobalCallModals] Navigation error:', error);
         }
       }, 500);
       
@@ -38,9 +36,9 @@ export const GlobalCallModals: React.FC = () => {
       previousMatchIdRef.current = null;
     }
   }, [matchId, buddy, router]);
+  
   return (
     <>
-      {console.log('[GlobalCallModals] Rendering OutgoingCallModal with visible:', isCallingSomeone)}
       <OutgoingCallModal
         visible={isCallingSomeone}
         friendName={callingFriendName || ''}

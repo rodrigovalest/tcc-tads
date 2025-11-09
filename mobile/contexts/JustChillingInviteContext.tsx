@@ -35,7 +35,7 @@ export const JustChillingInviteProvider: React.FC<JustChillingInviteProviderProp
   const router = useRouter();
   const { t } = useI18n();
   const { token } = useAuthStore();
-  const { setMatchId, setIsOfferer, setUserBuddy } = useMatchStore();
+  const { setMatchId, setIsOfferer, setUserBuddy, setMatchLanguage } = useMatchStore();
   const [isCallingSomeone, setIsCallingSomeone] = useState(false);
   const [callingFriendId, setCallingFriendId] = useState<number | null>(null);
   const [callingFriendName, setCallingFriendName] = useState<string | null>(null);
@@ -48,7 +48,6 @@ export const JustChillingInviteProvider: React.FC<JustChillingInviteProviderProp
       chatWebSocketService.off('just-chilling:duo:invite-declined');
       chatWebSocketService.off('just-chilling:duo:invite-cancelled');
       chatWebSocketService.off('just-chilling:duo:invite-timeout');
-      chatWebSocketService.off('just-chilling:duo:match-started');
       webSocketService.off('just-chilling:duo:match-started');
     };
   }, []);
@@ -85,11 +84,49 @@ export const JustChillingInviteProvider: React.FC<JustChillingInviteProviderProp
   const acceptInvite = useCallback(() => {
     if (!incomingInvite) return;
 
+    console.log('[JustChillingInviteContext] Accepting invite from user', incomingInvite.inviterId);
+
+    if (!webSocketService.isConnected()) {
+      if (!token) {
+        console.error('[JustChillingInviteContext] Cannot accept invite: no token available');
+        return;
+      }
+      webSocketService.connect(token);
+      const handleConnect = () => {
+        webSocketService.off('connect', handleConnect);
+        webSocketService.emit('just-chilling:duo:respond-invite', {
+          inviterId: incomingInvite.inviterId,
+          accepted: true,
+        });
+        setHasIncomingCall(false);
+        setIncomingInvite(null);
+        
+        Toast.show({
+          type: 'success',
+          text1: t('justChilling.callAccepted'),
+          position: 'top',
+        });
+      };
+      
+      webSocketService.on('connect', handleConnect);
+      setTimeout(() => {
+        if (webSocketService.isConnected()) {
+          webSocketService.off('connect', handleConnect);
+          webSocketService.emit('just-chilling:duo:respond-invite', {
+            inviterId: incomingInvite.inviterId,
+            accepted: true,
+          });
+          setHasIncomingCall(false);
+          setIncomingInvite(null);
+        }
+      }, 500);
+      
+      return;
+    }
     webSocketService.emit('just-chilling:duo:respond-invite', {
       inviterId: incomingInvite.inviterId,
       accepted: true,
     });
-
     setHasIncomingCall(false);
     setIncomingInvite(null);
 
@@ -98,7 +135,7 @@ export const JustChillingInviteProvider: React.FC<JustChillingInviteProviderProp
       text1: t('justChilling.callAccepted'),
       position: 'top',
     });
-  }, [incomingInvite, t]);
+  }, [incomingInvite, token, t]);
 
   const declineInvite = useCallback(() => {
     if (!incomingInvite) return;
@@ -147,7 +184,6 @@ export const JustChillingInviteProvider: React.FC<JustChillingInviteProviderProp
     chatWebSocketService.off('just-chilling:duo:invite-declined');
     chatWebSocketService.off('just-chilling:duo:invite-cancelled');
     chatWebSocketService.off('just-chilling:duo:invite-timeout');
-    chatWebSocketService.off('just-chilling:duo:match-started');
     webSocketService.off('just-chilling:duo:match-started');
     chatWebSocketService.on('just-chilling:duo:invite-received', (data: IncomingInvite) => {
       setHasIncomingCall(true);
@@ -212,21 +248,20 @@ export const JustChillingInviteProvider: React.FC<JustChillingInviteProviderProp
       setIncomingInvite(null);
       setMatchId(matchData.matchId);
       setIsOfferer(matchData.isOfferer);
+      setMatchLanguage(matchData.language);
       setUserBuddy({
         userId: matchData.buddy.userId,
         name: matchData.buddy.username,
         username: matchData.buddy.username,
         nationality: matchData.buddy.nationality,
       });
-      
-      useMatchStore.getState().setIsFromInvite(true);
       if (!webSocketService.isConnected() && token) {
+        console.log('[JustChillingInviteContext] Connecting to default namespace for WebRTC');
         webSocketService.connect(token);
       }
     };
-    chatWebSocketService.on('just-chilling:duo:match-started', handleMatchStarted);
     webSocketService.on('just-chilling:duo:match-started', handleMatchStarted);
-  }, [token, router, setMatchId, setIsOfferer, setUserBuddy, t]);
+  }, [token, router, setMatchId, setIsOfferer, setUserBuddy, setMatchLanguage, t]);
 
   return (
     <JustChillingInviteContext.Provider

@@ -107,6 +107,7 @@ export class JustChillingDuoGateway implements OnGatewayConnection, OnGatewayDis
     @MessageBody() messageDto: SendInviteMessageDto,
     @ConnectedSocket() client: Socket
   ) {
+    this.globalConnectionManager.registerConnection(loggedUser.sub, client.id, 'default');
     await this.justChillingInviteService.sendInvite(
       loggedUser.sub,
       loggedUser.username,
@@ -123,6 +124,7 @@ export class JustChillingDuoGateway implements OnGatewayConnection, OnGatewayDis
     @MessageBody() messageDto: RespondInviteMessageDto,
     @ConnectedSocket() client: Socket
   ) {
+    this.globalConnectionManager.registerConnection(loggedUser.sub, client.id, 'default'); 
     await this.justChillingInviteService.respondToInvite(
       loggedUser.sub,
       loggedUser.username,
@@ -159,42 +161,34 @@ export class JustChillingDuoGateway implements OnGatewayConnection, OnGatewayDis
   }) {
     const notifyUser = (user: UserQueue, isOfferer: boolean, pair: UserQueue) => {
       const connections = this.globalConnectionManager.getAllSocketsForUser(user.userId);
-      
       if (connections.length === 0) {
         return;
       }
+      const defaultConnections = connections.filter(c => c.namespace === 'default');
+      if (defaultConnections.length === 0) {
+        return;
+      }
+      const { socketId } = defaultConnections[0];
+      const socket = this.server.sockets.sockets.get(socketId);
 
-      connections.forEach(({ socketId, namespace }) => {
-        let socket: Socket | undefined;
-        if (namespace === 'chat') {
-          socket = this.server.of('/chat').sockets.get(socketId);
-        } else {
-          socket = this.server.sockets.sockets.get(socketId);
-        }
-
-        if (socket) {
-          socket.join(payload.match.id);
-
-          socket.emit('just-chilling:duo:match-started', {
-            message: 'starting just chilling duo match',
-            timestamp: new Date().toISOString(),
-            matchMode: MatchMode.JUST_CHILLING,
-            matchFormat: MatchFormat.DUO,
-            language: payload.language,
-            isOfferer: isOfferer,
-            matchId: payload.match.id,
-            buddy: {
-              userId: pair.userId,
-              username: pair.username,
-              nationality: pair.nationality,
-            }
-          });
-        } else {
-          this.logger.warn(`❌ Socket ${socketId} not found in namespace '${namespace}' for user ${user.userId}`);
-        }
-      });
+      if (socket) {
+        socket.join(payload.match.id);
+        socket.emit('just-chilling:duo:match-started', {
+          message: 'starting just chilling duo match',
+          timestamp: new Date().toISOString(),
+          matchMode: MatchMode.JUST_CHILLING,
+          matchFormat: MatchFormat.DUO,
+          language: payload.language,
+          isOfferer: isOfferer,
+          matchId: payload.match.id,
+          buddy: {
+            userId: pair.userId,
+            username: pair.username,
+            nationality: pair.nationality,
+          }
+        });
+      }
     };
-
     notifyUser(payload.user1, true, payload.user2);
     notifyUser(payload.user2, false, payload.user1);
   }
@@ -223,8 +217,6 @@ export class JustChillingDuoGateway implements OnGatewayConnection, OnGatewayDis
           inviterNationality: payload.inviterNationality,
           timestamp: new Date().toISOString(),
         });
-      } else {
-        this.logger.warn(`❌ Socket ${socketId} not found in namespace '${namespace}'`);
       }
     });
   }
@@ -252,7 +244,6 @@ export class JustChillingDuoGateway implements OnGatewayConnection, OnGatewayDis
   @OnEvent('just-chilling:invite-cancelled')
   handleInviteCancelled(payload: { inviterId: number, invitedId: number }) {
     const connections = this.globalConnectionManager.getAllSocketsForUser(payload.invitedId);
-    
     connections.forEach(({ socketId, namespace }) => {
       let socket: Socket | undefined;
       if (namespace === 'chat') {
@@ -288,9 +279,6 @@ export class JustChillingDuoGateway implements OnGatewayConnection, OnGatewayDis
           timestamp: new Date().toISOString(),
         });
         const user = (socket as any).user;
-        if (user) {
-          this.logger.log(`Notified user ${user.sub} that invite timed out`);
-        }
       }
     });
   }

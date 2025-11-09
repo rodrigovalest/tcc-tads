@@ -28,7 +28,7 @@ interface PendingInvite {
 export class JustChillingInviteService {
   private readonly logger = new Logger(JustChillingInviteService.name, { timestamp: true });
   private pendingInvites: Map<string, PendingInvite> = new Map();
-  private readonly INVITE_TIMEOUT_MS = 60000; // 60 seconds
+  private readonly INVITE_TIMEOUT_MS = 60000;
 
   constructor(
     @InjectRepository(Friendship)
@@ -153,10 +153,7 @@ export class JustChillingInviteService {
         language: MatchLanguage.EN,
         match,
       });
-
-      this.logger.log(`Match ${match.id} started between ${inviterId} and ${invitedId}`);
     } else {
-      this.logger.log(`User ${invitedId} declined invite from ${inviterId}`);
       this.eventEmitter.emit('just-chilling:invite-declined', {
         inviterId: pendingInvite.inviterId,
         invitedId,
@@ -177,8 +174,6 @@ export class JustChillingInviteService {
       throw new BadRequestException('Only the inviter can cancel the invite');
     }
     clearTimeout(pendingInvite.timeoutId);
-
-    this.logger.log(`User ${inviterId} cancelled invite to ${friendId}`);
     this.eventEmitter.emit('just-chilling:invite-cancelled', {
       inviterId,
       invitedId: friendId,
@@ -192,8 +187,6 @@ export class JustChillingInviteService {
     if (!pendingInvite) {
       return;
     }
-
-    this.logger.log(`Invite timeout between ${pendingInvite.inviterId} and ${pendingInvite.invitedId}`);
     this.eventEmitter.emit('just-chilling:invite-timeout', {
       inviterId: pendingInvite.inviterId,
       invitedId: pendingInvite.invitedId,
@@ -205,7 +198,6 @@ export class JustChillingInviteService {
     for (const [key, invite] of this.pendingInvites.entries()) {
       if (invite.invitedId === invitedId && !invite.invitedSocketId) {
         invite.invitedSocketId = socketId;
-        this.logger.log(`Updated socket ID for invited user ${invitedId}`);
         break;
       }
     }

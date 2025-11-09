@@ -20,7 +20,9 @@ const webSocketService = (() => {
     },
 
     on(event: string, callback: (data: any) => void) {
-      socket?.on(event, callback);
+      socket?.on(event, (data: any) => {
+        callback(data);
+      });
     },
 
     onDisconnect(callback: (data: any) => void) {
@@ -36,12 +38,17 @@ const webSocketService = (() => {
     },
 
     isConnected: (): boolean => {
-      return socket?.connected ?? false;
+      const connected = socket?.connected ?? false;
+      return connected;
     },
 
     disconnect() {
       socket?.disconnect();
       socket = null;
+    },
+    
+    getSocketId: (): string | undefined => {
+      return socket?.id;
     }
   };
 })();

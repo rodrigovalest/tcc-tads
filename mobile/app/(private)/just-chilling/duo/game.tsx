@@ -10,7 +10,7 @@ import useMatchStore from '../../../../store/match-store';
 
 export default function JustChillingDuoGame() {
   const { user: loggedUser } = useAuthStore();
-  const { buddy, matchId, isFromInvite } = useMatchStore();
+  const { buddy, matchId } = useMatchStore();
   const router = useRouter();
   const hasInitialized = useRef(false);
   
@@ -24,11 +24,6 @@ export default function JustChillingDuoGame() {
     isVideoMuted,
     endCall,
   } = useJustChillingDuo(() => {
-    if (isFromInvite) {
-      router.back();
-    } else {
-      router.replace("/(private)/match-rate-duo");
-    }
   });
 
   useEffect(() => {
@@ -40,10 +35,6 @@ export default function JustChillingDuoGame() {
 
     hasInitialized.current = true;
     start();
-
-    return () => {
-      endCall();
-    }
   }, []);
 
   const onMute = () => {
@@ -55,7 +46,10 @@ export default function JustChillingDuoGame() {
   };
 
   const onEndCall = () => {
-    endCall();
+    router.replace("/(private)/match-rate-duo");
+    setTimeout(() => {
+      endCall();
+    }, 100);
   }
 
   return (
