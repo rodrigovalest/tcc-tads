@@ -24,11 +24,9 @@ const CorrectAnswerModal: React.FC<CorrectAnswerModalProps> = ({
       <View className="flex-1 bg-black/50 items-center justify-center">
         <View className="bg-appBgWhite rounded-xl p-6 mx-8 w-4/5 max-w-sm">
           <Text className="text-xl font-nunito-bold text-appDarkGrey text-center mb-4">
-            bbbbbbbbb
           </Text>
 
           <Text className="text-base font-nunito-medium text-appMediumGrey text-center mb-4">
-            O personagem que você era (que estava na tela do seu adversário):
           </Text>
 
           {correctImage && (
@@ -42,7 +40,6 @@ const CorrectAnswerModal: React.FC<CorrectAnswerModalProps> = ({
           )}
 
           <Text className="text-base font-nunito-medium text-appMediumGrey text-center mb-6">
-            bbbbbbbbb
           </Text>
 
           <Text className="text-sm font-nunito-medium text-appMediumGrey text-center">
