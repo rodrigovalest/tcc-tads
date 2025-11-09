@@ -10,7 +10,7 @@ import { IUserJwtPayload } from '../../auth/models/user-jwt-payload.interface';
 import { CountryCode } from '../../user/entities/country-code.enum';
 import { MatchService } from '../../match/services/match.service';
 import { Match } from '../../match/entities/match.entity';
-import { MatchStatus } from 'src/match/entities/match-status.enum';
+import { MatchStatus } from '../../match/entities/match-status.enum';
 
 describe('WhoAmIDuoService', () => {
   let service: WhoAmIDuoService;
