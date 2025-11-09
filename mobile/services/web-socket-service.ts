@@ -20,9 +20,7 @@ const webSocketService = (() => {
     },
 
     on(event: string, callback: (data: any) => void) {
-      socket?.on(event, (data: any) => {
-        callback(data);
-      });
+      socket?.on(event, callback);
     },
 
     onDisconnect(callback: (data: any) => void) {

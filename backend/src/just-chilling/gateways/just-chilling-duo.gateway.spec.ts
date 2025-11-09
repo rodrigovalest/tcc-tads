@@ -1,5 +1,7 @@
 import { INestApplication, Module, ValidationPipe } from "@nestjs/common";
 import { JustChillingDuoService } from "../services/just-chilling-duo.service";
+import { JustChillingInviteService } from "../services/just-chilling-invite.service";
+import { GlobalConnectionManagerService } from "../../shared/services/global-connection-manager.service";
 import { JustChillingDuoGateway } from "./just-chilling-duo.gateway";
 import { IoAdapter } from "@nestjs/platform-socket.io";
 import { Test, TestingModule } from "@nestjs/testing";
@@ -14,6 +16,18 @@ const mockedJustChillingDuoService = {
   enqueueDuoFormatAndTryStart: jest.fn(),
   confirmStartMatch: jest.fn(),
   handleDisconnect: jest.fn(),
+};
+
+const mockedJustChillingInviteService = {
+  sendInvite: jest.fn(),
+  respondToInvite: jest.fn(),
+  cancelInvite: jest.fn(),
+};
+
+const mockedGlobalConnectionManagerService = {
+  registerConnection: jest.fn(),
+  removeConnection: jest.fn(),
+  getAllSocketsForUser: jest.fn().mockReturnValue([]),
 };
 
 describe('JustChillingDuoGateway (semi E2E)', () => {
@@ -40,6 +54,8 @@ describe('JustChillingDuoGateway (semi E2E)', () => {
     providers: [
       JustChillingDuoGateway,
       { provide: JustChillingDuoService, useValue: mockedJustChillingDuoService },
+      { provide: JustChillingInviteService, useValue: mockedJustChillingInviteService },
+      { provide: GlobalConnectionManagerService, useValue: mockedGlobalConnectionManagerService },
     ],
   })
   class TestModule { }
@@ -72,7 +88,9 @@ describe('JustChillingDuoGateway (semi E2E)', () => {
   });
 
   afterAll(async () => {
-    client.close();
+    if (client) {
+      client.close();
+    }
     await app.close();
   });
 
