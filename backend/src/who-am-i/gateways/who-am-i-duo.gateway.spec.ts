@@ -77,7 +77,7 @@ describe('WhoAmIDuoGateway (semi E2E)', () => {
   });
 
   it('should be defined', () => {
-    const gateway = app.get<JustChillingDuoGateway>(JustChillingDuoGateway);
+    const gateway = app.get<WhoAmIDuoGateway>(WhoAmIDuoGateway);
     expect(gateway).toBeDefined();
   });
 
@@ -92,7 +92,7 @@ describe('WhoAmIDuoGateway (semi E2E)', () => {
       client.emit('just-chilling:duo:enqueue', messageDto);
 
       setTimeout(() => {
-        expect(mockedJustChillingDuoService.enqueueDuoFormatAndTryStart).toHaveBeenCalledWith(
+        expect(mockedWhoAmIDuoService.enqueueDuoFormatAndTryStart).toHaveBeenCalledWith(
           expect.objectContaining({ sub: 1 }),
           expect.any(String),
           'en',
@@ -114,10 +114,10 @@ describe('WhoAmIDuoGateway (semi E2E)', () => {
     client.on('connect', () => {
       client.emit('just-chilling:duo:enqueue', messageDto);
 
-      //setTimeout(() => {
-      //  expect(mockedJustChillingDuoService.enqueueDuoFormatAndTryStart).not.toHaveBeenCalled();
-      //  done();
-      //}, 50);
+      setTimeout(() => {
+        expect(mockedWhoAmIDuoService.enqueueDuoFormatAndTryStart).not.toHaveBeenCalled();
+        done();
+      }, 50);
       done();
     });
 
@@ -148,7 +148,7 @@ describe('WhoAmIDuoGateway (semi E2E)', () => {
       client.emit('just-chilling:duo:enqueue', messageDto);
 
       setTimeout(() => {
-        expect(mockedJustChillingDuoService.enqueueDuoFormatAndTryStart).not.toHaveBeenCalled();
+        expect(mockedWhoAmIDuoService.enqueueDuoFormatAndTryStart).not.toHaveBeenCalled();
         done();
       }, 50);
     });
@@ -180,7 +180,7 @@ describe('WhoAmIDuoGateway (semi E2E)', () => {
       client.emit('just-chilling:duo:enqueue', messageDto);
 
       setTimeout(() => {
-        expect(mockedJustChillingDuoService.enqueueDuoFormatAndTryStart).not.toHaveBeenCalled();
+        expect(mockedWhoAmIDuoService.enqueueDuoFormatAndTryStart).not.toHaveBeenCalled();
         done();
       }, 50);
     });

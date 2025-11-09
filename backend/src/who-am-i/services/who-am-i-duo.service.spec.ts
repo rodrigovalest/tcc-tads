@@ -10,6 +10,7 @@ import { IUserJwtPayload } from '../../auth/models/user-jwt-payload.interface';
 import { CountryCode } from '../../user/entities/country-code.enum';
 import { MatchService } from '../../match/services/match.service';
 import { Match } from '../../match/entities/match.entity';
+import { MatchStatus } from 'src/match/entities/match-status.enum';
 
 describe('WhoAmIDuoService', () => {
   let service: WhoAmIDuoService;
@@ -18,28 +19,32 @@ describe('WhoAmIDuoService', () => {
   let matchService: jest.Mocked<MatchService>;
 
   const mockUser: IUserJwtPayload = {
-    sub: 'user-id',
+    sub: 1,
+    email: 'test@example.com',
     username: 'testuser',
-    nationality: CountryCode.BR,
+    nationality: CountryCode.Brazil,
   };
 
   const mockUserQueue: UserQueue = {
-    userId: 'user-id',
+    id: 1,
+    userId: 1,
     username: 'testuser',
-    nationality: CountryCode.BR,
+    nationality: CountryCode.Brazil,
     socketId: 'socket-id',
     matchMode: MatchMode.WHO_AM_I,
     matchFormat: MatchFormat.DUO,
-    language: MatchLanguage.EN,
-    createdAt: new Date(),
+    matchLanguage: MatchLanguage.EN,
+    joinedAt: new Date(),
   };
 
   const mockMatch: Match = {
     id: 'match-id',
-    matchMode: MatchMode.WHO_AM_I,
-    matchFormat: MatchFormat.DUO,
+    mode: MatchMode.WHO_AM_I,
+    format: MatchFormat.DUO,
     language: MatchLanguage.EN,
-    status: 'active' as any,
+    status: MatchStatus.IN_PROGRESS,
+    startTime: new Date(),
+    endTime: new Date(),
     createdAt: new Date(),
     updatedAt: new Date(),
     userMatches: [],
