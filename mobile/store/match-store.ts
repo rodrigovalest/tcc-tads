@@ -13,6 +13,7 @@ type MatchState = {
   matchId: string | null;
   isOfferer: boolean | null;
   buddy: IUserBuddy | null;
+  isFromInvite: boolean;
 
   setMatchMode: (mode: MatchMode) => Promise<void>;
   setMatchFormat: (format: MatchFormat) => Promise<void>;
@@ -21,6 +22,7 @@ type MatchState = {
   setMatchId: (matchId: string) => Promise<void>;
   setIsOfferer: (isOfferer: boolean) => Promise<void>;
   setUserBuddy: (buddy: IUserBuddy) => Promise<void>;
+  setIsFromInvite: (isFromInvite: boolean) => Promise<void>;
   resetMatch: () => Promise<void>;
 };
 
@@ -32,6 +34,7 @@ const useMatchStore = create<MatchState>((set, get) => ({
   matchId: null,
   isOfferer: null,
   buddy: null,
+  isFromInvite: false,
 
   setMatchMode: async (matchMode) => {
     set({ matchMode });
@@ -61,6 +64,10 @@ const useMatchStore = create<MatchState>((set, get) => ({
     set({ buddy });
   },
 
+  setIsFromInvite: async (isFromInvite: boolean) => {
+    set({ isFromInvite });
+  },
+
   resetMatch: async () => {
     set({
       matchMode: null,
@@ -70,6 +77,7 @@ const useMatchStore = create<MatchState>((set, get) => ({
       matchId: null,
       isOfferer: null,
       buddy: null,
+      isFromInvite: false,
     });
   },
 }));

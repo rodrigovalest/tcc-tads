@@ -10,6 +10,7 @@ import { NotificationService } from './notification.service';
 import { SendMessageDto } from '../dtos/requests/send-message.dto';
 import { MessageResponseDto } from '../dtos/responses/message-response.dto';
 import { IUserJwtPayload } from '../../auth/models/user-jwt-payload.interface';
+import { GlobalConnectionManagerService } from '../../shared/services/global-connection-manager.service';
 
 @Injectable()
 export class ChatGatewayHandlerService {
@@ -22,7 +23,8 @@ export class ChatGatewayHandlerService {
     private readonly connectionManager: ConnectionManagerService,
     private readonly typingManager: TypingManagerService,
     private readonly roomManager: RoomManagerService,
-    private readonly notificationService: NotificationService
+    private readonly notificationService: NotificationService,
+    private readonly globalConnectionManager: GlobalConnectionManagerService
   ) {}
 
   async handleConnection(server: Server, client: Socket): Promise<void> {
@@ -33,10 +35,8 @@ export class ChatGatewayHandlerService {
     const userId = this.connectionManager.removeConnection(client.id);
     
     if (userId) {
-      this.logger.log(`User ${userId} disconnected`);
-      
+      this.globalConnectionManager.removeConnection(userId, client.id);
       this.typingManager.clearUserTyping(userId);
-      
       if (!this.connectionManager.isUserOnline(userId)) {
         await this.notificationService.notifyFriendsOffline(server, userId);
       }
@@ -44,15 +44,13 @@ export class ChatGatewayHandlerService {
   }
 
   async handleJoin(server: Server, client: Socket, user: IUserJwtPayload): Promise<any> {
-    this.logger.log(`User ${user.sub} joined chat`);
-    
     this.connectionManager.addConnection(user.sub, client.id);
-    
+    this.globalConnectionManager.registerConnection(user.sub, client.id, 'chat');
+    const globalConnections = this.globalConnectionManager.getAllSocketsForUser(user.sub);
     const connections = this.connectionManager.getUserConnections(user.sub);
-    if (connections.size === 1) { // First connection
+    if (connections.size === 1) {
       await this.notificationService.notifyFriendsOnline(server, user.sub);
     }
-    
     return { success: true, message: 'Joined chat successfully' };
   }
 
@@ -63,9 +61,6 @@ export class ChatGatewayHandlerService {
   ): Promise<any> {
     const roomName = this.roomManager.getConversationRoomName(user.sub, friendId);
     await client.join(roomName);
-    
-    this.logger.log(`User ${user.sub} joined conversation with ${friendId}`);
-    
     return { success: true, message: 'Joined conversation successfully' };
   }
 
@@ -75,10 +70,7 @@ export class ChatGatewayHandlerService {
     friendId: number
   ): Promise<any> {
     const roomName = this.roomManager.getConversationRoomName(user.sub, friendId);
-    await client.leave(roomName);
-    
-    this.logger.log(`User ${user.sub} left conversation with ${friendId}`);
-    
+    await client.leave(roomName); 
     return { success: true, message: 'Left conversation successfully' };
   }
 
@@ -99,7 +91,6 @@ export class ChatGatewayHandlerService {
       const securityResult = await this.chatSecurityService.processMessageSecurity(securityContext);
       
       if (!securityResult.isValid) {
-        this.logger.warn(`Message blocked for user ${user.sub}: ${securityResult.securityIssues.join(', ')}`);
         return { 
           success: false, 
           error: 'Message blocked for security reasons',
@@ -109,7 +100,6 @@ export class ChatGatewayHandlerService {
 
       const participantValidation = await this.chatService.validateChatParticipants(user.sub, dto.receiverId);
       if (!participantValidation.isValid) {
-        this.logger.warn(`Chat validation failed for user ${user.sub}: ${participantValidation.reason}`);
         return { 
           success: false, 
           error: participantValidation.reason
@@ -123,12 +113,8 @@ export class ChatGatewayHandlerService {
 
       const roomName = this.roomManager.getConversationRoomName(user.sub, dto.receiverId);
       server.to(roomName).emit('chat:message-received', message);
-
-      this.logger.log(`Message sent from ${user.sub} to ${dto.receiverId}`);
-      
       return { success: true, message: 'Message sent successfully' };
     } catch (error) {
-      this.logger.error(`Error sending message: ${error.message}`);
       return { success: false, error: 'Failed to send message' };
     }
   }
@@ -172,7 +158,6 @@ export class ChatGatewayHandlerService {
       await this.messageService.markAsRead(user.sub, friendId);
       return { success: true, message: 'Messages marked as read' };
     } catch (error) {
-      this.logger.error(`Error marking messages as read: ${error.message}`);
       return { success: false, error: 'Failed to mark messages as read' };
     }
   }

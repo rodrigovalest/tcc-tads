@@ -5,16 +5,18 @@ import useAuthStore from '../../../../store/auth-store';
 import { useRouter } from 'expo-router';
 import useJustChillingDuo from '../../../../hooks/useJustChillingDuo';
 import { RTCView } from 'react-native-webrtc';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import useMatchStore from '../../../../store/match-store';
 
 export default function JustChillingDuoGame() {
   const { user: loggedUser } = useAuthStore();
-  const { buddy, matchId } = useMatchStore();
+  const { buddy, matchId, isFromInvite } = useMatchStore();
   const router = useRouter();
+  const hasInitialized = useRef(false);
+  
   const { 
-    localStream, 
-    remoteStream, 
+    localStream,
+    remoteStream,
     start,
     switchAudio,
     switchVideo,
@@ -22,10 +24,21 @@ export default function JustChillingDuoGame() {
     isVideoMuted,
     endCall,
   } = useJustChillingDuo(() => {
-    router.replace("/(private)/match-rate-duo");
+    if (isFromInvite) {
+      router.back();
+    } else {
+      router.replace("/(private)/match-rate-duo");
+    }
   });
 
   useEffect(() => {
+    if (hasInitialized.current) return;
+    if (!buddy || !matchId) {
+      router.back();
+      return;
+    }
+
+    hasInitialized.current = true;
     start();
 
     return () => {
@@ -58,7 +71,7 @@ export default function JustChillingDuoGame() {
       <Text
         className="absolute top-14 right-6 bg-appBgWhite rounded-3xl py-1 px-4 border-appBlack border-2 flex items-center justify-center text-lg font-nunito-semibold text-appBlack"
       >
-        {buddy!.username}
+        {buddy?.username || 'Guest'}
       </Text>
 
       <View className="absolute bottom-40 right-6 bg-appBgWhite w-40 h-48 rounded-2xl border-appBlack border-2 flex items-center justify-center">
@@ -74,7 +87,7 @@ export default function JustChillingDuoGame() {
         )}
 
         <Text className='text-lg font-nunito-semibold text-appBlack'>
-          {loggedUser!.username} (you)
+          {loggedUser?.username || 'You'} (you)
         </Text>
       </View>
 

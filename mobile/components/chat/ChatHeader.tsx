@@ -5,15 +5,19 @@ import { router } from 'expo-router';
 import useI18n from '../../hooks/useI18n';
 
 interface ChatHeaderProps {
+  friendId: number;
   friendName: string;
   friendPhoto: string | null;
   isOnline: boolean;
+  onVideoCall?: () => void;
 }
 
 export const ChatHeader: React.FC<ChatHeaderProps> = ({
+  friendId,
   friendName,
   friendPhoto,
-  isOnline
+  isOnline,
+  onVideoCall
 }) => {
   const { t } = useI18n();
 
@@ -52,6 +56,14 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
           {isOnline ? t('friends.online') : t('friends.offline')}
         </Text>
       </View>
+      {onVideoCall && (
+        <TouchableOpacity 
+          className="w-10 h-10 rounded-full bg-green-500 items-center justify-center mr-2"
+          onPress={onVideoCall}
+        >
+          <Ionicons name="videocam" size={20} color="#FEFBF4" />
+        </TouchableOpacity>
+      )}
 
       <TouchableOpacity className="w-10 h-10 rounded-full bg-appLightGrey items-center justify-center">
         <Ionicons name="ellipsis-vertical" size={18} color="#262B2A" />

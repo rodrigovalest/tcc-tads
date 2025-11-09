@@ -163,6 +163,8 @@ export const SUPPORTED_LANGUAGES: LanguageConfig[] = [
 export function getLanguageByCountryCode(
   countryCode: CountryCode
 ): LanguageConfig | null {
+  if (!countryCode) return null;
+  
   return (
     SUPPORTED_LANGUAGES.find(
       (lang) => lang.countryCode.toLowerCase() === countryCode.toLowerCase()

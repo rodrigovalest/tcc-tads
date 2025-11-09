@@ -409,6 +409,17 @@
     "copyMessage": "Copiar mensaje",
     "replyToMessage": "Responder mensaje"
   },
+  "call": {
+    "calling": "Llamando...",
+    "connecting": "Conectando...",
+    "connected": "Conectado",
+    "ended": "Llamada Finalizada",
+    "rejected": "Llamada Rechazada",
+    "incomingCall": "Llamada entrante",
+    "accept": "Aceptar",
+    "reject": "Rechazar",
+    "endCall": "Finalizar Llamada"
+  },
   "profile": {
     "title": "Perfil",
     "editProfile": "Editar Perfil",
@@ -433,5 +444,22 @@
       "native": "Nativo",
       "unknown": "Desconocido"
     }
+  },
+  "justChilling": {
+    "videoCall": "Videollamada",
+    "calling": "Llamando",
+    "incomingCall": "Llamada entrante",
+    "fromUser": "de {{name}}",
+    "incomingCallDescription": "¿Deseas aceptar esta videollamada?",
+    "waitingForResponse": "Esperando respuesta...",
+    "inviteSent": "Invitación enviada",
+    "waitingForFriend": "Esperando respuesta de {{name}}",
+    "callAccepted": "Llamada aceptada",
+    "callDeclined": "Llamada rechazada",
+    "friendDeclined": "Tu amigo rechazó la llamada",
+    "callCancelled": "Llamada cancelada",
+    "callerCancelled": "La llamada fue cancelada",
+    "callTimeout": "Tiempo agotado",
+    "noResponse": "Sin respuesta del amigo"
   }
 }

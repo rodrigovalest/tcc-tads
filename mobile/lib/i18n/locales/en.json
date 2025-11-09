@@ -325,7 +325,7 @@
     "tr": "Turkish",
     "th": "Thai"
   },
-  "profile": {
+  "profileOld": {
     "loading": "Loading profile...",
     "error": "Failed to load profile",
     "retry": "Try again",
@@ -465,6 +465,17 @@
     "copyMessage": "Copy message",
     "replyToMessage": "Reply to message"
   },
+  "call": {
+    "calling": "Calling...",
+    "connecting": "Connecting...",
+    "connected": "Connected",
+    "ended": "Call Ended",
+    "rejected": "Call Rejected",
+    "incomingCall": "Incoming call",
+    "accept": "Accept",
+    "reject": "Reject",
+    "endCall": "End Call"
+  },
   "profile": {
     "title": "Profile",
     "editProfile": "Edit Profile",
@@ -489,5 +500,22 @@
       "native": "Native",
       "unknown": "Unknown"
     }
+  },
+  "justChilling": {
+    "videoCall": "Video call",
+    "calling": "Calling",
+    "incomingCall": "Incoming call",
+    "fromUser": "from {{name}}",
+    "incomingCallDescription": "Do you want to accept this video call?",
+    "waitingForResponse": "Waiting for response...",
+    "inviteSent": "Invite sent",
+    "waitingForFriend": "Waiting for response from {{name}}",
+    "callAccepted": "Call accepted",
+    "callDeclined": "Call declined",
+    "friendDeclined": "Your friend declined the call",
+    "callCancelled": "Call cancelled",
+    "callerCancelled": "The call was cancelled",
+    "callTimeout": "Call timeout",
+    "noResponse": "No response from friend"
   }
 }

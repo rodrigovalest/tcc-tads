@@ -6,6 +6,7 @@ import { ChatHeader } from '../../../../components/chat/ChatHeader';
 import { ChatMessages } from '../../../../components/chat/ChatMessages';
 import MessageInput from '../../../../components/MessageInput';
 import { useChatConversation } from '../../../../hooks/useChatConversation';
+import { useJustChillingInviteContext } from '../../../../contexts/JustChillingInviteContext';
 import useI18n from '../../../../hooks/useI18n';
 import { COLORS } from '../../../../constants/colors';
 
@@ -28,6 +29,12 @@ export default function ChatScreen() {
     handleTypingStop,
   } = useChatConversation(friendIdNumber);
 
+  const { sendInvite } = useJustChillingInviteContext();
+
+  const handleVideoCall = () => {
+    sendInvite(friendIdNumber, friendName, friendPhoto);
+  };
+
   if (loading) {
     return (
       <SafeAreaView className="flex-1 bg-appBgWhite justify-center items-center">
@@ -46,9 +53,11 @@ export default function ChatScreen() {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <ChatHeader
+          friendId={friendIdNumber}
           friendName={friendName}
           friendPhoto={friendPhoto}
           isOnline={isOnline}
+          onVideoCall={handleVideoCall}
         />
 
         <ChatMessages

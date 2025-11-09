@@ -75,11 +75,9 @@ const useJustChillingDuo = (redirectOnEnd: () => void) => {
     remoteStream?.getTracks().forEach(track => track.stop());
     setLocalStream(null);
     setRemoteStream(null);
-
     if (webSocketService.isConnected()) {
       webSocketService.disconnect();
     }
-
     redirectOnEnd();
   };
 

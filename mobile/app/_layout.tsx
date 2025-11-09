@@ -9,6 +9,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Toast from "react-native-toast-message";
 import { requestPermissions } from "../utils/request-permissions";
 import { Platform } from "react-native";
+import { GlobalCallModals } from "../components/GlobalCallModals";
+import { JustChillingInviteProvider } from "../contexts/JustChillingInviteContext";
 
 // Initialize i18n
 import "../lib/i18n";
@@ -56,8 +58,11 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Slot />
-      <Toast />
+      <JustChillingInviteProvider>
+        <Slot />
+        <GlobalCallModals />
+        <Toast />
+      </JustChillingInviteProvider>
     </QueryClientProvider>
   );
 }

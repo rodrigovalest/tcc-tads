@@ -397,5 +397,33 @@
     "deleteMessage": "Excluir mensagem",
     "copyMessage": "Copiar mensagem",
     "replyToMessage": "Responder mensagem"
+  },
+  "call": {
+    "calling": "Chamando...",
+    "connecting": "Conectando...",
+    "connected": "Conectado",
+    "ended": "Chamada Encerrada",
+    "rejected": "Chamada Recusada",
+    "incomingCall": "Chamada recebida",
+    "accept": "Aceitar",
+    "reject": "Recusar",
+    "endCall": "Encerrar Chamada"
+  },
+  "justChilling": {
+    "videoCall": "Videochamada",
+    "calling": "Chamando",
+    "incomingCall": "Chamada recebida",
+    "fromUser": "de {{name}}",
+    "incomingCallDescription": "Deseja aceitar esta videochamada?",
+    "waitingForResponse": "Aguardando resposta...",
+    "inviteSent": "Convite enviado",
+    "waitingForFriend": "Aguardando resposta de {{name}}",
+    "callAccepted": "Chamada aceita",
+    "callDeclined": "Chamada recusada",
+    "friendDeclined": "Seu amigo recusou a chamada",
+    "callCancelled": "Chamada cancelada",
+    "callerCancelled": "A chamada foi cancelada",
+    "callTimeout": "Tempo esgotado",
+    "noResponse": "Sem resposta do amigo"
   }
 }

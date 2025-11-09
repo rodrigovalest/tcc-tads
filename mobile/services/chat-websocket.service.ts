@@ -20,32 +20,47 @@ export interface ChatWebSocketService {
   onConnect(callback: () => void): void;
   onDisconnect(callback: () => void): void;
   removeAllListeners(): void;
+  on(event: string, callback: (data: any) => void): void;
+  off(event: string): void;
 }
 
 class ChatWebSocketServiceImpl implements ChatWebSocketService {
   private socket: Socket | null = null;
   private readonly baseUrl: string;
+  private refCount: number = 0;
 
   constructor() {
     this.baseUrl = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:3001';
   }
 
   connect(token: string): void {
-    if (this.socket?.connected) return;
+    this.refCount++;
+    if (this.socket?.connected) {
+      return;
+    }
 
+    console.log('🔌 Connecting to chat WebSocket...');
     this.socket = io(`${this.baseUrl}/chat`, {
       auth: { token: `Bearer ${token}` },
       transports: ['websocket']
     });
 
-    this.socket.on('connect', () => console.log('✅ Chat connected'));
+    this.socket.on('connect', () => {
+      this.socket?.emit('chat:join');
+    });
     this.socket.on('disconnect', () => console.log('❌ Chat disconnected'));
     this.socket.on('connect_error', (error) => console.error('🚨 Chat error:', error));
   }
 
   disconnect(): void {
-    this.socket?.disconnect();
-    this.socket = null;
+    this.refCount = Math.max(0, this.refCount - 1);
+    if (this.refCount === 0) {
+      console.log('🔌 Disconnecting chat WebSocket...');
+      this.socket?.disconnect();
+      this.socket = null;
+    } else {
+      console.log('⏸️ Not disconnecting - still has active references');
+    }
   }
 
   sendMessage(receiverId: number, content: string): void {
@@ -107,6 +122,14 @@ class ChatWebSocketServiceImpl implements ChatWebSocketService {
     ];
     
     events.forEach(event => this.socket!.off(event));
+  }
+
+  on(event: string, callback: (data: any) => void): void {
+    this.socket?.on(event, callback);
+  }
+
+  off(event: string): void {
+    this.socket?.off(event);
   }
 }
 export const chatWebSocketService = new ChatWebSocketServiceImpl();
