@@ -81,7 +81,7 @@ describe('WhoAmIDuoGateway (semi E2E)', () => {
     expect(gateway).toBeDefined();
   });
 
-  it('just-chilling:duo:enqueue - should call JustChillingDuoService.enqueueDuoFormatAndTryStart', (done) => {
+  it('who-am-i:duo:enqueue - should call WhoAmIDuoService.enqueueDuoFormatAndTryStart', (done) => {
     const mockedLoggedJwtPayload: IUserJwtPayload = { sub: 1, email: 'testuser@example.com', username: 'testuser', nationality: CountryCode.Afghanistan };
     const mockedJwtToken = jwtService.sign(mockedLoggedJwtPayload);
     client = io(`http://localhost:${port}`, { auth: { token: `Bearer ${mockedJwtToken}` } });
@@ -89,7 +89,7 @@ describe('WhoAmIDuoGateway (semi E2E)', () => {
     const messageDto = { matchLanguage: 'en' };
 
     client.on('connect', () => {
-      client.emit('just-chilling:duo:enqueue', messageDto);
+      client.emit('who-am-i:duo:enqueue', messageDto);
 
       setTimeout(() => {
         expect(mockedWhoAmIDuoService.enqueueDuoFormatAndTryStart).toHaveBeenCalledWith(
@@ -106,19 +106,18 @@ describe('WhoAmIDuoGateway (semi E2E)', () => {
     });
   });
 
-  it('just-chilling:duo:enqueue - without bearer token authentication - should return error', (done) => {
+  it('who-am-i:duo:enqueue - without bearer token authentication - should return error', (done) => {
     client = io(`http://localhost:${port}`);
 
     const messageDto = { matchLanguage: 'en' };
 
     client.on('connect', () => {
-      client.emit('just-chilling:duo:enqueue', messageDto);
+      client.emit('who-am-i:duo:enqueue', messageDto);
 
       setTimeout(() => {
         expect(mockedWhoAmIDuoService.enqueueDuoFormatAndTryStart).not.toHaveBeenCalled();
         done();
       }, 50);
-      done();
     });
 
     client.on('exception', (err) => {
@@ -133,7 +132,7 @@ describe('WhoAmIDuoGateway (semi E2E)', () => {
     });
   });
 
-  it('just-chilling:duo:enqueue - with invalid bearer token authentication - should return error', (done) => {
+  it('who-am-i:duo:enqueue - with invalid bearer token authentication - should return error', (done) => {
     const invalidToken = 'invalid.token.here';
 
     client = io(`http://localhost:${port}`, {
@@ -145,7 +144,7 @@ describe('WhoAmIDuoGateway (semi E2E)', () => {
     const messageDto = { matchLanguage: 'en' };
 
     client.on('connect', () => {
-      client.emit('just-chilling:duo:enqueue', messageDto);
+      client.emit('who-am-i:duo:enqueue', messageDto);
 
       setTimeout(() => {
         expect(mockedWhoAmIDuoService.enqueueDuoFormatAndTryStart).not.toHaveBeenCalled();
@@ -165,7 +164,7 @@ describe('WhoAmIDuoGateway (semi E2E)', () => {
     });
   });
 
-  it('just-chilling:duo:enqueue - with invalid token format - should return error', (done) => {
+  it('who-am-i:duo:enqueue - with invalid token format - should return error', (done) => {
     const invalidToken = 'invalid.token.here';
 
     client = io(`http://localhost:${port}`, {
@@ -177,7 +176,7 @@ describe('WhoAmIDuoGateway (semi E2E)', () => {
     const messageDto = { matchLanguage: 'en' };
 
     client.on('connect', () => {
-      client.emit('just-chilling:duo:enqueue', messageDto);
+      client.emit('who-am-i:duo:enqueue', messageDto);
 
       setTimeout(() => {
         expect(mockedWhoAmIDuoService.enqueueDuoFormatAndTryStart).not.toHaveBeenCalled();

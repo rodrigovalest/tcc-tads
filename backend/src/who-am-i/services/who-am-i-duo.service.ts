@@ -8,6 +8,7 @@ import { UserQueue } from '../../match/entities/user-queue.entity';
 import { IUserJwtPayload } from '../../auth/models/user-jwt-payload.interface';
 import { MatchService } from '../../match/services/match.service';
 import { Match } from 'src/match/entities/match.entity';
+import { MatchStatus } from 'src/match/entities/match-status.enum';
 
 @Injectable()
 export class WhoAmIDuoService {
