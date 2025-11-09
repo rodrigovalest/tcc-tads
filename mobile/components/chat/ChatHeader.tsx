@@ -58,7 +58,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
       </View>
       {onVideoCall && (
         <TouchableOpacity 
-          className="w-10 h-10 rounded-full bg-green-500 items-center justify-center mr-2"
+          className="w-10 h-10 rounded-full bg-appBlack items-center justify-center mr-2"
           onPress={onVideoCall}
         >
           <Ionicons name="videocam" size={20} color="#FEFBF4" />
