@@ -9,7 +9,8 @@ import {
 import webSocketService from "../services/web-socket-service";
 import useMatchStore from "../store/match-store";
 import { WhoAmICharacter, WhoAmICharacterPair } from "../models/types/who-am-i-character.interface";
-import { WHO_AM_I_CHARACTERS } from "../constants/who-am-i-characters";
+import { getWhoAmICharacters } from "../constants/who-am-i-characters";
+import { MatchLanguage } from "../models/types/match-language.type";
 
 
 const turnServerUrl = process.env.EXPO_PUBLIC_API_URL ?? '192.168.1.7';
@@ -42,7 +43,13 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: () => void
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
   const peerConnection = useRef<RTCPeerConnection | null>(null);
 
-  const { matchId, isOfferer } = useMatchStore();
+  const { matchId, isOfferer, matchLanguage } = useMatchStore();
+  
+  // Obtém os personagens com as dicas no idioma selecionado
+  const getCharacters = (): WhoAmICharacter[] => {
+    const language: MatchLanguage = (matchLanguage || 'pt') as MatchLanguage;
+    return getWhoAmICharacters(language);
+  };
   
 
   const [isMicMuted, setIsMicMuted] = useState<boolean>(false);
@@ -87,13 +94,13 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: () => void
   };
 
   const selectRandomCharacter = (): WhoAmICharacter => {
-    
-    const availableCharacters = WHO_AM_I_CHARACTERS.filter(char => char.id !== previousMyCharacter?.id);
-    //const availableCharacters = WHO_AM_I_CHARACTERS.filter(char => 
+    const characters = getCharacters();
+    const availableCharacters = characters.filter(char => char.id !== previousMyCharacter?.id);
+    //const availableCharacters = characters.filter(char => 
       //!usedCharacters.some(used => used.id === char.id)
     //);
     
-    //const charactersToChooseFrom = availableCharacters.length >= 1 ? availableCharacters : WHO_AM_I_CHARACTERS;
+    //const charactersToChooseFrom = availableCharacters.length >= 1 ? availableCharacters : characters;
     const shuffled = Math.floor(Math.random() * availableCharacters.length)
     //const shuffled = [...charactersToChooseFrom].sort(() => Math.random() - 0.5);
     const selected = availableCharacters[shuffled];
@@ -402,7 +409,8 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: () => void
         return;
       }
       
-      const receivedCharacter = WHO_AM_I_CHARACTERS.find(char => char.id === characterId);
+      const characters = getCharacters();
+      const receivedCharacter = characters.find(char => char.id === characterId);
       
       if (receivedCharacter) {
         console.log("[SYNC] Personagem encontrado:", receivedCharacter.name);

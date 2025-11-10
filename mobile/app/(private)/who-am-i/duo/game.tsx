@@ -216,7 +216,7 @@ export default function WhoAmI() {
               style={{ height: '60%' }}>
           <View className="flex items-center justify-center">
             <Text className="text-white text-lg font-nunito-bold mb-4">
-              {isImageRole ? "Category:" : "Hints:"}
+              {isImageRole ? "" : "Hints:"}
             </Text>
             
             {(() => {
@@ -227,12 +227,21 @@ export default function WhoAmI() {
                 // Só acessa myCharacterImage se isImageRole for true
                 const imageToShow = myCharacterImage || myCharacter?.image || null;
                 return (
-                  <View className="w-64 h-48 rounded-xl overflow-hidden mb-4 bg-appLightGrey">
+                  <View
+                    className="w-60 h-80 rounded-xl overflow-hidden mb-4 bg-appLightGrey flex items-center justify-center"
+                    style={{
+                      position: 'relative',
+                      alignSelf: 'center',
+                      // Adapta a largura para visualizar a imagem vertical sem bordas laterais
+                    }}>
                     {imageToShow ? (
-                      <Image 
-                        source={imageToShow} 
-                        className="w-full h-full"
-                        resizeMode="cover"
+                      <Image
+                        source={imageToShow}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                        }}
+                        resizeMode="contain" // Não corta a imagem, mas cobre bem a área vertical
                       />
                     ) : (
                       <View className="w-full h-full bg-appMediumGrey flex items-center justify-center">
@@ -247,9 +256,9 @@ export default function WhoAmI() {
                 return (
                   <View className="w-80 h-60 bg-black rounded-xl mb-4 bg-appLightGrey p-4 overflow-y-auto">
                     {myCharacter && myCharacter.hints && myCharacter.hints.length > 0 ? (
-                      <View className="flex-1">
+                      <View className="flex-1 items-center justify-center">
                         {myCharacter.hints.map((hint, index) => (
-                          <Text key={index} className="text-white text-sm font-nunito-medium mb-2">
+                          <Text key={index} className="text-white text-xl font-nunito-medium mb-2 text-center">
                             • {hint}
                           </Text>
                         ))}
@@ -267,19 +276,21 @@ export default function WhoAmI() {
             })()}
             
             <Text className="text-white mb-2 font-nunito-bold">
-              {isImageRole ? "Guess who this is:" : "Guess who this is (hints):"}
+              {isImageRole ? "Guess who this is:" : ""}
             </Text>
-            {myCharacter && (
+            {isImageRole && myCharacter && (
               <Text className="text-yellow-300 mb-4 font-nunito-bold text-center px-4">
                 {myCharacter.name}
               </Text>
             )}
-            <TouchableOpacity
-              className="bg-appMediumGrey rounded-full py-4 px-8 mb-3 w-64"
-              onPress={handleNailedIt}
-            >
-              <Text className="text-white font-nunito-bold text-center text-lg">Nailed it</Text>
-            </TouchableOpacity>
+            {isImageRole && (
+              <TouchableOpacity
+                className="bg-appMediumGrey rounded-full py-4 px-8 mb-3 w-64"
+                onPress={handleNailedIt}
+              >
+                <Text className="text-white font-nunito-bold text-center text-lg">Nailed it</Text>
+              </TouchableOpacity>
+            )}
             <TouchableOpacity
               className="bg-appMediumRed rounded-full py-4 px-8 w-64"
               onPress={handleNailedIt}
