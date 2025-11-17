@@ -18,6 +18,7 @@ describe('FriendshipRequestService', () => {
 
   const mockUser: User = {
     id: 1,
+    name: 'Test User',
     username: 'testuser',
     email: 'test@example.com',
     password: 'hashedpassword',
@@ -35,6 +36,7 @@ describe('FriendshipRequestService', () => {
 
   const mockAddressee: User = {
     id: 2,
+    name: 'Addressee User',
     username: 'addressee',
     email: 'addressee@example.com',
     password: 'hashedpassword',

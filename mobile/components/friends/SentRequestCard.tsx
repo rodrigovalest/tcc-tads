@@ -34,8 +34,11 @@ export const SentRequestCard: React.FC<SentRequestCardProps> = ({
           )}
         </View>
         <View className="flex-1">
-          <Text className="text-lg font-nunito-bold text-appBlack mb-1">
-            {request.addressee.username}
+          <Text className="text-lg font-nunito-bold text-appBlack">
+            {request.addressee.name}
+          </Text>
+          <Text className="text-sm font-nunito-medium text-appMediumGrey mb-1">
+            @{request.addressee.username}
           </Text>
           <View className="flex-row items-center">
             <Ionicons name="calendar-outline" size={14} color={COLORS.appMediumGrey} />

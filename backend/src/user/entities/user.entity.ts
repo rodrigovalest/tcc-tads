@@ -16,6 +16,9 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ nullable: false })
+  name!: string;
+
   @Column({ unique: true, nullable: false })
   username!: string;
 
@@ -68,11 +71,13 @@ export class User {
   interestTopics: UserInterestTopic[];
 
   constructor(
+    name: string,
     username: string,
     email: string,
     password: string,
     nationality: CountryCode,
   ) {
+    this.name = name;
     this.username = username;
     this.email = email;
     this.nationality = nationality;

@@ -14,6 +14,7 @@ describe('FriendshipService', () => {
 
   const mockUser: User = {
     id: 1,
+    name: 'Test User',
     username: 'testuser',
     email: 'test@example.com',
     password: 'hashedpassword',
@@ -31,6 +32,7 @@ describe('FriendshipService', () => {
 
   const mockFriend: User = {
     id: 2,
+    name: 'Friend User',
     username: 'frienduser',
     email: 'friend@example.com',
     password: 'hashedpassword',
@@ -185,7 +187,7 @@ describe('FriendshipService', () => {
       expect(friendshipRepository.createQueryBuilder).toHaveBeenCalledWith('friendship');
       expect(mockQueryBuilder.leftJoinAndSelect).toHaveBeenCalledTimes(6);
       expect(mockQueryBuilder.where).toHaveBeenCalledWith('friendship.userId = :userId', { userId: 1 });
-      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith('friend.username ILIKE :searchTerm', { searchTerm: '%friend%' });
+      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith('(friend.username ILIKE :searchTerm OR friend.name ILIKE :searchTerm)', { searchTerm: '%friend%' });
       expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith('friendship.createdAt', 'DESC');
     });
 
@@ -217,7 +219,7 @@ describe('FriendshipService', () => {
       await service.searchFriends(1, 'FRIEND');
 
       expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-        'friend.username ILIKE :searchTerm', 
+        '(friend.username ILIKE :searchTerm OR friend.name ILIKE :searchTerm)', 
         { searchTerm: '%FRIEND%' }
       );
     });

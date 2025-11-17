@@ -123,7 +123,6 @@ export class ChatGatewayHandlerService {
 
       const roomName = this.roomManager.getConversationRoomName(user.sub, dto.receiverId);
       server.to(roomName).emit('chat:message-received', message);
-      client.emit('chat:message-sent', message);
 
       this.logger.log(`Message sent from ${user.sub} to ${dto.receiverId}`);
       

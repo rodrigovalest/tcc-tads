@@ -38,8 +38,10 @@
     "welcomeBack": "Welcome back",
     "loginOrSignUp": "Log in or sign up",
     "or": "or",
+    "name": "Name",
     "username": "Username",
     "nationality": "Nationality",
+    "enterName": "Enter your name",
     "enterUsername": "Enter your username",
     "enterEmail": "Enter your email",
     "enterPassword": "Enter your password",
@@ -141,6 +143,7 @@
       "selectInputMode": "Select how you want to play: typing or voice"
     },
     "errors": {
+      "nameRequired": "Name is required",
       "usernameRequired": "Username is required",
       "emailRequired": "Email is required",
       "invalidEmail": "Please enter a valid email address",
@@ -404,8 +407,8 @@
   "friends": {
     "friends": "Friends",
     "searchUsers": "Search users",
-    "searchByUsername": "Search by username",
-    "enterUsername": "Enter username",
+    "searchByUsername": "Search by name or username",
+    "enterUsername": "Enter name or username",
     "search": "Search",
     "noResults": "No results found",
     "searchResults": "Search results",

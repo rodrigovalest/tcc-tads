@@ -90,8 +90,11 @@ export const UserSearchCard: React.FC<UserSearchCardProps> = ({
         </View>
         
         <View className="flex-1 mr-4">
-          <Text className="text-lg font-nunito-bold text-appBlack mb-2">
-            {user.username}
+          <Text className="text-lg font-nunito-bold text-appBlack">
+            {user.name}
+          </Text>
+          <Text className="text-sm font-nunito-medium text-appMediumGrey mb-2">
+            @{user.username}
           </Text>
           
           {user.personalDescription && (
