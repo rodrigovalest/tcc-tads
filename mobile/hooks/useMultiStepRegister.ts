@@ -21,21 +21,29 @@ export function useMultiStepRegister() {
     validationHelpers.isValidEmail,
     validationHelpers.isValidPassword
   );
-  const updateFormData = useCallback((field: keyof typeof formDataManager.formData, value: any) => {
-    formDataManager.updateFormData(field, value);
-    form.setValue(field as keyof RegisterFormData, value);
-    
-    if (stepNavigation.attemptedNext) {
-      form.clearErrors(field as keyof RegisterFormData);
-    }
-  }, [formDataManager, form, stepNavigation.attemptedNext]);
+  const updateFormData = useCallback(
+    (field: keyof typeof formDataManager.formData, value: any) => {
+      const currentValue = formDataManager.formData[field];
+      if (currentValue === value) {
+        return;
+      }
+
+      formDataManager.updateFormData(field, value);
+      form.setValue(field as keyof RegisterFormData, value);
+
+      if (stepNavigation.attemptedNext) {
+        form.clearErrors(field as keyof RegisterFormData);
+      }
+    },
+    [formDataManager, form, stepNavigation.attemptedNext]
+  );
   const nextStep = useCallback(async () => {
     stepNavigation.setAttemptedNext(true);
     const isValid = await stepValidation.validateCurrentStep(
       stepNavigation.currentStep,
       formDataManager.formData
     );
-    
+
     if (isValid) {
       const success = stepNavigation.nextStep();
       if (success) {

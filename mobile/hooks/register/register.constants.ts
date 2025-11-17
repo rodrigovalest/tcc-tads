@@ -7,6 +7,7 @@ export const MIN_PASSWORD_LENGTH = 6;
 export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export const DEFAULT_FORM_VALUES: MultiStepRegisterData = {
+  name: "",
   username: "",
   email: "",
   password: "",
@@ -16,11 +17,13 @@ export const DEFAULT_FORM_VALUES: MultiStepRegisterData = {
   photo: undefined,
   interestTopics: [],
   personalDescription: "",
+  isGoogleAccount: false,
+  googlePhoto: undefined,
 };
 
 export const STEPS_CONFIG = [
   "register.steps.basicInfo",
-  "register.steps.languages", 
+  "register.steps.languages",
   "register.steps.photo",
   "register.steps.interests",
   "register.steps.description",

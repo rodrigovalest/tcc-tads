@@ -27,4 +27,20 @@ export const MATCH_MODE_CONFIGS: Record<MatchMode, MatchModeConfig> = {
     minPlayers: 1,
     groupAllowed: false,
   },
+  [MatchMode.TIME_ATTACK_VOCAB]: {
+    allowedTypes: [MatchFormat.SOLO],
+    usesWebRTC: false,
+    requiresMatchmaking: false,
+    maxPlayers: 1,
+    minPlayers: 1,
+    groupAllowed: false,
+  },
+  [MatchMode.WHO_AM_I]: {
+    allowedTypes: [MatchFormat.DUO],
+    usesWebRTC: true,
+    requiresMatchmaking: true,
+    maxPlayers: 2,
+    minPlayers: 2,
+    groupAllowed: false,
+  },
 };

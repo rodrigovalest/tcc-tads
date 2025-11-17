@@ -240,9 +240,11 @@ describe('ProfileEdit Screen', () => {
     const { getByTestId } = renderWithProviders(<ProfileEdit />);
 
     await waitFor(() => {
-      const changePhotoButton = getByTestId('change-photo-button');
-      fireEvent.press(changePhotoButton);
+      expect(getByTestId('current-photo')).toHaveTextContent('http://example.com/photo.jpg');
     });
+
+    const changePhotoButton = getByTestId('change-photo-button');
+    fireEvent.press(changePhotoButton);
 
     expect(getByTestId('current-photo')).toHaveTextContent('new-photo-uri');
   });

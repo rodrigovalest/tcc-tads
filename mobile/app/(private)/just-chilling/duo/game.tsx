@@ -10,7 +10,7 @@ import useMatchStore from '../../../../store/match-store';
 
 export default function JustChillingDuoGame() {
   const { user: loggedUser } = useAuthStore();
-  const { buddy, resetMatch } = useMatchStore();
+  const { buddy, matchId } = useMatchStore();
   const router = useRouter();
   const { 
     localStream, 
@@ -22,7 +22,7 @@ export default function JustChillingDuoGame() {
     isVideoMuted,
     endCall,
   } = useJustChillingDuo(() => {
-    router.replace('/(private)/(tabs)/matches');
+    router.replace("/(private)/match-rate-duo");
   });
 
   useEffect(() => {
@@ -30,7 +30,6 @@ export default function JustChillingDuoGame() {
 
     return () => {
       endCall();
-      resetMatch();
     }
   }, []);
 

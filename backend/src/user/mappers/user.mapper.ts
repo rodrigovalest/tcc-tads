@@ -6,8 +6,13 @@ import { UserResponseDto, UserLanguageResponseDto, UserInterestTopicResponseDto 
 export class UserMapper {
   
   static toResponseDto(user: User): UserResponseDto {
+    if (!user) {
+      throw new Error('User object is null or undefined');
+    }
+    
     return {
       id: user.id,
+      name: user.name,
       username: user.username,
       email: user.email,
       nationality: user.nationality,

@@ -5,43 +5,53 @@ import Button from "../../../components/Button";
 import { router } from "expo-router";
 import useI18n from "../../../hooks/useI18n";
 import LanguageSelector from "../../../components/LanguageSelector";
+import { useGoogleLogin } from "../../../hooks/useGoogleAuth";
+import { useGoogleRegister } from "../../../hooks/useGoogleRegister";
+import { configureGoogleSignin } from "../../../config/google-signin-config";
+import { useEffect } from "react";
 
 export default function Login() {
   const { t } = useI18n();
+  const { mutate: googleLogin, isPending: isGoogleLoading } = useGoogleLogin();
+  const { resetGoogleData } = useGoogleRegister();
+
+  useEffect(() => {
+    configureGoogleSignin();
+  }, []);
 
   const handleGoogleLogin = () => {
-    throw new Error('Login google not implemented yet');
-  }
+    googleLogin();
+  };
 
   const handleSignUp = () => {
-    router.replace('/(public)/(auth)/register');
-  }
+    router.replace("/(public)/(auth)/register?mode=manual");
+  };
 
   return (
     <SafeAreaView
       className="w-full h-full bg-appBgWhite"
       testID="login-screen-safe-area-view"
     >
-      <ScrollView 
+      <ScrollView
         className="flex-1 px-8"
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+        contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
       >
         <View className="flex-row justify-end mt-4 mb-4">
           <LanguageSelector variant="compact" showLabel={false} />
         </View>
 
-        <View className="mt-20 mb-8">
+        <View className="mt-16 mb-6">
           <Image
             source={require("../../../assets/images/calle-dog-icon.png")}
             className="w-24 h-24 mx-auto"
           />
 
-          <Text className="text-6xl text-center font-bold">
+          <Text className="text-6xl text-center font-bold text-appBlack font-nunito-bold mt-2">
             Calle
           </Text>
 
-          <Text className="text-4xl text-center font-medium font-nunito-medium">
+          <Text className="text-4xl text-center font-nunito-medium text-appBlack">
             {t('auth.loginOrSignUp')}
           </Text>
         </View>
@@ -49,14 +59,14 @@ export default function Login() {
         <LoginForm />
 
         <Text className="text-center text-2xl text-black font-medium my-8">
-          {t('auth.or')}
+          {t("auth.or")}
         </Text>
-        
+
         <Button
-          title={t('auth.loginWithGoogle')}
+          title={t("auth.loginWithGoogle")}
           onPress={handleGoogleLogin}
           className="mb-4"
-          loading={false}
+          loading={isGoogleLoading}
           textColor="text-black"
           textColorActivate="text-white"
           textSize="2xl"
@@ -64,14 +74,14 @@ export default function Login() {
           bgColorActivate="bg-black"
           borderColor="border-appLightGrey"
           borderColorActivate="border-black"
-          iconLeft="google"
+          iconLeft="logo-google"
           iconLeftColor="black"
           iconLeftColorActivate="white"
           testID="google-login-button"
         />
-        
+
         <Button
-          title={t('auth.createAccount')}
+          title={t("auth.createAccount")}
           onPress={handleSignUp}
           className="mb-4"
           textSize="2xl"

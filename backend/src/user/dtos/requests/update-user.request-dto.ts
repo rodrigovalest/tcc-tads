@@ -16,6 +16,10 @@ export class UpdateUserLanguageDto {
 export class UpdateUserRequestDto {
   @IsOptional()
   @IsString()
+  readonly name?: string;
+
+  @IsOptional()
+  @IsString()
   readonly username?: string;
 
   @IsOptional()

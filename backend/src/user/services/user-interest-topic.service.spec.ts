@@ -34,7 +34,7 @@ describe('UserInterestTopicService', () => {
   });
 
   const createTestUser = (): User => {
-    const user = new User('testuser', 'test@example.com', 'hashedPassword', CountryCode.Brazil);
+    const user = new User('Test User', 'testuser', 'test@example.com', 'hashedPassword', CountryCode.Brazil);
     user.id = 1;
     return user;
   };

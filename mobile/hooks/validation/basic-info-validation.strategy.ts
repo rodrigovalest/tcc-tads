@@ -14,6 +14,11 @@ export class BasicInfoValidationStrategy extends BaseValidationStrategy {
   validate(formData: MultiStepRegisterData): boolean {
     const validationRules: ValidationRule[] = [
       {
+        condition: !formData.name?.trim(),
+        field: 'name',
+        message: this.t('register.errors.nameRequired'),
+      },
+      {
         condition: !formData.username?.trim(),
         field: 'username',
         message: this.t('register.errors.usernameRequired'),

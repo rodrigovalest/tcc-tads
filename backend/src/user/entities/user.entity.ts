@@ -1,13 +1,23 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { CountryCode } from "./country-code.enum";
-import { UserMatch } from "../../match/entities/user-match.entity";
-import { UserLanguage } from "./user-language.entity";
-import { UserInterestTopic } from "./user-interest-topic.entity";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { CountryCode } from './country-code.enum';
+import { UserMatch } from '../../match/entities/user-match.entity';
+import { UserLanguage } from './user-language.entity';
+import { UserInterestTopic } from './user-interest-topic.entity';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column({ nullable: false })
+  name!: string;
 
   @Column({ unique: true, nullable: false })
   username!: string;
@@ -27,13 +37,19 @@ export class User {
   @Column({ type: 'varchar', nullable: true })
   photo?: string;
 
+  @Column({ type: 'varchar', nullable: true, unique: true })
+  googleId?: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  googleEmail?: string;
+
   @Column({ default: true })
   isActive: boolean;
 
   @Column({ type: 'timestamp', nullable: true })
   lastLoginAt: Date;
 
-  @OneToMany(() => UserMatch, userMatch => userMatch.user)
+  @OneToMany(() => UserMatch, (userMatch) => userMatch.user)
   userMatches: UserMatch[];
 
   @CreateDateColumn()
@@ -42,13 +58,26 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => UserLanguage, userLanguage => userLanguage.user, { cascade: true })
+  @OneToMany(() => UserLanguage, (userLanguage) => userLanguage.user, {
+    cascade: true,
+  })
   languages: UserLanguage[];
 
-  @OneToMany(() => UserInterestTopic, userInterestTopic => userInterestTopic.user, { cascade: true })
+  @OneToMany(
+    () => UserInterestTopic,
+    (userInterestTopic) => userInterestTopic.user,
+    { cascade: true },
+  )
   interestTopics: UserInterestTopic[];
 
-  constructor(username: string, email: string, password: string, nationality: CountryCode) {
+  constructor(
+    name: string,
+    username: string,
+    email: string,
+    password: string,
+    nationality: CountryCode,
+  ) {
+    this.name = name;
     this.username = username;
     this.email = email;
     this.nationality = nationality;

@@ -17,7 +17,9 @@
     "search": "Buscar",
     "language": "Idioma",
     "settings": "Configuración",
-    "ok": "OK"
+    "ok": "OK",
+    "skip": "Omitir",
+    "matchmakingWaiting": "¡Casi listo... buscando la mejor partida para ti!"
   },
   "auth": {
     "login": "Iniciar sesión",
@@ -36,8 +38,10 @@
     "welcomeBack": "Bienvenido de vuelta",
     "loginOrSignUp": "Entrar o registrarse",
     "or": "o",
+    "name": "Nombre",
     "username": "Nombre de usuario",
     "nationality": "Nacionalidad",
+    "enterName": "Ingresa tu nombre",
     "enterUsername": "Ingresa tu nombre de usuario",
     "enterEmail": "Ingresa tu correo electrónico",
     "enterPassword": "Ingresa tu contraseña",
@@ -128,6 +132,7 @@
       "selectInputMode": "Selecciona cómo quieres jugar: escritura o voz"
     },
     "errors": {
+      "nameRequired": "El nombre es requerido",
       "usernameRequired": "El nombre de usuario es requerido",
       "emailRequired": "El correo electrónico es requerido",
       "invalidEmail": "Por favor ingresa un correo electrónico válido",
@@ -176,6 +181,10 @@
     "matchLanguage": "Idioma de partida",
     "selectLanguage": "Seleccionar idioma",
     "selectGameMode": "Selecciona modo de juego",
+    "sourceLanguage": "Idioma de origen",
+    "targetLanguage": "Idioma de destino",
+    "languageToLearn": "idioma que quieres aprender",
+    "responseLanguage": "idioma de respuesta",
     "waiting": "Esperando...",
     "searchingOpponent": "Buscando oponente...",
     "matchFound": "¡Partida encontrada!",
@@ -187,7 +196,43 @@
     "matchModes": {
       "conversation": "Conversación",
       "justChilling": "Relajándose",
-      "wordBuilder": "Constructor de Palabras"
+      "wordBuilder": "Constructor de Palabras",
+      "timeAttackVocab": "Vocabulario Contra Reloj"
+    },
+    "rate": {
+      "sucess": {
+        "title": "Calificación enviada",
+        "message": "Tu calificación se guardó exitosamente"
+      },
+      "error": {
+        "title": "Error al calificar",
+        "message": "No se pudo enviar tu calificación. Por favor, intenta de nuevo."
+      },
+      "title": "¿Cómo calificas las habilidades de {{name}} en {{language}}?",
+      "subtitle": "Tu opinión ayuda a tu compañero a seguir su progreso — sé honesto y constructivo.",
+      "submit": "Enviar calificación",
+      "levels": {
+        "1": {
+          "title": "Principiante",
+          "description": "Conoce pocas palabras, hay mucho por aprender"
+        },
+        "2": {
+          "title": "Elemental",
+          "description": "Puede comunicarse en situaciones simples, pero tiene dificultades con temas más complejos"
+        },
+        "3": {
+          "title": "Intermedio",
+          "description": "Puede comunicarse en la mayoría de las situaciones, pero aún comete algunos errores"
+        },
+        "4": {
+          "title": "Avanzado",
+          "description": "Puede comunicarse con fluidez y precisión en la mayoría de las situaciones"
+        },
+        "5": {
+          "title": "Fluido",
+          "description": "Puede comunicarse con fluidez y precisión en todas las situaciones"
+        }
+      }
     },
     "errors": {
       "somethingWentWrong": "¡Algo salió mal!"
@@ -229,6 +274,10 @@
     "stopListening": "Dejar de escuchar",
     "reRecord": "Grabar de nuevo",
     "voiceRecognitionError": "Error en el reconocimiento de voz. Inténtalo de nuevo."
+  },
+  "voiceInput": {
+    "wordToSpeak": "Palabra a decir",
+    "instructions": "Toca el micrófono para hablar"
   },
   "navigation": {
     "matches": "Partidas",
@@ -283,5 +332,183 @@
     "permissionDenied": "Permiso denegado",
     "notFound": "No encontrado",
     "routeNotSupported": "Esta ruta no es compatible en este momento"
+  },
+  "friends": {
+    "friends": "Amigos",
+    "searchUsers": "Buscar usuarios",
+    "searchByUsername": "Buscar por nombre o nombre de usuario",
+    "enterUsername": "Ingresa nombre o nombre de usuario",
+    "search": "Buscar",
+    "noResults": "No se encontraron resultados",
+    "searchResults": "Resultados de búsqueda",
+    "searchResultsDescription": "Ingresa un nombre o nombre de usuario y haz clic en buscar para encontrar nuevos amigos",
+    "sendRequest": "Enviar solicitud",
+    "searchUsersDescription": "Encuentra nuevos amigos para practicar idiomas",
+    "receivedRequests": "Solicitudes recibidas",
+    "receivedRequestsDescription": "Ve quién quiere ser tu amigo",
+    "sentRequests": "Solicitudes enviadas",
+    "sentRequestsDescription": "Rastrea tus solicitudes de amistad enviadas",
+    "friendsList": "Lista de amigos",
+    "friendsListDescription": "Tus amigos y compañeros de idioma",
+    "viewReceivedRequests": "Ver solicitudes recibidas",
+    "viewSentRequests": "Ver solicitudes enviadas",
+    "viewFriends": "Ver amigos",
+    "loadingRequests": "Cargando solicitudes...",
+    "noReceivedRequests": "No hay solicitudes recibidas",
+    "noSentRequests": "No hay solicitudes enviadas",
+    "noSentRequestsDescription": "Tus solicitudes de amistad enviadas aparecerán aquí",
+    "failedToLoadRequests": "Error al cargar solicitudes",
+    "failedToCancelRequest": "Error al cancelar solicitud",
+    "requestCanceled": "Solicitud cancelada",
+    "cancelRequest": "Cancelar solicitud",
+    "cancelRequestConfirm": "¿Estás seguro de que quieres cancelar esta solicitud?",
+    "requestSent": "Enviado",
+    "requestReceived": "Recibido",
+    "requestSentSuccess": "¡Solicitud enviada a {name}!",
+    "sentOn": "Enviado el",
+    "pending": "Pendiente",
+    "accept": "Aceptar",
+    "reject": "Rechazar",
+    "loadingFriends": "Cargando amigos...",
+    "searchFriends": "Buscar amigos",
+    "searchFriendsPlaceholder": "Ingresa el nombre del amigo...",
+    "noFriendsFound": "No se encontraron amigos",
+    "noFriends": "No hay amigos aún",
+    "startChat": "Iniciar chat",
+    "remove": "Eliminar",
+    "removeFriend": "Eliminar amigo",
+    "removeFriendConfirm": "¿Estás seguro de que quieres eliminar a {name} de tus amigos?",
+    "friendRemoved": "Amigo eliminado exitosamente",
+    "view": "Ver",
+    "requestsSent": "Solicitudes Enviadas",
+    "requestsReceived": "Solicitudes Recibidas",
+    "list": "Lista de Amigos",
+    "conversations": "Conversaciones",
+    "conversationsDescription": "Chatea con tus amigos y practica idiomas juntos",
+    "viewConversations": "Ver Conversaciones",
+    "noConversations": "No hay conversaciones aún",
+    "noConversationsDescription": "Inicia una conversación con tus amigos para practicar idiomas",
+    "noMessages": "No hay mensajes",
+    "noMessagesYet": "No hay mensajes aún",
+    "startConversation": "Inicia una conversación enviando un mensaje",
+    "typeMessage": "Escribe un mensaje...",
+    "online": "En línea",
+    "offline": "Desconectado",
+    "loadingConversations": "Cargando conversaciones...",
+    "loadingMessages": "Cargando mensajes...",
+    "sendMessage": "Enviar mensaje",
+    "messageSent": "Mensaje enviado",
+    "messageReceived": "Mensaje recibido",
+    "typing": "escribiendo...",
+    "isTyping": "está escribiendo...",
+    "friendOnline": "amigo en línea",
+    "friendOffline": "amigo desconectado",
+    "justNow": "ahora mismo",
+    "minutesAgo": "hace {{minutes}} minutos",
+    "hoursAgo": "hace {{hours}} horas",
+    "daysAgo": "hace {{days}} días"
+  },
+  "chat": {
+    "isTyping": "está escribiendo",
+    "messageTooLong": "Mensaje muy largo",
+    "messageTooLongDescription": "El mensaje no puede tener más de {{maxLength}} caracteres",
+    "yesterday": "Ayer",
+    "messageOptions": "Opciones del mensaje",
+    "deleteMessage": "Eliminar mensaje",
+    "copyMessage": "Copiar mensaje",
+    "replyToMessage": "Responder mensaje"
+  },
+
+  "validation": {
+    "allFieldsRequired": "Por favor completa todos los campos.",
+    "selectAllOptions": "Selecciona el idioma destino, el modo de entrada y el nivel.",
+    "sameLanguageError": "El idioma destino no puede ser el mismo que el idioma de origen.",
+    "selectDifferentTargetLanguage": "Selecciona un idioma destino diferente."
+  },
+  "profile": {
+    "title": "Perfil",
+    "editProfile": "Editar Perfil",
+    "aboutMe": "Sobre mí",
+    "languages": "Idiomas",
+    "interests": "Intereses",
+    "accountInfo": "Información de la Cuenta",
+    "memberSince": "Miembro desde",
+    "lastLogin": "Último inicio de sesión",
+    "accountStatus": "Estado de la cuenta",
+    "active": "Activa",
+    "inactive": "Inactiva",
+    "never": "Nunca",
+    "loading": "Cargando perfil...",
+    "errorLoading": "Error al cargar el perfil",
+    "tryAgain": "Intentar de nuevo",
+    "fluency": {
+      "beginner": "Principiante",
+      "intermediate": "Intermedio",
+      "advanced": "Avanzado",
+      "fluent": "Fluido",
+      "native": "Nativo",
+      "unknown": "Desconocido"
+    }
+  },
+  "timeAttackVocab": {
+    "selectLevel": "Selecciona el nivel de vocabulario",
+    "levels": {
+      "basic": "Básico",
+      "intermediate": "Intermedio",
+      "advanced": "Avanzado"
+    },
+    "title": "Vocabulario Contra Reloj",
+    "setup": "Configuración de Vocabulario Contra Reloj",
+    "wordsWillAppearIn": "Las palabras aparecerán en",
+    "gameFormat": "Formato del juego: traducir del origen al destino",
+    "from": "de",
+    "to": "a",
+    "translateThis": "Traduce esta palabra",
+    "selectSourceLanguage": "Selecciona tu idioma nativo",
+    "selectTargetLanguage": "Selecciona el idioma que quieres practicar",
+    "selectInputMode": "Selecciona cómo quieres responder",
+    "inputModes": {
+      "text": "Escribir",
+      "voice": "Voz"
+    },
+    "startGame": "Empezar Juego",
+    "gameOver": "¡Fin del Juego!",
+    "score": "Puntuación",
+    "timeUp": "¡Se acabó el tiempo!",
+    "correctAnswers": "Respuestas correctas",
+    "totalWords": "Palabras totales",
+    "finalScore": "Puntuación final",
+    "wordsTranslated": "Palabras traducidas",
+    "correctTranslations": "Traducciones correctas",
+    "incorrectTranslations": "Traducciones incorrectas",
+    "avgTimePerWord": "Tiempo medio por palabra",
+    "gameMode": "Modo de juego",
+    "accuracy": "Precisión",
+    "wordsPerMinute": "Palabras por minuto",
+    "playAgain": "Jugar de nuevo",
+    "backToMenu": "Volver al menú",
+    "translate": "Traduce",
+    "skip": "Saltar",
+    "submit": "Enviar",
+    "listening": "Escuchando...",
+    "processing": "Procesando...",
+    "tapToSpeak": "Toca para hablar",
+    "tapToStop": "Toca para parar",
+    "voiceError": "Error de reconocimiento de voz",
+    "tryAgainVoice": "Intenta de nuevo",
+    "correct": "¡Correcto!",
+    "incorrect": "Incorrecto",
+    "expectedAnswer": "Respuesta esperada",
+    "yourAnswer": "Tu respuesta",
+    "timeLeft": "Tiempo restante",
+    "seconds": "segundos",
+    "results": "Resultados",
+    "excellent": "¡Excelente!",
+    "good": "¡Bien!",
+    "needsImprovement": "Necesita mejorar",
+    "keepPracticing": "Sigue practicando",
+    "speakTranslation": "Habla la traducción",
+    "enterTranslation": "Ingresa la traducción",
+    "typeTranslation": "Escribe la traducción"
   }
 }

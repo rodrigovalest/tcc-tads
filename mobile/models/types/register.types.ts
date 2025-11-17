@@ -4,36 +4,45 @@ export interface LanguageFluency {
 }
 
 export interface MultiStepRegisterData {
+  name: string;
   username: string;
   email: string;
   password: string;
   confirmPassword: string;
   nationality: string;
   languages: LanguageFluency[];
-  photo?: string;  
+  photo?: string;
   interestTopics: string[];
   personalDescription: string;
+  isGoogleAccount?: boolean;
+  googlePhoto?: string;
 }
 
 export interface RegisterRequest {
+  name: string;
   username: string;
   email: string;
   password: string;
   nationality: string;
   languages: LanguageFluency[];
-  photo?: string;  
+  photo?: string;
   interestTopics?: string[];
   personalDescription?: string;
+  isGoogleAccount?: boolean;
+  googlePhoto?: string;
 }
 
 export interface RegisterFormData {
+  name: string;
   username: string;
   email: string;
   password: string;
   confirmPassword: string;
   nationality: string;
   languages: LanguageFluency[];
-  photo?: string;  
+  photo?: string;
   interestTopics: string[];
   personalDescription: string;
-} 
+  isGoogleAccount?: boolean;
+  googlePhoto?: string;
+}

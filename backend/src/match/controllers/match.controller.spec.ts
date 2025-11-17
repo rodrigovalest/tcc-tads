@@ -16,7 +16,6 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
 import { JwtStrategy } from '../../auth/strategies/jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ListMatchesResponseDto } from '../dtos/list-matches-response.dto';
-import { User } from 'src/user/entities/user.entity';
 import { UserMatch } from '../entities/user-match.entity';
 
 describe('AuthController', () => {
@@ -25,7 +24,9 @@ describe('AuthController', () => {
   let matchService: jest.Mocked<MatchService>;
 
   const mockMatchService = {
-    findAllMatchesByUserId: jest.fn(),
+    findAllMatchesWithAverageScore: jest.fn(),
+    createSoloMatch: jest.fn(),
+    completeSoloMatch: jest.fn(),
   };
 
   @Module({
@@ -49,7 +50,7 @@ describe('AuthController', () => {
       JwtStrategy,
     ],
   })
-  class TestModule { }
+  class TestModule {}
 
   beforeAll(async () => {
     const moduleRef: TestingModule = await Test.createTestingModule({
@@ -74,85 +75,169 @@ describe('AuthController', () => {
     await app.close();
   });
 
-  it('/matches (POST) - successful findAllMatchesByUser returns all matches that logged user played', async () => {
-    // Arrange
-    const mockedLoggedJwtPayload: IUserJwtPayload = {
-      sub: 1,
-      email: 'testuser@example.com',
-      username: 'testuser',
-      nationality: CountryCode.Afghanistan,
-    }
-    const mockedJwtToken = jwtService.sign(mockedLoggedJwtPayload);
-
-    const userMatches = [{
-      id: 1,
-      match: undefined as unknown as Match,
-      socketId: 'test-socket-id',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      user: {
-        id: 1,
-        username: 'testuser',
+  describe('findAllMatchesByUser', () => {
+    it('/matches (POST) - successful findAllMatchesByUser returns all matches that logged user played', async () => {
+      // Arrange
+      const mockedLoggedJwtPayload: IUserJwtPayload = {
+        sub: 1,
         email: 'testuser@example.com',
-        password: 'hashedpassword',
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        username: 'testuser',
         nationality: CountryCode.Afghanistan,
-        isActive: true,
-        lastLoginAt: new Date(),
-        userMatches: [],
-        languages: [],
-        interestTopics: [],
-      },
-    }] as UserMatch[];
+      }
+      const mockedJwtToken = jwtService.sign(mockedLoggedJwtPayload);
 
-    const mockMatches: Match[] = [
-      {
-        id: '1',
-        startTime: new Date(),
-        endTime: new Date(),
-        mode: MatchMode.JUST_CHILLING,
-        format: MatchFormat.SOLO,
-        language: MatchLanguage.EN,
-        status: MatchStatus.COMPLETED,
-        userMatches: userMatches,
+      const userMatches = [{
+        id: 1,
+        match: undefined as unknown as Match,
+        socketId: 'test-socket-id',
         createdAt: new Date(),
         updatedAt: new Date(),
-      }
-    ];
+        user: {
+          id: 1,
+          name: 'Test User',
+          username: 'testuser',
+          email: 'testuser@example.com',
+          password: 'hashedpassword',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          nationality: CountryCode.Afghanistan,
+          isActive: true,
+          lastLoginAt: new Date(),
+          userMatches: [],
+          languages: [],
+          interestTopics: [],
+        },
+      }] as UserMatch[];
 
-    const expectedResponse: ListMatchesResponseDto[] = [
-      {
-        id: '1',
-        startTime: mockMatches[0].startTime.toISOString(),
-        endTime: mockMatches[0].endTime.toISOString(),
-        mode: mockMatches[0].mode,
-        format: mockMatches[0].format,
-        language: mockMatches[0].language,
-        status: mockMatches[0].status,
-        users: [{ id: 1, username: 'testuser', nationality: CountryCode.Afghanistan, photoUri: null }]
-      }
-    ];
+      const mockMatchesWithAverageScore: Array<{ match: Match; averageFluencyScore: number | null }> = [
+        {
+          match: {
+            id: '1',
+            startTime: new Date(),
+            endTime: new Date(),
+            mode: MatchMode.JUST_CHILLING,
+            format: MatchFormat.SOLO,
+            language: MatchLanguage.EN,
+            status: MatchStatus.COMPLETED,
+            userMatches: userMatches,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          },
+          averageFluencyScore: 1,
+        }
+      ];
 
-    matchService.findAllMatchesByUserId.mockResolvedValue(mockMatches);
+      matchService.findAllMatchesWithAverageScore.mockResolvedValue(mockMatchesWithAverageScore);
 
-    // Act
-    const response = await request(app.getHttpServer())
-      .get('/matches')
-      .set('Authorization', `Bearer ${mockedJwtToken}`)
-      .expect(200);
+      // Act
+      const response = await request(app.getHttpServer())
+        .get('/matches')
+        .set('Authorization', `Bearer ${mockedJwtToken}`)
+        .expect(200);
 
-    // Assert
-    expect(matchService.findAllMatchesByUserId).toHaveBeenCalledWith(mockedLoggedJwtPayload.sub);
-    expect(response.body).toHaveLength(1);
-    expect(response.body).toEqual(expectedResponse);
+      // Assert
+      expect(matchService.findAllMatchesWithAverageScore).toHaveBeenCalledWith(mockedLoggedJwtPayload.sub);
+      expect(response.body).toHaveLength(1);
+
+      const expectedResponse: ListMatchesResponseDto[] = [
+        {
+          id: '1',
+          startTime: mockMatchesWithAverageScore[0].match.startTime.toISOString(),
+          endTime: mockMatchesWithAverageScore[0].match.endTime.toISOString(),
+          mode: mockMatchesWithAverageScore[0].match.mode,
+          format: mockMatchesWithAverageScore[0].match.format,
+          language: mockMatchesWithAverageScore[0].match.language,
+          status: mockMatchesWithAverageScore[0].match.status,
+          averageFluencyScore: mockMatchesWithAverageScore[0].averageFluencyScore,
+          users: [{ id: 1, username: 'testuser', nationality: CountryCode.Afghanistan, photoUri: null }]
+        }
+      ];
+      expect(response.body).toEqual(expectedResponse);
+    });
+
+    it('/matches (GET) - unauthorized access returns 401', async () => {
+      await request(app.getHttpServer())
+        .get('/matches')
+        .expect(401);
+
+      expect(matchService.findAllMatchesWithAverageScore).toHaveBeenCalledTimes(0);
+    });
   });
 
-  it('/matches (GET) - unauthorized access returns 401', async () => {
-    await request(app.getHttpServer())
-      .get('/matches')
-      .expect(401);
+  describe('createSoloMatch', () => {
+    it('/matches/solo (POST) - successful createSoloMatch returns matchId', async () => {
+      // Arrange
+      const mockedLoggedJwtPayload: IUserJwtPayload = {
+        sub: 1,
+        email: 'testuser@example.com',
+        username: 'testuser',
+        nationality: CountryCode.Afghanistan,
+      }
+      const mockedJwtToken = jwtService.sign(mockedLoggedJwtPayload); 
 
-    expect(matchService.findAllMatchesByUserId).toHaveBeenCalledTimes(0);
+      const mockedNewSoloMatch: Match = { id: 'mocked-match-id' } as Match;
+      const matchMode = MatchMode.JUST_CHILLING;
+      const matchLanguage = MatchLanguage.EN;
+
+      matchService.createSoloMatch.mockResolvedValue(mockedNewSoloMatch);
+
+      // Act
+      const response = await request(app.getHttpServer())
+        .post('/matches/solo')
+        .set('Authorization', `Bearer ${mockedJwtToken}`)
+        .send({ mode: matchMode, language: matchLanguage })
+        .expect(201);
+
+      // Assert
+      expect(matchService.createSoloMatch).toHaveBeenCalledWith(matchMode, matchLanguage, mockedLoggedJwtPayload.sub);
+      expect(response.body).toEqual({ matchId: mockedNewSoloMatch.id });
+    });
+
+    it('/matches (GET) - unauthorized access returns 401', async () => {
+      await request(app.getHttpServer())
+        .post('/matches/solo')
+        .send({ mode: MatchMode.JUST_CHILLING, language: MatchLanguage.EN })
+        .expect(401);
+
+      expect(matchService.createSoloMatch).toHaveBeenCalledTimes(0);
+    });
+  });
+
+  describe('completeSoloMatch', () => {
+    it('/matches/:matchId/complete (POST) - successful completeSoloMatch returns success true', async () => {
+      // Arrange
+      const mockedLoggedJwtPayload: IUserJwtPayload = {
+        sub: 1,
+        email: 'testuser@example.com',
+        username: 'testuser',
+        nationality: CountryCode.Afghanistan,
+      }
+      const mockedJwtToken = jwtService.sign(mockedLoggedJwtPayload);
+
+      const matchId = 'mocked-match-id';
+
+      matchService.completeSoloMatch.mockResolvedValue();
+
+      // Act
+      const response = await request(app.getHttpServer())
+        .post(`/matches/${matchId}/complete`)
+        .set('Authorization', `Bearer ${mockedJwtToken}`)
+        .expect(200);
+
+      // Assert
+      expect(matchService.completeSoloMatch).toHaveBeenCalledWith(matchId);
+      expect(matchService.completeSoloMatch).toHaveBeenCalledTimes(1);
+      expect(response.body).toEqual({ success: true });
+    });
+
+    it('/matches (GET) - unauthorized access returns 401', async () => {
+      const matchId = 'mocked-match-id';
+
+      await request(app.getHttpServer())
+        .post(`/matches/${matchId}/complete`)
+        .expect(401);
+
+      expect(matchService.completeSoloMatch).toHaveBeenCalledTimes(0);
+    });
   });
 });

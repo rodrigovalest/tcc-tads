@@ -17,6 +17,11 @@ export class CreateUserRequestDto {
   @IsDefined()
   @IsString()
   @IsNotEmpty()
+  readonly name: string;
+
+  @IsDefined()
+  @IsString()
+  @IsNotEmpty()
   readonly username: string;
 
   @IsDefined()

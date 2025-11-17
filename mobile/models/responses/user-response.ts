@@ -13,6 +13,7 @@ interface UserInterestTopicResponse {
 
 export default interface IUserResponse {
   id: number;
+  name: string;
   username: string;
   email: string;
   nationality: string;
