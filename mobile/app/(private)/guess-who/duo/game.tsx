@@ -24,6 +24,9 @@ import GuessWhoVideoCardComponent from "../../../../components/guess-who/GuessWh
 import GuessWhoTimerComponent from "../../../../components/guess-who/GuessWhoTimer";
 import VideoCallControlsComponent from "../../../../components/guess-who/VideoCallControls";
 import GuessWhoModal from "../../../../components/guess-who/GuessWhoModal";
+import GuessWhoCharacter from "../../../../components/guess-who/GuessWhoCharacter";
+import IGuessWhoCharacter from "../../../../models/interfaces/guess-who-character";
+import GuessWhoCharacterSelectModal from "../../../../components/guess-who/GuessWhoCharacterSelectModal";
 
 export default function GuessWhoDuoGame() {
   const [stage, setStage] = useState<GuessWhoStage>("intro");
@@ -49,7 +52,10 @@ export default function GuessWhoDuoGame() {
     roundStartTime,
     roundEndTime,
     status,
+    eliminated,
+    toggleEliminated,
   } = useGuessWhoStore();
+  const [selectedCharacter, setSelectedCharacter] = useState<IGuessWhoCharacter | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -231,41 +237,28 @@ export default function GuessWhoDuoGame() {
               className="mt-8 mb-2 flex-grow"
             >
               <View className="flex-wrap flex-row justify-center">
-                {characters!.map((char) => {
+                {characters!.map((char: IGuessWhoCharacter) => {
                   return (
-                    <View key={char.id} className={"w-[22%] mx-[1%] items-center mt-3"}>
-                      <Image
-                        source={CHARACTERS[char.image]}
-                        className="w-full h-20"
-                        resizeMode="contain"
-                      />
-                      <Text className={"text-sm font-medium mt-1 text-white"}>
-                        {char.name}
-                      </Text>
-                    </View>
+                    <GuessWhoCharacter
+                      key={char.id}
+                      id={char.id}
+                      name={char.name}
+                      image={CHARACTERS[char.image]}
+                      disabled={eliminated[char.id] === true}
+                      onPress={() => { setSelectedCharacter(char) }}
+                    />
                   );
                 })}
               </View>
             </ScrollView>
           </View>
           
-          {/* stage: questioning */}
-          {(status === "answering" || status === "questioning") && (
+          {(status === "answering" || status === "questioning" || status === "waiting") && (
             <GuessWhoModal
               startTime={roundStartTime ? new Date(roundStartTime) : new Date()}
               endTime={roundEndTime ? new Date(roundEndTime) : new Date()}
               status={status}
               onAnswer={handleAnswer}
-              visible={true}
-            />
-          )}
-
-          {/* stage: guessing or unmarking */}
-          {(status === "waiting") && (
-            <GuessWhoModal
-              startTime={roundStartTime ? new Date(roundStartTime) : new Date()}
-              endTime={roundEndTime ? new Date(roundEndTime) : new Date()}
-              status={status}
               visible={true}
             />
           )}
@@ -277,6 +270,15 @@ export default function GuessWhoDuoGame() {
             onEndCall={endCall}
             isMicMuted={isMicMuted}
             isVideoMuted={isVideoMuted}
+          />
+
+          <GuessWhoCharacterSelectModal
+            visible={selectedCharacter !== null}
+            character={selectedCharacter}
+            eliminated={selectedCharacter ? eliminated?.[selectedCharacter.id] === true : false}
+            onToggle={(id) => toggleEliminated(id)}
+            onClose={() => setSelectedCharacter(null)}
+            onGuess={(id) => console.log("palpite", id)}
           />
         </View>
       )}
