@@ -24,9 +24,7 @@ export default function GuessWhoModal({
       className="absolute inset-0 h-full w-full justify-center items-center bg-[rgba(0,0,0,0.3)] z-50"
       pointerEvents="box-none"
     >
-      <Animated.View
-        entering={FadeIn.duration(500)}
-        exiting={FadeOut.duration(400)}
+      <View
         className="bg-[#1E2530] px-6 py-5 rounded-2xl items-center w-[90%]"
         pointerEvents="auto"
       >
@@ -78,7 +76,7 @@ export default function GuessWhoModal({
         <View className="mt-4">
           <GuessWhoTimerComponent startTime={startTime} endTime={endTime} />
         </View>
-      </Animated.View>
+      </View>
     </View>
   );
 }
