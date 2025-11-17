@@ -11,6 +11,9 @@ import {
 } from "react-native-webrtc";
 import webSocketService from "../services/web-socket-service";
 import useMatchStore from "../store/match-store";
+import useGuessWhoStore from "../store/guess-who-store";
+import IGuessWhoGuessingOrUnmarking from "../models/interfaces/guess-who-guessing-or-unmarking";
+import IGuessWhoWaiting from "../models/interfaces/guess-who-waiting";
 
 const turnServerUrl = '192.168.0.108';
 const turnServerPort = '3478';
@@ -42,10 +45,15 @@ const useGuessWhoDuo = (redirectOnEnd: () => void) => {
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
   const peerConnection = useRef<RTCPeerConnection | null>(null);
 
-  const { matchId, isOfferer } = useMatchStore();
-
   const [isMicMuted, setIsMicMuted] = useState<boolean>(false);
   const [isVideoMuted, setIsVideoMuted] = useState<boolean>(false);
+
+  const { matchId, isOfferer } = useMatchStore();
+  const {
+    setStatus,
+    setRoundTime,
+    setAnswer,
+  } = useGuessWhoStore();  
 
   const switchAudio = () => {
     setIsMicMuted((prev) => {
@@ -145,23 +153,28 @@ const useGuessWhoDuo = (redirectOnEnd: () => void) => {
       }
     });
 
-    webSocketService.on(
-      "guess-who:duo:webrtc:answer",
-      async ({ answer }) => {
-        await peerConnection.current?.setRemoteDescription(
-          new RTCSessionDescription(answer)
-        );
-      }
-    );
+    webSocketService.on("guess-who:duo:webrtc:answer", async ({ answer }) => {
+        await peerConnection.current?.setRemoteDescription(new RTCSessionDescription(answer));
+    });
 
-    webSocketService.on(
-      "guess-who:duo:webrtc:ice-candidate",
-      async ({ candidate }) => {
-        await peerConnection.current?.addIceCandidate(
-          new RTCIceCandidate(candidate)
-        );
-      }
-    );
+    webSocketService.on("guess-who:duo:webrtc:ice-candidate", async ({ candidate }) => {
+        await peerConnection.current?.addIceCandidate(new RTCIceCandidate(candidate));
+    });
+
+    webSocketService.on("guess-who:duo:guessing-or-unmarking", async (data: IGuessWhoGuessingOrUnmarking) => {
+      console.log("Received guess or unmark:", data);
+      
+      setAnswer(data.answer);
+      setStatus(data.status);
+      setRoundTime(data.startTime, data.endTime);
+    });
+
+    webSocketService.on("guess-who:duo:waiting", async (data: IGuessWhoWaiting) => {
+      console.log("Received waiting:", data);
+
+      setStatus(data.status);
+      setRoundTime(data.startTime, data.endTime);
+    });
 
     webSocketService.onDisconnect(() => {
       endCall();
@@ -175,6 +188,15 @@ const useGuessWhoDuo = (redirectOnEnd: () => void) => {
     };
   }, []);
 
+  const handleAnswer = (answer: boolean) => {
+    console.log("Sending answer:", answer);
+
+    webSocketService.emit("guess-who:duo:answer", {
+      matchId,
+      answer,
+    });
+  }
+
   return {
     localStream,
     remoteStream,
@@ -184,6 +206,7 @@ const useGuessWhoDuo = (redirectOnEnd: () => void) => {
     isMicMuted,
     isVideoMuted,
     endCall,
+    handleAnswer,
   };
 };
 

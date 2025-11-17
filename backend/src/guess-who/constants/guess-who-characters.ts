@@ -1,6 +1,6 @@
-import { Character } from "../entities/character.entity";
+import { GuessWhoCharacter } from "../entities/guess-who-character.entity";
 
-export const CHARACTERS: Character[] = [
+export const GUESS_WHO_CHARACTERS: GuessWhoCharacter[] = [
     { id: 1, name: 'Maya', image: 'p01' },
     { id: 2, name: 'Ethan', image: 'p02' },
     { id: 3, name: 'Liam', image: 'p03' },

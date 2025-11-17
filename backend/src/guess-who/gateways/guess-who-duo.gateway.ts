@@ -1,5 +1,12 @@
-import { ConnectedSocket, MessageBody, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
-import { GuessWhoService } from '../services/guess-who-duo.service';
+import {
+  ConnectedSocket,
+  MessageBody,
+  OnGatewayDisconnect,
+  SubscribeMessage,
+  WebSocketGateway,
+  WebSocketServer,
+} from '@nestjs/websockets';
+import { GuessWhoDuoService } from '../services/guess-who-duo.service';
 import { UsePipes, UseFilters, Logger, UseGuards } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { Server, Socket } from 'socket.io';
@@ -14,16 +21,16 @@ import { Match } from '../../match/entities/match.entity';
 import { UserQueue } from '../../match/entities/user-queue.entity';
 import { WsExceptionFilter } from '../../shared/filters/ws-exception.filter';
 import { WsValidationPipe } from '../../shared/pipes/WsValidationPipe';
-import { Character } from '../entities/character.entity';
-import { UserMatch } from 'src/match/entities/user-match.entity';
+import { GuessWhoCharacter } from '../entities/guess-who-character.entity';
+import { GuessWhoStage } from '../entities/guess-who-stage.enum';
 
 @UsePipes(new WsValidationPipe())
 @UseFilters(new WsExceptionFilter())
 @WebSocketGateway()
-export class GuessWhoGateway implements OnGatewayDisconnect {
-  constructor(private readonly guessWhoService: GuessWhoService) {}
+export class GuessWhoDuoGateway implements OnGatewayDisconnect {
+  constructor(private readonly guessWhoDuoService: GuessWhoDuoService) {}
 
-  private readonly logger = new Logger(GuessWhoGateway.name, {
+  private readonly logger = new Logger(GuessWhoDuoGateway.name, {
     timestamp: true,
   });
 
@@ -36,7 +43,7 @@ export class GuessWhoGateway implements OnGatewayDisconnect {
     @MessageBody() messageDto: EnqueueMessageDto,
     @ConnectedSocket() client: Socket,
   ) {
-    await this.guessWhoService.enqueueDuoFormatAndTryStart(
+    await this.guessWhoDuoService.enqueueDuoFormatAndTryStart(
       loggedUser,
       client.id,
       messageDto.matchLanguage,
@@ -45,7 +52,7 @@ export class GuessWhoGateway implements OnGatewayDisconnect {
 
   @UseGuards(JwtWsAuthGuard)
   @SubscribeMessage('guess-who:duo:webrtc:offer')
-  handleOffer(
+  handleWebRtcOffer(
     @CurrentWsUser() user: IUserJwtPayload,
     @MessageBody()
     payload: { matchId: string; offer: RTCSessionDescriptionInit },
@@ -63,7 +70,7 @@ export class GuessWhoGateway implements OnGatewayDisconnect {
 
   @UseGuards(JwtWsAuthGuard)
   @SubscribeMessage('guess-who:duo:webrtc:answer')
-  handleAnswer(
+  handleWebRtcAnswer(
     @CurrentWsUser() user: IUserJwtPayload,
     @MessageBody()
     payload: { matchId: string; answer: RTCSessionDescriptionInit },
@@ -81,7 +88,7 @@ export class GuessWhoGateway implements OnGatewayDisconnect {
 
   @UseGuards(JwtWsAuthGuard)
   @SubscribeMessage('guess-who:duo:webrtc:ice-candidate')
-  handleIceCandidate(
+  handleWebRtcIceCandidate(
     @CurrentWsUser() user: IUserJwtPayload,
     @MessageBody() payload: { matchId: string; candidate: RTCIceCandidate },
     @ConnectedSocket() client: Socket,
@@ -96,8 +103,21 @@ export class GuessWhoGateway implements OnGatewayDisconnect {
     });
   }
 
+  @UseGuards(JwtWsAuthGuard)
+  @SubscribeMessage('guess-who:duo:answer')
+  handleAnswer(
+    @CurrentWsUser() user: IUserJwtPayload,
+    @MessageBody() payload: { matchId: string; answer: boolean },
+  ) {
+    this.logger.log(`[answer] User ${user.sub} answered in match ${payload.matchId}`);
+    this.guessWhoDuoService.handleAnswer(
+      payload.matchId,
+      payload.answer,
+    );
+  }
+
   async handleDisconnect(client: Socket) {
-    await this.guessWhoService.handleDisconnect(client.id);
+    await this.guessWhoDuoService.handleDisconnect(client.id);
   }
 
   @OnEvent('guess-who:duo:match-started')
@@ -108,9 +128,6 @@ export class GuessWhoGateway implements OnGatewayDisconnect {
     user2PhotoUri: string | null;
     language: MatchLanguage;
     match: Match;
-    characters: Character[];
-    characterUser1: Character;
-    characterUser2: Character;
   }) {
     const notifyUser = (
       user: UserQueue,
@@ -149,14 +166,14 @@ export class GuessWhoGateway implements OnGatewayDisconnect {
   handleDuoCharactersSelected(payload: {
     userQueue1: UserQueue;
     userQueue2: UserQueue;
-    characters: Character[];
-    characterUser1: Character;
-    characterUser2: Character;
+    characters: GuessWhoCharacter[];
+    characterUser1: GuessWhoCharacter;
+    characterUser2: GuessWhoCharacter;
   }) {
     const notifyUser = (
       userSocketId: string,
-      characters: Character[],
-      pairCharacter: Character,
+      characters: GuessWhoCharacter[],
+      pairCharacter: GuessWhoCharacter,
     ) => {
       const socket = this.server.sockets.sockets.get(userSocketId);
 
@@ -172,5 +189,72 @@ export class GuessWhoGateway implements OnGatewayDisconnect {
 
     notifyUser(payload.userQueue1.socketId, payload.characters, payload.characterUser2);
     notifyUser(payload.userQueue2.socketId, payload.characters, payload.characterUser1);
+  }
+
+  @OnEvent('guess-who:duo:round-start')
+  handleRoundStart(payload: {
+    userSocketId: string;
+    status: string;
+    message: string;
+    startTime: Date;
+    endTime: Date;
+  }) {
+    const socket = this.server.sockets.sockets.get(payload.userSocketId);
+
+    if (socket) {
+      socket.emit('guess-who:duo:round-start', {
+        message: payload.message,
+        timestamp: new Date().toISOString(),
+        status: payload.status,
+        startTime: payload.startTime.toISOString(),
+        endTime: payload.endTime.toISOString(),
+      });
+    }
+  }
+
+  @OnEvent('guess-who:duo:guessing-or-unmarking')
+  handleGuessingOrUnmarkingEvent(payload: {
+    socketId: string;
+    message: string;
+    answer: boolean;
+    timestamp: string;
+    status: string;
+    startTime: Date;
+    endTime: Date;
+  }) {
+    const socket = this.server.sockets.sockets.get(payload.socketId);
+
+    if (socket) {
+      socket.emit('guess-who:duo:guessing-or-unmarking', {
+        message: payload.message,
+        answer: payload.answer,
+        timestamp: payload.timestamp,
+        status: payload.status,
+        startTime: payload.startTime.toISOString(),
+        endTime: payload.endTime.toISOString(),
+      });
+    }
+  }
+
+  @OnEvent('guess-who:duo:waiting')
+  handleWaitingEvent(payload: {
+    socketId: string;
+    message: string;
+    timestamp: string;
+    status: string;
+    startTime: Date;
+    endTime: Date;
+  }) {
+    const socket = this.server.sockets.sockets.get(payload.socketId);
+
+    if (socket) {
+      socket.emit('guess-who:duo:waiting', {
+        message: payload.message,
+        timestamp: payload.timestamp,
+        status: payload.status,
+        startTime: payload.startTime.toISOString(),
+        endTime: payload.endTime.toISOString(),
+      });
+    }
   }
 }

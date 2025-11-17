@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { MatchService } from '../../match/services/match.service';
 import { QueueService } from '../../match/services/queue.service';
@@ -9,19 +9,25 @@ import { MatchMode } from '../../match/entities/match-mode.enum';
 import { Match } from '../../match/entities/match.entity';
 import { UserQueue } from '../../match/entities/user-queue.entity';
 import { UserService } from '../../user/services/user.service';
-import { CHARACTERS } from '../constants/characters';
-import { UserMatch } from 'src/match/entities/user-match.entity';
+import { GUESS_WHO_CHARACTERS } from '../constants/guess-who-characters';
+import { IGuessWhoMatchRepository } from '../repositories/guess-who-match.interface';
+import { GuessWhoMatch } from '../entities/guess-who-match.entity';
+import { GUESS_WHO_QUESTIONING_DURATION_MS, GUESS_WHO_GUESSING_OR_MARKING_DURATION_MS } from '../constants/guess-who-duration';
+import { GuessWhoStatus } from '../entities/guess-who-status.enum';
+import { GuessWhoStage } from '../entities/guess-who-stage.enum';
 
 @Injectable()
-export class GuessWhoService {
+export class GuessWhoDuoService {
   constructor(
     private readonly userService: UserService,
     private readonly queueService: QueueService,
     private readonly eventEmitter: EventEmitter2,
     private readonly matchService: MatchService,
+    @Inject('IGuessWhoMatchRepository')
+    private readonly guessWhoMatchRepository: IGuessWhoMatchRepository
   ) {}
 
-  private readonly logger = new Logger(GuessWhoService.name, {
+  private readonly logger = new Logger(GuessWhoDuoService.name, {
     timestamp: true,
   });
 
@@ -81,10 +87,22 @@ export class GuessWhoService {
         match,
       });
 
-      const shuffled = this.shuffle([...CHARACTERS]);
+      const shuffled = this.shuffle([...GUESS_WHO_CHARACTERS]);
       const characters = shuffled.slice(0, 16);
       const characterUser1 = this.pickRandom(characters);
       const characterUser2 = this.pickRandom(characters);
+
+      this.guessWhoMatchRepository.create(
+        match.id,
+        usersQueue[0].userId,
+        usersQueue[1].userId,
+        usersQueue[0].socketId,
+        usersQueue[1].socketId,
+        characters,
+        characterUser1,
+        characterUser2,
+        usersQueue[0].userId
+      );
 
       this.eventEmitter.emit('guess-who:duo:characters-selected', {
         userQueue1: usersQueue[0],
@@ -93,7 +111,82 @@ export class GuessWhoService {
         characterUser1,
         characterUser2,
       });
+
+      const now = new Date();
+      const end = new Date(now.getTime() + GUESS_WHO_QUESTIONING_DURATION_MS);
+
+      this.eventEmitter.emit('guess-who:duo:round-start', {
+        userSocketId: usersQueue[0].socketId,
+        status: GuessWhoStatus.QUESTIONING,
+        message: 'make a yes or no question trying to guess your character',
+        startTime: now,
+        endTime: end
+      });
+
+      this.eventEmitter.emit('guess-who:duo:round-start', {
+        userSocketId: usersQueue[1].socketId,
+        status: GuessWhoStatus.ANSWERING,
+        message: 'answer with yes or no the question that your buddy is doing',
+        startTime: now,
+        endTime: end
+      });
     }
+  }
+
+  async handleAnswer(
+    matchId: string,
+    answer: boolean,
+  ) {
+    const guessWhoMatch = await this.guessWhoMatchRepository.findByMatchId(matchId);
+
+    if (!guessWhoMatch) {
+      this.logger.warn(`GuessWhoMatch not found for matchId ${matchId}`);
+      return;
+    }
+
+    if (guessWhoMatch.stage !== GuessWhoStage.QUESTIONING) {
+      this.logger.warn(`GuessWhoMatch ${matchId} is not in QUESTIONING stage`);
+      return;
+    }
+
+    const {
+      user1Id,
+      user2Id,
+      user1SocketId,
+      user2SocketId,
+      userIdTurn
+    } = guessWhoMatch;
+
+    const turnSocketId =
+      userIdTurn === user1Id ? user1SocketId : user2SocketId;
+
+    const otherSocketId =
+      userIdTurn === user1Id ? user2SocketId : user1SocketId;
+
+    const startTime = new Date();
+    const endTime = new Date(startTime.getTime() + GUESS_WHO_GUESSING_OR_MARKING_DURATION_MS);
+
+    this.eventEmitter.emit('guess-who:duo:guessing-or-unmarking', {
+      socketId: turnSocketId,
+      message: "your buddy has answered",
+      answer,
+      timestamp: new Date().toISOString(),
+      status: GuessWhoStatus.GUESSING_OR_UNMARKING,
+      startTime,
+      endTime,
+    });
+
+    this.eventEmitter.emit('guess-who:duo:waiting', {
+      socketId: otherSocketId,
+      message: "wait for your buddy to guess or unmark",
+      timestamp: new Date().toISOString(),
+      status: GuessWhoStatus.WAITING,
+      startTime,
+      endTime,
+    });
+
+    guessWhoMatch.stage = GuessWhoStage.GUESSING_OR_UNMARKING;
+    await this.guessWhoMatchRepository.update(matchId, guessWhoMatch);
   }
 
   async handleDisconnect(socketId: string): Promise<void> {

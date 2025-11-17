@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { View, Text } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 import Animated, {
@@ -9,48 +9,72 @@ import Animated, {
 } from "react-native-reanimated";
 
 interface GuessWhoTimerProps {
-  startTime: Date;
-  endTime: Date;
+  startTime: Date | null;
+  endTime: Date | null;
 }
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 const GuessWhoTimerComponent = ({ startTime, endTime }: GuessWhoTimerProps) => {
-  const totalDuration = (endTime.getTime() - startTime.getTime()) / 1000;
-  const [secondsLeft, setSecondsLeft] = useState(Math.ceil(totalDuration));
-  const progress = useSharedValue(1);
-
   const radius = 26;
   const strokeWidth = 4;
   const circumference = 2 * Math.PI * radius;
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const now = new Date().getTime();
-      const remaining = Math.max(0, Math.ceil((endTime.getTime() - now) / 1000));
-      setSecondsLeft(remaining);
-    }, 500);
+  const progress = useSharedValue(1);
+  const [secondsLeft, setSecondsLeft] = useState(0);
 
-    progress.value = withTiming(
-      0,
-      {
-        duration: totalDuration * 1000,
-        easing: Easing.linear,
-      },
-      () => {}
-    );
+  const totalDuration = useMemo(() => {
+    if (!startTime || !endTime) return 0;
+    return (endTime.getTime() - startTime.getTime()) / 1000;
+  }, [startTime, endTime]);
+
+  useEffect(() => {
+    if (!startTime || !endTime) return;
+
+    const interval = setInterval(() => {
+      const now = Date.now();
+      const remaining = Math.max(
+        0,
+        Math.ceil((endTime.getTime() - now) / 1000)
+      );
+      setSecondsLeft(remaining);
+    }, 300);
+
+    progress.value = 1;
+    progress.value = withTiming(0, {
+      duration: totalDuration * 1000,
+      easing: Easing.linear,
+    });
 
     return () => clearInterval(interval);
-  }, []);
+  }, [startTime, endTime, totalDuration]);
 
   const animatedProps = useAnimatedProps(() => ({
     strokeDashoffset: circumference * (1 - progress.value),
   }));
 
+  if (!startTime || !endTime) {
+    return (
+      <View className="items-center justify-center">
+        <View
+          style={{
+            width: 56,
+            height: 56,
+            borderRadius: 28,
+            backgroundColor: "#192229",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Text className="text-white text-lg font-bold">0</Text>
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View className="items-center justify-center">
       <Svg width={56} height={56} viewBox="0 0 56 56">
-        {/* Fundo do círculo */}
         <Circle
           cx="28"
           cy="28"
@@ -60,7 +84,6 @@ const GuessWhoTimerComponent = ({ startTime, endTime }: GuessWhoTimerProps) => {
           fill="#192229"
         />
 
-        {/* Borda animada */}
         <AnimatedCircle
           cx="28"
           cy="28"

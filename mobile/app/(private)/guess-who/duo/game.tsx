@@ -2,9 +2,9 @@ import {
   Text,
   View,
   Image,
-  TouchableOpacity,
   ScrollView,
-  StyleSheet,
+  TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useState } from "react";
@@ -14,17 +14,16 @@ import { useRouter } from "expo-router";
 import useAuthStore from "../../../../store/auth-store";
 import useMatchStore from "../../../../store/match-store";
 import {
-  Feather,
   MaterialCommunityIcons,
-  MaterialIcons,
 } from "@expo/vector-icons";
 import { COLORS } from "../../../../constants/colors";
 import useGuessWhoDuo from "../../../../hooks/useGuessWhoDuo";
 import useGuessWhoStore from "../../../../store/guess-who-store";
 import { CHARACTERS } from "../../../../constants/guess-who-characters";
-import { RTCView } from "react-native-webrtc";
 import GuessWhoVideoCardComponent from "../../../../components/guess-who/GuessWhoVideoCard";
 import GuessWhoTimerComponent from "../../../../components/guess-who/GuessWhoTimer";
+import VideoCallControlsComponent from "../../../../components/guess-who/VideoCallControls";
+import GuessWhoModal from "../../../../components/guess-who/GuessWhoModal";
 
 export default function GuessWhoDuoGame() {
   const [stage, setStage] = useState<GuessWhoStage>("intro");
@@ -37,18 +36,25 @@ export default function GuessWhoDuoGame() {
     isMicMuted,
     isVideoMuted,
     endCall,
+    handleAnswer,
   } = useGuessWhoDuo(() => {
     router.replace("/(private)/match-rate-duo");
   });
 
   const { user: loggedUser } = useAuthStore();
   const { buddy } = useMatchStore();
-  const { characters, pairCharacter } = useGuessWhoStore();
+  const { 
+    characters, 
+    pairCharacter,
+    roundStartTime,
+    roundEndTime,
+    status,
+  } = useGuessWhoStore();
   const router = useRouter();
 
   useEffect(() => {
     const timers = [
-      setTimeout(() => setStage("reveal"), 3000),
+      setTimeout(() => setStage("reveal"), 5000),
       setTimeout(() => setStage("game"), 6000),
     ];
     return () => timers.forEach(clearTimeout);
@@ -62,17 +68,9 @@ export default function GuessWhoDuoGame() {
     };
   }, []);
 
-  const onMute = () => {
-    switchAudio();
-  };
-
-  const onVideoOff = () => {
-    switchVideo();
-  };
-
-  const onEndCall = () => {
-    endCall();
-  };
+  if (status === "answering" || status === "questioning" || status === "waiting") {
+    console.log(status, roundStartTime, roundEndTime);
+  }
 
   return (
     <LinearGradient
@@ -182,10 +180,7 @@ export default function GuessWhoDuoGame() {
       )}
 
       {stage === "game" && (
-        <Animated.View
-          entering={FadeIn.duration(800)}
-          className="w-full h-full items-center bg-gradient-to-b from-[#3B1347] to-[#0C141F]"
-        >
+        <View className="w-full h-full items-center bg-gradient-to-b from-[#3B1347] to-[#0C141F]">
           {/* --- Header --- */}
           <View className="flex-row justify-between items-center w-full px-6 pt-8">
             {/* Player 1 */}
@@ -196,10 +191,12 @@ export default function GuessWhoDuoGame() {
             />
 
             {/* Timer */}
-            <GuessWhoTimerComponent
-              startTime={new Date()}
-              endTime={new Date(new Date().getTime() + 15000)}
-            />
+            {roundStartTime && roundEndTime && (
+              <GuessWhoTimerComponent
+                startTime={new Date(roundStartTime)}
+                endTime={new Date(roundEndTime)}
+              />
+            )}
 
             {/* Player 2 */}
             <GuessWhoVideoCardComponent
@@ -251,42 +248,37 @@ export default function GuessWhoDuoGame() {
               </View>
             </ScrollView>
           </View>
+          
+          {/* stage: questioning */}
+          {(status === "answering" || status === "questioning") && (
+            <GuessWhoModal
+              startTime={roundStartTime ? new Date(roundStartTime) : new Date()}
+              endTime={roundEndTime ? new Date(roundEndTime) : new Date()}
+              status={status}
+              onAnswer={handleAnswer}
+              visible={true}
+            />
+          )}
+
+          {/* stage: guessing or unmarking */}
+          {(status === "waiting") && (
+            <GuessWhoModal
+              startTime={roundStartTime ? new Date(roundStartTime) : new Date()}
+              endTime={roundEndTime ? new Date(roundEndTime) : new Date()}
+              status={status}
+              visible={true}
+            />
+          )}
 
           {/* --- Bottom controls */}
-          <View
-            className="absolute bottom-0 left-0 right-0 bg-appBlack px-10 pt-8 pb-10 flex-row justify-between items-center rounded-t-3xl"
-            style={{ width: '100%' }}
-          >
-            <TouchableOpacity
-              className="bg-[#4F4F47] rounded-full p-4"
-              onPress={onMute}
-            >
-              <Feather
-                name={isMicMuted ? "mic" : "mic-off"}
-                size={26}
-                color="#FEFBF4"
-              />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              className="bg-[#4F4F47] rounded-full p-4"
-              onPress={onVideoOff}
-            >
-              <Feather
-                name={isVideoMuted ? "video" : "video-off"}
-                size={26}
-                color="#FEFBF4"
-              />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              className="bg-appMediumRed rounded-full p-4"
-              onPress={onEndCall}
-            >
-              <MaterialIcons name="call-end" size={26} color="#FEFBF4" />
-            </TouchableOpacity>
-          </View>
-        </Animated.View>
+          <VideoCallControlsComponent
+            onSwitchAudio={switchAudio}
+            onSwitchVideo={switchVideo}
+            onEndCall={endCall}
+            isMicMuted={isMicMuted}
+            isVideoMuted={isVideoMuted}
+          />
+        </View>
       )}
     </LinearGradient>
   );

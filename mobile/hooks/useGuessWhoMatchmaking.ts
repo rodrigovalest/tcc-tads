@@ -6,33 +6,37 @@ import webSocketService from "../services/web-socket-service";
 import Toast from "react-native-toast-message";
 import IMatchmakingResponse from "../models/responses/matchmaking-response";
 import useGuessWhoStore from "../store/guess-who-store";
-import IGuessWhoCharactersSelectedResponse from "@/models/responses/guess-who-characters-selected-response";
+import IGuessWhoCharactersSelectedResponse from "../models/responses/guess-who-characters-selected-response";
+import IGuessWhoRoundStart from "../models/interfaces/guess-who-round-start";
 
 const useGuessWhoMatchmaking = () => {
   const router = useRouter();
   const { token } = useAuthStore();
   const {
-    matchFormat,
     matchLanguage,
-    matchMode,
     setMatchId,
     setIsOfferer,
     resetMatch,
     setUserBuddy,
   } = useMatchStore();
-  const { 
+  const {
+    setStatus,
+    setRoundTime,
     setCharacters,
     setPairCharacter,
-    reset,
+    reset: resetGuessWho,
   } = useGuessWhoStore();
 
   useEffect(() => {
-    if (!token || !matchFormat || !matchLanguage || !matchMode) {
+    if (!token || !matchLanguage) {
       resetMatch();
+      resetGuessWho();
       webSocketService.disconnect();
       router.replace("/(private)/(tabs)/matches");
       return;
     }
+
+    resetGuessWho();
 
     webSocketService.connect(token);
 
@@ -66,20 +70,25 @@ const useGuessWhoMatchmaking = () => {
 
     webSocketService.on("guess-who:duo:characters-selected", (data: IGuessWhoCharactersSelectedResponse) => {
       console.log("Received characters selected event:", data);
-
-      reset();
       setCharacters(data.characters);
       setPairCharacter(data.pairCharacter);
+    });
+
+    webSocketService.on("guess-who:duo:round-start", (data: IGuessWhoRoundStart) => {
+      setStatus(data.status);
+      setRoundTime(data.startTime, data.endTime);
+      console.log(data);
       router.replace("/(private)/guess-who/duo/game");
     });
 
-    webSocketService.emit(`${matchMode}:${matchFormat}:enqueue`, {
+    webSocketService.emit("guess-who:duo:enqueue", {
       matchLanguage: matchLanguage,
     });
 
     return () => {
       webSocketService.off("guess-who:duo:match-started");
       webSocketService.off("guess-who:duo:characters-selected");
+      webSocketService.off("guess-who:duo:round-start");
       webSocketService.off("disconnect");
       webSocketService.off("exception");
     };

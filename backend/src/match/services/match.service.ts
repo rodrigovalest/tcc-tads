@@ -8,6 +8,7 @@ import { MatchStatus } from '../entities/match-status.enum';
 import { UserQueue } from '../entities/user-queue.entity';
 import { IMatchRepository } from '../repositories/match.interface';
 import { IUserMatchRepository } from '../repositories/user-match.interface';
+import { UserMatch } from '../entities/user-match.entity';
 
 @Injectable()
 export class MatchService {
@@ -114,5 +115,11 @@ export class MatchService {
     limit: number;
   }> {
     return this.matchRepository.findAllMatchesWithAverageScore(userId, page, limit);
+  }
+
+  async findUserMatchesByMatchId(
+    matchId: string,
+  ): Promise<UserMatch[]> {
+    return this.userMatchRepository.findUserMatchesByMatchId(matchId);
   }
 }
