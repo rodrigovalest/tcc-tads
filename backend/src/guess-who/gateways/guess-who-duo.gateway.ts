@@ -116,6 +116,21 @@ export class GuessWhoDuoGateway implements OnGatewayDisconnect {
     );
   }
 
+  @UseGuards(JwtWsAuthGuard)
+  @SubscribeMessage('guess-who:duo:guess')
+  handleGuess(
+    @CurrentWsUser() user: IUserJwtPayload,
+    @MessageBody() payload: { matchId: string; guessCharacter: GuessWhoCharacter },
+  ) {
+    this.logger.log(`[guess] User ${user.sub} guessed in match ${payload.matchId}`);
+
+    this.guessWhoDuoService.handleGuess(
+      payload.matchId,
+      user.sub,
+      payload.guessCharacter,
+    );
+  }
+
   async handleDisconnect(client: Socket) {
     await this.guessWhoDuoService.handleDisconnect(client.id);
   }
@@ -187,8 +202,8 @@ export class GuessWhoDuoGateway implements OnGatewayDisconnect {
       }
     };
 
-    notifyUser(payload.userQueue1.socketId, payload.characters, payload.characterUser2);
-    notifyUser(payload.userQueue2.socketId, payload.characters, payload.characterUser1);
+    notifyUser(payload.userQueue1.socketId, payload.characters, payload.characterUser1);
+    notifyUser(payload.userQueue2.socketId, payload.characters, payload.characterUser2);
   }
 
   @OnEvent('guess-who:duo:round-start')
@@ -254,6 +269,64 @@ export class GuessWhoDuoGateway implements OnGatewayDisconnect {
         status: payload.status,
         startTime: payload.startTime.toISOString(),
         endTime: payload.endTime.toISOString(),
+      });
+    }
+  }
+
+  @OnEvent('guess-who:duo:win')
+  handleWinEvent(payload: {
+    socketId: string;
+    message: string;
+    timestamp: string;
+    status: string;
+  }) {
+    const socket = this.server.sockets.sockets.get(payload.socketId);
+
+    if (socket) {
+      socket.emit('guess-who:duo:win', {
+        message: payload.message,
+        timestamp: payload.timestamp,
+        status: payload.status,
+      });
+    }
+  }
+
+  @OnEvent('guess-who:duo:lose')
+  handleLoseEvent(payload: {
+    socketId: string;
+    message: string;
+    timestamp: string;
+    status: string;
+    yourCharacter: GuessWhoCharacter;
+  }) {
+    const socket = this.server.sockets.sockets.get(payload.socketId);
+
+    if (socket) {
+      socket.emit('guess-who:duo:lose', {
+        message: payload.message,
+        timestamp: payload.timestamp,
+        status: payload.status,
+        yourCharacter: payload.yourCharacter,
+      });
+    }
+  }
+
+  @OnEvent('guess-who:duo:wrong-guess')
+  handleResultEvent(payload: {
+    socketId: string;
+    message: string;
+    timestamp: string;
+    status: string;
+    guessCharacter: GuessWhoCharacter;
+  }) {
+    const socket = this.server.sockets.sockets.get(payload.socketId);
+
+    if (socket) {
+      socket.emit('guess-who:duo:wrong-guess', {
+        message: payload.message,
+        timestamp: payload.timestamp,
+        status: payload.status,
+        guessCharacter: payload.guessCharacter,
       });
     }
   }

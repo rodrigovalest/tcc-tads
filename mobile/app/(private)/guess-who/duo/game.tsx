@@ -27,6 +27,7 @@ import GuessWhoModal from "../../../../components/guess-who/GuessWhoModal";
 import GuessWhoCharacter from "../../../../components/guess-who/GuessWhoCharacter";
 import IGuessWhoCharacter from "../../../../models/interfaces/guess-who-character";
 import GuessWhoCharacterSelectModal from "../../../../components/guess-who/GuessWhoCharacterSelectModal";
+import { GuessWhoBuddyCharacterComponent } from "../../../../components/guess-who/GuessWhoBuddyCharacter";
 
 export default function GuessWhoDuoGame() {
   const [stage, setStage] = useState<GuessWhoStage>("intro");
@@ -40,6 +41,7 @@ export default function GuessWhoDuoGame() {
     isVideoMuted,
     endCall,
     handleAnswer,
+    handleGuess,
   } = useGuessWhoDuo(() => {
     router.replace("/(private)/match-rate-duo");
   });
@@ -73,10 +75,6 @@ export default function GuessWhoDuoGame() {
       endCall();
     };
   }, []);
-
-  if (status === "answering" || status === "questioning" || status === "waiting") {
-    console.log(status, roundStartTime, roundEndTime);
-  }
 
   return (
     <LinearGradient
@@ -214,41 +212,25 @@ export default function GuessWhoDuoGame() {
 
           {/* Board */}
           <View className="bg-appDarkGrey w-[95%] justify-center items-center p-4 mt-4 rounded-2xl">
-            <View className="bg-[#E5FF55] rounded-2xl pb-2 px-4 items-center mt-12 w-auto">
-              <View className="absolute -top-12">
-                <Image
-                  source={CHARACTERS[pairCharacter!.image]}
-                  className="w-20 h-20"
-                  resizeMode="contain"
-                />
-              </View>
-
-              <Text className="text-appDarkGrey text-xs font-nunito-medium mt-10">
-                Buddy character's is
-              </Text>
-
-              <Text className="text-appDarkGrey text-xl font-nunito-bold">
-                {pairCharacter!.name}
-              </Text>
-            </View>
+            <GuessWhoBuddyCharacterComponent 
+              image={pairCharacter!.image}
+              name={pairCharacter!.name}
+            />
 
             <ScrollView
               contentContainerStyle={{ alignItems: "center" }}
-              className="mt-8 mb-2 flex-grow"
+              className="mt-6 mb-2 flex-grow"
             >
               <View className="flex-wrap flex-row justify-center">
-                {characters!.map((char: IGuessWhoCharacter) => {
-                  return (
-                    <GuessWhoCharacter
-                      key={char.id}
-                      id={char.id}
-                      name={char.name}
-                      image={CHARACTERS[char.image]}
-                      disabled={eliminated[char.id] === true}
-                      onPress={() => { setSelectedCharacter(char) }}
-                    />
-                  );
-                })}
+                {characters!.map((char) => (
+                  <GuessWhoCharacter
+                    key={char.id}
+                    name={char.name}
+                    image={CHARACTERS[char.image]}
+                    disabled={eliminated[char.id]}
+                    onPress={() => setSelectedCharacter(char)}
+                  />
+                ))}
               </View>
             </ScrollView>
           </View>
@@ -273,12 +255,12 @@ export default function GuessWhoDuoGame() {
           />
 
           <GuessWhoCharacterSelectModal
-            visible={selectedCharacter !== null}
+            visible={(status === "guessing_or_unmarking") && (selectedCharacter !== null)}
             character={selectedCharacter}
             eliminated={selectedCharacter ? eliminated?.[selectedCharacter.id] === true : false}
             onToggle={(id) => toggleEliminated(id)}
             onClose={() => setSelectedCharacter(null)}
-            onGuess={(id) => console.log("palpite", id)}
+            onGuess={(selectedCharacter) =>  { console.log(selectedCharacter); handleGuess(selectedCharacter) }}
           />
         </View>
       )}

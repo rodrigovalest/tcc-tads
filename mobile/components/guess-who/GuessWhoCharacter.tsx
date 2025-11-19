@@ -1,7 +1,6 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 
 interface GuessWhoCharacterProps {
-  id: string;
   name: string;
   image: any;
   disabled: boolean;
@@ -9,7 +8,6 @@ interface GuessWhoCharacterProps {
 }
 
 export default function GuessWhoCharacter({
-  id,
   name,
   image,
   disabled,

@@ -1,5 +1,4 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import GuessWhoTimerComponent from "./GuessWhoTimer";
 
 interface GuessWhoModalProps {

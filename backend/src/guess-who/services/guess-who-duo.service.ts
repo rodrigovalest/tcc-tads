@@ -15,6 +15,7 @@ import { GuessWhoMatch } from '../entities/guess-who-match.entity';
 import { GUESS_WHO_QUESTIONING_DURATION_MS, GUESS_WHO_GUESSING_OR_MARKING_DURATION_MS } from '../constants/guess-who-duration';
 import { GuessWhoStatus } from '../entities/guess-who-status.enum';
 import { GuessWhoStage } from '../entities/guess-who-stage.enum';
+import { GuessWhoCharacter } from '../entities/guess-who-character.entity';
 
 @Injectable()
 export class GuessWhoDuoService {
@@ -187,6 +188,120 @@ export class GuessWhoDuoService {
 
     guessWhoMatch.stage = GuessWhoStage.GUESSING_OR_UNMARKING;
     await this.guessWhoMatchRepository.update(matchId, guessWhoMatch);
+  }
+
+  async handleGuess(
+    matchId: string,
+    guessingUserId: number,
+    guessCharacter: GuessWhoCharacter,
+  ) {
+    const match = await this.guessWhoMatchRepository.findByMatchId(matchId);
+
+    if (!match) {
+      this.logger.warn(`GuessWhoMatch not found for matchId ${matchId}`);
+      return;
+    }
+
+    if (match.stage !== GuessWhoStage.GUESSING_OR_UNMARKING) {
+      this.logger.warn(`GuessWhoMatch ${matchId} is not in GUESSING_OR_UNMARKING stage`);
+      return;
+    }
+
+    // Identificação dos dois usuários
+    const isUser1Guessing = guessingUserId === match.user1Id;
+    const guessingUserSocket = isUser1Guessing ? match.user1SocketId : match.user2SocketId;
+    const otherUserSocket = isUser1Guessing ? match.user2SocketId : match.user1SocketId;
+
+    // Descobre quem deveria ser acertado
+    const correctCharacterId = isUser1Guessing
+      ? match.user2Character.id
+      : match.user1Character.id;
+
+    const isCorrectGuess = guessCharacter.id === correctCharacterId;
+
+    // Atualiza fase do jogo
+    match.stage = GuessWhoStage.RESULT;
+    await this.guessWhoMatchRepository.update(matchId, match);
+
+    // ============================================================
+    //                      ACERTOU
+    // ============================================================
+    if (isCorrectGuess) {
+      this.logger.log(`User ${guessingUserId} made a CORRECT guess in match ${matchId}`);
+
+      this.eventEmitter.emit("guess-who:duo:win", {
+        socketId: guessingUserSocket,
+        status: GuessWhoStatus.RESULT,
+        message: "correct guess! you won the match",
+        timestamp: new Date().toISOString(),
+      });
+
+      const losingCharacter =
+        isUser1Guessing ? match.user1Character : match.user2Character;
+
+      this.eventEmitter.emit("guess-who:duo:lose", {
+        socketId: otherUserSocket,
+        status: GuessWhoStatus.RESULT,
+        message: "your buddy guessed correctly. you lost this match",
+        yourCharacter: losingCharacter,
+        timestamp: new Date().toISOString(),
+      });
+
+      this.guessWhoMatchRepository.deleteById(matchId);
+
+      return;
+    }
+
+    // ============================================================
+    //                      ERROU
+    // ============================================================
+
+    this.logger.log(`User ${guessingUserId} made an INCORRECT guess in match ${matchId}`);
+
+    this.eventEmitter.emit("guess-who:duo:wrong-guess", {
+      socketId: guessingUserSocket,
+      status: GuessWhoStatus.RESULT,
+      message: "incorrect guess",
+      guessCharacter: guessCharacter,
+      timestamp: new Date().toISOString(),
+    });
+
+    this.eventEmitter.emit("guess-who:duo:wrong-guess", {
+      socketId: otherUserSocket,
+      status: GuessWhoStatus.RESULT,
+      message: "your buddy guessed incorrectly",
+      guessCharacter: guessCharacter,
+      timestamp: new Date().toISOString(),
+    });
+
+    // ============================================================
+    //                RECOMEÇA A PRÓXIMA RODADA
+    // ============================================================
+
+    const now = new Date();
+    const end = new Date(now.getTime() + GUESS_WHO_QUESTIONING_DURATION_MS);
+
+    match.stage = GuessWhoStage.QUESTIONING;
+    match.userIdTurn = guessingUserId === match.user1Id ? match.user2Id : match.user1Id;
+    await this.guessWhoMatchRepository.update(matchId, match);
+
+    await new Promise((res) => setTimeout(res, 5000));
+
+    this.eventEmitter.emit("guess-who:duo:round-start", {
+      userSocketId: otherUserSocket,
+      status: GuessWhoStatus.QUESTIONING,
+      message: "make a yes/no question to guess your character.",
+      startTime: now,
+      endTime: end,
+    });
+
+    this.eventEmitter.emit("guess-who:duo:round-start", {
+      userSocketId: guessingUserSocket,
+      status: GuessWhoStatus.ANSWERING,
+      message: "answer yes/no to your buddy’s question.",
+      startTime: now,
+      endTime: end,
+    });
   }
 
   async handleDisconnect(socketId: string): Promise<void> {

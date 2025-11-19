@@ -44,4 +44,8 @@ export class GuessWhoMatchRepositoryImpl implements IGuessWhoMatchRepository {
     this.matches.set(matchId, updated);
     return updated;
   }
+
+  deleteById(matchId: string): void {
+    this.matches.delete(matchId);
+  }
 }

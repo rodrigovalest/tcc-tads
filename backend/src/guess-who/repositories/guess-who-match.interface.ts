@@ -17,4 +17,6 @@ export interface IGuessWhoMatchRepository {
   findByMatchId(matchId: string): GuessWhoMatch | null;
 
   update(matchId: string, data: Partial<GuessWhoMatch>): GuessWhoMatch | null;
+
+  deleteById(matchId: string): void;
 }

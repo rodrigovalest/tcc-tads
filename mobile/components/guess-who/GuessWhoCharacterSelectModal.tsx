@@ -9,7 +9,7 @@ export interface GuessWhoCharacterSelectModalProps {
   eliminated: boolean;
   onClose: () => void;
   onToggle: (characterId: string) => void;
-  onGuess?: (characterId: string) => void; // opcional, caso queira usar
+  onGuess?: (guessCharacter: IGuessWhoCharacter) => void;
 }
 
 export default function GuessWhoCharacterSelectModal({
@@ -82,7 +82,7 @@ export default function GuessWhoCharacterSelectModal({
           <TouchableOpacity
             className="bg-[#2E3742] px-6 py-3 rounded-full w-full items-center flex-row justify-center gap-2"
             onPress={() => {
-              onGuess?.(character.id);
+              onGuess?.(character);
               onClose();
             }}
           >
