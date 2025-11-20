@@ -3,6 +3,9 @@ export enum GuessWhoStatus {
   QUESTIONING = 'questioning',
   ANSWERING = 'answering',
   WAITING = 'waiting',
-  GUESSING_OR_UNMARKING = 'guessing_or_unmarking',
-  RESULT = 'result',
+  GUESSING_OR_UNMARKING = 'guessing_or_unmarking',  
+  WIN = 'win',
+  LOSE = 'lose',
+  WRONG_GUESS = 'wrong_guess',
+  BUDDY_WRONG_GUESS = 'buddy_wrong_guess',
 }

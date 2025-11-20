@@ -1,15 +1,15 @@
 import { CHARACTERS } from "../../constants/guess-who-characters";
 import { View, Text, Image } from "react-native";
 
-interface IGuessWhoBuddyCharacterComponentProps {
+interface IGuessWhoYourCharacterCardComponentProps {
   image: string;
   name: string;
 }
 
-export function GuessWhoBuddyCharacterComponent({
+export function GuessWhoYourCharacterCardComponent({
   image,
   name,
-}: IGuessWhoBuddyCharacterComponentProps) {
+}: IGuessWhoYourCharacterCardComponentProps) {
   return (
     <View className="bg-[#E5FF55] rounded-2xl pb-2 px-4 items-center mt-12 w-auto">
       <View className="absolute -top-12">

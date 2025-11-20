@@ -12,13 +12,13 @@ import {
 import webSocketService from "../services/web-socket-service";
 import useMatchStore from "../store/match-store";
 import useGuessWhoStore from "../store/guess-who-store";
-import IGuessWhoGuessingOrUnmarking from "../models/interfaces/guess-who-guessing-or-unmarking";
-import IGuessWhoWaiting from "../models/interfaces/guess-who-waiting";
-import IGuessWhoWrongGuess from "../models/interfaces/guess-who-wrong-guess";
-import IGuessWhoWin from "../models/interfaces/guess-who-win";
-import IGuessWhoLose from "../models/interfaces/guess-who-lose";
-import IGuessWhoCharacter from "../models/interfaces/guess-who-character";
-import IGuessWhoRoundStart from "../models/interfaces/guess-who-round-start";
+import IGuessWhoWin from "../models/interfaces/guess-who/guess-who-win";
+import IGuessWhoCharacter from "../models/interfaces/guess-who/guess-who-character";
+import IGuessWhoGuessingOrUnmarking from "../models/interfaces/guess-who/guess-who-guessing-or-unmarking";
+import IGuessWhoLose from "../models/interfaces/guess-who/guess-who-lose";
+import IGuessWhoRoundStart from "../models/interfaces/guess-who/guess-who-round-start";
+import IGuessWhoWaiting from "../models/interfaces/guess-who/guess-who-waiting";
+import IGuessWhoWrongGuess from "../models/interfaces/guess-who/guess-who-wrong-guess";
 
 const turnServerUrl = '192.168.0.106';
 const turnServerPort = '3478';
@@ -58,6 +58,9 @@ const useGuessWhoDuo = (redirectOnEnd: () => void) => {
     setStatus,
     setRoundTime,
     setAnswer,
+    setBuddyCharacterWhenLose,
+    setGuessCharacter,
+    resetRound,
   } = useGuessWhoStore();  
 
   const switchAudio = () => {
@@ -77,16 +80,6 @@ const useGuessWhoDuo = (redirectOnEnd: () => void) => {
       return !prev;
     });
   };
-
-  const closeConnection = () => {
-    peerConnection.current?.close();
-    peerConnection.current = null;
-
-    localStream?.getTracks().forEach((track) => track.stop());
-    remoteStream?.getTracks().forEach((track) => track.stop());
-    setLocalStream(null);
-    setRemoteStream(null);
-  }
 
   const endCall = () => {
     peerConnection.current?.close();
@@ -193,30 +186,32 @@ const useGuessWhoDuo = (redirectOnEnd: () => void) => {
 
     webSocketService.on("guess-who:duo:wrong-guess", async (data: IGuessWhoWrongGuess) => {
       console.log("Received wrong guess:", data);
+      setStatus(data.status);
+      setGuessCharacter(data.guessCharacter);
     });
 
     webSocketService.on("guess-who:duo:win", async (data: IGuessWhoWin) => {
       console.log("Received win:", data);
-
-      closeConnection();
+      setStatus(data.status);
 
       setTimeout(() => {
-        redirectOnEnd();
+        webSocketService.disconnect();
       }, 5000);
     });
 
     webSocketService.on("guess-who:duo:lose", async (data: IGuessWhoLose) => {
       console.log("Received lose:", data);
-
-      closeConnection();
+      setBuddyCharacterWhenLose(data.buddyCharacter);
+      setStatus(data.status);
 
       setTimeout(() => {
-        redirectOnEnd();
+        webSocketService.disconnect();
       }, 5000);
     });
 
     webSocketService.on("guess-who:duo:round-start", (data: IGuessWhoRoundStart) => {
       console.log("Received round-start:", data);
+      resetRound();
       setStatus(data.status);
       setRoundTime(data.startTime, data.endTime);
     });

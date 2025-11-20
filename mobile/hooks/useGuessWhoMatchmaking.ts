@@ -6,8 +6,8 @@ import webSocketService from "../services/web-socket-service";
 import Toast from "react-native-toast-message";
 import IMatchmakingResponse from "../models/responses/matchmaking-response";
 import useGuessWhoStore from "../store/guess-who-store";
-import IGuessWhoCharactersSelectedResponse from "../models/responses/guess-who-characters-selected-response";
-import IGuessWhoRoundStart from "../models/interfaces/guess-who-round-start";
+import IGuessWhoCharactersSelectedResponse from "../models/interfaces/guess-who/guess-who-characters-selected";
+import IGuessWhoRoundStart from "../models/interfaces/guess-who/guess-who-round-start";
 
 const useGuessWhoMatchmaking = () => {
   const router = useRouter();
@@ -23,7 +23,7 @@ const useGuessWhoMatchmaking = () => {
     setStatus,
     setRoundTime,
     setCharacters,
-    setPairCharacter,
+    setYourCharacter,
     reset: resetGuessWho,
   } = useGuessWhoStore();
 
@@ -71,7 +71,7 @@ const useGuessWhoMatchmaking = () => {
     webSocketService.on("guess-who:duo:characters-selected", (data: IGuessWhoCharactersSelectedResponse) => {
       console.log("Received characters selected event:", data);
       setCharacters(data.characters);
-      setPairCharacter(data.pairCharacter);
+      setYourCharacter(data.yourCharacter);
     });
 
     webSocketService.on("guess-who:duo:round-start", (data: IGuessWhoRoundStart) => {

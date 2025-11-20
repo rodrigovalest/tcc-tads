@@ -1,8 +1,8 @@
 import IGuessWhoCharacter from "./guess-who-character";
 
-export default interface IGuessWhoLose {
+export default interface IGuessWhoCharactersSelected {
   message: string;
   timestamp: string;
-  status: "result";
+  characters: IGuessWhoCharacter[];
   yourCharacter: IGuessWhoCharacter;
 }

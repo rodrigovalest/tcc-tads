@@ -25,9 +25,11 @@ import GuessWhoTimerComponent from "../../../../components/guess-who/GuessWhoTim
 import VideoCallControlsComponent from "../../../../components/guess-who/VideoCallControls";
 import GuessWhoModal from "../../../../components/guess-who/GuessWhoModal";
 import GuessWhoCharacter from "../../../../components/guess-who/GuessWhoCharacter";
-import IGuessWhoCharacter from "../../../../models/interfaces/guess-who-character";
+import IGuessWhoCharacter from "../../../../models/interfaces/guess-who/guess-who-character";
 import GuessWhoCharacterSelectModal from "../../../../components/guess-who/GuessWhoCharacterSelectModal";
-import { GuessWhoBuddyCharacterComponent } from "../../../../components/guess-who/GuessWhoBuddyCharacter";
+import { GuessWhoYourCharacterCardComponent } from "../../../../components/guess-who/GuessWhoYourCharacterCard";
+import GuessWhoAnswerModal from "../../../../components/guess-who/GuessWhoAnswerModal";
+import GuessWhoResultModal from "../../../../components/guess-who/GuessWhoResultModal";
 
 export default function GuessWhoDuoGame() {
   const [stage, setStage] = useState<GuessWhoStage>("intro");
@@ -50,12 +52,16 @@ export default function GuessWhoDuoGame() {
   const { buddy } = useMatchStore();
   const { 
     characters, 
-    pairCharacter,
+    yourCharacter,
     roundStartTime,
     roundEndTime,
     status,
     eliminated,
+    answer,
+    guessCharacter,
+    buddyCharacterWhenLose,
     toggleEliminated,
+    clearAnswer,
   } = useGuessWhoStore();
   const [selectedCharacter, setSelectedCharacter] = useState<IGuessWhoCharacter | null>(null);
   const router = useRouter();
@@ -86,7 +92,6 @@ export default function GuessWhoDuoGame() {
       {stage === "intro" && (
         <Animated.View
           entering={FadeIn.duration(800)}
-          exiting={FadeOut.duration(1000)}
           className="items-center px-6"
         >
           <Text className="text-appBgWhite text-4xl font-nunito-bold text-center">
@@ -160,13 +165,12 @@ export default function GuessWhoDuoGame() {
       {stage === "reveal" && (
         <Animated.View
           entering={SlideInUp.springify().damping(14)}
-          exiting={FadeOut.duration(1000)}
           className="items-center"
         >
           <View className="bg-[#E5FF55] rounded-2xl pb-6 px-8 items-center mt-12 relative">
             <View className="absolute -top-12">
               <Image
-                source={CHARACTERS[pairCharacter!.image]}
+                source={CHARACTERS[yourCharacter!.image]}
                 className="w-36 h-36"
                 resizeMode="contain"
               />
@@ -177,14 +181,14 @@ export default function GuessWhoDuoGame() {
             </Text>
 
             <Text className="text-appDarkGrey text-4xl font-nunito-bold">
-              {pairCharacter!.name}
+              {yourCharacter!.name}
             </Text>
           </View>
         </Animated.View>
       )}
 
       {stage === "game" && (
-        <View className="w-full h-full items-center bg-gradient-to-b from-[#3B1347] to-[#0C141F]">
+        <View className="w-full h-full items-center">
           {/* --- Header --- */}
           <View className="flex-row justify-between items-center w-full px-6 pt-8">
             {/* Player 1 */}
@@ -212,9 +216,9 @@ export default function GuessWhoDuoGame() {
 
           {/* Board */}
           <View className="bg-appDarkGrey w-[95%] justify-center items-center p-4 mt-4 rounded-2xl">
-            <GuessWhoBuddyCharacterComponent 
-              image={pairCharacter!.image}
-              name={pairCharacter!.name}
+            <GuessWhoYourCharacterCardComponent 
+              image={yourCharacter!.image}
+              name={yourCharacter!.name}
             />
 
             <ScrollView
@@ -254,6 +258,14 @@ export default function GuessWhoDuoGame() {
             isVideoMuted={isVideoMuted}
           />
 
+          {status === "guessing_or_unmarking" && answer !== null && (
+            <GuessWhoAnswerModal
+              visible={true}
+              answer={answer}
+              onClose={() => { console.log("close"); clearAnswer() }}
+            />
+          )}
+
           <GuessWhoCharacterSelectModal
             visible={(status === "guessing_or_unmarking") && (selectedCharacter !== null)}
             character={selectedCharacter}
@@ -262,6 +274,14 @@ export default function GuessWhoDuoGame() {
             onClose={() => setSelectedCharacter(null)}
             onGuess={(selectedCharacter) =>  { console.log(selectedCharacter); handleGuess(selectedCharacter) }}
           />
+
+          {(status === "win" || status === "lose" || status === "wrong_guess" || status === "buddy_wrong_guess") && (
+            <GuessWhoResultModal 
+              status={status} 
+              guessCharacter={guessCharacter} 
+              buddyCharacterWhenLose={buddyCharacterWhenLose}          
+            />
+          )}
         </View>
       )}
     </LinearGradient>

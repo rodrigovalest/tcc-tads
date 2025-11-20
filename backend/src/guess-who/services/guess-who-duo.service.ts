@@ -231,7 +231,7 @@ export class GuessWhoDuoService {
 
       this.eventEmitter.emit("guess-who:duo:win", {
         socketId: guessingUserSocket,
-        status: GuessWhoStatus.RESULT,
+        status: GuessWhoStatus.WIN,
         message: "correct guess! you won the match",
         timestamp: new Date().toISOString(),
       });
@@ -241,9 +241,9 @@ export class GuessWhoDuoService {
 
       this.eventEmitter.emit("guess-who:duo:lose", {
         socketId: otherUserSocket,
-        status: GuessWhoStatus.RESULT,
+        status: GuessWhoStatus.LOSE,
         message: "your buddy guessed correctly. you lost this match",
-        yourCharacter: losingCharacter,
+        buddyCharacter: losingCharacter,
         timestamp: new Date().toISOString(),
       });
 
@@ -260,7 +260,7 @@ export class GuessWhoDuoService {
 
     this.eventEmitter.emit("guess-who:duo:wrong-guess", {
       socketId: guessingUserSocket,
-      status: GuessWhoStatus.RESULT,
+      status: GuessWhoStatus.WRONG_GUESS,
       message: "incorrect guess",
       guessCharacter: guessCharacter,
       timestamp: new Date().toISOString(),
@@ -268,7 +268,7 @@ export class GuessWhoDuoService {
 
     this.eventEmitter.emit("guess-who:duo:wrong-guess", {
       socketId: otherUserSocket,
-      status: GuessWhoStatus.RESULT,
+      status: GuessWhoStatus.BUDDY_WRONG_GUESS,
       message: "your buddy guessed incorrectly",
       guessCharacter: guessCharacter,
       timestamp: new Date().toISOString(),

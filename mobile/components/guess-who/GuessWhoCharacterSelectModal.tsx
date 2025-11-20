@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Image, Modal, Pressable } from "react-native";
-import IGuessWhoCharacter from "../../models/interfaces/guess-who-character";
+import IGuessWhoCharacter from "../../models/interfaces/guess-who/guess-who-character";
 import { CHARACTERS } from "../../constants/guess-who-characters";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -74,7 +74,7 @@ export default function GuessWhoCharacterSelectModal({
           >
             <MaterialCommunityIcons name="close" size={20} color="#FF6B6B" />
             <Text className="text-white text-base font-semibold">
-              DESCARTAR
+              {eliminated ? "REABRIR" : "DESCARTAR"}
             </Text>
           </TouchableOpacity>
 

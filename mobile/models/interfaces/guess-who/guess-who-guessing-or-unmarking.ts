@@ -1,10 +1,8 @@
-import { GuessWhoGameStatus } from "../types/guess-who-game-status.type";
-
 export default interface IGuessWhoGuessingOrUnmarking {
   message: string;
   answer: boolean;
   timestamp: string;
-  status: GuessWhoGameStatus;
+  status: "guessing_or_unmarking";
   startTime: string;
   endTime: string;
 }

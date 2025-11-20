@@ -1,9 +1,7 @@
-import { GuessWhoGameStatus } from "../types/guess-who-game-status.type";
-
 export default interface IGuessWhoRoundStart {
   message: string;
   timestamp: string;
-  status: GuessWhoGameStatus;
+  status: "questioning" | "answering";
   startTime: string;
   endTime: string;
 }

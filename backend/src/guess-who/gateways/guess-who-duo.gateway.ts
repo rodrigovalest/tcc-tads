@@ -188,7 +188,7 @@ export class GuessWhoDuoGateway implements OnGatewayDisconnect {
     const notifyUser = (
       userSocketId: string,
       characters: GuessWhoCharacter[],
-      pairCharacter: GuessWhoCharacter,
+      yourCharacter: GuessWhoCharacter,
     ) => {
       const socket = this.server.sockets.sockets.get(userSocketId);
 
@@ -197,7 +197,7 @@ export class GuessWhoDuoGateway implements OnGatewayDisconnect {
           message: 'characters selected for guess who duo match',
           timestamp: new Date().toISOString(),
           characters: characters,
-          pairCharacter: pairCharacter,
+          yourCharacter: yourCharacter,
         });
       }
     };
@@ -297,7 +297,7 @@ export class GuessWhoDuoGateway implements OnGatewayDisconnect {
     message: string;
     timestamp: string;
     status: string;
-    yourCharacter: GuessWhoCharacter;
+    buddyCharacter: GuessWhoCharacter;
   }) {
     const socket = this.server.sockets.sockets.get(payload.socketId);
 
@@ -306,7 +306,7 @@ export class GuessWhoDuoGateway implements OnGatewayDisconnect {
         message: payload.message,
         timestamp: payload.timestamp,
         status: payload.status,
-        yourCharacter: payload.yourCharacter,
+        buddyCharacter: payload.buddyCharacter,
       });
     }
   }
