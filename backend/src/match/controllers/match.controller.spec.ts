@@ -85,6 +85,7 @@ describe('AuthController', () => {
         email: 'testuser@example.com',
         username: 'testuser',
         nationality: CountryCode.Afghanistan,
+        photoUri: null,
       }
       const mockedJwtToken = jwtService.sign(mockedLoggedJwtPayload);
 
@@ -194,6 +195,7 @@ describe('AuthController', () => {
         email: 'testuser@example.com',
         username: 'testuser',
         nationality: CountryCode.Afghanistan,
+        photoUri: "example.com/photo.jpg",
       }
       const mockedJwtToken = jwtService.sign(mockedLoggedJwtPayload); 
 
@@ -233,6 +235,7 @@ describe('AuthController', () => {
         email: 'testuser@example.com',
         username: 'testuser',
         nationality: CountryCode.Afghanistan,
+        photoUri: "example.com/photo.jpg",
       }
       const mockedJwtToken = jwtService.sign(mockedLoggedJwtPayload);
 

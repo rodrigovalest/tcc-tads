@@ -23,6 +23,7 @@ const mockUserMatchRepository = (): jest.Mocked<IUserMatchRepository> => ({
   saveAll: jest.fn(),
   saveOne: jest.fn(),
   findBySocketId: jest.fn(),
+  findUserMatchesByMatchId: jest.fn(),
 });
 
 describe('MatchService', () => {
