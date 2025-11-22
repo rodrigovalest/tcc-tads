@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity, Image, Modal, Pressable } from "react-nat
 import IGuessWhoCharacter from "../../models/interfaces/guess-who/guess-who-character";
 import { CHARACTERS } from "../../constants/guess-who-characters";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import useI18n from "../../hooks/useI18n";
 
 export interface GuessWhoCharacterSelectModalProps {
   visible: boolean;
@@ -20,6 +21,8 @@ export default function GuessWhoCharacterSelectModal({
   onToggle,
   onGuess,
 }: GuessWhoCharacterSelectModalProps) {
+  const { t } = useI18n();
+
   if (!character) return null;
 
   return (
@@ -57,7 +60,7 @@ export default function GuessWhoCharacterSelectModal({
 
           {/* Title */}
           <Text className="text-white text-lg font-semibold mb-1">
-            You select
+            {t("guessWho.characterSelectTitle")}
           </Text>
 
           <Text className="text-white text-3xl font-bold mb-5">
@@ -74,7 +77,7 @@ export default function GuessWhoCharacterSelectModal({
           >
             <MaterialCommunityIcons name="close" size={20} color="#FF6B6B" />
             <Text className="text-white text-base font-semibold">
-              {eliminated ? "REABRIR" : "DESCARTAR"}
+              {eliminated ? t("guessWho.reopenCharacter") : t("guessWho.discardCharacter")}
             </Text>
           </TouchableOpacity>
 
@@ -88,7 +91,7 @@ export default function GuessWhoCharacterSelectModal({
           >
             <MaterialCommunityIcons name="check" size={20} color="#59C36A" />
             <Text className="text-[#59C36A] text-base font-semibold">
-              DAR UM PALPITE
+              {t("guessWho.makeGuess")}
             </Text>
           </TouchableOpacity>
 

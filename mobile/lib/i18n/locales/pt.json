@@ -18,7 +18,13 @@
     "language": "Idioma",
     "settings": "Configurações",
     "ok": "OK",
-    "tryAgain": "Tentar Novamente"
+    "skip": "Pular",
+    "matchmakingWaiting": "Quase lá... Procurando o melhor oponente para você!",
+    "tryAgain": "Tentar Novamente",
+    "you": "Você",
+    "opponent": "Oponente",
+    "yes": "SIM",
+    "no": "NÃO"
   },
   "auth": {
     "login": "Entrar",
@@ -200,6 +206,41 @@
     "targetLanguage": "Idioma alvo",
     "languageToLearn": "idioma que você quer aprender",
     "responseLanguage": "idioma das respostas",
+    "rate": {
+      "success": {
+        "title": "Avaliação salva",
+        "message": "Sua avaliação foi salva com sucesso"
+      },
+      "error": {
+        "title": "Erro ao avaliar",
+        "message": "Não foi possível enviar sua avaliação. Por favor, tente novamente."
+      },
+      "title": "Como você avalia as habilidades de {{name}} em {{language}}?",
+      "subtitle": "Sua opinião ajuda seu colega a acompanhar o progresso — seja honesto e construtivo.",
+      "submit": "Enviar avaliação",
+      "levels": {
+        "1": {
+          "title": "Principiante",
+          "description": "Conhece poucas palavras, ainda há muito a aprender"
+        },
+        "2": {
+          "title": "Elementar",
+          "description": "Consegue se comunicar em situações simples, mas tem dificuldades com temas mais complexos"
+        },
+        "3": {
+          "title": "Intermediário",
+          "description": "Consegue se comunicar na maioria das situações, mas ainda comete alguns erros"
+        },
+        "4": {
+          "title": "Avançado",
+          "description": "Consegue se comunicar com fluidez e precisão na maioria das situações"
+        },
+        "5": {
+          "title": "Fluente",
+          "description": "Consegue se comunicar com fluidez e precisão em todas as situações"
+        }
+      }
+    },
     "errors": {
       "somethingWentWrong": "Algo deu errado!"
     }
@@ -443,5 +484,32 @@
     "speakTranslation": "Fale a tradução",
     "tapToSpeak": "Toque para falar",
     "enterTranslation": "Digite a tradução"
+  },
+
+  "history": {
+    "noMatchesYet": "Ainda não há histórico de partidas. Comece uma nova partida para vê-lo aqui!",
+    "errorLoadingHistory": "Erro ao carregar o histórico de partidas"
+  },
+
+  "guessWho": {
+    "title": "Cara a cara",
+    "yourCharacter": "Seu personagem é:",
+    "yourTurn": "Sua vez",
+    "yourTurnDetails": "Faça uma pergunta de 'sim ou não' para descobrir o personagem de seu oponente",
+    "answerTitle": "Responda à pergunta do seu oponente",
+    "waitingForOpponent": "Aguardando seu oponente jogar...",
+    "yesAnwer": "A resposta foi SIM! Elimine personagens ou tente um palpite.",
+    "noAnswer": "A resposta foi NÃO! Elimine personagens ou tente um palpite.",
+    "characterSelectTitle": "Você selecionou:",
+    "discardCharacter": "DESCARTAR",
+    "reopenCharacter": "REABRIR",
+    "makeGuess": "FAZER PALPITE",
+    "winTitle": "Você Venceu!",
+    "winDescription": "Fez um palpite correto. Parabéns!",
+    "loseTitle": "Você Perdeu!",
+    "loseDescription": "Seu oponente fez um palpite correto. O personagem do seu oponente era:",
+    "lose": "Você perdeu! Seu oponente fez um palpite correto. O personagem do seu amigo era:",
+    "wrong_guess": "Você fez um palpite errado! O jogo continua...",
+    "buddy_wrong_guess": "Seu amigo fez o seguinte palpite errado:"
   }
 }

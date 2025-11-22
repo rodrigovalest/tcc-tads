@@ -1,5 +1,7 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import GuessWhoTimerComponent from "./GuessWhoTimer";
+import Animated, { SlideInUp } from "react-native-reanimated";
+import useI18n from "../../hooks/useI18n";
 
 interface GuessWhoModalProps {
   visible: boolean;
@@ -16,6 +18,8 @@ export default function GuessWhoModal({
   startTime,
   endTime,
 }: GuessWhoModalProps) {
+  const { t } = useI18n();
+
   if (!visible) return null;
 
   return (
@@ -23,17 +27,18 @@ export default function GuessWhoModal({
       className="absolute inset-0 h-full w-full justify-center items-center bg-[rgba(0,0,0,0.3)] z-50"
       pointerEvents="box-none"
     >
-      <View
-        className="bg-[#1E2530] px-6 py-5 rounded-2xl items-center w-[90%]"
+      <Animated.View
+        className="bg-[#1E2530] px-6 py-5 rounded-2xl items-center justify-center w-[90%] min-h-[160px]"
         pointerEvents="auto"
+        entering={SlideInUp.springify().damping(14)}
       >
         {status === "questioning" && (
           <>
             <Text className="text-white text-xl mb-2 text-center font-nunito-bold">
-              Your turn!
+              {t("guessWho.yourTurn")}
             </Text>
             <Text className="text-white text-center text-base mb-4">
-              Ask a 'yes or no' question to find out the other person’s character
+              {t("guessWho.yourTurnDetails")}
             </Text>
           </>
         )}
@@ -41,7 +46,7 @@ export default function GuessWhoModal({
         {status === "answering" && (
           <>
             <Text className="text-white text-xl font-bold mb-2 text-center font-nunito-bold">
-              Answer the question
+              {t("guessWho.answerTitle")}
             </Text>
 
             <View className="flex-row justify-center mt-2">
@@ -50,7 +55,7 @@ export default function GuessWhoModal({
                 className="bg-[#2E3742] px-4 py-2 rounded-full mx-2 flex-row items-center"
               >
                 <Text className="text-red-400 text-lg font-bold mr-1">✗</Text>
-                <Text className="text-white text-base font-nunito-semibold">NO</Text>
+                <Text className="text-white text-base font-nunito-semibold">{t("common.no")}</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -58,7 +63,7 @@ export default function GuessWhoModal({
                 className="bg-[#2E3742] px-4 py-2 rounded-full mx-2 flex-row items-center"
               >
                 <Text className="text-green-400 text-lg font-bold mr-1">✓</Text>
-                <Text className="text-white text-base font-nunito-semibold">YES</Text>
+                <Text className="text-white text-base font-nunito-semibold">{t("common.yes")}</Text>
               </TouchableOpacity>
             </View>
           </>
@@ -67,7 +72,7 @@ export default function GuessWhoModal({
         {status === "waiting" && (
           <>
             <Text className="text-white text-center text-xl font-nunito-semibold">
-              Waiting for your buddy to play...
+              {t("guessWho.waitingForOpponent")}
             </Text>
           </>
         )}
@@ -75,7 +80,7 @@ export default function GuessWhoModal({
         <View className="mt-4">
           <GuessWhoTimerComponent startTime={startTime} endTime={endTime} />
         </View>
-      </View>
+      </Animated.View>
     </View>
   );
 }

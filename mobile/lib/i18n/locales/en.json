@@ -19,7 +19,11 @@
     "settings": "Settings",
     "ok": "OK",
     "skip": "Skip",
-    "matchmakingWaiting": "Almost there... finding the best match for you!"
+    "matchmakingWaiting": "Almost there... finding the best match for you!",
+    "you": "You",
+    "opponent": "Opponent",
+    "yes": "YES",
+    "no": "NO"
   },
   "auth": {
     "login": "Login",
@@ -213,7 +217,7 @@
     "languageToLearn": "language you want to learn",
     "responseLanguage": "response language",
     "rate": {
-      "sucess": {
+      "success": {
         "title": "Rating submitted",
         "message": "Your rating was saved successfully"
       },
@@ -558,5 +562,31 @@
     "speakTranslation": "Speak the translation",
     "enterTranslation": "Enter translation",
     "typeTranslation": "Type the translation"
+  },
+
+  "history": {
+    "noMatchesYet": "No match history yet. Start a new match to see it here!",
+    "errorLoadingHistory": "Error loading match history"
+  },
+
+  "guessWho": {
+    "title": "Guess Who?",
+    "yourCharacter": "Your character is:",
+    "yourTurn": "Your turn",
+    "yourTurnDetails": "Ask a 'yes or no' question to find out your opponent's character",
+    "answerTitle": "Answer the question from your opponent",
+    "waitingForOpponent": "Waiting for your opponent to play...",
+    "yesAnwer": "The answer was YES! Eliminate characters or try a guess.",
+    "noAnswer": "The answer was NO! Eliminate characters or try a guess.",
+    "characterSelectTitle": "You selected:",
+    "discardCharacter": "DISCARD",
+    "reopenCharacter": "REOPEN",
+    "makeGuess": "MAKE A GUESS",
+    "winTitle": "You win!",
+    "winDescription": "You guessed your opponent's character correctly.",
+    "loseTitle": "You lose!",
+    "loseDescription": "Your opponent guessed your character correctly. Your opponent's character was:",
+    "wrong_guess": "Your guess was incorrect! The game continues...",
+    "buddy_wrong_guess": "Your opponent made the following incorrect guess:"
   }
 }

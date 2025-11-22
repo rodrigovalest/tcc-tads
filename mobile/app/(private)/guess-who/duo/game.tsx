@@ -30,8 +30,10 @@ import GuessWhoCharacterSelectModal from "../../../../components/guess-who/Guess
 import { GuessWhoYourCharacterCardComponent } from "../../../../components/guess-who/GuessWhoYourCharacterCard";
 import GuessWhoAnswerModal from "../../../../components/guess-who/GuessWhoAnswerModal";
 import GuessWhoResultModal from "../../../../components/guess-who/GuessWhoResultModal";
+import useI18n from "../../../../hooks/useI18n";
 
 export default function GuessWhoDuoGame() {
+  const { t } = useI18n();
   const [stage, setStage] = useState<GuessWhoStage>("intro");
   const {
     localStream,
@@ -82,9 +84,15 @@ export default function GuessWhoDuoGame() {
     };
   }, []);
 
+  const gradientColors: readonly [string, string] = (() => {
+    if (status === "win") return ["#4F2241", "#194E16"] as const;
+    if (status === "lose") return ["#4F2241", "#870E0E"] as const;
+    return ["#501E3F", "#49AA8F"] as const;
+  })();
+
   return (
     <LinearGradient
-      colors={["#501E3F", "#49AA8F"]}
+      colors={gradientColors}
       start={{ x: 0.5, y: 0 }}
       end={{ x: 0.5, y: 1 }}
       className="flex-1 items-center justify-center"
@@ -95,7 +103,7 @@ export default function GuessWhoDuoGame() {
           className="items-center px-6"
         >
           <Text className="text-appBgWhite text-4xl font-nunito-bold text-center">
-            Guess Who
+            {t("guessWho.title")}
           </Text>
 
           <View className="flex-row justify-between items-center w-full px-10 my-6">
@@ -177,7 +185,7 @@ export default function GuessWhoDuoGame() {
             </View>
 
             <Text className="text-appDarkGrey text-base font-nunito-medium mt-28">
-              Buddy character's is:
+              {t("guessWho.yourCharacter")}
             </Text>
 
             <Text className="text-appDarkGrey text-4xl font-nunito-bold">
@@ -194,7 +202,7 @@ export default function GuessWhoDuoGame() {
             {/* Player 1 */}
             <GuessWhoVideoCardComponent
               stream={localStream}
-              name={loggedUser?.username || "you"}
+              name={loggedUser?.username || t("common.you")}
               countryFlag={require("../../../../assets/images/flags/brazil.png")}
             />
 
@@ -209,7 +217,7 @@ export default function GuessWhoDuoGame() {
             {/* Player 2 */}
             <GuessWhoVideoCardComponent
               stream={remoteStream}
-              name={buddy?.username || "Buddy"}
+              name={buddy?.username || t("common.opponent")}
               countryFlag={require("../../../../assets/images/flags/brazil.png")}
             />
           </View>
@@ -262,7 +270,7 @@ export default function GuessWhoDuoGame() {
             <GuessWhoAnswerModal
               visible={true}
               answer={answer}
-              onClose={() => { console.log("close"); clearAnswer() }}
+              onClose={() => { clearAnswer() }}
             />
           )}
 
@@ -272,7 +280,7 @@ export default function GuessWhoDuoGame() {
             eliminated={selectedCharacter ? eliminated?.[selectedCharacter.id] === true : false}
             onToggle={(id) => toggleEliminated(id)}
             onClose={() => setSelectedCharacter(null)}
-            onGuess={(selectedCharacter) =>  { console.log(selectedCharacter); handleGuess(selectedCharacter) }}
+            onGuess={(selectedCharacter) =>  { handleGuess(selectedCharacter) }}
           />
 
           {(status === "win" || status === "lose" || status === "wrong_guess" || status === "buddy_wrong_guess") && (

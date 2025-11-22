@@ -170,47 +170,39 @@ const useGuessWhoDuo = (redirectOnEnd: () => void) => {
     });
 
     webSocketService.on("guess-who:duo:guessing-or-unmarking", async (data: IGuessWhoGuessingOrUnmarking) => {
-      console.log("Received guess or unmark:", data);
-      
       setAnswer(data.answer);
       setStatus(data.status);
       setRoundTime(data.startTime, data.endTime);
     });
 
     webSocketService.on("guess-who:duo:waiting", async (data: IGuessWhoWaiting) => {
-      console.log("Received waiting:", data);
-
       setStatus(data.status);
       setRoundTime(data.startTime, data.endTime);
     });
 
     webSocketService.on("guess-who:duo:wrong-guess", async (data: IGuessWhoWrongGuess) => {
-      console.log("Received wrong guess:", data);
       setStatus(data.status);
       setGuessCharacter(data.guessCharacter);
     });
 
     webSocketService.on("guess-who:duo:win", async (data: IGuessWhoWin) => {
-      console.log("Received win:", data);
       setStatus(data.status);
 
       setTimeout(() => {
         webSocketService.disconnect();
-      }, 5000);
+      }, 10000);
     });
 
     webSocketService.on("guess-who:duo:lose", async (data: IGuessWhoLose) => {
-      console.log("Received lose:", data);
       setBuddyCharacterWhenLose(data.buddyCharacter);
       setStatus(data.status);
 
       setTimeout(() => {
         webSocketService.disconnect();
-      }, 5000);
+      }, 10000);
     });
 
     webSocketService.on("guess-who:duo:round-start", (data: IGuessWhoRoundStart) => {
-      console.log("Received round-start:", data);
       resetRound();
       setStatus(data.status);
       setRoundTime(data.startTime, data.endTime);
@@ -229,8 +221,6 @@ const useGuessWhoDuo = (redirectOnEnd: () => void) => {
   }, []);
 
   const handleAnswer = (answer: boolean) => {
-    console.log("Sending answer:", answer);
-
     webSocketService.emit("guess-who:duo:answer", {
       matchId,
       answer,
@@ -238,8 +228,6 @@ const useGuessWhoDuo = (redirectOnEnd: () => void) => {
   }
 
   const handleGuess = (guessCharacter: IGuessWhoCharacter) => {
-    console.log("Sending guess:", guessCharacter);
-
     webSocketService.emit("guess-who:duo:guess", {
       matchId,
       guessCharacter,

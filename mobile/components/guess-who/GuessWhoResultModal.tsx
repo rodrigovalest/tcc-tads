@@ -1,13 +1,13 @@
-import { Modal, View, Text, Image, TouchableOpacity } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Modal, View, Text, Image } from "react-native";
 import IGuessWhoCharacter from "../../models/interfaces/guess-who/guess-who-character";
 import { CHARACTERS } from "../../constants/guess-who-characters";
+import useI18n from "../../hooks/useI18n";
 
 interface GuessWhoResultModalProps {
   status: "win" | "lose" | "wrong_guess" | "buddy_wrong_guess";
   guessCharacter: IGuessWhoCharacter | null;
   buddyCharacterWhenLose: IGuessWhoCharacter | null;
-  onClose?: () => void; // opcional para buddy_wrong_guess
+  onClose?: () => void;
 }
 
 export default function GuessWhoResultModal({
@@ -15,6 +15,8 @@ export default function GuessWhoResultModal({
   guessCharacter,
   buddyCharacterWhenLose,
 }: GuessWhoResultModalProps) {
+  const { t } = useI18n();
+
   if (!status) return null;
 
   return (
@@ -26,16 +28,24 @@ export default function GuessWhoResultModal({
         <View className="bg-[#1E2330] rounded-2xl px-6 py-6 w-full items-center relative">
           {status === "win" && (
             <>
-              <Text className="text-white text-lg font-semibold text-center mb-4">
-                You did a correct guess and won! Congratulations!
+              <Text className="text-white text-xl mb-2 text-center font-nunito-bold">
+                {t("guessWho.winTitle")}
+              </Text>
+              
+              <Text className="text-white text-lg font-nunito-semibold text-center mb-4">
+                {t("guessWho.winDescription")}
               </Text>
             </>
           )}
 
           {status === "lose" && buddyCharacterWhenLose && (
             <>
-              <Text className="text-white text-lg font-semibold text-center mb-3">
-                {`You lost! Your buddy's character was:`}
+              <Text className="text-white text-xl mb-2 text-center font-nunito-bold">
+                {t("guessWho.loseTitle")}
+              </Text>
+
+              <Text className="text-white text-lg font-nunito-semibold text-center mb-3">
+                {t("guessWho.loseDescription")}
               </Text>
 
               <Image
@@ -44,7 +54,7 @@ export default function GuessWhoResultModal({
                 resizeMode="contain"
               />
 
-              <Text className="text-white text-base font-bold text-center">
+              <Text className="text-white text-base font-nunito-bold text-center">
                 {buddyCharacterWhenLose.name}
               </Text>
             </>
@@ -53,7 +63,7 @@ export default function GuessWhoResultModal({
           {status === "wrong_guess" && (
             <>
               <Text className="text-white text-lg font-semibold text-center mb-2">
-                You did a wrong guess!
+                {t("guessWho.wrong_guess")}
               </Text>
             </>
           )}
@@ -61,7 +71,7 @@ export default function GuessWhoResultModal({
           {status === "buddy_wrong_guess" && guessCharacter && (
             <>
               <Text className="text-white text-lg font-semibold text-center mb-3">
-                {`Your buddy made a wrong guess:`}
+                {t("guessWho.buddy_wrong_guess")}
               </Text>
 
               <Image

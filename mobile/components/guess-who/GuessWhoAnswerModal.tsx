@@ -1,5 +1,6 @@
 import { Modal, Text, TouchableOpacity, Pressable } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import useI18n from "../../hooks/useI18n";
 
 interface GuessWhoAnswerModalProps {
   visible: boolean;
@@ -12,9 +13,11 @@ export default function GuessWhoAnswerModal({
   answer,
   onClose,
 }: GuessWhoAnswerModalProps) {
+  const { t } = useI18n();
+
   const message = answer
-    ? "A resposta foi SIM! Elimine personagens ou tente um palpite."
-    : "A resposta foi NÃO! Elimine personagens ou tente um palpite.";
+    ? t("guessWho.yesAnwer")
+    : t("guessWho.noAnswer");
 
   return (
     <Modal

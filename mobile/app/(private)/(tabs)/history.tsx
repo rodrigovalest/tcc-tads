@@ -23,7 +23,7 @@ export default function History() {
     if (isError && error) {
       Toast.show({
         type: "error",
-        text1: "Error loading match history",
+        text1: t("history.errorLoadingHistory") || "Error loading match history",
         position: "top",
       });
     }
@@ -56,7 +56,7 @@ export default function History() {
         )}
         ListEmptyComponent={() => (
           <Text className="text-lg font-nunito-medium py-6 px-10 text-appBlack">
-            No match history found. Start a new match to see it here!
+            {t("history.noMatchesYet")}
           </Text>
         )}
         renderItem={({ item }) => (
