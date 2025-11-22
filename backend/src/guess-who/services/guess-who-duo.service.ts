@@ -113,25 +113,69 @@ export class GuessWhoDuoService {
         characterUser2,
       });
 
-      const now = new Date();
-      const end = new Date(now.getTime() + GUESS_WHO_QUESTIONING_DURATION_MS);
-
-      this.eventEmitter.emit('guess-who:duo:round-start', {
-        userSocketId: usersQueue[0].socketId,
-        status: GuessWhoStatus.QUESTIONING,
-        message: 'make a yes or no question trying to guess your character',
-        startTime: now,
-        endTime: end
-      });
-
-      this.eventEmitter.emit('guess-who:duo:round-start', {
-        userSocketId: usersQueue[1].socketId,
-        status: GuessWhoStatus.ANSWERING,
-        message: 'answer with yes or no the question that your buddy is doing',
-        startTime: now,
-        endTime: end
-      });
+      this.roundStart(usersQueue[0].socketId, usersQueue[1].socketId, match.id);
     }
+  }
+
+  async roundStart(
+    userSocketId1: string,
+    userSocketId2: string,
+    matchId: string,
+  ) {
+    const now = new Date();
+    const end = new Date(now.getTime() + GUESS_WHO_QUESTIONING_DURATION_MS);
+
+    this.eventEmitter.emit('guess-who:duo:round-start', {
+      userSocketId: userSocketId1,
+      status: GuessWhoStatus.QUESTIONING,
+      message: 'make a yes or no question trying to guess your character',
+      startTime: now,
+      endTime: end
+    });
+
+    this.eventEmitter.emit('guess-who:duo:round-start', {
+      userSocketId: userSocketId2,
+      status: GuessWhoStatus.ANSWERING,
+      message: 'answer with yes or no the question that your buddy is doing',
+      startTime: now,
+      endTime: end
+    });
+
+    // -------------------------------------------------------
+    // TIMEOUT AUTOMÁTICO SE NINGUÉM PERGUNTAR OU RESPONDER
+    // -------------------------------------------------------
+    setTimeout(async () => {
+      const match = await this.guessWhoMatchRepository.findByMatchId(matchId);
+      if (!match) return;
+
+      if (match.stage !== GuessWhoStage.QUESTIONING) {
+        return;
+      }
+
+      this.logger.warn(`Round timeout in match ${matchId}. Switching turn.`);
+
+      const newTurnUserId =
+        match.userIdTurn === match.user1Id
+          ? match.user2Id
+          : match.user1Id;
+
+      match.userIdTurn = newTurnUserId;
+      match.stage = GuessWhoStage.QUESTIONING;
+
+      await this.guessWhoMatchRepository.update(matchId, match);
+
+      const newTurnSocket =
+        newTurnUserId === match.user1Id
+          ? match.user1SocketId
+          : match.user2SocketId;
+
+      const otherSocket =
+        newTurnUserId === match.user1Id
+          ? match.user2SocketId
+          : match.user1SocketId;
+
+      this.roundStart(newTurnSocket, otherSocket, matchId);
+    }, GUESS_WHO_QUESTIONING_DURATION_MS);
   }
 
   async handleAnswer(
@@ -188,6 +232,35 @@ export class GuessWhoDuoService {
 
     guessWhoMatch.stage = GuessWhoStage.GUESSING_OR_UNMARKING;
     await this.guessWhoMatchRepository.update(matchId, guessWhoMatch);
+
+    // -------------------------------------------------------
+    // TIMEOUT AUTOMÁTICO SE O USUARIO NÃO CHUTAR
+    // -------------------------------------------------------
+    setTimeout(async () => {
+      const fresh = await this.guessWhoMatchRepository.findByMatchId(matchId);
+      if (!fresh) return;
+
+      if (fresh.stage !== GuessWhoStage.GUESSING_OR_UNMARKING) {
+        return;
+      }
+
+      this.logger.warn(`Timeout on match ${matchId}. Switching turn.`);
+
+      const newTurnUserId =
+        fresh.userIdTurn === fresh.user1Id ? fresh.user2Id : fresh.user1Id;
+
+      fresh.userIdTurn = newTurnUserId;
+      fresh.stage = GuessWhoStage.QUESTIONING;
+      await this.guessWhoMatchRepository.update(matchId, fresh);
+
+      const newTurnSocket =
+        newTurnUserId === fresh.user1Id ? fresh.user1SocketId : fresh.user2SocketId;
+
+      const otherSocket =
+        newTurnUserId === fresh.user1Id ? fresh.user2SocketId : fresh.user1SocketId;
+
+      this.roundStart(newTurnSocket, otherSocket, matchId);
+    }, GUESS_WHO_GUESSING_OR_MARKING_DURATION_MS);
   }
 
   async handleGuess(
@@ -287,21 +360,7 @@ export class GuessWhoDuoService {
 
     await new Promise((res) => setTimeout(res, 5000));
 
-    this.eventEmitter.emit("guess-who:duo:round-start", {
-      userSocketId: otherUserSocket,
-      status: GuessWhoStatus.QUESTIONING,
-      message: "make a yes/no question to guess your character.",
-      startTime: now,
-      endTime: end,
-    });
-
-    this.eventEmitter.emit("guess-who:duo:round-start", {
-      userSocketId: guessingUserSocket,
-      status: GuessWhoStatus.ANSWERING,
-      message: "answer yes/no to your buddy’s question.",
-      startTime: now,
-      endTime: end,
-    });
+    this.roundStart(otherUserSocket, guessingUserSocket, matchId);
   }
 
   async handleDisconnect(socketId: string): Promise<void> {
