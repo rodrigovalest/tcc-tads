@@ -38,7 +38,7 @@ const SESSION_CONSTRAINTS: RTCOfferOptions = {
   offerToReceiveVideo: true,
 };
 
-const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: () => void) => {
+const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: (isGiveUp: boolean, isImageRole: boolean) => void) => {
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
   const peerConnection = useRef<RTCPeerConnection | null>(null);
@@ -196,10 +196,12 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: () => void
     }, 100); // Pequeno delay para garantir sincronização dos papéis
   };
 
-  const notifyCorrectAnswer = () => {
+  const notifyCorrectAnswer = (isGiveUp: boolean = false) => {
     if (webSocketService.isConnected()) {
       webSocketService.emit("who-am-i:duo:correct-answer", {
         matchId,
+        isGiveUp,
+        isImageRole,
       });
     }
   };
@@ -452,9 +454,11 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: () => void
       console.log("[NEW_ROUND] isImageRole atual:", isImageRole);
     });
 
-    webSocketService.on("who-am-i:duo:adversary-correct", ({ from }) => {
+    webSocketService.on("who-am-i:duo:adversary-correct", ({ from, isGiveUp, isImageRole: adversaryIsImageRole }) => {
       console.log("[ADVERSARY_CORRECT] Oponente acertou:", from);
-      onAdversaryCorrect?.();
+      console.log("[ADVERSARY_CORRECT] isGiveUp:", isGiveUp);
+      console.log("[ADVERSARY_CORRECT] adversaryIsImageRole:", adversaryIsImageRole);
+      onAdversaryCorrect?.(isGiveUp, adversaryIsImageRole);
     });
 
     webSocketService.on("who-am-i:duo:switch-roles", ({ isImageRole: newRole }) => {

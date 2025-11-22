@@ -1,4 +1,5 @@
 import { SafeAreaView, Text, View, TouchableOpacity, StyleSheet, Image, ImageSourcePropType } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Feather from '@expo/vector-icons/Feather';
 import { Ionicons } from '@expo/vector-icons';
@@ -12,7 +13,9 @@ import CorrectAnswerModal from '../../../../components/CorrectAnswer';
 import AdversaryCorrectAnswerModal from '../../../../components/AdversaryCorrectAnswer';
 import { COLORS } from '../../../../constants/colors';
 
-const TIMER_DURATION = 120; // 120 segundos
+const TIMER_DURATION = 120; 
+
+
 
 export default function WhoAmI() {
   const { user: loggedUser } = useAuthStore();
@@ -22,10 +25,16 @@ export default function WhoAmI() {
   const [showAdversaryCorrect, setShowAdversaryCorrect] = useState(false);
   const [correctAnswerImage, setCorrectAnswerImage] = useState<ImageSourcePropType | null>(null);
   const [adversaryCorrectImage, setAdversaryCorrectImage] = useState<ImageSourcePropType | null>(null);
+  const [correctAnswerCharacterName, setCorrectAnswerCharacterName] = useState<string | null>(null);
+  const [adversaryCorrectCharacterName, setAdversaryCorrectCharacterName] = useState<string | null>(null);
+  const [isGiveUp, setIsGiveUp] = useState<boolean>(false);
+  const [adversaryIsGiveUp, setAdversaryIsGiveUp] = useState<boolean>(false);
+  const [adversaryIsImageRole, setAdversaryIsImageRole] = useState<boolean>(false);
   const [timeLeft, setTimeLeft] = useState(TIMER_DURATION);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const endTimeRef = useRef<number>(0);
   const characterImageRef = useRef<ImageSourcePropType | null>(null);
+  const characterNameRef = useRef<string | null>(null);
   
   const { 
     localStream, 
@@ -49,17 +58,29 @@ export default function WhoAmI() {
     myCharacterHints,
     opponentCharacterHints,
   } = useWhoAmIDuo(() => {
-    router.replace('/(private)/(tabs)/matches');
-  }, () => {
+    router.replace("/(private)/match-rate-duo");
+  }, (adversaryIsGiveUp: boolean = false, adversaryIsImageRole: boolean = false) => {
    
     const imageToShow = characterImageRef.current || myCharacterImage || myCharacter?.image || opponentCharacterImage || opponentCharacter?.image || null;
+    const characterNameToShow = characterNameRef.current || myCharacter?.name || opponentCharacter?.name || null;
     console.log("[ADVERSARY_CORRECT] Imagem que será mostrada:", imageToShow);
+    console.log("[ADVERSARY_CORRECT] Nome do personagem:", characterNameToShow);
     console.log("[ADVERSARY_CORRECT] characterImageRef.current:", characterImageRef.current);
+    console.log("[ADVERSARY_CORRECT] characterNameRef.current:", characterNameRef.current);
     console.log("[ADVERSARY_CORRECT] myCharacter:", myCharacter?.name);
     console.log("[ADVERSARY_CORRECT] myCharacterImage:", myCharacterImage);
     console.log("[ADVERSARY_CORRECT] opponentCharacterImage:", opponentCharacterImage);
+    console.log("[ADVERSARY_CORRECT] adversaryIsGiveUp:", adversaryIsGiveUp);
+    console.log("[ADVERSARY_CORRECT] adversaryIsImageRole:", adversaryIsImageRole);
+    console.log("[ADVERSARY_CORRECT] my isImageRole:", isImageRole);
   
     setAdversaryCorrectImage(imageToShow);
+    setAdversaryCorrectCharacterName(characterNameToShow);
+    // Se o adversário desistiu, precisamos saber qual era o papel dele para mostrar a mensagem correta
+    // Se adversaryIsImageRole é true, significa que o adversário tinha a imagem, então eu tinha as dicas
+    // Se adversaryIsImageRole é false, significa que o adversário tinha as dicas, então eu tinha a imagem
+    setAdversaryIsGiveUp(adversaryIsGiveUp);
+    setAdversaryIsImageRole(adversaryIsImageRole);
     setShowAdversaryCorrect(true);
     
     setTimeout(() => {
@@ -90,7 +111,7 @@ export default function WhoAmI() {
         if (timerRef.current) {
           clearInterval(timerRef.current);
         }
-        handleNailedIt(); // chama ao zerar
+        handleGiveUp(); // chama ao zerar (tempo acabou = give up)
         return;
       }
       const timeLeftSeconds = Math.max(0, remainingMs / 1000);
@@ -112,9 +133,10 @@ export default function WhoAmI() {
     console.log("[GAME] isImageRole:", isImageRole);
     console.log("[GAME] should show hints:", !isImageRole && myCharacter && myCharacter.hints?.length > 0);
     
-    // Atualiza a referência da imagem do personagem sempre que ele mudar
     const currentImage = myCharacterImage || myCharacter?.image || opponentCharacterImage || opponentCharacter?.image || null;
+    const currentName = myCharacter?.name || opponentCharacter?.name || null;
     characterImageRef.current = currentImage;
+    characterNameRef.current = currentName;
   }, [myCharacter, myCharacterImage, opponentCharacter, opponentCharacterImage, isImageRole]);
 
   const onMute = () => {
@@ -137,20 +159,54 @@ export default function WhoAmI() {
 
     // Mostra a imagem do personagem atual (que ambos estão tentando adivinhar)
     const imageToShow = myCharacterImage || myCharacter?.image || opponentCharacterImage || opponentCharacter?.image || null;
+    const characterNameToShow = myCharacter?.name || opponentCharacter?.name || null;
     console.log("[NAILED_IT] Imagem que será mostrada:", imageToShow);
+    console.log("[NAILED_IT] Nome do personagem:", characterNameToShow);
 
     setCorrectAnswerImage(imageToShow);
+    setCorrectAnswerCharacterName(characterNameToShow);
+    setIsGiveUp(false);
     setShowCorrectAnswer(true);
 
-    notifyCorrectAnswer(); // Notifica o adversário que você acertou
+    notifyCorrectAnswer(false); 
 
     // Reseta o timer (inicia novamente do valor total)
     const currentTime = Date.now();
     endTimeRef.current = currentTime + TIMER_DURATION * 1000;
     setTimeLeft(TIMER_DURATION);
 
-    // Fecha o modal e gera novo personagem
-    // O generateNewCharacter já alterna os papéis ANTES de definir o novo personagem
+    
+    setTimeout(() => {
+      setShowCorrectAnswer(false);
+      generateNewCharacter();
+    }, 1000);
+  };
+
+  const handleGiveUp = () => {
+    // Debug: verificar os personagens no momento do clique
+    console.log("[GIVE_UP] myCharacter:", myCharacter?.name);
+    console.log("[GIVE_UP] isImageRole:", isImageRole);
+    console.log("[GIVE_UP] myCharacter hints:", myCharacter?.hints);
+
+    // Mostra a imagem do personagem atual (que ambos estão tentando adivinhar)
+    const imageToShow = myCharacterImage || myCharacter?.image || opponentCharacterImage || opponentCharacter?.image || null;
+    const characterNameToShow = myCharacter?.name || opponentCharacter?.name || null;
+    console.log("[GIVE_UP] Imagem que será mostrada:", imageToShow);
+    console.log("[GIVE_UP] Nome do personagem:", characterNameToShow);
+
+    setCorrectAnswerImage(imageToShow);
+    setCorrectAnswerCharacterName(characterNameToShow);
+    setIsGiveUp(true);
+    setShowCorrectAnswer(true);
+
+    notifyCorrectAnswer(true); 
+
+    // Reseta o timer (inicia novamente do valor total)
+    const currentTime = Date.now();
+    endTimeRef.current = currentTime + TIMER_DURATION * 1000;
+    setTimeLeft(TIMER_DURATION);
+
+    
     setTimeout(() => {
       setShowCorrectAnswer(false);
       generateNewCharacter();
@@ -159,10 +215,14 @@ export default function WhoAmI() {
 
 
   return (
-    <SafeAreaView className='w-full h-full bg-appBgWhite'>
+    <SafeAreaView className='w-full h-full'>
+      <LinearGradient
+        colors={['#501E3F', '#49AA8F']}
+        style={StyleSheet.absoluteFillObject}
+      >
       <View className="flex-1">
         {/* View à esquerda - Sua câmera */}
-        <View className="absolute top-10 left-6 bg-appBgWhite w-40 h-48 rounded-2xl border-appBlack border-2 flex items-center justify-center">
+        <View className="absolute top-10 left-6 w-40 h-48 rounded-2xl border-appBlack border-2 flex items-center justify-center" style={{ backgroundColor: '#191919' }}>
           {localStream && !isVideoMuted ? (
             <View className='h-32 w-32 rounded-2xl border-appBlack border-2 overflow-hidden bg-appBlack'>
               <RTCView
@@ -178,7 +238,7 @@ export default function WhoAmI() {
         </View>
 
         {/* View à direita - Câmera do oponente */}
-        <View className="absolute top-10 right-6 bg-appBgWhite w-40 h-48 rounded-2xl border-appBlack border-2 flex items-center justify-center">
+        <View className="absolute top-10 right-6 w-40 h-48 rounded-2xl border-appBlack border-2 flex items-center justify-center" style={{ backgroundColor: '#191919' }}>
           {remoteStream && !isVideoMuted ? (
             <View className='h-32 w-32 rounded-2xl border-appBlack border-2 overflow-hidden bg-appBlack'>
               <RTCView
@@ -228,20 +288,18 @@ export default function WhoAmI() {
                 const imageToShow = myCharacterImage || myCharacter?.image || null;
                 return (
                   <View
-                    className="w-60 h-80 rounded-xl overflow-hidden mb-4 bg-appLightGrey flex items-center justify-center"
+                    className="w-60 h-60 rounded-xl overflow-hidden mb-4 bg-appLightGrey flex items-center justify-center"
                     style={{
                       position: 'relative',
                       alignSelf: 'center',
-                      // Adapta a largura para visualizar a imagem vertical sem bordas laterais
                     }}>
                     {imageToShow ? (
                       <Image
                         source={imageToShow}
                         style={{
-                          width: '100%',
-                          height: '100%',
+                          width: '100%'
                         }}
-                        resizeMode="contain" // Não corta a imagem, mas cobre bem a área vertical
+                        resizeMode="contain" 
                       />
                     ) : (
                       <View className="w-full h-full bg-appMediumGrey flex items-center justify-center">
@@ -293,7 +351,7 @@ export default function WhoAmI() {
             )}
             <TouchableOpacity
               className="bg-appMediumRed rounded-full py-4 px-8 w-64"
-              onPress={handleNailedIt}
+              onPress={handleGiveUp}
             >
               <Text className="text-white font-nunito-bold text-center text-lg">Give up</Text>
             </TouchableOpacity>
@@ -332,12 +390,19 @@ export default function WhoAmI() {
       <CorrectAnswerModal
         visible={showCorrectAnswer}
         correctImage={correctAnswerImage}
+        characterName={correctAnswerCharacterName || undefined}
+        isGiveUp={isGiveUp}
       />
 
       <AdversaryCorrectAnswerModal
         visible={showAdversaryCorrect}
         correctImage={adversaryCorrectImage}
+        characterName={adversaryCorrectCharacterName || undefined}
+        isGiveUp={adversaryIsGiveUp}
+        adversaryIsImageRole={adversaryIsImageRole}
+        myIsImageRole={isImageRole}
       />
+      </LinearGradient>
     </SafeAreaView>
   );
 }
