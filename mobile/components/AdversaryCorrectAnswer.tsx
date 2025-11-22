@@ -8,14 +8,28 @@ interface AdversaryCorrectAnswerModalProps {
   visible: boolean;
   correctImage?: ImageSourcePropType | null;
   characterName?: string;
+  isGiveUp?: boolean;
+  adversaryIsImageRole?: boolean;
+  myIsImageRole?: boolean;
 }
 
 const AdversaryCorrectAnswerModal: React.FC<AdversaryCorrectAnswerModalProps> = ({
   visible,
   correctImage,
   characterName,
+  isGiveUp = false,
+  adversaryIsImageRole = false,
+  myIsImageRole = false,
 }) => {
   const { t } = useI18n();
+
+
+  const getMessage = () => {
+    if (isGiveUp) {
+      return "Your adversary surrendered";
+    }
+    return "Congrats,";
+  };
 
   return (
     <Modal
@@ -26,7 +40,7 @@ const AdversaryCorrectAnswerModal: React.FC<AdversaryCorrectAnswerModalProps> = 
       <View className="flex-1 bg-black/50 items-center justify-center">
         <View className="rounded-xl p-6 mx-8 w-4/5 max-w-sm" style={{ backgroundColor: '#1C1D2C', borderWidth: 2, borderColor: '#E5FF55' }}>
         <Text className="text-xl font-nunito-bold text-appBgWhite text-center mb-4">
-            It was
+            {isGiveUp ? "Your adversary surrendered" : "Congrats,"} {!isGiveUp && "It was"}
           </Text>
           <Text className="text-xl font-nunito-bold text-appBgWhite text-center mb-4">
             {characterName || ""}

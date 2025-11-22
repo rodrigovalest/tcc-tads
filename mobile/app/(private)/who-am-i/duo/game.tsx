@@ -27,6 +27,9 @@ export default function WhoAmI() {
   const [adversaryCorrectImage, setAdversaryCorrectImage] = useState<ImageSourcePropType | null>(null);
   const [correctAnswerCharacterName, setCorrectAnswerCharacterName] = useState<string | null>(null);
   const [adversaryCorrectCharacterName, setAdversaryCorrectCharacterName] = useState<string | null>(null);
+  const [isGiveUp, setIsGiveUp] = useState<boolean>(false);
+  const [adversaryIsGiveUp, setAdversaryIsGiveUp] = useState<boolean>(false);
+  const [adversaryIsImageRole, setAdversaryIsImageRole] = useState<boolean>(false);
   const [timeLeft, setTimeLeft] = useState(TIMER_DURATION);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const endTimeRef = useRef<number>(0);
@@ -56,7 +59,7 @@ export default function WhoAmI() {
     opponentCharacterHints,
   } = useWhoAmIDuo(() => {
     router.replace("/(private)/match-rate-duo");
-  }, () => {
+  }, (adversaryIsGiveUp: boolean = false, adversaryIsImageRole: boolean = false) => {
    
     const imageToShow = characterImageRef.current || myCharacterImage || myCharacter?.image || opponentCharacterImage || opponentCharacter?.image || null;
     const characterNameToShow = characterNameRef.current || myCharacter?.name || opponentCharacter?.name || null;
@@ -67,9 +70,17 @@ export default function WhoAmI() {
     console.log("[ADVERSARY_CORRECT] myCharacter:", myCharacter?.name);
     console.log("[ADVERSARY_CORRECT] myCharacterImage:", myCharacterImage);
     console.log("[ADVERSARY_CORRECT] opponentCharacterImage:", opponentCharacterImage);
+    console.log("[ADVERSARY_CORRECT] adversaryIsGiveUp:", adversaryIsGiveUp);
+    console.log("[ADVERSARY_CORRECT] adversaryIsImageRole:", adversaryIsImageRole);
+    console.log("[ADVERSARY_CORRECT] my isImageRole:", isImageRole);
   
     setAdversaryCorrectImage(imageToShow);
     setAdversaryCorrectCharacterName(characterNameToShow);
+    // Se o adversário desistiu, precisamos saber qual era o papel dele para mostrar a mensagem correta
+    // Se adversaryIsImageRole é true, significa que o adversário tinha a imagem, então eu tinha as dicas
+    // Se adversaryIsImageRole é false, significa que o adversário tinha as dicas, então eu tinha a imagem
+    setAdversaryIsGiveUp(adversaryIsGiveUp);
+    setAdversaryIsImageRole(adversaryIsImageRole);
     setShowAdversaryCorrect(true);
     
     setTimeout(() => {
@@ -100,7 +111,7 @@ export default function WhoAmI() {
         if (timerRef.current) {
           clearInterval(timerRef.current);
         }
-        handleNailedIt(); // chama ao zerar
+        handleGiveUp(); // chama ao zerar (tempo acabou = give up)
         return;
       }
       const timeLeftSeconds = Math.max(0, remainingMs / 1000);
@@ -154,9 +165,41 @@ export default function WhoAmI() {
 
     setCorrectAnswerImage(imageToShow);
     setCorrectAnswerCharacterName(characterNameToShow);
+    setIsGiveUp(false);
     setShowCorrectAnswer(true);
 
-    notifyCorrectAnswer(); 
+    notifyCorrectAnswer(false); 
+
+    // Reseta o timer (inicia novamente do valor total)
+    const currentTime = Date.now();
+    endTimeRef.current = currentTime + TIMER_DURATION * 1000;
+    setTimeLeft(TIMER_DURATION);
+
+    
+    setTimeout(() => {
+      setShowCorrectAnswer(false);
+      generateNewCharacter();
+    }, 1000);
+  };
+
+  const handleGiveUp = () => {
+    // Debug: verificar os personagens no momento do clique
+    console.log("[GIVE_UP] myCharacter:", myCharacter?.name);
+    console.log("[GIVE_UP] isImageRole:", isImageRole);
+    console.log("[GIVE_UP] myCharacter hints:", myCharacter?.hints);
+
+    // Mostra a imagem do personagem atual (que ambos estão tentando adivinhar)
+    const imageToShow = myCharacterImage || myCharacter?.image || opponentCharacterImage || opponentCharacter?.image || null;
+    const characterNameToShow = myCharacter?.name || opponentCharacter?.name || null;
+    console.log("[GIVE_UP] Imagem que será mostrada:", imageToShow);
+    console.log("[GIVE_UP] Nome do personagem:", characterNameToShow);
+
+    setCorrectAnswerImage(imageToShow);
+    setCorrectAnswerCharacterName(characterNameToShow);
+    setIsGiveUp(true);
+    setShowCorrectAnswer(true);
+
+    notifyCorrectAnswer(true); 
 
     // Reseta o timer (inicia novamente do valor total)
     const currentTime = Date.now();
@@ -308,7 +351,7 @@ export default function WhoAmI() {
             )}
             <TouchableOpacity
               className="bg-appMediumRed rounded-full py-4 px-8 w-64"
-              onPress={handleNailedIt}
+              onPress={handleGiveUp}
             >
               <Text className="text-white font-nunito-bold text-center text-lg">Give up</Text>
             </TouchableOpacity>
@@ -348,12 +391,16 @@ export default function WhoAmI() {
         visible={showCorrectAnswer}
         correctImage={correctAnswerImage}
         characterName={correctAnswerCharacterName || undefined}
+        isGiveUp={isGiveUp}
       />
 
       <AdversaryCorrectAnswerModal
         visible={showAdversaryCorrect}
         correctImage={adversaryCorrectImage}
         characterName={adversaryCorrectCharacterName || undefined}
+        isGiveUp={adversaryIsGiveUp}
+        adversaryIsImageRole={adversaryIsImageRole}
+        myIsImageRole={isImageRole}
       />
       </LinearGradient>
     </SafeAreaView>

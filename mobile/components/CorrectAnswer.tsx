@@ -8,12 +8,14 @@ interface CorrectAnswerModalProps {
   visible: boolean;
   correctImage?: ImageSourcePropType | null;
   characterName?: string;
+  isGiveUp?: boolean;
 }
 
 const CorrectAnswerModal: React.FC<CorrectAnswerModalProps> = ({
   visible,
   correctImage,
   characterName,
+  isGiveUp = false,
 }) => {
   const { t } = useI18n();
 
@@ -26,7 +28,7 @@ const CorrectAnswerModal: React.FC<CorrectAnswerModalProps> = ({
       <View className="flex-1 bg-black/50 items-center justify-center">
         <View className="rounded-xl p-6 mx-8 w-4/5 max-w-sm" style={{ backgroundColor: '#1C1D2C', borderWidth: 2, borderColor: '#E5FF55' }}>
         <Text className="text-xl font-nunito-bold text-appBgWhite text-center mb-4">
-            It was
+            {isGiveUp ? "Uh oh," : "Congrats,"} It was
           </Text>
 
           <Text className="text-xl font-nunito-bold text-appBgWhite text-center mb-4">
