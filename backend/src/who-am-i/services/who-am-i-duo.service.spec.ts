@@ -23,6 +23,7 @@ describe('WhoAmIDuoService', () => {
     email: 'test@example.com',
     username: 'testuser',
     nationality: CountryCode.Brazil,
+    photoUri: 'http://example.com/photo.jpg',
   };
 
   const mockUserQueue: UserQueue = {

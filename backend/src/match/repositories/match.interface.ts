@@ -14,6 +14,17 @@ export interface IMatchRepository {
   ): Promise<Match>;
 
   save(match: Match): Promise<Match>;
+  
   findById(id: string): Promise<Match | null>;
-  findAllMatchesWithAverageScore(userId: number): Promise<Array<{ match: Match; averageFluencyScore: number | null }>>;
+  
+  findAllMatchesWithAverageScore(
+    userId: number,
+    page: number,
+    limit: number,
+  ): Promise<{
+    data: Array<{ match: Match; averageFluencyScore: number | null }>;
+    total: number;
+    page: number;
+    limit: number;
+  }>;
 }

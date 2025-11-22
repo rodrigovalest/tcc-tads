@@ -26,6 +26,7 @@ describe('ChatController', () => {
     username: 'testuser',
     email: 'test@example.com',
     nationality: CountryCode.UnitedStates,
+    photoUri: 'http://example.com/photo.jpg',
   };
 
   const mockMessageResponse: MessageResponseDto = {

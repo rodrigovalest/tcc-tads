@@ -43,4 +43,12 @@ export const MATCH_MODE_CONFIGS: Record<MatchMode, MatchModeConfig> = {
     minPlayers: 2,
     groupAllowed: false,
   },
+  [MatchMode.GUESS_WHO]: {
+    allowedTypes: [MatchFormat.SOLO],
+    usesWebRTC: true,
+    requiresMatchmaking: true,
+    maxPlayers: 2,
+    minPlayers: 2,
+    groupAllowed: false,
+  }
 };

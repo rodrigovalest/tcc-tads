@@ -9,6 +9,8 @@ import { JustChillingModule } from './just-chilling/just-chilling.module';
 import { ChatModule } from './chat/chat.module';
 import { MatchRateModule } from './match-rate/match-rate.module';
 import { WhoAmIModule } from './who-am-i/who-am-i.module';
+import { GuessWhoModule } from './guess-who/guess-who.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -43,6 +45,8 @@ import { WhoAmIModule } from './who-am-i/who-am-i.module';
     MatchRateModule,
     
     ChatModule,
+    
+    GuessWhoModule,
   ],
   controllers: [],
   providers: [],

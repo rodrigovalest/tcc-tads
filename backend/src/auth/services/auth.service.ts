@@ -41,6 +41,7 @@ export class AuthService {
       email: user.email,
       username: user.username,
       nationality: user.nationality,
+      photoUri: user.photo ?? null,
     };
 
     return this.jwtService.sign(payload);
@@ -94,6 +95,7 @@ export class AuthService {
       email: user.email,
       username: user.username,
       nationality: user.nationality,
+      photoUri: user.photo ?? null,
     };
 
     const token = this.jwtService.sign(payload);

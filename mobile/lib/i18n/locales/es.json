@@ -19,7 +19,11 @@
     "settings": "Configuración",
     "ok": "OK",
     "skip": "Omitir",
-    "matchmakingWaiting": "¡Casi listo... buscando la mejor partida para ti!"
+    "matchmakingWaiting": "¡Casi listo... buscando la mejor partida para ti!",
+    "you": "Tú",
+    "opponent": "Oponente",
+    "yes": "SÍ",
+    "no": "NO"
   },
   "auth": {
     "login": "Iniciar sesión",
@@ -198,10 +202,11 @@
       "justChilling": "Relajándose",
       "wordBuilder": "Constructor de Palabras",
       "timeAttackVocab": "Vocabulario Contra Reloj",
+      "guessWho": "¿Adivina Quién?",
       "whoAmI": "¿Quién soy?"
     },
     "rate": {
-      "sucess": {
+      "success": {
         "title": "Calificación enviada",
         "message": "Tu calificación se guardó exitosamente"
       },
@@ -545,5 +550,31 @@
     "speakTranslation": "Habla la traducción",
     "enterTranslation": "Ingresa la traducción",
     "typeTranslation": "Escribe la traducción"
+  },
+
+  "history": {
+    "noMatchesYet": "Aún no hay historial de partidas. ¡Comienza una nueva partida para verla aquí!",
+    "errorLoadingHistory": "Error al cargar el historial de partidas"
+  },
+
+  "guessWho": {
+    "title": "¿Adivina Quién?",
+    "yourCharacter": "Tu personaje es:",
+    "yourTurn": "Tu turno",
+    "yourTurnDetails": "Haz una pregunta de 'sí o no' para descubrir el personaje de tu oponente",
+    "answerTitle": "Responde la pregunta de tu oponente",
+    "waitingForOpponent": "Esperando a que tu oponente juegue...",
+    "yesAnwer": "¡La respuesta fue SÍ! Elimina personajes o intenta una suposición.",
+    "noAnswer": "¡La respuesta fue NO! Elimina personajes o intenta una suposición.",
+    "characterSelectTitle": "Has seleccionado:",
+    "discardCharacter": "DESCARTAR",
+    "reopenCharacter": "REABRIR",
+    "makeGuess": "HACER UNA SUPOSICIÓN",
+    "winTitle": "¡Ganaste!",
+    "winDescription": "¡Adivinaste correctamente el personaje de tu oponente!",
+    "loseTitle": "¡Perdiste!",
+    "loseDescription": "Tu oponente adivinó tu personaje correctamente. El personaje de tu oponente era:",
+    "wrong_guess": "¡Tu suposición fue incorrecta! El juego continúa...",
+    "buddy_wrong_guess": "Tu oponente hizo la siguiente suposición incorrecta:"
   }
 }

@@ -56,7 +56,8 @@ describe('JustChillingDuoService', () => {
       sub: 1,
       email: 'user@email.com',
       username: 'user',
-      nationality: CountryCode.Afghanistan
+      nationality: CountryCode.Afghanistan,
+      photoUri: 'http://example.com/photo.jpg',
     };
     const socketId = 'socket-abc';
     const language = MatchLanguage.EN;
@@ -113,7 +114,8 @@ describe('JustChillingDuoService', () => {
       sub: 1,
       email: 'user@email.com',
       username: 'user',
-      nationality: CountryCode.Afghanistan
+      nationality: CountryCode.Afghanistan,
+      photoUri: 'http://example.com/photo.jpg',
     };
     const socketId = 'socket-def';
     const language = MatchLanguage.EN;
