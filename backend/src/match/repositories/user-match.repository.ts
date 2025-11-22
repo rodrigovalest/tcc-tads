@@ -36,4 +36,11 @@ export class UserMatchRepositoryImpl implements IUserMatchRepository {
       relations: ['match', 'user'],
     });
   }
+
+  async findUserMatchesByMatchId(matchId: string): Promise<UserMatch[]> {
+    return this.repository.find({
+      where: { match: { id: matchId } },
+      relations: ['match', 'user'],
+    });
+  }
 }

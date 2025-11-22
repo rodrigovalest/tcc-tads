@@ -32,7 +32,7 @@ describe("matchService", () => {
 
     const result = await matchService.getMatchHistory();
 
-    expect(api.get).toHaveBeenCalledWith("/matches");
+    expect(api.get).toHaveBeenCalledWith("/matches", { params: { page: 1, limit: 10 } });
     expect(result).toEqual(mockData);
   });
 
@@ -40,6 +40,6 @@ describe("matchService", () => {
     mockedApi.get.mockRejectedValueOnce(new Error("Network error"));
 
     await expect(matchService.getMatchHistory()).rejects.toThrow("Network error");
-    expect(api.get).toHaveBeenCalledWith("/matches");
+    expect(api.get).toHaveBeenCalledWith("/matches", { params: { page: 1, limit: 10 } });
   });
 });

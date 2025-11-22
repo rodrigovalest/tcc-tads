@@ -75,6 +75,7 @@ describe('AuthController', () => {
         email: 'testuser@example.com',
         username: 'testuser',
         nationality: CountryCode.Afghanistan,
+        photoUri: 'http://example.com/photo.jpg',
       }
       const mockedJwtToken = jwtService.sign(mockedLoggedJwtPayload);
 

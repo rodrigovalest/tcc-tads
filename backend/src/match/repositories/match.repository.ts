@@ -43,7 +43,14 @@ export class MatchRepositoryImpl implements IMatchRepository {
 
   async findAllMatchesWithAverageScore(
     userId: number,
-  ): Promise<Array<{ match: Match; averageFluencyScore: number | null }>> {
+    page: number,
+    limit: number,
+  ): Promise<{
+    data: Array<{ match: Match; averageFluencyScore: number | null }>;
+    total: number;
+    page: number;
+    limit: number;
+  }> {
     const qb = this.repository
       .createQueryBuilder('match')
       .innerJoin('match.userMatches', 'userMatch', 'userMatch.userId = :userId', { userId })
@@ -58,16 +65,33 @@ export class MatchRepositoryImpl implements IMatchRepository {
       .addSelect('AVG(rate.fluencyScore)', 'averageFluencyScore')
       .groupBy('match.id')
       .addGroupBy('allUserMatches.id')
-      .addGroupBy('user.id');
+      .addGroupBy('user.id')
+      .orderBy('match.startTime', 'DESC');
+
+    // Paginação
+    qb.skip((page - 1) * limit).take(limit);
+
+    // Total de matches (sem paginação)
+    const total = await this.repository
+      .createQueryBuilder('match')
+      .innerJoin('match.userMatches', 'userMatch', 'userMatch.userId = :userId', { userId })
+      .getCount();
 
     const rawResults = await qb.getRawAndEntities();
 
-    return rawResults.entities.map((match, idx) => ({
+    const data = rawResults.entities.map((match, idx) => ({
       match,
       averageFluencyScore:
         rawResults.raw[idx].averageFluencyScore !== null
           ? parseFloat(rawResults.raw[idx].averageFluencyScore)
           : null,
     }));
+
+    return {
+      data,
+      total,
+      page,
+      limit,
+    };
   }
 }

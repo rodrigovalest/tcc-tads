@@ -1,2 +1,1 @@
-export type MatchMode = "just-chilling" | "word-builder" | "time-attack-vocab" | "who-am-i";
-
+export type MatchMode = "just-chilling" | "word-builder" | "time-attack-vocab" | "who-am-i" | "guess-who";

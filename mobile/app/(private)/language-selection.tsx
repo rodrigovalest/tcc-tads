@@ -77,6 +77,8 @@ export default function LanguageSelection() {
       router.replace("/(private)/just-chilling/duo/waiting");
     } else if (matchMode === "who-am-i" && matchFormat === "duo") {
       router.replace("/(private)/who-am-i/duo/waiting");
+    } else if (matchMode === "guess-who" && matchFormat === "duo") {
+      router.replace("/(private)/guess-who/duo/waiting");
     } else {
       console.warn(`No route found for ${matchMode}/${matchFormat}`);
       router.replace("/(private)/(tabs)/matches");

@@ -82,6 +82,7 @@ describe('AuthService', () => {
         email: user.email,
         username: user.username,
         nationality: user.nationality,
+        photoUri: null,
       });
       expect(result).toBe('signed.jwt.token');
     });
@@ -174,6 +175,7 @@ describe('AuthService', () => {
         email: user.email,
         username: user.username,
         nationality: user.nationality,
+        photoUri: null,
       });
     });
 
