@@ -398,6 +398,40 @@
     "hoursAgo": "há {{hours}} horas",
     "daysAgo": "há {{days}} dias"
   },
+  "profile": {
+    "googleAccount": {
+      "title": "Conta Google",
+      "linkedTo": "Vinculada a",
+      "link": "Vincular Conta Google",
+      "unlink": "Desvincular Conta",
+      "linkDescription": "Vincule sua conta Google para facilitar o acesso"
+    },
+    "googleLink": {
+      "success": {
+        "title": "Conta Google vinculada",
+        "message": "Sua conta Google foi vinculada com sucesso"
+      },
+      "error": {
+        "title": "Falha ao vincular",
+        "message": "Não foi possível vincular a conta Google. Tente novamente"
+      }
+    },
+    "googleUnlink": {
+      "confirm": {
+        "title": "Desvincular Conta Google",
+        "message": "Tem certeza que deseja desvincular sua conta Google?",
+        "action": "Desvincular"
+      },
+      "success": {
+        "title": "Conta Google desvinculada",
+        "message": "Sua conta Google foi desvinculada com sucesso"
+      },
+      "error": {
+        "title": "Falha ao desvincular",
+        "message": "Não foi possível desvincular a conta Google. Tente novamente"
+      }
+    }
+  },
   "chat": {
     "isTyping": "está digitando",
     "messageTooLong": "Mensagem muito longa",
