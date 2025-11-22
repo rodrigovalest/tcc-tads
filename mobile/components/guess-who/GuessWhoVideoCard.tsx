@@ -15,16 +15,6 @@ const GuessWhoVideoCardComponent = ({
   return (
     <View className="items-center p-2 bg-[rgba(217,217,217,0.2)] rounded-2xl">
       <View className="h-28 w-28 rounded-2xl border-appBlack border-2 mb-2 overflow-hidden bg-appBlack items-center justify-center">
-
-        {/* === PLACEHOLDER DE VIDEO (usado no desenvolvimento) === */}
-        <View className="w-full h-full bg-appBlack items-center justify-center">
-          <Text className="text-white text-xs opacity-60">
-            Video Placeholder
-          </Text>
-        </View>
-
-        {/* 
-        === RTCVIEW ORIGINAL (comentado) ===
         {stream ? (
           <RTCView
             pointerEvents="none"
@@ -40,7 +30,7 @@ const GuessWhoVideoCardComponent = ({
             </Text>
           </View>
         )}
-        */}
+       
       </View>
 
       <View className="flex-row items-center mt-1">
