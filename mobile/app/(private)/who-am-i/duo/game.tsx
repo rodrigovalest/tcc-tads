@@ -13,13 +13,13 @@ import CorrectAnswerModal from '../../../../components/CorrectAnswer';
 import AdversaryCorrectAnswerModal from '../../../../components/AdversaryCorrectAnswer';
 import { COLORS } from '../../../../constants/colors';
 
-const TIMER_DURATION = 120; 
+const TIMER_DURATION = 30; 
 
 
 
 export default function WhoAmI() {
   const { user: loggedUser } = useAuthStore();
-  const { buddy, resetMatch } = useMatchStore();
+  const { buddy, resetMatch, isOfferer } = useMatchStore();
   const router = useRouter();
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
   const [showAdversaryCorrect, setShowAdversaryCorrect] = useState(false);
@@ -30,12 +30,36 @@ export default function WhoAmI() {
   const [isGiveUp, setIsGiveUp] = useState<boolean>(false);
   const [adversaryIsGiveUp, setAdversaryIsGiveUp] = useState<boolean>(false);
   const [adversaryIsImageRole, setAdversaryIsImageRole] = useState<boolean>(false);
+  const [isTimeUp, setIsTimeUp] = useState<boolean>(false);
   const [timeLeft, setTimeLeft] = useState(TIMER_DURATION);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const endTimeRef = useRef<number>(0);
   const characterImageRef = useRef<ImageSourcePropType | null>(null);
   const characterNameRef = useRef<string | null>(null);
   
+  const handleTimerSync = (endTime: number) => {
+    endTimeRef.current = endTime;
+    const remainingMs = endTime - Date.now();
+    setTimeLeft(Math.max(0, remainingMs / 1000));
+    
+    if (!timerRef.current) {
+      timerRef.current = setInterval(() => {
+        const remainingMs = endTimeRef.current - Date.now();
+        if (remainingMs <= 0) {
+          setTimeLeft(0);
+          if (timerRef.current) {
+            clearInterval(timerRef.current);
+            timerRef.current = null;
+          }
+          handleGiveUp();
+          return;
+        }
+        const timeLeftSeconds = Math.max(0, remainingMs / 1000);
+        setTimeLeft(timeLeftSeconds);
+      }, 100);
+    }
+  };
+
   const { 
     localStream, 
     remoteStream, 
@@ -57,6 +81,7 @@ export default function WhoAmI() {
     switchRoles,
     myCharacterHints,
     opponentCharacterHints,
+    syncTimerWithOpponent,
   } = useWhoAmIDuo(() => {
     router.replace("/(private)/match-rate-duo");
   }, (adversaryIsGiveUp: boolean = false, adversaryIsImageRole: boolean = false) => {
@@ -85,9 +110,8 @@ export default function WhoAmI() {
     
     setTimeout(() => {
       setShowAdversaryCorrect(false);
-      // Não chama generateNewCharacter aqui - o outro jogador que acertou vai fazer isso
     }, 1000);
-  });
+  }, handleTimerSync);
 
   const formatTime = (seconds: number): string => {
     const positiveSeconds = Math.max(0, seconds);
@@ -99,10 +123,14 @@ export default function WhoAmI() {
   useEffect(() => {
     start();
 
-    // Inicia o timer
     const currentTime = Date.now();
-    endTimeRef.current = currentTime + TIMER_DURATION * 1000;
+    const endTime = currentTime + TIMER_DURATION * 1000;
+    endTimeRef.current = endTime;
     setTimeLeft(TIMER_DURATION);
+
+    if (isOfferer === true) {
+      syncTimerWithOpponent(endTime);
+    }
 
     timerRef.current = setInterval(() => {
       const remainingMs = endTimeRef.current - Date.now();
@@ -110,8 +138,9 @@ export default function WhoAmI() {
         setTimeLeft(0);
         if (timerRef.current) {
           clearInterval(timerRef.current);
+          timerRef.current = null;
         }
-        handleGiveUp(); // chama ao zerar (tempo acabou = give up)
+        handleGiveUp();
         return;
       }
       const timeLeftSeconds = Math.max(0, remainingMs / 1000);
@@ -170,12 +199,29 @@ export default function WhoAmI() {
 
     notifyCorrectAnswer(false); 
 
-    // Reseta o timer (inicia novamente do valor total)
     const currentTime = Date.now();
-    endTimeRef.current = currentTime + TIMER_DURATION * 1000;
+    const endTime = currentTime + TIMER_DURATION * 1000;
+    endTimeRef.current = endTime;
     setTimeLeft(TIMER_DURATION);
+    syncTimerWithOpponent(endTime);
 
-    
+    if (!timerRef.current) {
+      timerRef.current = setInterval(() => {
+        const remainingMs = endTimeRef.current - Date.now();
+        if (remainingMs <= 0) {
+          setTimeLeft(0);
+          if (timerRef.current) {
+            clearInterval(timerRef.current);
+            timerRef.current = null;
+          }
+          handleGiveUp();
+          return;
+        }
+        const timeLeftSeconds = Math.max(0, remainingMs / 1000);
+        setTimeLeft(timeLeftSeconds);
+      }, 100);
+    }
+
     setTimeout(() => {
       setShowCorrectAnswer(false);
       generateNewCharacter();
@@ -201,12 +247,29 @@ export default function WhoAmI() {
 
     notifyCorrectAnswer(true); 
 
-    // Reseta o timer (inicia novamente do valor total)
     const currentTime = Date.now();
-    endTimeRef.current = currentTime + TIMER_DURATION * 1000;
+    const endTime = currentTime + TIMER_DURATION * 1000;
+    endTimeRef.current = endTime;
     setTimeLeft(TIMER_DURATION);
+    syncTimerWithOpponent(endTime);
 
-    
+    if (!timerRef.current) {
+      timerRef.current = setInterval(() => {
+        const remainingMs = endTimeRef.current - Date.now();
+        if (remainingMs <= 0) {
+          setTimeLeft(0);
+          if (timerRef.current) {
+            clearInterval(timerRef.current);
+            timerRef.current = null;
+          }
+          handleGiveUp();
+          return;
+        }
+        const timeLeftSeconds = Math.max(0, remainingMs / 1000);
+        setTimeLeft(timeLeftSeconds);
+      }, 100);
+    }
+
     setTimeout(() => {
       setShowCorrectAnswer(false);
       generateNewCharacter();

@@ -38,7 +38,7 @@ const SESSION_CONSTRAINTS: RTCOfferOptions = {
   offerToReceiveVideo: true,
 };
 
-const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: (isGiveUp: boolean, isImageRole: boolean) => void) => {
+const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: (isGiveUp: boolean, isImageRole: boolean) => void, onTimerSync?: (endTime: number) => void) => {
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
   const peerConnection = useRef<RTCPeerConnection | null>(null);
@@ -225,6 +225,15 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: (isGiveUp:
       webSocketService.emit("who-am-i:duo:sync-roles", {
         matchId,
         isImageRole,
+      });
+    }
+  };
+
+  const syncTimerWithOpponent = (endTime: number) => {
+    if (webSocketService.isConnected()) {
+      webSocketService.emit("who-am-i:duo:sync-timer", {
+        matchId,
+        endTime,
       });
     }
   };
@@ -487,6 +496,10 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: (isGiveUp:
       console.log("[ROLES] ========== PAPÉIS SINCRONIZADOS ==========");
     });
 
+    webSocketService.on("who-am-i:duo:sync-timer", ({ endTime }) => {
+      onTimerSync?.(endTime);
+    });
+
     webSocketService.onDisconnect(() => {
       endCall();
     });
@@ -500,6 +513,7 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: (isGiveUp:
       webSocketService.off("who-am-i:duo:adversary-correct");
       webSocketService.off("who-am-i:duo:switch-roles");
       webSocketService.off("who-am-i:duo:sync-roles");
+      webSocketService.off("who-am-i:duo:sync-timer");
       endCall();
     };
   }, [matchId]);
@@ -537,6 +551,7 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: (isGiveUp:
     switchRoles,
     myCharacterHints: myCharacter?.hints || [],
     opponentCharacterHints: opponentCharacter?.hints || [],
+    syncTimerWithOpponent,
   };
 };
 

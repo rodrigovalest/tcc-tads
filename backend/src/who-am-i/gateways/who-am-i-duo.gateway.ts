@@ -178,6 +178,20 @@ export class WhoAmIDuoGateway implements OnGatewayDisconnect {
     });
   }
 
+  @UseGuards(JwtWsAuthGuard)
+  @SubscribeMessage('who-am-i:duo:sync-timer')
+  handleSyncTimer(
+    @CurrentWsUser() user: IUserJwtPayload,
+    @MessageBody() payload: { matchId: string; endTime: number },
+    @ConnectedSocket() client: Socket
+  ) {
+    this.logger.log(`[sync-timer] User ${user.sub} syncing timer for match ${payload.matchId}`);
+
+    client.to(payload.matchId).emit('who-am-i:duo:sync-timer', {
+      endTime: payload.endTime,
+    });
+  }
+
   async handleDisconnect(client: Socket) {
     await this.whoAmIDuoService.handleDisconnect(client.id);
   }
