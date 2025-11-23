@@ -511,5 +511,20 @@
     "lose": "Você perdeu! Seu oponente fez um palpite correto. O personagem do seu amigo era:",
     "wrong_guess": "Você fez um palpite errado! O jogo continua...",
     "buddy_wrong_guess": "Seu amigo fez o seguinte palpite errado:"
+  },
+
+  "whoAmI": {
+    "title": "Quem sou eu?",
+    "hints": "Dicas",
+    "loading": "Carregando...",
+    "loadingHints": "Carregando dicas...",
+    "waitingForCharacter": "Aguardando personagem...",
+    "guessWhoIs": "Adivinhe quem é",
+    "nailedIt": "Acertou em cheio",
+    "giveUp": "Desistir",
+    "loadingCharacter": "Carregando novo personagem...",
+    "opponentSurrender": "Seu adversário desistiu",
+    "congrats": "Parabéns",
+    "itWas": "era"
   }
 }

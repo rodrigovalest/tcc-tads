@@ -20,9 +20,9 @@ import { COLORS } from "../../../../constants/colors";
 import useGuessWhoDuo from "../../../../hooks/useGuessWhoDuo";
 import useGuessWhoStore from "../../../../store/guess-who-store";
 import { CHARACTERS } from "../../../../constants/guess-who-characters";
-import GuessWhoVideoCardComponent from "../../../../components/guess-who/GuessWhoVideoCard";
+import VideoCardComponent from "../../../../components/VideoCard";
 import GuessWhoTimerComponent from "../../../../components/guess-who/GuessWhoTimer";
-import VideoCallControlsComponent from "../../../../components/guess-who/VideoCallControls";
+import VideoCallControlsComponent from "../../../../components/VideoCallControls";
 import GuessWhoModal from "../../../../components/guess-who/GuessWhoModal";
 import GuessWhoCharacter from "../../../../components/guess-who/GuessWhoCharacter";
 import IGuessWhoCharacter from "../../../../models/interfaces/guess-who/guess-who-character";
@@ -191,7 +191,7 @@ export default function GuessWhoDuoGame() {
           {/* --- Header --- */}
           <View className="flex-row justify-between items-center w-full px-6 pt-8">
             {/* Player 1 */}
-            <GuessWhoVideoCardComponent
+            <VideoCardComponent
               stream={localStream}
               name={loggedUser?.username || t("common.you")}
               countryFlagEmoji={getCountryData(loggedUser!.nationality)?.flag || "🏳️"}
@@ -206,7 +206,7 @@ export default function GuessWhoDuoGame() {
             )}
 
             {/* Player 2 */}
-            <GuessWhoVideoCardComponent
+            <VideoCardComponent
               stream={remoteStream}
               name={buddy?.username || t("common.opponent")}
               countryFlagEmoji={getCountryData(buddy!.nationality)?.flag || "🏳️"}

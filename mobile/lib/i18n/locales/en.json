@@ -588,5 +588,20 @@
     "loseDescription": "Your opponent guessed your character correctly. Your opponent's character was:",
     "wrong_guess": "Your guess was incorrect! The game continues...",
     "buddy_wrong_guess": "Your opponent made the following incorrect guess:"
+  },
+
+  "whoAmI": {
+    "title": "Who Am I?",
+    "hints": "Hints",
+    "loading": "Loading...",
+    "loadingHints": "Loading hints...",
+    "waitingForCharacter": "Waiting for character...",
+    "guessWhoIs": "Guess who this is",
+    "nailedIt": "Nailed it",
+    "giveUp": "Give up",
+    "loadingCharacter": "Loading a new character...",
+    "opponentSurrender": "Your adversary surrendered",
+    "congrats": "Congrats",
+    "itWas": "it was"
   }
 }

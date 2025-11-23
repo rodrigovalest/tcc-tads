@@ -1,17 +1,17 @@
 import { View, Image, Text } from "react-native";
 import { RTCView, MediaStream } from "react-native-webrtc";
 
-interface GuessWhoVideoCardProps {
+interface IVideoCardProps {
   stream: any;
   name: string;
   countryFlagEmoji: string;
 }
 
-const GuessWhoVideoCardComponent = ({
+const VideoCardComponent = ({
   stream,
   name,
   countryFlagEmoji,
-}: GuessWhoVideoCardProps) => {
+}: IVideoCardProps) => {
   return (
     <View className="items-center p-2 bg-[rgba(217,217,217,0.2)] rounded-2xl">
       <View className="h-28 w-28 rounded-2xl border-appBlack border-2 mb-2 overflow-hidden bg-appBlack items-center justify-center">
@@ -40,4 +40,4 @@ const GuessWhoVideoCardComponent = ({
   );
 };
 
-export default GuessWhoVideoCardComponent;
+export default VideoCardComponent;
