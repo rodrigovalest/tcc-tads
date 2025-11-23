@@ -30,12 +30,34 @@ export default function History() {
     }
   }, [isError, error]);
 
-  // Flatten pages defensively and filter out undefined/null items without id
-  const matchHistoryList = (
-    data?.pages.flatMap((page) => page?.data ?? []) || []
-  ).filter(
-    (item): item is { id: string } => !!item && typeof item.id !== "undefined"
-  );
+  const matchHistoryList =
+    data?.pages.flatMap((page) => {
+      if (Array.isArray(page)) return page;
+      return page?.data ?? [];
+    }) || [];
+
+  useEffect(() => {
+    if (!data) {
+      console.log("[History] No data yet");
+      return;
+    }
+    console.log("[History] pages:", data.pages.length);
+    data.pages.forEach((p, idx) => {
+      console.log(
+        `[History] page ${idx + 1} -> count: ${
+          p?.data?.length ?? 0
+        }, page meta: {page: ${p?.page}, total: ${p?.total}, limit: ${
+          p?.limit
+        }}`
+      );
+    });
+    console.log("[History] flattened count:", matchHistoryList.length);
+    if (matchHistoryList[0]) {
+      const sample = matchHistoryList[0];
+      console.log("[History] sample item keys:", Object.keys(sample));
+      console.log("[History] sample item:", sample);
+    }
+  }, [data]);
 
   if (isLoading) {
     return (
@@ -54,7 +76,11 @@ export default function History() {
         }
         showsVerticalScrollIndicator={false}
         onEndReached={() => {
-          if (hasNextPage) fetchNextPage();
+          console.log("[History] onEndReached; hasNextPage=", hasNextPage);
+          if (hasNextPage) {
+            console.log("[History] fetching next page...");
+            fetchNextPage();
+          }
         }}
         onEndReachedThreshold={0.5}
         ListHeaderComponent={() => (

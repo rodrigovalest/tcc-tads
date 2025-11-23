@@ -213,7 +213,7 @@ const VoiceInput: React.FC<VoiceInputProps> = ({
         </View>
 
         {/* Botões de controle */}
-        <View className="flex-row items-center space-x-3">
+        <View className="flex-row items-center space-x-3 gap-2">
           {/* Botão do microfone */}
           <TouchableOpacity
             onPress={handleListening}

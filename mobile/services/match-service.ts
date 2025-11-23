@@ -7,13 +7,37 @@ import ICompleteSoloMatchResponse from "../models/responses/complete-solo-match-
 
 const matchService = {
   getMatchHistory: async (
-    page: number | unknown = 1, 
+    page: number | unknown = 1,
     limit: number | unknown = 10
   ): Promise<IMatchHistoryResponse> => {
     const response = await api.get<IMatchHistoryResponse>("/matches", {
       params: { page, limit },
     });
-    return response.data;
+    let data = response.data as any;
+
+    if (Array.isArray(data)) {
+      data = {
+        data,
+        total: data.length,
+        page: Number(page) || 1,
+        limit: Number(limit) || data.length,
+      } satisfies IMatchHistoryResponse;
+    } else if (!("page" in data) || !("total" in data) || !("limit" in data)) {
+      data = {
+        data: data.data ?? [],
+        total: data.data?.length ?? 0,
+        page: Number(page) || 1,
+        limit: Number(limit) || (data.data?.length ?? 0),
+      } satisfies IMatchHistoryResponse;
+    }
+
+    try {
+      console.log(
+        `[matchService] normalized history page=${data.page} limit=${data.limit} items=${data.data.length} total=${data.total}`
+      );
+    } catch {}
+
+    return data as IMatchHistoryResponse;
   },
 
   createSoloMatch: async (

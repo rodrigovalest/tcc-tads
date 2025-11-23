@@ -57,7 +57,7 @@ const WordInput: React.FC<WordInputProps> = ({
           {title || t("wordBuilder.enterWord")}
         </Text>
 
-        <View className="flex-row items-center space-x-3">
+        <View className="flex-row items-center space-x-3 gap-2">
           {/* Input de texto */}
           <View className="flex-1">
             <TextInput
