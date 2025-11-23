@@ -4,13 +4,13 @@ import { RTCView, MediaStream } from "react-native-webrtc";
 interface GuessWhoVideoCardProps {
   stream: any;
   name: string;
-  countryFlag: any;
+  countryFlagEmoji: string;
 }
 
 const GuessWhoVideoCardComponent = ({
   stream,
   name,
-  countryFlag,
+  countryFlagEmoji,
 }: GuessWhoVideoCardProps) => {
   return (
     <View className="items-center p-2 bg-[rgba(217,217,217,0.2)] rounded-2xl">
@@ -34,11 +34,7 @@ const GuessWhoVideoCardComponent = ({
       </View>
 
       <View className="flex-row items-center mt-1">
-        <Image
-          source={countryFlag}
-          className="w-7 h-5 mr-2 rounded-lg"
-        />
-        <Text className="text-white text-xl font-nunito-medium">{name}</Text>
+        <Text className="text-white text-xl font-nunito-medium">{`${countryFlagEmoji} ${name}`}</Text>
       </View>
     </View>
   );
