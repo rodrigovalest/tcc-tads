@@ -38,8 +38,12 @@ const GameHeader: React.FC<GameHeaderProps> = ({
   const languageFlag = getMatchLanguageFlag(gameLanguage);
 
   return (
-    <View className="w-full px-4 pt-2">
-      <View className="w-full flex-row justify-between items-center mb-3">
+    <View
+      className="w-full px-4 pt-2 flex-row items-center"
+      style={{ position: "relative" }}
+    >
+      {/* Left (close button) */}
+      <View style={{ width: 45 }}>
         <IconButton
           iconName="close"
           onPress={onExit}
@@ -48,8 +52,8 @@ const GameHeader: React.FC<GameHeaderProps> = ({
           testID="exit-game-button"
         />
       </View>
-
-      <View className="w-full flex-row items-center justify-center">
+      {/* Center (timer / info) */}
+      <View className="flex-1 items-center">
         <View className="bg-appLightGrey rounded-xl px-6 py-3 flex-row items-center border-2 border-appDarkGrey">
           <Ionicons
             name="time-outline"
@@ -68,6 +72,8 @@ const GameHeader: React.FC<GameHeaderProps> = ({
           )}
         </View>
       </View>
+      {/* Right spacer to keep center alignment */}
+      <View style={{ width: 40 }} />
     </View>
   );
 };

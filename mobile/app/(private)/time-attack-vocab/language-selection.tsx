@@ -12,17 +12,14 @@ import { MatchLanguage } from "../../../models/types/match-language.type";
 
 import Button from "../../../components/Button";
 import MatchLanguageSelector from "../../../components/MatchLanguageSelector";
-import InputModeSelector from "../../../components/InputModeSelector";
 import VocabularyLevelSelector from "../../../components/VocabularyLevelSelector";
 
 export default function TimeAttackVocabLanguageSelection() {
   const {
     sourceLanguage,
     targetLanguage,
-    inputMode,
     level,
     setTargetLanguage,
-    setInputMode,
     setLevel,
     resetTimeAttackVocab,
   } = useTimeAttackVocabStore();
@@ -49,7 +46,7 @@ export default function TimeAttackVocabLanguageSelection() {
   };
 
   const onPlay = () => {
-    if (!sourceLanguage || !targetLanguage || !inputMode) {
+    if (!sourceLanguage || !targetLanguage) {
       Toast.show({
         type: "error",
         text1: t("validation.allFieldsRequired"),
@@ -121,14 +118,6 @@ export default function TimeAttackVocabLanguageSelection() {
           </View>
 
           <Text className="text-xl font-nunito-bold text-appBlack mb-3">
-            {t("timeAttackVocab.selectInputMode")}
-          </Text>
-
-          <View className="mb-8">
-            <InputModeSelector selected={inputMode} onSelect={setInputMode} />
-          </View>
-
-          <Text className="text-xl font-nunito-bold text-appBlack mb-3">
             {t("timeAttackVocab.selectLevel") || "Select vocabulary level"}
           </Text>
           <View className="mb-8">
@@ -153,9 +142,7 @@ export default function TimeAttackVocabLanguageSelection() {
           <Button
             title={t("common.play")}
             onPress={onPlay}
-            disabled={
-              !sourceLanguage || !targetLanguage || !inputMode || !level
-            }
+            disabled={!sourceLanguage || !targetLanguage || !level}
             bgColor="bg-black"
             textColor="text-white"
             borderColor="border-black"

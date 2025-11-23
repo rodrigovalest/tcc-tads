@@ -40,7 +40,7 @@ const ExitGameModal: React.FC<ExitGameModalProps> = ({
             {t("wordBuilder.confirmExit")}
           </Text>
 
-          <View className="flex-row space-x-3">
+          <View className="flex-row space-x-3 gap-4">
             <Button
               title={t("wordBuilder.no")}
               onPress={onCancel}

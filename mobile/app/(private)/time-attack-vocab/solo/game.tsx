@@ -122,7 +122,7 @@ export default function TimeAttackVocabGame() {
           </View>
 
           <View className="flex-1 px-6 justify-center">
-            <View className="bg-white rounded-xl p-8 mb-8 border-2 border-appDarkGrey shadow-lg">
+            <View className="bg-white rounded-xl p-4 mb-8 border-2 border-appDarkGrey shadow-lg">
               <Text className="text-lg font-nunito-semibold text-appMediumGrey text-center mb-2">
                 {t("timeAttackVocab.translateThis")}
               </Text>

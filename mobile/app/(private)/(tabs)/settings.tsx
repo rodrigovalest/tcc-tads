@@ -20,8 +20,8 @@ export default function Settings() {
 
   const loadGoogleLinkedStatus = async () => {
     try {
-      const user = await authService.getGoogleUserInfo();
-      setGoogleEmail(user?.email || null);
+      const status = await authService.getGoogleLinkStatus();
+      setGoogleEmail(status.linked ? status.email ?? null : null);
     } catch (err) {
       setGoogleEmail(null);
     } finally {
@@ -81,9 +81,16 @@ export default function Settings() {
               color="#4285F4"
               style={{ marginRight: 12 }}
             />
-            <Text className="text-lg text-appBlack font-nunito-bold">
+            <Text className="text-lg text-appBlack font-nunito-bold mr-3">
               {t("profile.googleAccount.title")}
             </Text>
+            {googleEmail && (
+              <View className="px-2 py-1 rounded-full bg-green-100 border border-green-200">
+                <Text className="text-[11px] text-green-700 font-nunito-semibold">
+                  {t("profile.googleAccount.linkedStatus")}
+                </Text>
+              </View>
+            )}
           </View>
           {checkingGoogle ? (
             <View className="flex-row items-center">

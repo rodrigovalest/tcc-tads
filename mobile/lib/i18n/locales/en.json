@@ -262,6 +262,7 @@
     "letter": "Letter",
     "syllable": "Syllable",
     "wordsFound": "Words found",
+    "scrollHint": "Swipe sideways for more",
     "score": "Score",
     "correctWords": "Correct words",
     "incorrectWords": "Incorrect words",
@@ -369,6 +370,7 @@
     "googleAccount": {
       "title": "Google Account",
       "linkedTo": "Linked to",
+      "linkedStatus": "Linked",
       "link": "Link Google Account",
       "unlink": "Unlink Account",
       "linkDescription": "Link your Google account for easier sign-in"

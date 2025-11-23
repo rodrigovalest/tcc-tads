@@ -106,6 +106,11 @@ class AuthService {
     }
   }
 
+  async getGoogleLinkStatus(): Promise<{ linked: boolean; email?: string }> {
+    const response = await api.get("/auth/google/status");
+    return response.data;
+  }
+
   async register(data: RegisterRequest): Promise<any> {
     if (data.photo) {
       return this.registerWithPhoto(data);
