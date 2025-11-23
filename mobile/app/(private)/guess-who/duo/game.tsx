@@ -20,9 +20,9 @@ import { COLORS } from "../../../../constants/colors";
 import useGuessWhoDuo from "../../../../hooks/useGuessWhoDuo";
 import useGuessWhoStore from "../../../../store/guess-who-store";
 import { CHARACTERS } from "../../../../constants/guess-who-characters";
-import GuessWhoVideoCardComponent from "../../../../components/guess-who/GuessWhoVideoCard";
+import VideoCardComponent from "../../../../components/VideoCard";
 import GuessWhoTimerComponent from "../../../../components/guess-who/GuessWhoTimer";
-import VideoCallControlsComponent from "../../../../components/guess-who/VideoCallControls";
+import VideoCallControlsComponent from "../../../../components/VideoCallControls";
 import GuessWhoModal from "../../../../components/guess-who/GuessWhoModal";
 import GuessWhoCharacter from "../../../../components/guess-who/GuessWhoCharacter";
 import IGuessWhoCharacter from "../../../../models/interfaces/guess-who/guess-who-character";
@@ -31,6 +31,7 @@ import { GuessWhoYourCharacterCardComponent } from "../../../../components/guess
 import GuessWhoAnswerModal from "../../../../components/guess-who/GuessWhoAnswerModal";
 import GuessWhoResultModal from "../../../../components/guess-who/GuessWhoResultModal";
 import useI18n from "../../../../hooks/useI18n";
+import { getCountryData } from "../../../../utils/country-language-utils";
 
 export default function GuessWhoDuoGame() {
   const { t } = useI18n();
@@ -123,15 +124,10 @@ export default function GuessWhoDuoGame() {
                     />
                   )}
                 </View>
-
-                <Image
-                  source={require("../../../../assets/images/flags/brazil.png")}
-                  className="w-8 h-8 rounded-full absolute -top-2 -right-2 border-2 border-white"
-                />
               </View>
 
               <Text className="my-2 text-appBgWhite text-xl font-nunito-medium">
-                {loggedUser?.username || "João"}
+                {`${getCountryData(loggedUser!.nationality)?.flag || "🏳️"} ${loggedUser?.username || t("common.you")}`}
               </Text>
             </View>
 
@@ -155,15 +151,10 @@ export default function GuessWhoDuoGame() {
                     />
                   )}
                 </View>
-
-                <Image
-                  source={require("../../../../assets/images/flags/brazil.png")}
-                  className="w-8 h-8 rounded-full absolute -top-2 -right-2 border-2 border-white"
-                />
               </View>
 
               <Text className="my-2 text-appBgWhite text-xl font-nunito-medium">
-                {buddy?.username || "Adam"}
+                {`${getCountryData(buddy!.nationality)?.flag || "🏳️"} ${buddy?.username || t("common.opponent")}`}
               </Text>
             </View>
           </View>
@@ -200,10 +191,10 @@ export default function GuessWhoDuoGame() {
           {/* --- Header --- */}
           <View className="flex-row justify-between items-center w-full px-6 pt-8">
             {/* Player 1 */}
-            <GuessWhoVideoCardComponent
+            <VideoCardComponent
               stream={localStream}
               name={loggedUser?.username || t("common.you")}
-              countryFlag={require("../../../../assets/images/flags/brazil.png")}
+              countryFlagEmoji={getCountryData(loggedUser!.nationality)?.flag || "🏳️"}
             />
 
             {/* Timer */}
@@ -215,10 +206,10 @@ export default function GuessWhoDuoGame() {
             )}
 
             {/* Player 2 */}
-            <GuessWhoVideoCardComponent
+            <VideoCardComponent
               stream={remoteStream}
               name={buddy?.username || t("common.opponent")}
-              countryFlag={require("../../../../assets/images/flags/brazil.png")}
+              countryFlagEmoji={getCountryData(buddy!.nationality)?.flag || "🏳️"}
             />
           </View>
 
