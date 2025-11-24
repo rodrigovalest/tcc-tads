@@ -53,9 +53,7 @@ export default function History() {
         }
         showsVerticalScrollIndicator={false}
         onEndReached={() => {
-          console.log("[History] onEndReached; hasNextPage=", hasNextPage);
           if (hasNextPage) {
-            console.log("[History] fetching next page...");
             fetchNextPage();
           }
         }}

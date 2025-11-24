@@ -31,12 +31,6 @@ const matchService = {
       } satisfies IMatchHistoryResponse;
     }
 
-    try {
-      console.log(
-        `[matchService] normalized history page=${data.page} limit=${data.limit} items=${data.data.length} total=${data.total}`
-      );
-    } catch {}
-
     return data as IMatchHistoryResponse;
   },
 
