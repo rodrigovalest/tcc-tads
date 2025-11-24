@@ -45,20 +45,18 @@ export default function WhoAmI() {
   const [adversaryIsGiveUp, setAdversaryIsGiveUp] = useState<boolean>(false);
   const [adversaryIsImageRole, setAdversaryIsImageRole] =
     useState<boolean>(false);
-  const [timeLeft, setTimeLeft] = useState(100); // Valor inicial, será atualizado pelo timer sincronizado
-  const [currentRound, setCurrentRound] = useState<number>(1); // Contador de rodadas (começa na 1ª rodada)
+  const [timeLeft, setTimeLeft] = useState(100); 
+  const [currentRound, setCurrentRound] = useState<number>(1); 
   const currentRoundRef = useRef<number>(1); // Ref para ter acesso ao valor mais atualizado do currentRound
   const [shouldEndGame, setShouldEndGame] = useState<boolean>(false); // Flag para encerrar o jogo após modais fecharem
-  const MAX_ROUNDS = 6; // Limite máximo de rodadas
+  const MAX_ROUNDS = 6; 
   
-  // Log para debug do contador de rodadas
+  
   useEffect(() => {
     console.log("[ROUND_COUNTER] Rodada atual:", currentRound, "de", MAX_ROUNDS);
-    // Atualiza a ref sempre que o currentRound mudar
     currentRoundRef.current = currentRound;
   }, [currentRound]);
 
-  // Monitora quando os modais fecham para encerrar o jogo se necessário
   useEffect(() => {
     if (shouldEndGame && !showCorrectAnswer && !showAdversaryCorrect) {
       console.log("[GAME_ENDED] Modais fecharam, encerrando jogo agora");
@@ -143,38 +141,30 @@ export default function WhoAmI() {
 
       setAdversaryCorrectImage(imageToShow);
       setAdversaryCorrectCharacterName(characterNameToShow);
-      // Se o adversário desistiu, precisamos saber qual era o papel dele para mostrar a mensagem correta
-      // Se adversaryIsImageRole é true, significa que o adversário tinha a imagem, então eu tinha as dicas
-      // Se adversaryIsImageRole é false, significa que o adversário tinha as dicas, então eu tinha a imagem
       setAdversaryIsGiveUp(adversaryIsGiveUp);
       setAdversaryIsImageRole(adversaryIsImageRole);
       setShowAdversaryCorrect(true);
 
       setTimeout(() => {
         setShowAdversaryCorrect(false);
-        // Não chama generateNewCharacter aqui - o outro jogador que acertou vai fazer isso
+     
       }, 1000);
     },
     () => {
-      // Callback quando uma nova rodada começa (quando o adversário inicia ou quando eu inicio)
-      // Incrementa o contador de rodadas - esta é a ÚNICA forma de incrementar o contador
+     
       setCurrentRound((prev) => {
         const newRound = prev + 1;
         console.log("[GAME] Nova rodada iniciada - rodada", newRound, "de", MAX_ROUNDS, "(anterior era", prev, ")");
         
-        // Não encerramos aqui - deixamos a rodada atual terminar
-        // O encerramento será verificado quando o jogador tentar acertar/desistir
-        // e verificar se currentRound >= MAX_ROUNDS
         
         return newRound;
       });
     },
     () => {
-      // Callback quando o oponente notifica que o jogo deve encerrar
+   
       console.log("[GAME_ENDED] Recebido callback de encerramento do oponente");
-      // Marca que o jogo deve encerrar após os modais fecharem
       setShouldEndGame(true);
-      // Se não houver modais abertos, o useEffect vai encerrar imediatamente
+      
     }
   );
 
@@ -200,24 +190,18 @@ export default function WhoAmI() {
 
     console.log("[TIMER] Inicializando timer sincronizado - timestamp:", timerStartTimestamp, "duration:", timerDurationMs);
 
-    // Limpa o timer anterior se existir
     if (timerRef.current) {
       clearInterval(timerRef.current);
     }
 
-    // Função para calcular o tempo restante baseado no timestamp do servidor
-    // Usa o serverOffset para compensar diferenças de relógio e delay de rede
     const calculateTimeLeft = () => {
       const clientNow = Date.now();
-      // Converte o tempo do cliente para o tempo do servidor usando o offset
-      // Se o servidor está X ms atrás do cliente, então serverTime = clientTime - offset
+      
       const serverNow = clientNow - serverOffset;
-      // Calcula quanto tempo passou desde o início do timer no servidor
       const elapsed = serverNow - timerStartTimestamp;
       const remainingMs = timerDurationMs - elapsed;
       
-      // Log para depuração (apenas ocasionalmente)
-      if (Math.random() < 0.01) { // Log apenas 1% das vezes para não poluir
+      if (Math.random() < 0.01) { 
         console.log("[TIMER_CALC] timestamp:", timerStartTimestamp, "clientNow:", clientNow, "serverNow:", serverNow, "offset:", serverOffset, "elapsed:", elapsed, "remaining:", remainingMs);
       }
       
@@ -226,12 +210,12 @@ export default function WhoAmI() {
         if (timerRef.current) {
           clearInterval(timerRef.current);
         }
-        // Usa a ref para ter o valor mais atualizado do currentRound
+       
         const roundAtTimerEnd = currentRoundRef.current;
         console.log("[TIMER] Timer chegou a zero na rodada", roundAtTimerEnd, "- considerando como rodada completada");
         console.log("[TIMER] Verificando se deve encerrar - currentRound:", roundAtTimerEnd, "MAX_ROUNDS:", MAX_ROUNDS);
-        // Chama handleGiveUp que vai verificar o limite usando o estado atualizado
-        handleGiveUp(); // chama ao zerar (tempo acabou = give up, conta como rodada completada)
+  
+        handleGiveUp(); 
         return;
       }
       
@@ -239,10 +223,10 @@ export default function WhoAmI() {
       setTimeLeft(timeLeftSeconds);
     };
 
-    // Calcula imediatamente
+   
     calculateTimeLeft();
 
-    // Atualiza a cada 100ms para garantir precisão
+   
     timerRef.current = setInterval(calculateTimeLeft, 100);
 
     return () => {
@@ -250,10 +234,10 @@ export default function WhoAmI() {
         clearInterval(timerRef.current);
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+   
   }, [timerStartTimestamp, timerDurationMs, serverOffset]);
 
-  // Debug: monitora mudanças no personagem e papel
+ 
   useEffect(() => {
     console.log("[GAME] myCharacter mudou:", myCharacter?.name);
     console.log("[GAME] myCharacter hints:", myCharacter?.hints?.length || 0);
@@ -286,7 +270,7 @@ export default function WhoAmI() {
     console.log("[NAILED_IT] isImageRole:", isImageRole);
     console.log("[NAILED_IT] myCharacter hints:", myCharacter?.hints);
 
-    // Mostra a imagem do personagem atual (que ambos estão tentando adivinhar)
+   
     const imageToShow =
       myCharacterImage ||
       myCharacter?.image ||
@@ -328,7 +312,7 @@ export default function WhoAmI() {
   };
 
   const handleGiveUp = () => {
-    // Debug: verificar os personagens no momento do clique
+   
     console.log("[GIVE_UP] myCharacter:", myCharacter?.name);
     console.log("[GIVE_UP] isImageRole:", isImageRole);
     console.log("[GIVE_UP] myCharacter hints:", myCharacter?.hints);
