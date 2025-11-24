@@ -110,10 +110,20 @@ export class WhoAmIDuoGateway implements OnGatewayDisconnect {
   ) {
     this.logger.log(`[new-round] User ${user.sub} started new round for match ${payload.matchId}`);
 
-    // Notifica o oponente que uma nova rodada foi iniciada
-    client.to(payload.matchId).emit('who-am-i:duo:new-round', {
+    const timerStartTimestamp = Date.now();
+    const timerDurationMs = 100000; 
+    const serverCurrentTimestamp = Date.now();
+
+    const timerData = {
       from: user.sub,
-    });
+      timerStartTimestamp: timerStartTimestamp,
+      timerDurationMs: timerDurationMs,
+      serverCurrentTimestamp: serverCurrentTimestamp,
+    };
+
+    client.to(payload.matchId).emit('who-am-i:duo:new-round', timerData);
+
+    client.emit('who-am-i:duo:new-round', timerData);
   }
 
   @UseGuards(JwtWsAuthGuard)
@@ -189,6 +199,11 @@ export class WhoAmIDuoGateway implements OnGatewayDisconnect {
     language: MatchLanguage,
     match: Match
   }) {
+   
+    const timerStartTimestamp = Date.now();
+    const timerDurationMs = 100000; 
+    const serverCurrentTimestamp = Date.now();
+
     const notifyUser = (user: UserQueue, isOfferer: boolean, pair: UserQueue) => {
       const socket = this.server.sockets.sockets.get(user.socketId);
 
@@ -207,11 +222,15 @@ export class WhoAmIDuoGateway implements OnGatewayDisconnect {
             userId: pair.userId,
             username: pair.username,
             nationality: pair.nationality,
-          }
+          },
+          timerStartTimestamp: timerStartTimestamp,
+          timerDurationMs: timerDurationMs,
+          serverCurrentTimestamp: serverCurrentTimestamp, // Mesmo timestamp para ambos os jogadores
         });
       }
     };
 
+    // Notifica ambos os usuários com o mesmo timestamp de início
     notifyUser(payload.user1, true, payload.user2);
     notifyUser(payload.user2, false, payload.user1);
   }

@@ -10,5 +10,7 @@ export default interface IMatchmakingResponse {
   language: MatchLanguage;
   matchId: string;
   isOfferer: boolean;
-  buddy: IUserBuddy
+  buddy: IUserBuddy;
+  timerStartTimestamp?: number;
+  timerDurationMs?: number;
 }

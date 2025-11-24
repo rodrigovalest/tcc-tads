@@ -25,8 +25,6 @@ import { getCountryData } from "../../../../utils/country-language-utils";
 import useI18n from "../../../../hooks/useI18n";
 import VideoCallControlsComponent from "../../../../components/VideoCallControls";
 
-const TIMER_DURATION = 120;
-
 export default function WhoAmI() {
   const { t } = useI18n();
   const { user: loggedUser } = useAuthStore();
@@ -47,9 +45,8 @@ export default function WhoAmI() {
   const [adversaryIsGiveUp, setAdversaryIsGiveUp] = useState<boolean>(false);
   const [adversaryIsImageRole, setAdversaryIsImageRole] =
     useState<boolean>(false);
-  const [timeLeft, setTimeLeft] = useState(TIMER_DURATION);
+  const [timeLeft, setTimeLeft] = useState(100); // Valor inicial, será atualizado pelo timer sincronizado
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const endTimeRef = useRef<number>(0);
   const characterImageRef = useRef<ImageSourcePropType | null>(null);
   const characterNameRef = useRef<string | null>(null);
 
@@ -74,6 +71,9 @@ export default function WhoAmI() {
     switchRoles,
     myCharacterHints,
     opponentCharacterHints,
+    timerStartTimestamp,
+    timerDurationMs,
+    serverOffset,
   } = useWhoAmIDuo(
     () => {
       router.replace("/(private)/match-rate-duo");
@@ -147,14 +147,38 @@ export default function WhoAmI() {
 
   useEffect(() => {
     start();
+  }, []);
 
-    // Inicia o timer
-    const currentTime = Date.now();
-    endTimeRef.current = currentTime + TIMER_DURATION * 1000;
-    setTimeLeft(TIMER_DURATION);
+  // Timer sincronizado baseado no timestamp do servidor
+  useEffect(() => {
+    if (timerStartTimestamp === null || timerDurationMs === 0) {
+      console.log("[TIMER] Timer não inicializado ainda - timestamp:", timerStartTimestamp, "duration:", timerDurationMs);
+      return;
+    }
 
-    timerRef.current = setInterval(() => {
-      const remainingMs = endTimeRef.current - Date.now();
+    console.log("[TIMER] Inicializando timer sincronizado - timestamp:", timerStartTimestamp, "duration:", timerDurationMs);
+
+    // Limpa o timer anterior se existir
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+    }
+
+    // Função para calcular o tempo restante baseado no timestamp do servidor
+    // Usa o serverOffset para compensar diferenças de relógio e delay de rede
+    const calculateTimeLeft = () => {
+      const clientNow = Date.now();
+      // Converte o tempo do cliente para o tempo do servidor usando o offset
+      // Se o servidor está X ms atrás do cliente, então serverTime = clientTime - offset
+      const serverNow = clientNow - serverOffset;
+      // Calcula quanto tempo passou desde o início do timer no servidor
+      const elapsed = serverNow - timerStartTimestamp;
+      const remainingMs = timerDurationMs - elapsed;
+      
+      // Log para depuração (apenas ocasionalmente)
+      if (Math.random() < 0.01) { // Log apenas 1% das vezes para não poluir
+        console.log("[TIMER_CALC] timestamp:", timerStartTimestamp, "clientNow:", clientNow, "serverNow:", serverNow, "offset:", serverOffset, "elapsed:", elapsed, "remaining:", remainingMs);
+      }
+      
       if (remainingMs <= 0) {
         setTimeLeft(0);
         if (timerRef.current) {
@@ -163,17 +187,24 @@ export default function WhoAmI() {
         handleGiveUp(); // chama ao zerar (tempo acabou = give up)
         return;
       }
+      
       const timeLeftSeconds = Math.max(0, remainingMs / 1000);
       setTimeLeft(timeLeftSeconds);
-    }, 100);
+    };
+
+    // Calcula imediatamente
+    calculateTimeLeft();
+
+    // Atualiza a cada 100ms para garantir precisão
+    timerRef.current = setInterval(calculateTimeLeft, 100);
 
     return () => {
-      endCall();
       if (timerRef.current) {
         clearInterval(timerRef.current);
       }
     };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timerStartTimestamp, timerDurationMs, serverOffset]);
 
   // Debug: monitora mudanças no personagem e papel
   useEffect(() => {
@@ -227,10 +258,8 @@ export default function WhoAmI() {
 
     notifyCorrectAnswer(false);
 
-    // Reseta o timer (inicia novamente do valor total)
-    const currentTime = Date.now();
-    endTimeRef.current = currentTime + TIMER_DURATION * 1000;
-    setTimeLeft(TIMER_DURATION);
+    // O timer será resetado automaticamente quando o servidor enviar o novo timestamp
+    // via evento who-am-i:duo:new-round
 
     setTimeout(() => {
       setShowCorrectAnswer(false);
@@ -263,10 +292,8 @@ export default function WhoAmI() {
 
     notifyCorrectAnswer(true);
 
-    // Reseta o timer (inicia novamente do valor total)
-    const currentTime = Date.now();
-    endTimeRef.current = currentTime + TIMER_DURATION * 1000;
-    setTimeLeft(TIMER_DURATION);
+    // O timer será resetado automaticamente quando o servidor enviar o novo timestamp
+    // via evento who-am-i:duo:new-round
 
     setTimeout(() => {
       setShowCorrectAnswer(false);

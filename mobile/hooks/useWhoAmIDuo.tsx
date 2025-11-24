@@ -43,7 +43,21 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: (isGiveUp:
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
   const peerConnection = useRef<RTCPeerConnection | null>(null);
 
-  const { matchId, isOfferer, matchLanguage } = useMatchStore();
+  const { matchId, isOfferer, matchLanguage, timerStartTimestamp: storeTimerStart, timerDurationMs: storeTimerDuration, timerServerOffset: storeServerOffset, setTimer } = useMatchStore();
+  
+  // Timer sincronizado - usa o store como fonte de verdade
+  const [timerStartTimestamp, setTimerStartTimestamp] = useState<number | null>(storeTimerStart);
+  const [timerDurationMs, setTimerDurationMs] = useState<number>(storeTimerDuration);
+  const [serverOffset, setServerOffset] = useState<number>(storeServerOffset);
+  
+  // Sincroniza com o store quando mudar
+  useEffect(() => {
+    if (storeTimerStart !== null) {
+      setTimerStartTimestamp(storeTimerStart);
+    }
+    setTimerDurationMs(storeTimerDuration);
+    setServerOffset(storeServerOffset);
+  }, [storeTimerStart, storeTimerDuration, storeServerOffset]);
   
   // Obtém os personagens com as dicas no idioma selecionado
   const getCharacters = (): WhoAmICharacter[] => {
@@ -365,6 +379,29 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: (isGiveUp:
     console.log("[WS_LISTENERS] WebSocket conectado:", webSocketService.isConnected());
     console.log("[WS_LISTENERS] isOfferer:", isOfferer);
 
+    // Listener para receber o timer sincronizado quando a partida começa
+    webSocketService.on("who-am-i:duo:match-started", ({ timerStartTimestamp: startTimestamp, timerDurationMs: duration, serverCurrentTimestamp: serverTime }) => {
+      if (startTimestamp !== undefined && duration !== undefined) {
+        console.log("[TIMER] Recebendo timer sincronizado do servidor:", startTimestamp, duration);
+        
+        // Calcula o offset entre o relógio do servidor e do cliente
+        // Isso compensa diferenças de relógio e delay de rede
+        let calculatedOffset = 0;
+        if (serverTime !== undefined) {
+          const clientReceiveTime = Date.now();
+          // Offset = diferença entre o tempo do cliente e o tempo do servidor
+          // Quando o servidor diz que são X, o cliente está em X + offset
+          calculatedOffset = clientReceiveTime - serverTime;
+          console.log("[TIMER] serverTime:", serverTime, "clientTime:", clientReceiveTime, "offset:", calculatedOffset, "ms");
+        }
+        
+        setTimer(startTimestamp, duration, calculatedOffset); // Atualiza o store com o offset
+        setTimerStartTimestamp(startTimestamp);
+        setTimerDurationMs(duration);
+        setServerOffset(calculatedOffset);
+      }
+    });
+
     webSocketService.on("who-am-i:duo:webrtc:offer", async ({ offer }) => {
       if (!peerConnection.current)
         await initializeConnection();
@@ -448,10 +485,28 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: (isGiveUp:
       }
     });
 
-    webSocketService.on("who-am-i:duo:new-round", () => {
+    webSocketService.on("who-am-i:duo:new-round", ({ timerStartTimestamp: newTimerStart, timerDurationMs: newTimerDuration, serverCurrentTimestamp: serverTime }) => {
       console.log("[NEW_ROUND] Oponente iniciou nova rodada");
       console.log("[NEW_ROUND] myCharacter atual:", myCharacter?.name);
       console.log("[NEW_ROUND] isImageRole atual:", isImageRole);
+      
+      // Atualiza o timer sincronizado quando uma nova rodada começa
+      if (newTimerStart !== undefined && newTimerDuration !== undefined) {
+        console.log("[NEW_ROUND] Atualizando timer sincronizado:", newTimerStart, newTimerDuration);
+        
+        // Recalcula o offset para a nova rodada (pode ter mudado)
+        let calculatedOffset = serverOffset; // Mantém o offset anterior por padrão
+        if (serverTime !== undefined) {
+          const clientReceiveTime = Date.now();
+          calculatedOffset = clientReceiveTime - serverTime;
+          console.log("[NEW_ROUND] Recalculando offset:", calculatedOffset, "ms");
+        }
+        
+        setTimer(newTimerStart, newTimerDuration, calculatedOffset); // Atualiza o store
+        setTimerStartTimestamp(newTimerStart);
+        setTimerDurationMs(newTimerDuration);
+        setServerOffset(calculatedOffset);
+      }
     });
 
     webSocketService.on("who-am-i:duo:adversary-correct", ({ from, isGiveUp, isImageRole: adversaryIsImageRole }) => {
@@ -492,6 +547,7 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: (isGiveUp:
     });
 
     return () => {
+      webSocketService.off("who-am-i:duo:match-started");
       webSocketService.off("who-am-i:duo:webrtc:offer");
       webSocketService.off("who-am-i:duo:webrtc:answer");
       webSocketService.off("who-am-i:duo:webrtc:ice-candidate");
@@ -537,6 +593,9 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: (isGiveUp:
     switchRoles,
     myCharacterHints: myCharacter?.hints || [],
     opponentCharacterHints: opponentCharacter?.hints || [],
+    timerStartTimestamp,
+    timerDurationMs,
+    serverOffset,
   };
 };
 
