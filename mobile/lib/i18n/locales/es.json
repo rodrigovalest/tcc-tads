@@ -589,5 +589,20 @@
     "loseDescription": "Tu oponente adivinó tu personaje correctamente. El personaje de tu oponente era:",
     "wrong_guess": "¡Tu suposición fue incorrecta! El juego continúa...",
     "buddy_wrong_guess": "Tu oponente hizo la siguiente suposición incorrecta:"
+  },
+
+  "whoAmI": {
+    "title": "¿Quién soy yo?",
+    "hints": "Pistas",
+    "loading": "Cargando...",
+    "loadingHints": "Cargando pistas...",
+    "waitingForCharacter": "Esperando personaje...",
+    "guessWhoIs": "Adivina quién es",
+    "nailedIt": "La clavaste",
+    "giveUp": "Abandonar",
+    "loadingCharacter": "Cargando un nuevo personaje...",
+    "opponentSurrender": "Tu adversario se rindió",
+    "congrats": "Felicitaciones",
+    "itWas": "fue"
   }
 }

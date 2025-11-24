@@ -1,35 +1,22 @@
 import React from "react";
-import { View, Text, Modal, TouchableOpacity, Image } from "react-native";
-import useI18n from "../hooks/useI18n";
-import Button from "./Button";
+import { View, Text, Modal, Image } from "react-native";
+import useI18n from "../../hooks/useI18n";
 import { ImageSourcePropType } from "react-native";
 
-interface AdversaryCorrectAnswerModalProps {
+interface CorrectAnswerModalProps {
   visible: boolean;
   correctImage?: ImageSourcePropType | null;
   characterName?: string;
   isGiveUp?: boolean;
-  adversaryIsImageRole?: boolean;
-  myIsImageRole?: boolean;
 }
 
-const AdversaryCorrectAnswerModal: React.FC<AdversaryCorrectAnswerModalProps> = ({
+const CorrectAnswerModal: React.FC<CorrectAnswerModalProps> = ({
   visible,
   correctImage,
   characterName,
   isGiveUp = false,
-  adversaryIsImageRole = false,
-  myIsImageRole = false,
 }) => {
   const { t } = useI18n();
-
-
-  const getMessage = () => {
-    if (isGiveUp) {
-      return "Your adversary surrendered";
-    }
-    return "Congrats,";
-  };
 
   return (
     <Modal
@@ -40,15 +27,15 @@ const AdversaryCorrectAnswerModal: React.FC<AdversaryCorrectAnswerModalProps> = 
       <View className="flex-1 bg-black/50 items-center justify-center">
         <View className="rounded-xl p-6 mx-8 w-4/5 max-w-sm" style={{ backgroundColor: '#1C1D2C', borderWidth: 2, borderColor: '#E5FF55' }}>
         <Text className="text-xl font-nunito-bold text-appBgWhite text-center mb-4">
-            {isGiveUp ? "Your adversary surrendered" : "Congrats,"} {!isGiveUp && "It was"}
+            {isGiveUp ? "Uh oh, " : `${t("whoAmI.congrats")},`} {t("whoAmI.itWas")}
           </Text>
+
           <Text className="text-xl font-nunito-bold text-appBgWhite text-center mb-4">
             {characterName || ""}
           </Text>
 
-          
           {correctImage && (
-            <View className="w-full h-80 mb-6 rounded-xl overflow-hidden">
+            <View className="w-full h-80 mb-6 rounded-2xl overflow-hidden">
               <Image
                 source={correctImage}
                 className="w-full h-full"
@@ -61,7 +48,7 @@ const AdversaryCorrectAnswerModal: React.FC<AdversaryCorrectAnswerModalProps> = 
           </Text>
 
           <Text className="text-sm font-nunito-medium text-appBgWhite text-center">
-            Loading a new character...
+            {t("whoAmI.loadingCharacter")}      
           </Text>
         </View>
       </View>
@@ -69,4 +56,4 @@ const AdversaryCorrectAnswerModal: React.FC<AdversaryCorrectAnswerModalProps> = 
   );
 };
 
-export default AdversaryCorrectAnswerModal;
+export default CorrectAnswerModal;
