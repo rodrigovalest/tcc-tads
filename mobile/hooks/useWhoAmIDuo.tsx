@@ -38,7 +38,7 @@ const SESSION_CONSTRAINTS: RTCOfferOptions = {
   offerToReceiveVideo: true,
 };
 
-const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: (isGiveUp: boolean, isImageRole: boolean) => void) => {
+const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: (isGiveUp: boolean, isImageRole: boolean) => void, onNewRound?: () => void, onGameEnded?: () => void) => {
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
   const peerConnection = useRef<RTCPeerConnection | null>(null);
@@ -216,6 +216,15 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: (isGiveUp:
         matchId,
         isGiveUp,
         isImageRole,
+      });
+    }
+  };
+
+  const notifyGameEnded = () => {
+    if (webSocketService.isConnected()) {
+      console.log("[GAME_ENDED] Notificando servidor que o jogo encerrou");
+      webSocketService.emit("who-am-i:duo:game-ended", {
+        matchId,
       });
     }
   };
@@ -507,6 +516,9 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: (isGiveUp:
         setTimerDurationMs(newTimerDuration);
         setServerOffset(calculatedOffset);
       }
+      
+      // Notifica o componente que uma nova rodada começou (para sincronizar contador)
+      onNewRound?.();
     });
 
     webSocketService.on("who-am-i:duo:adversary-correct", ({ from, isGiveUp, isImageRole: adversaryIsImageRole }) => {
@@ -514,6 +526,14 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: (isGiveUp:
       console.log("[ADVERSARY_CORRECT] isGiveUp:", isGiveUp);
       console.log("[ADVERSARY_CORRECT] adversaryIsImageRole:", adversaryIsImageRole);
       onAdversaryCorrect?.(isGiveUp, adversaryIsImageRole);
+    });
+
+    webSocketService.on("who-am-i:duo:game-ended", ({ from }) => {
+      console.log("[GAME_ENDED] Oponente encerrou o jogo:", from);
+      console.log("[GAME_ENDED] Notificando componente para encerrar após modais fecharem");
+      // Notifica o componente que o jogo deve encerrar
+      // O componente vai esperar os modais fecharem antes de encerrar
+      onGameEnded?.();
     });
 
     webSocketService.on("who-am-i:duo:switch-roles", ({ isImageRole: newRole }) => {
@@ -554,6 +574,7 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: (isGiveUp:
       webSocketService.off("who-am-i:duo:sync-character");
       webSocketService.off("who-am-i:duo:new-round");
       webSocketService.off("who-am-i:duo:adversary-correct");
+      webSocketService.off("who-am-i:duo:game-ended");
       webSocketService.off("who-am-i:duo:switch-roles");
       webSocketService.off("who-am-i:duo:sync-roles");
       endCall();
@@ -584,6 +605,7 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: (isGiveUp:
     opponentCharacter,
     generateNewCharacter,
     notifyCorrectAnswer,
+    notifyGameEnded,
 
     usedCharacters,
     myCharacterImage: myCharacter?.image || null,

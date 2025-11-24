@@ -46,6 +46,26 @@ export default function WhoAmI() {
   const [adversaryIsImageRole, setAdversaryIsImageRole] =
     useState<boolean>(false);
   const [timeLeft, setTimeLeft] = useState(100); // Valor inicial, será atualizado pelo timer sincronizado
+  const [currentRound, setCurrentRound] = useState<number>(1); // Contador de rodadas (começa na 1ª rodada)
+  const currentRoundRef = useRef<number>(1); // Ref para ter acesso ao valor mais atualizado do currentRound
+  const [shouldEndGame, setShouldEndGame] = useState<boolean>(false); // Flag para encerrar o jogo após modais fecharem
+  const MAX_ROUNDS = 6; // Limite máximo de rodadas
+  
+  // Log para debug do contador de rodadas
+  useEffect(() => {
+    console.log("[ROUND_COUNTER] Rodada atual:", currentRound, "de", MAX_ROUNDS);
+    // Atualiza a ref sempre que o currentRound mudar
+    currentRoundRef.current = currentRound;
+  }, [currentRound]);
+
+  // Monitora quando os modais fecham para encerrar o jogo se necessário
+  useEffect(() => {
+    if (shouldEndGame && !showCorrectAnswer && !showAdversaryCorrect) {
+      console.log("[GAME_ENDED] Modais fecharam, encerrando jogo agora");
+      setShouldEndGame(false);
+      endCall();
+    }
+  }, [shouldEndGame, showCorrectAnswer, showAdversaryCorrect]);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const characterImageRef = useRef<ImageSourcePropType | null>(null);
   const characterNameRef = useRef<string | null>(null);
@@ -63,6 +83,7 @@ export default function WhoAmI() {
     opponentCharacter,
     generateNewCharacter,
     notifyCorrectAnswer,
+    notifyGameEnded,
     usedCharacters,
     myCharacterImage,
     opponentCharacterImage,
@@ -133,6 +154,27 @@ export default function WhoAmI() {
         setShowAdversaryCorrect(false);
         // Não chama generateNewCharacter aqui - o outro jogador que acertou vai fazer isso
       }, 1000);
+    },
+    () => {
+      // Callback quando uma nova rodada começa (quando o adversário inicia ou quando eu inicio)
+      // Incrementa o contador de rodadas - esta é a ÚNICA forma de incrementar o contador
+      setCurrentRound((prev) => {
+        const newRound = prev + 1;
+        console.log("[GAME] Nova rodada iniciada - rodada", newRound, "de", MAX_ROUNDS, "(anterior era", prev, ")");
+        
+        // Não encerramos aqui - deixamos a rodada atual terminar
+        // O encerramento será verificado quando o jogador tentar acertar/desistir
+        // e verificar se currentRound >= MAX_ROUNDS
+        
+        return newRound;
+      });
+    },
+    () => {
+      // Callback quando o oponente notifica que o jogo deve encerrar
+      console.log("[GAME_ENDED] Recebido callback de encerramento do oponente");
+      // Marca que o jogo deve encerrar após os modais fecharem
+      setShouldEndGame(true);
+      // Se não houver modais abertos, o useEffect vai encerrar imediatamente
     }
   );
 
@@ -184,7 +226,12 @@ export default function WhoAmI() {
         if (timerRef.current) {
           clearInterval(timerRef.current);
         }
-        handleGiveUp(); // chama ao zerar (tempo acabou = give up)
+        // Usa a ref para ter o valor mais atualizado do currentRound
+        const roundAtTimerEnd = currentRoundRef.current;
+        console.log("[TIMER] Timer chegou a zero na rodada", roundAtTimerEnd, "- considerando como rodada completada");
+        console.log("[TIMER] Verificando se deve encerrar - currentRound:", roundAtTimerEnd, "MAX_ROUNDS:", MAX_ROUNDS);
+        // Chama handleGiveUp que vai verificar o limite usando o estado atualizado
+        handleGiveUp(); // chama ao zerar (tempo acabou = give up, conta como rodada completada)
         return;
       }
       
@@ -258,11 +305,34 @@ export default function WhoAmI() {
 
     notifyCorrectAnswer(false);
 
+    // Verifica se a rodada ATUAL já atingiu ou excedeu o limite
+    // Se estamos na 6ª rodada (currentRound === 6), esta é a última rodada
+    // Quando ela termina (timer zera ou acerta), não devemos gerar mais rodadas
+    // Usa a ref para garantir que temos o valor mais atualizado
+    const roundNow = currentRoundRef.current;
+    console.log("[NAILED_IT] Verificando limite - rodada atual (estado):", currentRound, "rodada atual (ref):", roundNow, "máximo:", MAX_ROUNDS);
+    console.log("[NAILED_IT] Condição de verificação:", roundNow, ">=", MAX_ROUNDS, "=", roundNow >= MAX_ROUNDS);
+    if (roundNow >= MAX_ROUNDS) {
+      console.log("[GAME] Limite de rodadas atingido na rodada", roundNow, ", encerrando jogo automaticamente");
+      // Notifica o servidor que o jogo encerrou para que o outro jogador também seja notificado
+      notifyGameEnded();
+      // Marca que o jogo deve encerrar após o modal fechar
+      setShouldEndGame(true);
+      // Fecha o modal após 1 segundo, e o useEffect vai encerrar o jogo quando o modal fechar
+      setTimeout(() => {
+        setShowCorrectAnswer(false);
+      }, 1000);
+      return;
+    }
+
     // O timer será resetado automaticamente quando o servidor enviar o novo timestamp
     // via evento who-am-i:duo:new-round
+    // O contador será incrementado quando recebermos o evento who-am-i:duo:new-round
 
+    console.log("[NAILED_IT] Gerando nova rodada - próxima será a rodada", currentRound + 1);
     setTimeout(() => {
       setShowCorrectAnswer(false);
+      // Gera nova rodada - o contador será incrementado quando recebermos o evento do servidor
       generateNewCharacter();
     }, 1000);
   };
@@ -292,11 +362,38 @@ export default function WhoAmI() {
 
     notifyCorrectAnswer(true);
 
+    // Verifica se a rodada ATUAL já atingiu ou excedeu o limite
+    // Se estamos na 6ª rodada (currentRound === 6), esta é a última rodada
+    // Quando ela termina (timer zera ou acerta), não devemos gerar mais rodadas
+    // Usa a ref para garantir que temos o valor mais atualizado
+    const roundNow = currentRoundRef.current;
+    console.log("[GIVE_UP] Verificando limite - rodada atual (estado):", currentRound, "rodada atual (ref):", roundNow, "máximo:", MAX_ROUNDS);
+    console.log("[GIVE_UP] Condição de verificação:", roundNow, ">=", MAX_ROUNDS, "=", roundNow >= MAX_ROUNDS);
+    
+    // IMPORTANTE: Se estamos na 6ª rodada (currentRound === 6), esta é a última
+    // Quando ela termina, devemos encerrar o jogo
+    // Usa a ref para garantir que temos o valor mais atualizado
+    if (roundNow >= MAX_ROUNDS) {
+      console.log("[GAME] Limite de rodadas atingido na rodada", roundNow, ", encerrando jogo automaticamente");
+      // Notifica o servidor que o jogo encerrou para que o outro jogador também seja notificado
+      notifyGameEnded();
+      // Marca que o jogo deve encerrar após o modal fechar
+      setShouldEndGame(true);
+      // Fecha o modal após 1 segundo, e o useEffect vai encerrar o jogo quando o modal fechar
+      setTimeout(() => {
+        setShowCorrectAnswer(false);
+      }, 1000);
+      return;
+    }
+
     // O timer será resetado automaticamente quando o servidor enviar o novo timestamp
     // via evento who-am-i:duo:new-round
+    // O contador será incrementado quando recebermos o evento who-am-i:duo:new-round
 
+    console.log("[GIVE_UP] Gerando nova rodada - próxima será a rodada", currentRound + 1);
     setTimeout(() => {
       setShowCorrectAnswer(false);
+      // Gera nova rodada - o contador será incrementado quando recebermos o evento do servidor
       generateNewCharacter();
     }, 1000);
   };

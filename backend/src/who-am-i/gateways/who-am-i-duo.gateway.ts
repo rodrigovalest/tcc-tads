@@ -144,6 +144,21 @@ export class WhoAmIDuoGateway implements OnGatewayDisconnect {
   }
 
   @UseGuards(JwtWsAuthGuard)
+  @SubscribeMessage('who-am-i:duo:game-ended')
+  handleGameEnded(
+    @CurrentWsUser() user: IUserJwtPayload,
+    @MessageBody() payload: { matchId: string },
+    @ConnectedSocket() client: Socket
+  ) {
+    this.logger.log(`[game-ended] User ${user.sub} ended game for match ${payload.matchId}`);
+
+    // Notifica o oponente que o jogo deve encerrar
+    client.to(payload.matchId).emit('who-am-i:duo:game-ended', {
+      from: user.sub,
+    });
+  }
+
+  @UseGuards(JwtWsAuthGuard)
   @SubscribeMessage('who-am-i:duo:sync-character')
   handleSyncCharacter(
     @CurrentWsUser() user: IUserJwtPayload,
