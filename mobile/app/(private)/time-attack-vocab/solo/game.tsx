@@ -155,7 +155,7 @@ export default function TimeAttackVocabGame() {
             </View>
           </View>
 
-          <View className="px-0 pb-4" style={{ backgroundColor: "#fff" }}>
+          <View className="px-0 pb-4">
             <UnifiedWordInput
               onSubmitWord={submitTranslation}
               isGameActive={gameState.isGameActive}

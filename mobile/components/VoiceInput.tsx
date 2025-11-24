@@ -123,7 +123,7 @@ const VoiceInput: React.FC<VoiceInputProps> = ({
   const canSubmit = words.length > 0 && isGameActive;
 
   return (
-    <View className="px-4 pt-2 pb-4">
+    <View className="bg-appBgWhite px-4 pt-2 pb-4">
       <View className="bg-appLightGrey rounded-xl p-4 border-2 border-appDarkGrey">
         <Text className="text-lg font-nunito-bold text-appDarkGrey mb-4">
           {title || t("wordBuilder.speakWord")}
