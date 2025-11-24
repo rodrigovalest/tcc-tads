@@ -42,6 +42,76 @@ export const WHO_AM_I_HINTS: Record<number, HintsByLanguage> = {
     pt: ["É um político"],
     en: ["Is a politician"],
     es: ["Es un político"]
+  },
+  9: { // Taylor Swift
+    pt: ["É uma cantora"],
+    en: ["Is a singer"],
+    es: ["Es una cantante"]
+  },
+  10: { // Michael Jackson
+    pt: ["É um cantor"],
+    en: ["Is a singer"],
+    es: ["Es un cantante"]
+  },
+  11: { // Will Smith
+    pt: ["É um ator"],
+    en: ["Is an actor"],
+    es: ["Es un actor"]
+  },
+  12: { // Albert Einstein
+    pt: ["É um cientista"],
+    en: ["Is a scientist"],
+    es: ["Es un científico"]
+  },
+  13: { // Marie Curie
+    pt: ["É uma cientista"],
+    en: ["Is a scientist"],
+    es: ["Es una científica"]
+  },
+  14: { // Steve Jobs
+    pt: ["É um empresário"],
+    en: ["Is a businessman"],
+    es: ["Es un empresario"]
+  },
+  15: { // Alan Turing
+    pt: ["É um cientista"],
+    en: ["Is a scientist"],
+    es: ["Es un científico"]
+  },
+  16: { // Neymar Jr
+    pt: ["É um atleta"],
+    en: ["Is an athlete"],
+    es: ["Es un atleta"]
+  },
+  17: { // Serena Williams
+    pt: ["É uma atleta"],
+    en: ["Is an athlete"],
+    es: ["Es una atleta"]
+  },
+  18: { // Usain Bolt
+    pt: ["É um atleta"],
+    en: ["Is an athlete"],
+    es: ["Es un atleta"]
+  },
+  19: { // Tom Cruise
+    pt: ["É um ator"],
+    en: ["Is an actor"],
+    es: ["Es un actor"]
+  },
+  20: { // Michael Jordan
+    pt: ["É um atleta"],
+    en: ["Is an athlete"],
+    es: ["Es un atleta"]
+  },
+  21: { // Paul McCartney
+    pt: ["É um músico"],
+    en: ["Is a musician"],
+    es: ["Es un músico"]
+  },
+  22: { // Oprah
+    pt: ["É uma apresentadora"],
+    en: ["Is a TV host"],
+    es: ["Es una presentadora"]
   }
 };
 

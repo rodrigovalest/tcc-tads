@@ -305,34 +305,24 @@ export default function WhoAmI() {
 
     notifyCorrectAnswer(false);
 
-    // Verifica se a rodada ATUAL já atingiu ou excedeu o limite
-    // Se estamos na 6ª rodada (currentRound === 6), esta é a última rodada
-    // Quando ela termina (timer zera ou acerta), não devemos gerar mais rodadas
-    // Usa a ref para garantir que temos o valor mais atualizado
+    
     const roundNow = currentRoundRef.current;
     console.log("[NAILED_IT] Verificando limite - rodada atual (estado):", currentRound, "rodada atual (ref):", roundNow, "máximo:", MAX_ROUNDS);
     console.log("[NAILED_IT] Condição de verificação:", roundNow, ">=", MAX_ROUNDS, "=", roundNow >= MAX_ROUNDS);
     if (roundNow >= MAX_ROUNDS) {
       console.log("[GAME] Limite de rodadas atingido na rodada", roundNow, ", encerrando jogo automaticamente");
-      // Notifica o servidor que o jogo encerrou para que o outro jogador também seja notificado
       notifyGameEnded();
-      // Marca que o jogo deve encerrar após o modal fechar
       setShouldEndGame(true);
-      // Fecha o modal após 1 segundo, e o useEffect vai encerrar o jogo quando o modal fechar
       setTimeout(() => {
         setShowCorrectAnswer(false);
       }, 1000);
       return;
     }
 
-    // O timer será resetado automaticamente quando o servidor enviar o novo timestamp
-    // via evento who-am-i:duo:new-round
-    // O contador será incrementado quando recebermos o evento who-am-i:duo:new-round
 
     console.log("[NAILED_IT] Gerando nova rodada - próxima será a rodada", currentRound + 1);
     setTimeout(() => {
       setShowCorrectAnswer(false);
-      // Gera nova rodada - o contador será incrementado quando recebermos o evento do servidor
       generateNewCharacter();
     }, 1000);
   };
@@ -343,7 +333,6 @@ export default function WhoAmI() {
     console.log("[GIVE_UP] isImageRole:", isImageRole);
     console.log("[GIVE_UP] myCharacter hints:", myCharacter?.hints);
 
-    // Mostra a imagem do personagem atual (que ambos estão tentando adivinhar)
     const imageToShow =
       myCharacterImage ||
       myCharacter?.image ||
@@ -362,38 +351,27 @@ export default function WhoAmI() {
 
     notifyCorrectAnswer(true);
 
-    // Verifica se a rodada ATUAL já atingiu ou excedeu o limite
-    // Se estamos na 6ª rodada (currentRound === 6), esta é a última rodada
-    // Quando ela termina (timer zera ou acerta), não devemos gerar mais rodadas
-    // Usa a ref para garantir que temos o valor mais atualizado
+   
     const roundNow = currentRoundRef.current;
     console.log("[GIVE_UP] Verificando limite - rodada atual (estado):", currentRound, "rodada atual (ref):", roundNow, "máximo:", MAX_ROUNDS);
     console.log("[GIVE_UP] Condição de verificação:", roundNow, ">=", MAX_ROUNDS, "=", roundNow >= MAX_ROUNDS);
     
-    // IMPORTANTE: Se estamos na 6ª rodada (currentRound === 6), esta é a última
-    // Quando ela termina, devemos encerrar o jogo
-    // Usa a ref para garantir que temos o valor mais atualizado
+  
     if (roundNow >= MAX_ROUNDS) {
       console.log("[GAME] Limite de rodadas atingido na rodada", roundNow, ", encerrando jogo automaticamente");
-      // Notifica o servidor que o jogo encerrou para que o outro jogador também seja notificado
       notifyGameEnded();
-      // Marca que o jogo deve encerrar após o modal fechar
       setShouldEndGame(true);
-      // Fecha o modal após 1 segundo, e o useEffect vai encerrar o jogo quando o modal fechar
       setTimeout(() => {
         setShowCorrectAnswer(false);
       }, 1000);
       return;
     }
 
-    // O timer será resetado automaticamente quando o servidor enviar o novo timestamp
-    // via evento who-am-i:duo:new-round
-    // O contador será incrementado quando recebermos o evento who-am-i:duo:new-round
+  
 
     console.log("[GIVE_UP] Gerando nova rodada - próxima será a rodada", currentRound + 1);
     setTimeout(() => {
       setShowCorrectAnswer(false);
-      // Gera nova rodada - o contador será incrementado quando recebermos o evento do servidor
       generateNewCharacter();
     }, 1000);
   };
