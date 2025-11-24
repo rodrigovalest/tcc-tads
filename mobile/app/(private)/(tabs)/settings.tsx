@@ -72,13 +72,12 @@ export default function Settings() {
           <LanguageSelector showLabel={false} variant="compact" />
         </View>
 
-        {/* Google Account Linking Section */}
         <View className="px-6 py-4 bg-white border-b border-gray-100">
           <View className="flex-row items-center mb-3">
             <Ionicons
               name="logo-google"
               size={24}
-              color="#4285F4"
+              color="#000000ff"
               style={{ marginRight: 12 }}
             />
             <Text className="text-lg text-appBlack font-nunito-bold mr-3">

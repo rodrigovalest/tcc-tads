@@ -36,29 +36,6 @@ export default function History() {
       return page?.data ?? [];
     }) || [];
 
-  useEffect(() => {
-    if (!data) {
-      console.log("[History] No data yet");
-      return;
-    }
-    console.log("[History] pages:", data.pages.length);
-    data.pages.forEach((p, idx) => {
-      console.log(
-        `[History] page ${idx + 1} -> count: ${
-          p?.data?.length ?? 0
-        }, page meta: {page: ${p?.page}, total: ${p?.total}, limit: ${
-          p?.limit
-        }}`
-      );
-    });
-    console.log("[History] flattened count:", matchHistoryList.length);
-    if (matchHistoryList[0]) {
-      const sample = matchHistoryList[0];
-      console.log("[History] sample item keys:", Object.keys(sample));
-      console.log("[History] sample item:", sample);
-    }
-  }, [data]);
-
   if (isLoading) {
     return (
       <View className="flex-1 justify-center items-center">

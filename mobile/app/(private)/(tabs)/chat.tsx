@@ -55,7 +55,6 @@ export default function Chat() {
   return (
     <View className="flex-1 bg-appBgWhite">
       <SafeAreaView className="flex-1 px-6 pt-6">
-        {/* Header with manage friends button */}
         <View className="flex-row items-center justify-between mb-4">
           <Text className="text-2xl font-nunito-bold text-appBlack">
             {t("friends.conversations")}

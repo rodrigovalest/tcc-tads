@@ -30,7 +30,6 @@ export default function TimeAttackVocabLanguageSelection() {
     router.back();
   };
 
-  // Redirect if no source language is set
   useEffect(() => {
     if (!sourceLanguage) {
       router.navigate("/(private)/language-selection" as any);
