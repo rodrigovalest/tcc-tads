@@ -120,7 +120,7 @@ export class WhoAmIDuoGateway implements OnGatewayDisconnect {
   @SubscribeMessage('who-am-i:duo:correct-answer')
   handleCorrectAnswer(
     @CurrentWsUser() user: IUserJwtPayload,
-    @MessageBody() payload: { matchId: string },
+    @MessageBody() payload: { matchId: string; isGiveUp?: boolean; isImageRole?: boolean },
     @ConnectedSocket() client: Socket
   ) {
     this.logger.log(`[correct-answer] User ${user.sub} got correct answer for match ${payload.matchId}`);
@@ -128,6 +128,8 @@ export class WhoAmIDuoGateway implements OnGatewayDisconnect {
     // Notifica o oponente que ele acertou
     client.to(payload.matchId).emit('who-am-i:duo:adversary-correct', {
       from: user.sub,
+      isGiveUp: payload.isGiveUp || false,
+      isImageRole: payload.isImageRole || false,
     });
   }
 
@@ -202,6 +204,7 @@ export class WhoAmIDuoGateway implements OnGatewayDisconnect {
           isOfferer: isOfferer,
           matchId: payload.match.id,
           buddy: {
+            userId: pair.userId,
             username: pair.username,
             nationality: pair.nationality,
           }

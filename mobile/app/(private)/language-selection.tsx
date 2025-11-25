@@ -27,8 +27,13 @@ export default function LanguageSelection() {
     setMatchFormat,
     setInputMode,
   } = useMatchStore();
-  const { sourceLanguage, setSourceLanguage, resetTimeAttackVocab } =
-    useTimeAttackVocabStore();
+  const {
+    sourceLanguage,
+    setSourceLanguage,
+    resetTimeAttackVocab,
+    inputMode: taInputMode,
+    setInputMode: setTaInputMode,
+  } = useTimeAttackVocabStore();
   const { t } = useI18n();
   const router = useRouter();
 
@@ -56,6 +61,14 @@ export default function LanguageSelection() {
         });
         return;
       }
+      if (!taInputMode) {
+        Toast.show({
+          type: "error",
+          text1: t("validation.inputModeRequired"),
+          text2: t("validation.selectInputMode"),
+        });
+        return;
+      }
       router.navigate("/time-attack-vocab/language-selection" as any);
       return;
     }
@@ -77,6 +90,8 @@ export default function LanguageSelection() {
       router.replace("/(private)/just-chilling/duo/waiting");
     } else if (matchMode === "who-am-i" && matchFormat === "duo") {
       router.replace("/(private)/who-am-i/duo/waiting");
+    } else if (matchMode === "guess-who" && matchFormat === "duo") {
+      router.replace("/(private)/guess-who/duo/waiting");
     } else {
       console.warn(`No route found for ${matchMode}/${matchFormat}`);
       router.replace("/(private)/(tabs)/matches");
@@ -125,15 +140,26 @@ export default function LanguageSelection() {
             </>
           )}
           {matchMode === "time-attack-vocab" ? (
-            <View className="mb-8">
-              <Text className="text-lg font-nunito-bold text-appBlack mb-3">
-                {t("match.sourceLanguage")} ({t("match.languageToLearn")})
-              </Text>
-              <MatchLanguageSelector
-                selected={sourceLanguage}
-                onSelect={setSourceLanguage}
-              />
-            </View>
+            <>
+              <View className="mb-8">
+                <Text className="text-lg font-nunito-bold text-appBlack mb-3">
+                  {t("match.sourceLanguage")} ({t("match.languageToLearn")})
+                </Text>
+                <MatchLanguageSelector
+                  selected={sourceLanguage}
+                  onSelect={setSourceLanguage}
+                />
+              </View>
+              <View className="mb-8">
+                <Text className="text-lg font-nunito-bold text-appBlack mb-3">
+                  {t("timeAttackVocab.selectInputMode")}
+                </Text>
+                <InputModeSelector
+                  selected={taInputMode}
+                  onSelect={setTaInputMode}
+                />
+              </View>
+            </>
           ) : (
             <View className="mb-8">
               <MatchLanguageSelector
@@ -158,7 +184,7 @@ export default function LanguageSelection() {
             onPress={onPlay}
             disabled={
               matchMode === "time-attack-vocab"
-                ? sourceLanguage === null
+                ? sourceLanguage === null || taInputMode === null
                 : matchFormat === null ||
                   matchLanguage === null ||
                   (matchMode === "word-builder" && inputMode === null)

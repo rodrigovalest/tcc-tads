@@ -6,9 +6,32 @@ import ICreateSoloMatchResponse from "../models/responses/create-solo-match-resp
 import ICompleteSoloMatchResponse from "../models/responses/complete-solo-match-response";
 
 const matchService = {
-  getMatchHistory: async (): Promise<IMatchHistoryResponse[]> => {
-    const response = await api.get<IMatchHistoryResponse[]>("/matches");
-    return response.data;
+  getMatchHistory: async (
+    page: number | unknown = 1,
+    limit: number | unknown = 10
+  ): Promise<IMatchHistoryResponse> => {
+    const response = await api.get<IMatchHistoryResponse>("/matches", {
+      params: { page, limit },
+    });
+    let data = response.data as any;
+
+    if (Array.isArray(data)) {
+      data = {
+        data,
+        total: data.length,
+        page: Number(page) || 1,
+        limit: Number(limit) || data.length,
+      } satisfies IMatchHistoryResponse;
+    } else if (!("page" in data) || !("total" in data) || !("limit" in data)) {
+      data = {
+        data: data.data ?? [],
+        total: data.data?.length ?? 0,
+        page: Number(page) || 1,
+        limit: Number(limit) || (data.data?.length ?? 0),
+      } satisfies IMatchHistoryResponse;
+    }
+
+    return data as IMatchHistoryResponse;
   },
 
   createSoloMatch: async (

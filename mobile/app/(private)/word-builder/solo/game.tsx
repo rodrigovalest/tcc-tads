@@ -106,7 +106,7 @@ export default function WordBuilderGame() {
             </View>
           </ScrollView>
 
-          <View className="px-0 pb-4" style={{ backgroundColor: "#fff" }}>
+          <View className="px-0 pb-4">
             <UnifiedWordInput
               onSubmitWord={addWord}
               isGameActive={gameState.isGameActive}

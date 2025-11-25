@@ -41,6 +41,7 @@ export class AuthService {
       email: user.email,
       username: user.username,
       nationality: user.nationality,
+      photoUri: user.photo ?? null,
     };
 
     return this.jwtService.sign(payload);
@@ -94,6 +95,7 @@ export class AuthService {
       email: user.email,
       username: user.username,
       nationality: user.nationality,
+      photoUri: user.photo ?? null,
     };
 
     const token = this.jwtService.sign(payload);
@@ -144,5 +146,18 @@ export class AuthService {
     }
 
     await this.userService.unlinkGoogleAccount(user.id);
+  }
+
+  async getGoogleStatus(
+    userId: number,
+  ): Promise<{ linked: boolean; email?: string }> {
+    const user = await this.userService.findById(userId);
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+    return {
+      linked: !!user.googleId,
+      email: user.googleEmail,
+    };
   }
 }

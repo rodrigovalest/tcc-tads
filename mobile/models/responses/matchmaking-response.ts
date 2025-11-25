@@ -1,3 +1,4 @@
+import IUserBuddy from "../interfaces/user-buddy";
 import { MatchFormat } from "../types/match-format.type";
 import { MatchLanguage } from "../types/match-language.type";
 import { MatchMode } from "../types/match-mode.type";
@@ -9,9 +10,5 @@ export default interface IMatchmakingResponse {
   language: MatchLanguage;
   matchId: string;
   isOfferer: boolean;
-  buddy: {
-    userId: number;
-    username: string;
-    nationality: string;
-  }
+  buddy: IUserBuddy
 }

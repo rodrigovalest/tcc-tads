@@ -82,7 +82,7 @@ describe('JustChillingDuoGateway (semi E2E)', () => {
   });
 
   it('just-chilling:duo:enqueue - should call JustChillingDuoService.enqueueDuoFormatAndTryStart', (done) => {
-    const mockedLoggedJwtPayload: IUserJwtPayload = { sub: 1, email: 'testuser@example.com', username: 'testuser', nationality: CountryCode.Afghanistan };
+    const mockedLoggedJwtPayload: IUserJwtPayload = { sub: 1, email: 'testuser@example.com', username: 'testuser', nationality: CountryCode.Afghanistan, photoUri: null };
     const mockedJwtToken = jwtService.sign(mockedLoggedJwtPayload);
     client = io(`http://localhost:${port}`, { auth: { token: `Bearer ${mockedJwtToken}` } });
 
