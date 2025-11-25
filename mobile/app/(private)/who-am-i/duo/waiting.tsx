@@ -1,12 +1,12 @@
 import Spinner from "../../../../components/Spinner";
 import React from "react";
 import { Text, Image, SafeAreaView } from "react-native";
-import useMatchmaking from "../../../../hooks/useMatchmaking";
 import useI18n from '../../../../hooks/useI18n';
+import useWHOAMIMatchmaking from "../../../../hooks/useWHOAMIMatchmaking";
 
 export default function WhoAmIWaiting() {
   const { t } = useI18n();
-  useMatchmaking();
+  useWHOAMIMatchmaking();
 
   return (
     <SafeAreaView className="flex-1 bg-appBgWhite items-center justify-center px-6">

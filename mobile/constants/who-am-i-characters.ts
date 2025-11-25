@@ -43,6 +43,76 @@ export const WHO_AM_I_CHARACTERS_BASE = [
     name: "Barack Obama",
     image: require("../assets/images/who_am_i_characters/whoami8.jpg"),
   },
+  {
+    id: 9,
+    name: "Taylor Swift",
+    image: require("../assets/images/who_am_i_characters/whoami9.png"),
+  },
+  {
+    id: 10,
+    name: "Michael Jackson",
+    image: require("../assets/images/who_am_i_characters/whoami10.png"),
+  },
+  {
+    id: 11,
+    name: "Will Smith",
+    image: require("../assets/images/who_am_i_characters/whoami11.png"),
+  },
+  {
+    id: 12,
+    name: "Albert Einstein",
+    image: require("../assets/images/who_am_i_characters/whoami12.png"),
+  },
+  {
+    id: 13,
+    name: "Marie Curie",
+    image: require("../assets/images/who_am_i_characters/whoami13.png"),
+  },
+  {
+    id: 14,
+    name: "Steve Jobs",
+    image: require("../assets/images/who_am_i_characters/whoami14.png"),
+  },
+  {
+    id: 15,
+    name: "Alan Turing",
+    image: require("../assets/images/who_am_i_characters/whoami15.png"),
+  },
+  {
+    id: 16,
+    name: "Neymar Jr",
+    image: require("../assets/images/who_am_i_characters/whoami16.png"),
+  },
+  {
+    id: 17,
+    name: "Serena Williams",
+    image: require("../assets/images/who_am_i_characters/whoami17.png"),
+  },
+  {
+    id: 18,
+    name: "Usain Bolt",
+    image: require("../assets/images/who_am_i_characters/whoami18.png"),
+  },
+  {
+    id: 19,
+    name: "Tom Cruise",
+    image: require("../assets/images/who_am_i_characters/whoami19.png"),
+  },
+  {
+    id: 20,
+    name: "Michael Jordan",
+    image: require("../assets/images/who_am_i_characters/whoami20.png"),
+  },
+  {
+    id: 21,
+    name: "Paul McCartney",
+    image: require("../assets/images/who_am_i_characters/whoami21.png"),
+  },
+  {
+    id: 22,
+    name: "Oprah",
+    image: require("../assets/images/who_am_i_characters/whoami22.png"),
+  },
 ];
 
 /**

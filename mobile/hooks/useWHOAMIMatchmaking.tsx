@@ -4,9 +4,9 @@ import { useEffect } from "react";
 import { useRouter } from "expo-router";
 import webSocketService from "../services/web-socket-service";
 import Toast from "react-native-toast-message";
-import IMatchmakingResponse from "../models/responses/matchmaking-response";
+import IWHOAMIMatchmakingResponse from "../models/responses/Whoami-matchmaking-response";
 
-const useMatchmaking = () => {
+const useWHOAMIMatchmaking = () => {
   const router = useRouter();
   const { token } = useAuthStore();
   const {
@@ -17,6 +17,7 @@ const useMatchmaking = () => {
     setIsOfferer,
     resetMatch,
     setUserBuddy,
+    setTimer,
   } = useMatchStore();
 
   useEffect(() => {
@@ -52,10 +53,23 @@ const useMatchmaking = () => {
 
     webSocketService.on(
       `${matchMode}:${matchFormat}:match-started`,
-      async (data: IMatchmakingResponse) => {
+      async (data: IWHOAMIMatchmakingResponse) => {
         setMatchId(data.matchId);
         setIsOfferer(data.isOfferer);
         setUserBuddy(data.buddy);
+        
+        // Salva o timer sincronizado no store se fornecido
+        if (data.timerStartTimestamp !== undefined && data.timerDurationMs !== undefined) {
+          // Calcula o offset entre o relógio do servidor e do cliente
+          let calculatedOffset = 0;
+          if (data.serverCurrentTimestamp !== undefined) {
+            const clientReceiveTime = Date.now();
+            calculatedOffset = clientReceiveTime - data.serverCurrentTimestamp;
+            console.log("[MATCHMAKING] Calculando offset do timer:", calculatedOffset, "ms");
+          }
+          setTimer(data.timerStartTimestamp, data.timerDurationMs, calculatedOffset);
+        }
+        
         router.replace(`/(private)/${data.matchMode}/${matchFormat}/game`);
       }
     );
@@ -69,6 +83,6 @@ const useMatchmaking = () => {
       webSocketService.off("exception");
     };
   }, []);
-};
+}; 
 
-export default useMatchmaking;
+export default useWHOAMIMatchmaking;
