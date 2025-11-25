@@ -64,6 +64,17 @@
         "title": "Erro no login",
         "message": "Algo deu errado. Tente novamente"
       }
+    },
+    "googleLogin": {
+      "newUser": {
+        "title": "Bem-vindo!",
+        "message": "Complete seu cadastro para continuar"
+      },
+      "error": {
+        "title": "Falha no Login Google",
+        "message": "Não foi possível entrar com Google. Tente novamente",
+        "playServices": "Google Play Services indisponível"
+      }
     }
   },
   "register": {
@@ -252,6 +263,7 @@
     "letter": "Letra",
     "syllable": "Sílaba",
     "wordsFound": "Palavras encontradas",
+    "scrollHint": "Deslize para o lado para ver mais",
     "score": "Pontuação",
     "correctWords": "Palavras corretas",
     "incorrectWords": "Palavras incorretas",
@@ -309,6 +321,8 @@
     "never": "Nunca",
     "loading": "Carregando perfil...",
     "errorLoading": "Erro ao carregar perfil",
+    "error": "Falha ao carregar perfil",
+    "retry": "Tentar novamente",
     "tryAgain": "Tentar Novamente",
     "fluency": {
       "beginner": "Iniciante",
@@ -317,6 +331,39 @@
       "fluent": "Fluente",
       "native": "Nativo",
       "unknown": "Desconhecido"
+    },
+    "googleAccount": {
+      "title": "Conta Google",
+      "linkedTo": "Vinculada a",
+      "linkedStatus": "Vinculada",
+      "link": "Vincular Conta Google",
+      "unlink": "Desvincular Conta",
+      "linkDescription": "Vincule sua conta Google para facilitar o acesso"
+    },
+    "googleLink": {
+      "success": {
+        "title": "Conta Google vinculada",
+        "message": "Sua conta Google foi vinculada com sucesso"
+      },
+      "error": {
+        "title": "Falha ao vincular",
+        "message": "Não foi possível vincular a conta Google. Tente novamente"
+      }
+    },
+    "googleUnlink": {
+      "confirm": {
+        "title": "Desvincular Conta Google",
+        "message": "Tem certeza que deseja desvincular sua conta Google?",
+        "action": "Desvincular"
+      },
+      "success": {
+        "title": "Conta Google desvinculada",
+        "message": "Sua conta Google foi desvinculada com sucesso"
+      },
+      "error": {
+        "title": "Falha ao desvincular",
+        "message": "Não foi possível desvincular a conta Google. Tente novamente"
+      }
     }
   },
   "settings": {
@@ -458,6 +505,7 @@
     "selectDifferentTargetLanguage": "Selecione um idioma alvo diferente."
   },
   "timeAttackVocab": {
+    "title": "Vocabulário Contra o Tempo",
     "selectLevel": "Selecione o nível de vocabulário",
     "levels": {
       "basic": "Básico",
@@ -466,24 +514,56 @@
     },
     "setup": "Configuração do Vocabulário Contra o Tempo",
     "wordsWillAppearIn": "As palavras aparecerão em",
-    "gameFormat": "Formato do jogo",
+    "gameFormat": "Formato: traduzir do idioma fonte para o alvo",
     "gameMode": "Modo de jogo",
     "translateThis": "Traduza esta palavra",
-    "from": "do",
-    "to": "para o",
-    "score": "Pontuação",
-    "wordsTranslated": "Palavras traduzidas",
-    "typeTranslation": "Digite a tradução",
+    "from": "de",
+    "to": "para",
+    "selectSourceLanguage": "Selecione seu idioma nativo",
+    "selectTargetLanguage": "Selecione o idioma que deseja praticar",
+    "selectInputMode": "Selecione como deseja responder",
+    "inputModes": {
+      "text": "Digitar",
+      "voice": "Voz"
+    },
+    "startGame": "Iniciar Jogo",
     "gameOver": "Fim de Jogo!",
+    "score": "Pontuação",
+    "timeUp": "Tempo esgotado!",
+    "correctAnswers": "Respostas corretas",
+    "totalWords": "Total de palavras",
     "finalScore": "Pontuação final",
+    "wordsTranslated": "Palavras traduzidas",
     "correctTranslations": "Traduções corretas",
     "incorrectTranslations": "Traduções incorretas",
     "avgTimePerWord": "Tempo médio por palavra",
+    "accuracy": "Precisão",
+    "wordsPerMinute": "Palavras por minuto",
     "playAgain": "Jogar Novamente",
     "backToMenu": "Voltar ao Menu",
-    "speakTranslation": "Fale a tradução",
+    "translate": "Traduzir",
+    "skip": "Pular",
+    "submit": "Enviar",
+    "listening": "Ouvindo...",
+    "processing": "Processando...",
     "tapToSpeak": "Toque para falar",
-    "enterTranslation": "Digite a tradução"
+    "tapToStop": "Toque para parar",
+    "voiceError": "Erro de reconhecimento de voz",
+    "tryAgainVoice": "Tente novamente",
+    "correct": "Correto!",
+    "incorrect": "Incorreto",
+    "expectedAnswer": "Resposta esperada",
+    "yourAnswer": "Sua resposta",
+    "timeLeft": "Tempo restante",
+    "seconds": "segundos",
+    "results": "Resultados",
+    "excellent": "Excelente!",
+    "good": "Bom!",
+    "needsImprovement": "Precisa melhorar",
+    "keepPracticing": "Continue praticando",
+    "speakTranslation": "Fale a tradução",
+    "enterTranslation": "Digite a tradução",
+    "typeTranslation": "Digite a tradução"
   },
 
   "history": {

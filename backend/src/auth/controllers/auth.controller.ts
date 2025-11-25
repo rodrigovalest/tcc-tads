@@ -1,6 +1,7 @@
 import {
   Controller,
   Post,
+  Get,
   HttpCode,
   HttpStatus,
   Body,
@@ -84,5 +85,14 @@ export class AuthController {
       success: true,
       message: 'Google account unlinked successfully',
     };
+  }
+
+  @Get('auth/google/status')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  async getGoogleStatus(
+    @Request() req: any,
+  ): Promise<{ linked: boolean; email?: string }> {
+    return await this.authService.getGoogleStatus(req.user.sub);
   }
 }

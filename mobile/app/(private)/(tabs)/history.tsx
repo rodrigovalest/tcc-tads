@@ -23,13 +23,18 @@ export default function History() {
     if (isError && error) {
       Toast.show({
         type: "error",
-        text1: t("history.errorLoadingHistory") || "Error loading match history",
+        text1:
+          t("history.errorLoadingHistory") || "Error loading match history",
         position: "top",
       });
     }
   }, [isError, error]);
 
-  const matchHistoryList = data?.pages.flatMap((page) => page.data) || [];
+  const matchHistoryList =
+    data?.pages.flatMap((page) => {
+      if (Array.isArray(page)) return page;
+      return page?.data ?? [];
+    }) || [];
 
   if (isLoading) {
     return (
@@ -43,10 +48,14 @@ export default function History() {
     <SafeAreaView className="flex-1 bg-appBgWhite pt-5">
       <FlatList
         data={matchHistoryList}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item, index) =>
+          item.id ? String(item.id) : `item-${index}`
+        }
         showsVerticalScrollIndicator={false}
         onEndReached={() => {
-          if (hasNextPage) fetchNextPage();
+          if (hasNextPage) {
+            fetchNextPage();
+          }
         }}
         onEndReachedThreshold={0.5}
         ListHeaderComponent={() => (
@@ -59,17 +68,20 @@ export default function History() {
             {t("history.noMatchesYet")}
           </Text>
         )}
-        renderItem={({ item }) => (
-          <MatchHistoryItem
-            key={item.id}
-            startTime={item.startTime}
-            endTime={item.endTime}
-            mode={item.mode}
-            language={item.language}
-            averageFluencyScore={item.averageFluencyScore}
-            users={item.users}
-          />
-        )}
+        renderItem={({ item }) => {
+          if (!item) return null;
+          return (
+            <MatchHistoryItem
+              key={item.id}
+              startTime={item.startTime}
+              endTime={item.endTime}
+              mode={item.mode}
+              language={item.language}
+              averageFluencyScore={item.averageFluencyScore}
+              users={item.users}
+            />
+          );
+        }}
         ListFooterComponent={() =>
           isFetchingNextPage ? (
             <View className="py-4">
