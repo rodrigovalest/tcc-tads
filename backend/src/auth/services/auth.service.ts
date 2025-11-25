@@ -147,4 +147,17 @@ export class AuthService {
 
     await this.userService.unlinkGoogleAccount(user.id);
   }
+
+  async getGoogleStatus(
+    userId: number,
+  ): Promise<{ linked: boolean; email?: string }> {
+    const user = await this.userService.findById(userId);
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+    return {
+      linked: !!user.googleId,
+      email: user.googleEmail,
+    };
+  }
 }

@@ -58,13 +58,6 @@ const Input: React.FC<InputProps> = ({
         } ${error ? "border-appMediumRed" : "border-black"}`}
       >
         <TextInput
-          key={
-            type === "password"
-              ? isPasswordVisible
-                ? "password-visible"
-                : "password-hidden"
-              : "input"
-          }
           className={`flex-1 px-3 py-4 text-xl ${
             disabled ? "text-gray-500" : "text-appDarkGrey"
           } ${type === "password" ? "pr-10" : ""}`}

@@ -11,35 +11,53 @@ describe("matchService", () => {
     jest.clearAllMocks();
   });
 
-  it("getMatchHistory_withValidData_ReturnsMatchHistoryListSuccessfully", async () => {
-    const mockData: IMatchHistoryResponse[] = [
+  it("getMatchHistory_withValidData_ReturnsPaginatedObjectSuccessfully", async () => {
+    const mockItems: IMatchHistoryResponse["data"] = [
       {
         id: "1",
         startTime: "2025-08-01T12:00:00Z",
         endTime: "2025-08-01T12:30:00Z",
-        mode: 'just-chilling',
+        mode: "just-chilling",
         format: "duo",
         language: "en",
         status: "COMPLETED",
+        averageFluencyScore: null,
         users: [
           { id: 1, username: "alice", nationality: "br", photoUri: null },
-          { id: 2, username: "bob", nationality: "br", photoUri: "http://blablablableblebleblublublu.com" },
+          {
+            id: 2,
+            username: "bob",
+            nationality: "br",
+            photoUri: "http://blablablableblebleblublublu.com",
+          },
         ],
       },
     ];
 
-    mockedApi.get.mockResolvedValueOnce({ data: mockData });
+    // Simulate backend returning array only (legacy) – service should normalize
+    mockedApi.get.mockResolvedValueOnce({ data: mockItems });
 
     const result = await matchService.getMatchHistory();
 
-    expect(api.get).toHaveBeenCalledWith("/matches", { params: { page: 1, limit: 10 } });
-    expect(result).toEqual(mockData);
+    expect(api.get).toHaveBeenCalledWith("/matches", {
+      params: { page: 1, limit: 10 },
+    });
+    expect(result).toEqual({
+      data: mockItems,
+      total: mockItems.length,
+      page: 1,
+      limit: 10,
+    });
   });
 
   it("getMatchHistory_WithSomeError_ThrowsError", async () => {
     mockedApi.get.mockRejectedValueOnce(new Error("Network error"));
 
-    await expect(matchService.getMatchHistory()).rejects.toThrow("Network error");
-    expect(api.get).toHaveBeenCalledWith("/matches", { params: { page: 1, limit: 10 } });
+    await expect(matchService.getMatchHistory()).rejects.toThrow(
+      "Network error"
+    );
+    expect(api.get).toHaveBeenCalledWith("/matches", {
+      params: { page: 1, limit: 10 },
+    });
   });
 });

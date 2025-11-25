@@ -22,13 +22,16 @@ export default function RootLayout() {
     "nunito-semibold": require("../assets/fonts/nunito/Nunito-SemiBold.ttf"),
     "nunito-bold": require("../assets/fonts/nunito/Nunito-Bold.ttf"),
     "nunito-extrabold": require("../assets/fonts/nunito/Nunito-ExtraBold.ttf"),
+    FontAwesome: require("../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"),
   });
 
   const queryClient = new QueryClient();
 
   const authStoreIsLoading = useAuthStore((state) => state.loading);
   const restoreAuthSession = useAuthStore((state) => state.restore);
-  const initializeLanguage = useLanguageStore((state) => state.initializeLanguage);
+  const initializeLanguage = useLanguageStore(
+    (state) => state.initializeLanguage
+  );
   const languageIsLoading = useLanguageStore((state) => state.isLoading);
 
   useEffect(() => {
@@ -43,9 +46,13 @@ export default function RootLayout() {
   }, [fontsLoaded]);
 
   useEffect(() => {
-    requestPermissions().then(granted => {
+    requestPermissions().then((granted) => {
       if (!granted) {
-        console.warn("Permissions not granted for camera and microphone.", Platform.OS, Platform.Version);
+        console.warn(
+          "Permissions not granted for camera and microphone.",
+          Platform.OS,
+          Platform.Version
+        );
       }
     });
   }, []);

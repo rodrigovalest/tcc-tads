@@ -63,6 +63,17 @@
         "title": "Error de inicio de sesión",
         "message": "Algo salió mal. Intenta de nuevo"
       }
+    },
+    "googleLogin": {
+      "newUser": {
+        "title": "¡Bienvenido!",
+        "message": "Completa tu registro para continuar"
+      },
+      "error": {
+        "title": "Error de inicio con Google",
+        "message": "No se pudo iniciar sesión con Google. Intenta de nuevo",
+        "playServices": "Google Play Services no disponible"
+      }
     }
   },
   "register": {
@@ -251,6 +262,7 @@
     "letter": "Letra",
     "syllable": "Sílaba",
     "wordsFound": "Palabras encontradas",
+    "scrollHint": "Desliza hacia el lado para ver más",
     "score": "Puntuación",
     "correctWords": "Palabras correctas",
     "incorrectWords": "Palabras incorrectas",
@@ -414,6 +426,66 @@
     "hoursAgo": "hace {{hours}} horas",
     "daysAgo": "hace {{days}} días"
   },
+  "profile": {
+    "title": "Perfil",
+    "editProfile": "Editar Perfil",
+    "aboutMe": "Sobre mí",
+    "languages": "Idiomas",
+    "interests": "Intereses",
+    "accountInfo": "Información de la Cuenta",
+    "memberSince": "Miembro desde",
+    "lastLogin": "Último inicio de sesión",
+    "accountStatus": "Estado de la cuenta",
+    "active": "Activa",
+    "inactive": "Inactiva",
+    "never": "Nunca",
+    "loading": "Cargando perfil...",
+    "errorLoading": "Error al cargar el perfil",
+    "error": "Error al cargar perfil",
+    "retry": "Intentar de nuevo",
+    "tryAgain": "Intentar de nuevo",
+    "fluency": {
+      "beginner": "Principiante",
+      "intermediate": "Intermedio",
+      "advanced": "Avanzado",
+      "fluent": "Fluido",
+      "native": "Nativo",
+      "unknown": "Desconocido"
+    },
+    "googleAccount": {
+      "title": "Cuenta de Google",
+      "linkedTo": "Vinculada a",
+      "linkedStatus": "Vinculada",
+      "link": "Vincular Cuenta de Google",
+      "unlink": "Desvincular Cuenta",
+      "linkDescription": "Vincula tu cuenta de Google para iniciar sesión más fácil"
+    },
+    "googleLink": {
+      "success": {
+        "title": "Cuenta de Google vinculada",
+        "message": "Tu cuenta de Google se ha vinculado correctamente"
+      },
+      "error": {
+        "title": "Error al vincular",
+        "message": "No se pudo vincular la cuenta de Google. Intenta nuevamente"
+      }
+    },
+    "googleUnlink": {
+      "confirm": {
+        "title": "Desvincular Cuenta de Google",
+        "message": "¿Seguro que deseas desvincular tu cuenta de Google?",
+        "action": "Desvincular"
+      },
+      "success": {
+        "title": "Cuenta de Google desvinculada",
+        "message": "Tu cuenta de Google se ha desvinculado correctamente"
+      },
+      "error": {
+        "title": "Error al desvincular",
+        "message": "No se pudo desvincular la cuenta de Google. Intenta nuevamente"
+      }
+    }
+  },
   "chat": {
     "isTyping": "está escribiendo",
     "messageTooLong": "Mensaje muy largo",
@@ -430,31 +502,6 @@
     "selectAllOptions": "Selecciona el idioma destino, el modo de entrada y el nivel.",
     "sameLanguageError": "El idioma destino no puede ser el mismo que el idioma de origen.",
     "selectDifferentTargetLanguage": "Selecciona un idioma destino diferente."
-  },
-  "profile": {
-    "title": "Perfil",
-    "editProfile": "Editar Perfil",
-    "aboutMe": "Sobre mí",
-    "languages": "Idiomas",
-    "interests": "Intereses",
-    "accountInfo": "Información de la Cuenta",
-    "memberSince": "Miembro desde",
-    "lastLogin": "Último inicio de sesión",
-    "accountStatus": "Estado de la cuenta",
-    "active": "Activa",
-    "inactive": "Inactiva",
-    "never": "Nunca",
-    "loading": "Cargando perfil...",
-    "errorLoading": "Error al cargar el perfil",
-    "tryAgain": "Intentar de nuevo",
-    "fluency": {
-      "beginner": "Principiante",
-      "intermediate": "Intermedio",
-      "advanced": "Avanzado",
-      "fluent": "Fluido",
-      "native": "Nativo",
-      "unknown": "Desconocido"
-    }
   },
   "timeAttackVocab": {
     "selectLevel": "Selecciona el nivel de vocabulario",
