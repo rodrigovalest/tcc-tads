@@ -82,7 +82,7 @@ describe('WhoAmIDuoGateway (semi E2E)', () => {
   });
 
   it('who-am-i:duo:enqueue - should call WhoAmIDuoService.enqueueDuoFormatAndTryStart', (done) => {
-    const mockedLoggedJwtPayload: IUserJwtPayload = { sub: 1, email: 'testuser@example.com', username: 'testuser', nationality: CountryCode.Afghanistan };
+    const mockedLoggedJwtPayload: IUserJwtPayload = { sub: 1, email: 'testuser@example.com', username: 'testuser', nationality: CountryCode.Afghanistan, photoUri: 'example.com/photo.png' };
     const mockedJwtToken = jwtService.sign(mockedLoggedJwtPayload);
     client = io(`http://localhost:${port}`, { auth: { token: `Bearer ${mockedJwtToken}` } });
 

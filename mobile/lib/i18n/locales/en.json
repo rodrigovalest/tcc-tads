@@ -19,7 +19,11 @@
     "settings": "Settings",
     "ok": "OK",
     "skip": "Skip",
-    "matchmakingWaiting": "Almost there... finding the best match for you!"
+    "matchmakingWaiting": "Almost there... finding the best match for you!",
+    "you": "You",
+    "opponent": "Opponent",
+    "yes": "YES",
+    "no": "NO"
   },
   "auth": {
     "login": "Login",
@@ -204,14 +208,16 @@
       "conversation": "Conversation",
       "justChilling": "Just Chilling",
       "wordBuilder": "Word Builder",
-      "timeAttackVocab": "Time Attack Vocab"
+      "timeAttackVocab": "Time Attack Vocab",
+      "guessWho": "Guess Who?",
+      "whoAmI": "Who Am I"
     },
     "sourceLanguage": "Source language",
     "targetLanguage": "Target language",
     "languageToLearn": "language you want to learn",
     "responseLanguage": "response language",
     "rate": {
-      "sucess": {
+      "success": {
         "title": "Rating submitted",
         "message": "Your rating was saved successfully"
       },
@@ -256,6 +262,7 @@
     "letter": "Letter",
     "syllable": "Syllable",
     "wordsFound": "Words found",
+    "scrollHint": "Swipe sideways for more",
     "score": "Score",
     "correctWords": "Correct words",
     "incorrectWords": "Incorrect words",
@@ -363,6 +370,7 @@
     "googleAccount": {
       "title": "Google Account",
       "linkedTo": "Linked to",
+      "linkedStatus": "Linked",
       "link": "Link Google Account",
       "unlink": "Unlink Account",
       "linkDescription": "Link your Google account for easier sign-in"
@@ -556,5 +564,46 @@
     "speakTranslation": "Speak the translation",
     "enterTranslation": "Enter translation",
     "typeTranslation": "Type the translation"
+  },
+
+  "history": {
+    "noMatchesYet": "No match history yet. Start a new match to see it here!",
+    "errorLoadingHistory": "Error loading match history"
+  },
+
+  "guessWho": {
+    "title": "Guess Who?",
+    "yourCharacter": "Your character is:",
+    "yourTurn": "Your turn",
+    "yourTurnDetails": "Ask a 'yes or no' question to find out your opponent's character",
+    "answerTitle": "Answer the question from your opponent",
+    "waitingForOpponent": "Waiting for your opponent to play...",
+    "yesAnwer": "The answer was YES! Eliminate characters or try a guess.",
+    "noAnswer": "The answer was NO! Eliminate characters or try a guess.",
+    "characterSelectTitle": "You selected:",
+    "discardCharacter": "DISCARD",
+    "reopenCharacter": "REOPEN",
+    "makeGuess": "MAKE A GUESS",
+    "winTitle": "You win!",
+    "winDescription": "You guessed your opponent's character correctly.",
+    "loseTitle": "You lose!",
+    "loseDescription": "Your opponent guessed your character correctly. Your opponent's character was:",
+    "wrong_guess": "Your guess was incorrect! The game continues...",
+    "buddy_wrong_guess": "Your opponent made the following incorrect guess:"
+  },
+
+  "whoAmI": {
+    "title": "Who Am I?",
+    "hints": "Hints",
+    "loading": "Loading...",
+    "loadingHints": "Loading hints...",
+    "waitingForCharacter": "Waiting for character...",
+    "guessWhoIs": "Guess who this is",
+    "nailedIt": "Nailed it",
+    "giveUp": "Give up",
+    "loadingCharacter": "Loading a new character...",
+    "opponentSurrender": "Your adversary surrendered",
+    "congrats": "Congrats",
+    "itWas": "it was"
   }
 }

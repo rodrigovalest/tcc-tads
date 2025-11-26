@@ -23,6 +23,7 @@ const mockUserMatchRepository = (): jest.Mocked<IUserMatchRepository> => ({
   saveAll: jest.fn(),
   saveOne: jest.fn(),
   findBySocketId: jest.fn(),
+  findUserMatchesByMatchId: jest.fn(),
 });
 
 describe('MatchService', () => {
@@ -210,18 +211,23 @@ describe('MatchService', () => {
   it('findAllMatchesWithAverageScore_ShouldReturnMatchesWithScores', async () => {
     // Arrange
     const userId = 1;
-    const mockResults = [
-      { match: { id: 'match1' } as Match, averageFluencyScore: 85 },
-      { match: { id: 'match2' } as Match, averageFluencyScore: null },
-    ];
+    const mockResults = {
+      data: [
+        { match: { id: 'match1' } as Match, averageFluencyScore: 85 },
+        { match: { id: 'match2' } as Match, averageFluencyScore: null },
+      ],
+      total: 2,
+      page: 2,
+      limit: 10,
+    };
 
     matchRepository.findAllMatchesWithAverageScore.mockResolvedValue(mockResults);
 
     // Act
-    const results = await service.findAllMatchesWithAverageScore(userId);
+    const results = await service.findAllMatchesWithAverageScore(userId, 2, 20);
 
     // Assert
-    expect(matchRepository.findAllMatchesWithAverageScore).toHaveBeenCalledWith(userId);
+    expect(matchRepository.findAllMatchesWithAverageScore).toHaveBeenCalledWith(userId, 2, 20);
     expect(results).toEqual(mockResults);
   });
 });

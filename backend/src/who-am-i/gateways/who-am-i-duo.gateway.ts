@@ -110,23 +110,50 @@ export class WhoAmIDuoGateway implements OnGatewayDisconnect {
   ) {
     this.logger.log(`[new-round] User ${user.sub} started new round for match ${payload.matchId}`);
 
-    // Notifica o oponente que uma nova rodada foi iniciada
-    client.to(payload.matchId).emit('who-am-i:duo:new-round', {
+    const timerStartTimestamp = Date.now();
+    const timerDurationMs = 100000; 
+    const serverCurrentTimestamp = Date.now();
+
+    const timerData = {
       from: user.sub,
-    });
+      timerStartTimestamp: timerStartTimestamp,
+      timerDurationMs: timerDurationMs,
+      serverCurrentTimestamp: serverCurrentTimestamp,
+    };
+
+    client.to(payload.matchId).emit('who-am-i:duo:new-round', timerData);
+
+    client.emit('who-am-i:duo:new-round', timerData);
   }
 
   @UseGuards(JwtWsAuthGuard)
   @SubscribeMessage('who-am-i:duo:correct-answer')
   handleCorrectAnswer(
     @CurrentWsUser() user: IUserJwtPayload,
-    @MessageBody() payload: { matchId: string },
+    @MessageBody() payload: { matchId: string; isGiveUp?: boolean; isImageRole?: boolean },
     @ConnectedSocket() client: Socket
   ) {
     this.logger.log(`[correct-answer] User ${user.sub} got correct answer for match ${payload.matchId}`);
 
     // Notifica o oponente que ele acertou
     client.to(payload.matchId).emit('who-am-i:duo:adversary-correct', {
+      from: user.sub,
+      isGiveUp: payload.isGiveUp || false,
+      isImageRole: payload.isImageRole || false,
+    });
+  }
+
+  @UseGuards(JwtWsAuthGuard)
+  @SubscribeMessage('who-am-i:duo:game-ended')
+  handleGameEnded(
+    @CurrentWsUser() user: IUserJwtPayload,
+    @MessageBody() payload: { matchId: string },
+    @ConnectedSocket() client: Socket
+  ) {
+    this.logger.log(`[game-ended] User ${user.sub} ended game for match ${payload.matchId}`);
+
+    // Notifica o oponente que o jogo deve encerrar
+    client.to(payload.matchId).emit('who-am-i:duo:game-ended', {
       from: user.sub,
     });
   }
@@ -187,6 +214,11 @@ export class WhoAmIDuoGateway implements OnGatewayDisconnect {
     language: MatchLanguage,
     match: Match
   }) {
+   
+    const timerStartTimestamp = Date.now();
+    const timerDurationMs = 100000; 
+    const serverCurrentTimestamp = Date.now();
+
     const notifyUser = (user: UserQueue, isOfferer: boolean, pair: UserQueue) => {
       const socket = this.server.sockets.sockets.get(user.socketId);
 
@@ -202,13 +234,18 @@ export class WhoAmIDuoGateway implements OnGatewayDisconnect {
           isOfferer: isOfferer,
           matchId: payload.match.id,
           buddy: {
+            userId: pair.userId,
             username: pair.username,
             nationality: pair.nationality,
-          }
+          },
+          timerStartTimestamp: timerStartTimestamp,
+          timerDurationMs: timerDurationMs,
+          serverCurrentTimestamp: serverCurrentTimestamp, // Mesmo timestamp para ambos os jogadores
         });
       }
     };
 
+    // Notifica ambos os usuários com o mesmo timestamp de início
     notifyUser(payload.user1, true, payload.user2);
     notifyUser(payload.user2, false, payload.user1);
   }

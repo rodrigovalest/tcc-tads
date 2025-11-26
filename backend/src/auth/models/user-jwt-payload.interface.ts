@@ -5,4 +5,5 @@ export interface IUserJwtPayload {
   email: string;
   username: string;
   nationality: CountryCode;
+  photoUri: string | null;
 }

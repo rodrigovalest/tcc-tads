@@ -7,4 +7,5 @@ export interface IUserMatchRepository {
   saveOne(user: User, match: Match): Promise<UserMatch>
   saveAll(userMatches: UserMatch[]): Promise<UserMatch[]>;
   findBySocketId(socketId: string): Promise<UserMatch | null>;
+  findUserMatchesByMatchId(matchId: string): Promise<UserMatch[]>;
 }

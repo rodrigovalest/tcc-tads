@@ -19,7 +19,11 @@
     "settings": "Configuración",
     "ok": "OK",
     "skip": "Omitir",
-    "matchmakingWaiting": "¡Casi listo... buscando la mejor partida para ti!"
+    "matchmakingWaiting": "¡Casi listo... buscando la mejor partida para ti!",
+    "you": "Tú",
+    "opponent": "Oponente",
+    "yes": "SÍ",
+    "no": "NO"
   },
   "auth": {
     "login": "Iniciar sesión",
@@ -58,6 +62,17 @@
       "error": {
         "title": "Error de inicio de sesión",
         "message": "Algo salió mal. Intenta de nuevo"
+      }
+    },
+    "googleLogin": {
+      "newUser": {
+        "title": "¡Bienvenido!",
+        "message": "Completa tu registro para continuar"
+      },
+      "error": {
+        "title": "Error de inicio con Google",
+        "message": "No se pudo iniciar sesión con Google. Intenta de nuevo",
+        "playServices": "Google Play Services no disponible"
       }
     }
   },
@@ -197,10 +212,12 @@
       "conversation": "Conversación",
       "justChilling": "Relajándose",
       "wordBuilder": "Constructor de Palabras",
-      "timeAttackVocab": "Vocabulario Contra Reloj"
+      "timeAttackVocab": "Vocabulario Contra Reloj",
+      "guessWho": "¿Adivina Quién?",
+      "whoAmI": "¿Quién soy?"
     },
     "rate": {
-      "sucess": {
+      "success": {
         "title": "Calificación enviada",
         "message": "Tu calificación se guardó exitosamente"
       },
@@ -245,6 +262,7 @@
     "letter": "Letra",
     "syllable": "Sílaba",
     "wordsFound": "Palabras encontradas",
+    "scrollHint": "Desliza hacia el lado para ver más",
     "score": "Puntuación",
     "correctWords": "Palabras correctas",
     "incorrectWords": "Palabras incorrectas",
@@ -408,6 +426,66 @@
     "hoursAgo": "hace {{hours}} horas",
     "daysAgo": "hace {{days}} días"
   },
+  "profile": {
+    "title": "Perfil",
+    "editProfile": "Editar Perfil",
+    "aboutMe": "Sobre mí",
+    "languages": "Idiomas",
+    "interests": "Intereses",
+    "accountInfo": "Información de la Cuenta",
+    "memberSince": "Miembro desde",
+    "lastLogin": "Último inicio de sesión",
+    "accountStatus": "Estado de la cuenta",
+    "active": "Activa",
+    "inactive": "Inactiva",
+    "never": "Nunca",
+    "loading": "Cargando perfil...",
+    "errorLoading": "Error al cargar el perfil",
+    "error": "Error al cargar perfil",
+    "retry": "Intentar de nuevo",
+    "tryAgain": "Intentar de nuevo",
+    "fluency": {
+      "beginner": "Principiante",
+      "intermediate": "Intermedio",
+      "advanced": "Avanzado",
+      "fluent": "Fluido",
+      "native": "Nativo",
+      "unknown": "Desconocido"
+    },
+    "googleAccount": {
+      "title": "Cuenta de Google",
+      "linkedTo": "Vinculada a",
+      "linkedStatus": "Vinculada",
+      "link": "Vincular Cuenta de Google",
+      "unlink": "Desvincular Cuenta",
+      "linkDescription": "Vincula tu cuenta de Google para iniciar sesión más fácil"
+    },
+    "googleLink": {
+      "success": {
+        "title": "Cuenta de Google vinculada",
+        "message": "Tu cuenta de Google se ha vinculado correctamente"
+      },
+      "error": {
+        "title": "Error al vincular",
+        "message": "No se pudo vincular la cuenta de Google. Intenta nuevamente"
+      }
+    },
+    "googleUnlink": {
+      "confirm": {
+        "title": "Desvincular Cuenta de Google",
+        "message": "¿Seguro que deseas desvincular tu cuenta de Google?",
+        "action": "Desvincular"
+      },
+      "success": {
+        "title": "Cuenta de Google desvinculada",
+        "message": "Tu cuenta de Google se ha desvinculado correctamente"
+      },
+      "error": {
+        "title": "Error al desvincular",
+        "message": "No se pudo desvincular la cuenta de Google. Intenta nuevamente"
+      }
+    }
+  },
   "chat": {
     "isTyping": "está escribiendo",
     "messageTooLong": "Mensaje muy largo",
@@ -424,31 +502,6 @@
     "selectAllOptions": "Selecciona el idioma destino, el modo de entrada y el nivel.",
     "sameLanguageError": "El idioma destino no puede ser el mismo que el idioma de origen.",
     "selectDifferentTargetLanguage": "Selecciona un idioma destino diferente."
-  },
-  "profile": {
-    "title": "Perfil",
-    "editProfile": "Editar Perfil",
-    "aboutMe": "Sobre mí",
-    "languages": "Idiomas",
-    "interests": "Intereses",
-    "accountInfo": "Información de la Cuenta",
-    "memberSince": "Miembro desde",
-    "lastLogin": "Último inicio de sesión",
-    "accountStatus": "Estado de la cuenta",
-    "active": "Activa",
-    "inactive": "Inactiva",
-    "never": "Nunca",
-    "loading": "Cargando perfil...",
-    "errorLoading": "Error al cargar el perfil",
-    "tryAgain": "Intentar de nuevo",
-    "fluency": {
-      "beginner": "Principiante",
-      "intermediate": "Intermedio",
-      "advanced": "Avanzado",
-      "fluent": "Fluido",
-      "native": "Nativo",
-      "unknown": "Desconocido"
-    }
   },
   "timeAttackVocab": {
     "selectLevel": "Selecciona el nivel de vocabulario",
@@ -510,5 +563,46 @@
     "speakTranslation": "Habla la traducción",
     "enterTranslation": "Ingresa la traducción",
     "typeTranslation": "Escribe la traducción"
+  },
+
+  "history": {
+    "noMatchesYet": "Aún no hay historial de partidas. ¡Comienza una nueva partida para verla aquí!",
+    "errorLoadingHistory": "Error al cargar el historial de partidas"
+  },
+
+  "guessWho": {
+    "title": "¿Adivina Quién?",
+    "yourCharacter": "Tu personaje es:",
+    "yourTurn": "Tu turno",
+    "yourTurnDetails": "Haz una pregunta de 'sí o no' para descubrir el personaje de tu oponente",
+    "answerTitle": "Responde la pregunta de tu oponente",
+    "waitingForOpponent": "Esperando a que tu oponente juegue...",
+    "yesAnwer": "¡La respuesta fue SÍ! Elimina personajes o intenta una suposición.",
+    "noAnswer": "¡La respuesta fue NO! Elimina personajes o intenta una suposición.",
+    "characterSelectTitle": "Has seleccionado:",
+    "discardCharacter": "DESCARTAR",
+    "reopenCharacter": "REABRIR",
+    "makeGuess": "HACER UNA SUPOSICIÓN",
+    "winTitle": "¡Ganaste!",
+    "winDescription": "¡Adivinaste correctamente el personaje de tu oponente!",
+    "loseTitle": "¡Perdiste!",
+    "loseDescription": "Tu oponente adivinó tu personaje correctamente. El personaje de tu oponente era:",
+    "wrong_guess": "¡Tu suposición fue incorrecta! El juego continúa...",
+    "buddy_wrong_guess": "Tu oponente hizo la siguiente suposición incorrecta:"
+  },
+
+  "whoAmI": {
+    "title": "¿Quién soy yo?",
+    "hints": "Pistas",
+    "loading": "Cargando...",
+    "loadingHints": "Cargando pistas...",
+    "waitingForCharacter": "Esperando personaje...",
+    "guessWhoIs": "Adivina quién es",
+    "nailedIt": "La clavaste",
+    "giveUp": "Abandonar",
+    "loadingCharacter": "Cargando un nuevo personaje...",
+    "opponentSurrender": "Tu adversario se rindió",
+    "congrats": "Felicitaciones",
+    "itWas": "fue"
   }
 }

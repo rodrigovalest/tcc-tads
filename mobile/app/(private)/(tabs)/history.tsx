@@ -1,30 +1,40 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ScrollView, Text, View } from "react-native";
+import { View, Text, FlatList } from "react-native";
 import { useEffect } from "react";
+import Toast from "react-native-toast-message";
+import Spinner from "../../../components/Spinner";
+import MatchHistoryItem from "../../../components/MatchHistoryItem";
 import useI18n from "../../../hooks/useI18n";
 import { useMatchHistory } from "../../../hooks/useMatchHistory";
-import Spinner from "../../../components/Spinner";
-import Toast from "react-native-toast-message";
-import MatchHistoryItem from "../../../components/MatchHistoryItem";
 
 export default function History() {
   const { t } = useI18n();
   const {
-    data: matchHistoryItems,
+    data,
     isLoading,
     isError,
     error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
   } = useMatchHistory();
 
   useEffect(() => {
     if (isError && error) {
       Toast.show({
         type: "error",
-        text1: "Error loading match history",
+        text1:
+          t("history.errorLoadingHistory") || "Error loading match history",
         position: "top",
       });
     }
   }, [isError, error]);
+
+  const matchHistoryList =
+    data?.pages.flatMap((page) => {
+      if (Array.isArray(page)) return page;
+      return page?.data ?? [];
+    }) || [];
 
   if (isLoading) {
     return (
@@ -35,23 +45,32 @@ export default function History() {
   }
 
   return (
-    <SafeAreaView className="w-full h-full bg-appBgWhite pt-5">
-      <ScrollView
-        className="w-full h-full bg-appBgWhite"
+    <SafeAreaView className="flex-1 bg-appBgWhite pt-5">
+      <FlatList
+        data={matchHistoryList}
+        keyExtractor={(item, index) =>
+          item.id ? String(item.id) : `item-${index}`
+        }
         showsVerticalScrollIndicator={false}
-      >
-        <Text className="text-4xl font-nunito-bold my-8 px-10 text-appBlack">
-          {t("navigation.history")}
-        </Text>
-
-        {matchHistoryItems && matchHistoryItems.length === 0 && (
-          <Text className="text-lg font-nunito-medium py-6 px-10 text-appBlack">
-            No match history found. Start a new match to see it here!
+        onEndReached={() => {
+          if (hasNextPage) {
+            fetchNextPage();
+          }
+        }}
+        onEndReachedThreshold={0.5}
+        ListHeaderComponent={() => (
+          <Text className="text-4xl font-nunito-bold my-8 px-10 text-appBlack">
+            {t("navigation.history")}
           </Text>
         )}
-
-        {matchHistoryItems &&
-          matchHistoryItems.map((item) => (
+        ListEmptyComponent={() => (
+          <Text className="text-lg font-nunito-medium py-6 px-10 text-appBlack">
+            {t("history.noMatchesYet")}
+          </Text>
+        )}
+        renderItem={({ item }) => {
+          if (!item) return null;
+          return (
             <MatchHistoryItem
               key={item.id}
               startTime={item.startTime}
@@ -61,8 +80,16 @@ export default function History() {
               averageFluencyScore={item.averageFluencyScore}
               users={item.users}
             />
-          ))}
-      </ScrollView>
+          );
+        }}
+        ListFooterComponent={() =>
+          isFetchingNextPage ? (
+            <View className="py-4">
+              <Spinner />
+            </View>
+          ) : null
+        }
+      />
     </SafeAreaView>
   );
 }

@@ -50,14 +50,14 @@ const WordInput: React.FC<WordInputProps> = ({
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : undefined}
-      className="px-4 pt-2 pb-4"
+      className="px-4 pt-2 pb-4 bg-appBgWhite"
     >
       <View className="bg-appLightGrey rounded-xl p-4 border-2 border-appDarkGrey">
         <Text className="text-lg font-nunito-bold text-appDarkGrey mb-4">
           {title || t("wordBuilder.enterWord")}
         </Text>
 
-        <View className="flex-row items-center space-x-3">
+        <View className="flex-row items-center space-x-3 gap-2">
           {/* Input de texto */}
           <View className="flex-1">
             <TextInput

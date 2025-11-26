@@ -22,17 +22,20 @@ const MatchFormatSelector = ({
   };
 
   const getButtonClasses = (format: MatchFormat) => {
-    if (!avaliableMatchFormats.includes(format)) return "bg-appLightGrey border-appLightGrey";
+    if (!avaliableMatchFormats.includes(format))
+      return "bg-appLightGrey border-appLightGrey";
     if (selected === format) return "bg-black border-black";
     return "border-black";
   };
 
   return (
-    <View className="flex-row justify-between mt-4 space-x-4">
+    <View className="flex-row justify-evenly mt-4 space-x-4">
       <TouchableOpacity
         onPress={() => onSelect("solo")}
         disabled={!avaliableMatchFormats.includes("solo")}
-        className={`items-center p-4 rounded-lg border ${getButtonClasses("solo")}`}
+        className={`items-center p-4 rounded-lg border ${getButtonClasses(
+          "solo"
+        )}`}
       >
         <FontAwesome name="user" size={24} color={getColor("solo")} />
         <Text
@@ -46,7 +49,9 @@ const MatchFormatSelector = ({
       <TouchableOpacity
         onPress={() => onSelect("duo")}
         disabled={!avaliableMatchFormats.includes("duo")}
-        className={`items-center p-4 rounded-lg border ${getButtonClasses("duo")}`}
+        className={`items-center p-4 rounded-lg border ${getButtonClasses(
+          "duo"
+        )}`}
       >
         <FontAwesome5 name="user-friends" size={24} color={getColor("duo")} />
         <Text
@@ -57,7 +62,7 @@ const MatchFormatSelector = ({
         </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => onSelect("group")}
         disabled={!avaliableMatchFormats.includes("group")}
         className={`items-center p-4 rounded-lg border ${getButtonClasses("group")}`}
@@ -69,7 +74,7 @@ const MatchFormatSelector = ({
         >
           Group
         </Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };

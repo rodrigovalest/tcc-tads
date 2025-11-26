@@ -18,7 +18,13 @@
     "language": "Idioma",
     "settings": "Configurações",
     "ok": "OK",
-    "tryAgain": "Tentar Novamente"
+    "skip": "Pular",
+    "matchmakingWaiting": "Quase lá... Procurando o melhor oponente para você!",
+    "tryAgain": "Tentar Novamente",
+    "you": "Você",
+    "opponent": "Oponente",
+    "yes": "SIM",
+    "no": "NÃO"
   },
   "auth": {
     "login": "Entrar",
@@ -57,6 +63,17 @@
       "error": {
         "title": "Erro no login",
         "message": "Algo deu errado. Tente novamente"
+      }
+    },
+    "googleLogin": {
+      "newUser": {
+        "title": "Bem-vindo!",
+        "message": "Complete seu cadastro para continuar"
+      },
+      "error": {
+        "title": "Falha no Login Google",
+        "message": "Não foi possível entrar com Google. Tente novamente",
+        "playServices": "Google Play Services indisponível"
       }
     }
   },
@@ -192,12 +209,49 @@
       "conversation": "Conversa",
       "justChilling": "Relaxando",
       "wordBuilder": "Construtor de Palavras",
-      "timeAttackVocab": "Vocabulário Contra o Tempo"
+      "timeAttackVocab": "Vocabulário Contra o Tempo",
+      "guessWho": "Cara a cara",
+      "whoAmI": "Quem Sou Eu?"
     },
     "sourceLanguage": "Idioma fonte",
     "targetLanguage": "Idioma alvo",
     "languageToLearn": "idioma que você quer aprender",
     "responseLanguage": "idioma das respostas",
+    "rate": {
+      "success": {
+        "title": "Avaliação salva",
+        "message": "Sua avaliação foi salva com sucesso"
+      },
+      "error": {
+        "title": "Erro ao avaliar",
+        "message": "Não foi possível enviar sua avaliação. Por favor, tente novamente."
+      },
+      "title": "Como você avalia as habilidades de {{name}} em {{language}}?",
+      "subtitle": "Sua opinião ajuda seu colega a acompanhar o progresso — seja honesto e construtivo.",
+      "submit": "Enviar avaliação",
+      "levels": {
+        "1": {
+          "title": "Principiante",
+          "description": "Conhece poucas palavras, ainda há muito a aprender"
+        },
+        "2": {
+          "title": "Elementar",
+          "description": "Consegue se comunicar em situações simples, mas tem dificuldades com temas mais complexos"
+        },
+        "3": {
+          "title": "Intermediário",
+          "description": "Consegue se comunicar na maioria das situações, mas ainda comete alguns erros"
+        },
+        "4": {
+          "title": "Avançado",
+          "description": "Consegue se comunicar com fluidez e precisão na maioria das situações"
+        },
+        "5": {
+          "title": "Fluente",
+          "description": "Consegue se comunicar com fluidez e precisão em todas as situações"
+        }
+      }
+    },
     "errors": {
       "somethingWentWrong": "Algo deu errado!"
     }
@@ -209,6 +263,7 @@
     "letter": "Letra",
     "syllable": "Sílaba",
     "wordsFound": "Palavras encontradas",
+    "scrollHint": "Deslize para o lado para ver mais",
     "score": "Pontuação",
     "correctWords": "Palavras corretas",
     "incorrectWords": "Palavras incorretas",
@@ -266,6 +321,8 @@
     "never": "Nunca",
     "loading": "Carregando perfil...",
     "errorLoading": "Erro ao carregar perfil",
+    "error": "Falha ao carregar perfil",
+    "retry": "Tentar novamente",
     "tryAgain": "Tentar Novamente",
     "fluency": {
       "beginner": "Iniciante",
@@ -274,6 +331,39 @@
       "fluent": "Fluente",
       "native": "Nativo",
       "unknown": "Desconhecido"
+    },
+    "googleAccount": {
+      "title": "Conta Google",
+      "linkedTo": "Vinculada a",
+      "linkedStatus": "Vinculada",
+      "link": "Vincular Conta Google",
+      "unlink": "Desvincular Conta",
+      "linkDescription": "Vincule sua conta Google para facilitar o acesso"
+    },
+    "googleLink": {
+      "success": {
+        "title": "Conta Google vinculada",
+        "message": "Sua conta Google foi vinculada com sucesso"
+      },
+      "error": {
+        "title": "Falha ao vincular",
+        "message": "Não foi possível vincular a conta Google. Tente novamente"
+      }
+    },
+    "googleUnlink": {
+      "confirm": {
+        "title": "Desvincular Conta Google",
+        "message": "Tem certeza que deseja desvincular sua conta Google?",
+        "action": "Desvincular"
+      },
+      "success": {
+        "title": "Conta Google desvinculada",
+        "message": "Sua conta Google foi desvinculada com sucesso"
+      },
+      "error": {
+        "title": "Falha ao desvincular",
+        "message": "Não foi possível desvincular a conta Google. Tente novamente"
+      }
     }
   },
   "settings": {
@@ -415,6 +505,7 @@
     "selectDifferentTargetLanguage": "Selecione um idioma alvo diferente."
   },
   "timeAttackVocab": {
+    "title": "Vocabulário Contra o Tempo",
     "selectLevel": "Selecione o nível de vocabulário",
     "levels": {
       "basic": "Básico",
@@ -423,23 +514,97 @@
     },
     "setup": "Configuração do Vocabulário Contra o Tempo",
     "wordsWillAppearIn": "As palavras aparecerão em",
-    "gameFormat": "Formato do jogo",
+    "gameFormat": "Formato: traduzir do idioma fonte para o alvo",
     "gameMode": "Modo de jogo",
     "translateThis": "Traduza esta palavra",
-    "from": "do",
-    "to": "para o",
-    "score": "Pontuação",
-    "wordsTranslated": "Palavras traduzidas",
-    "typeTranslation": "Digite a tradução",
+    "from": "de",
+    "to": "para",
+    "selectSourceLanguage": "Selecione seu idioma nativo",
+    "selectTargetLanguage": "Selecione o idioma que deseja praticar",
+    "selectInputMode": "Selecione como deseja responder",
+    "inputModes": {
+      "text": "Digitar",
+      "voice": "Voz"
+    },
+    "startGame": "Iniciar Jogo",
     "gameOver": "Fim de Jogo!",
+    "score": "Pontuação",
+    "timeUp": "Tempo esgotado!",
+    "correctAnswers": "Respostas corretas",
+    "totalWords": "Total de palavras",
     "finalScore": "Pontuação final",
+    "wordsTranslated": "Palavras traduzidas",
     "correctTranslations": "Traduções corretas",
     "incorrectTranslations": "Traduções incorretas",
     "avgTimePerWord": "Tempo médio por palavra",
+    "accuracy": "Precisão",
+    "wordsPerMinute": "Palavras por minuto",
     "playAgain": "Jogar Novamente",
     "backToMenu": "Voltar ao Menu",
-    "speakTranslation": "Fale a tradução",
+    "translate": "Traduzir",
+    "skip": "Pular",
+    "submit": "Enviar",
+    "listening": "Ouvindo...",
+    "processing": "Processando...",
     "tapToSpeak": "Toque para falar",
-    "enterTranslation": "Digite a tradução"
+    "tapToStop": "Toque para parar",
+    "voiceError": "Erro de reconhecimento de voz",
+    "tryAgainVoice": "Tente novamente",
+    "correct": "Correto!",
+    "incorrect": "Incorreto",
+    "expectedAnswer": "Resposta esperada",
+    "yourAnswer": "Sua resposta",
+    "timeLeft": "Tempo restante",
+    "seconds": "segundos",
+    "results": "Resultados",
+    "excellent": "Excelente!",
+    "good": "Bom!",
+    "needsImprovement": "Precisa melhorar",
+    "keepPracticing": "Continue praticando",
+    "speakTranslation": "Fale a tradução",
+    "enterTranslation": "Digite a tradução",
+    "typeTranslation": "Digite a tradução"
+  },
+
+  "history": {
+    "noMatchesYet": "Ainda não há histórico de partidas. Comece uma nova partida para vê-lo aqui!",
+    "errorLoadingHistory": "Erro ao carregar o histórico de partidas"
+  },
+
+  "guessWho": {
+    "title": "Cara a cara",
+    "yourCharacter": "Seu personagem é:",
+    "yourTurn": "Sua vez",
+    "yourTurnDetails": "Faça uma pergunta de 'sim ou não' para descobrir o personagem de seu oponente",
+    "answerTitle": "Responda à pergunta do seu oponente",
+    "waitingForOpponent": "Aguardando seu oponente jogar...",
+    "yesAnwer": "A resposta foi SIM! Elimine personagens ou tente um palpite.",
+    "noAnswer": "A resposta foi NÃO! Elimine personagens ou tente um palpite.",
+    "characterSelectTitle": "Você selecionou:",
+    "discardCharacter": "DESCARTAR",
+    "reopenCharacter": "REABRIR",
+    "makeGuess": "FAZER PALPITE",
+    "winTitle": "Você Venceu!",
+    "winDescription": "Fez um palpite correto. Parabéns!",
+    "loseTitle": "Você Perdeu!",
+    "loseDescription": "Seu oponente fez um palpite correto. O personagem do seu oponente era:",
+    "lose": "Você perdeu! Seu oponente fez um palpite correto. O personagem do seu amigo era:",
+    "wrong_guess": "Você fez um palpite errado! O jogo continua...",
+    "buddy_wrong_guess": "Seu amigo fez o seguinte palpite errado:"
+  },
+
+  "whoAmI": {
+    "title": "Quem sou eu?",
+    "hints": "Dicas",
+    "loading": "Carregando...",
+    "loadingHints": "Carregando dicas...",
+    "waitingForCharacter": "Aguardando personagem...",
+    "guessWhoIs": "Adivinhe quem é",
+    "nailedIt": "Acertou em cheio",
+    "giveUp": "Desistir",
+    "loadingCharacter": "Carregando novo personagem...",
+    "opponentSurrender": "Seu adversário desistiu",
+    "congrats": "Parabéns",
+    "itWas": "era"
   }
 }

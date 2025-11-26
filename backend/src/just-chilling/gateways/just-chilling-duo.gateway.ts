@@ -13,7 +13,7 @@ import { MatchMode } from '../../match/entities/match-mode.enum';
 import { UserQueue } from '../../match/entities/user-queue.entity';
 import { EnqueueMessageDto } from '../dtos/messages/enqueue-message.dto';
 import { OnEvent } from '@nestjs/event-emitter';
-import { Match } from 'src/match/entities/match.entity';
+import { Match } from '../../match/entities/match.entity';
 
 @UsePipes(new WsValidationPipe())
 @UseFilters(new WsExceptionFilter())
