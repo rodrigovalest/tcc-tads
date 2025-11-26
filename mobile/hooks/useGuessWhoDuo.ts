@@ -20,10 +20,10 @@ import IGuessWhoRoundStart from "../models/interfaces/guess-who/guess-who-round-
 import IGuessWhoWaiting from "../models/interfaces/guess-who/guess-who-waiting";
 import IGuessWhoWrongGuess from "../models/interfaces/guess-who/guess-who-wrong-guess";
 
-const turnServerUrl = '192.168.0.106';
-const turnServerPort = '3478';
-const turnServerUsername = 'webrtcuser';
-const turnServerCredential = 'webrctpass';
+const turnServerUrl = process.env.EXPO_PUBLIC_TURN_SERVER_URL ?? "192.168.0.101";
+const turnServerPort = process.env.EXPO_PUBLIC_TURN_SERVER_PORT ?? "3478";
+const turnServerUsername = process.env.EXPO_PUBLIC_TURN_SERVER_USERNAME ?? "webrtcuser";
+const turnServerCredential = process.env.EXPO_PUBLIC_TURN_SERVER_CREDENTIAL ?? "webrctpass";
 
 const PEER_CONSTRAINTS = {
   iceServers: [
