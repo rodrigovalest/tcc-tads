@@ -1,6 +1,6 @@
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import BottomNavigation from '../../../components/BottomNavigation';
@@ -10,182 +10,147 @@ import { COLORS } from '../../../constants/colors';
 export default function FriendsHub() {
   const { t } = useI18n();
 
+  const MenuCard = ({ 
+    icon, 
+    title, 
+    description, 
+    onPress, 
+    bgColor,
+    iconBgColor,
+    iconColor = COLORS.appDarkGrey,
+    showPaw = false
+  }: {
+    icon: string;
+    title: string;
+    description: string;
+    onPress: () => void;
+    bgColor: string;
+    iconBgColor: string;
+    iconColor?: string;
+    showPaw?: boolean;
+  }) => (
+    <TouchableOpacity
+      onPress={onPress}
+      activeOpacity={0.8}
+      className="mb-4"
+    >
+      <View 
+        className="rounded-2xl overflow-hidden shadow-lg border border-appLightGrey" 
+        style={{ 
+          elevation: 3,
+          backgroundColor: bgColor,
+        }}
+      >
+        <View className="p-5">
+          <View className="flex-row items-center">
+            <View 
+              style={{ backgroundColor: iconBgColor }}
+              className="w-14 h-14 rounded-xl items-center justify-center mr-4 shadow-sm"
+            >
+              <Ionicons name={icon as any} size={26} color={iconColor} />
+            </View>
+            <View className="flex-1">
+              <View className="flex-row items-center">
+                <Text className="text-lg font-nunito-bold text-appDarkGrey mb-1 flex-1">
+                  {title}
+                </Text>
+                {showPaw && (
+                  <Text className="text-xl ml-2">🐾</Text>
+                )}
+              </View>
+              <Text className="text-sm font-nunito-regular text-appMediumGrey leading-5">
+                {description}
+              </Text>
+            </View>
+            <Ionicons name="chevron-forward" size={22} color={COLORS.appMediumGrey} />
+          </View>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+
   return (
     <View className="flex-1 bg-appBgWhite">
-      <SafeAreaView className="flex-1 px-6 pt-6">
-        <View className="flex-row items-center mb-8">
+      <SafeAreaView className="flex-1 px-5 pt-4">
+        <View className="flex-row items-center mb-6">
           <TouchableOpacity
             onPress={() => router.back()}
-            className="w-12 h-12 rounded-full bg-appLightGrey items-center justify-center mr-4"
+            className="w-11 h-11 rounded-full bg-appLightGrey items-center justify-center mr-4"
+            activeOpacity={0.7}
           >
-            <Ionicons name="arrow-back" size={20} color={COLORS.appDarkGrey} />
+            <Ionicons name="arrow-back" size={22} color={COLORS.appDarkGrey} />
           </TouchableOpacity>
-          <Text className="text-3xl font-nunito-bold text-appBlack">
-            {t('friends.friends')}
-          </Text>
+          <View className="flex-1">
+            <View className="flex-row items-center">
+              <Image
+                source={require('../../../assets/images/calle-dog-icon.png')}
+                className="w-10 h-10 mr-2"
+              />
+              <Text className="text-3xl font-nunito-bold text-appBlack">
+                {t('friends.friends')}
+              </Text>
+            </View>
+            <Text className="text-sm font-nunito-regular text-appMediumGrey mt-1">
+              {t('friends.manageYourFriends')}
+            </Text>
+          </View>
         </View>
 
         <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
           {/* Friends List */}
-          <View className="bg-appBgBeige rounded-xl p-6 mb-6 border border-appLightGrey shadow-sm">
-            <View className="flex-row items-center mb-4">
-              <View 
-                style={{ backgroundColor: COLORS.appYellow }}
-                className="w-12 h-12 rounded-full items-center justify-center mr-4"
-              >
-                <Ionicons name="people" size={24} color={COLORS.appDarkGrey} />
-              </View>
-              <View className="flex-1">
-                <Text className="text-lg font-nunito-bold text-appBlack">
-                  {t('friends.friendsList')}
-                </Text>
-                <Text className="text-sm font-nunito-regular text-appMediumGrey">
-                  {t('friends.friendsListDescription')}
-                </Text>
-              </View>
-            </View>
-            <TouchableOpacity
-              onPress={() => router.push('/(private)/friends/list')}
-              style={{ backgroundColor: COLORS.appYellow }}
-              className="w-full py-4 px-6 rounded-lg flex-row items-center justify-center"
-            >
-              <Text className="text-base font-nunito-bold text-appDarkGrey mr-2">
-                {t('friends.viewFriends')}
-              </Text>
-              <Ionicons name="arrow-forward" size={16} color={COLORS.appDarkGrey} />
-            </TouchableOpacity>
-          </View>
+          <MenuCard
+            icon="people"
+            title={t('friends.friendsList')}
+            description={t('friends.friendsListDescription')}
+            onPress={() => router.push('/(private)/friends/list')}
+            bgColor={COLORS.appBgBeige}
+            iconBgColor={COLORS.appYellow}
+            iconColor={COLORS.appDarkGrey}
+            showPaw={true}
+          />
 
           {/* Search Users */}
-          <View className="bg-appBgBeige rounded-xl p-6 mb-6 border border-appLightGrey shadow-sm">
-            <View className="flex-row items-center mb-4">
-              <View 
-                style={{ backgroundColor: COLORS.appDarkGrey }}
-                className="w-12 h-12 rounded-full items-center justify-center mr-4"
-              >
-                <Ionicons name="search" size={24} color={COLORS.appBgBeige} />
-              </View>
-              <View className="flex-1">
-                <Text className="text-lg font-nunito-bold text-appBlack">
-                  {t('friends.searchUsers')}
-                </Text>
-                <Text className="text-sm font-nunito-regular text-appMediumGrey">
-                  {t('friends.searchUsersDescription')}
-                </Text>
-              </View>
-            </View>
-            <TouchableOpacity
-              onPress={() => router.push('/(private)/friends/search')}
-              style={{ backgroundColor: COLORS.appDarkGrey }}
-              className="w-full py-4 px-6 rounded-lg flex-row items-center justify-center"
-            >
-              <Text className="text-base font-nunito-bold text-appBgBeige mr-2">
-                {t('friends.searchUsers')}
-              </Text>
-              <Ionicons name="arrow-forward" size={16} color={COLORS.appBgBeige} />
-            </TouchableOpacity>
-          </View>
+          <MenuCard
+            icon="search"
+            title={t('friends.searchUsers')}
+            description={t('friends.searchUsersDescription')}
+            onPress={() => router.push('/(private)/friends/search')}
+            bgColor={COLORS.appLightGrey}
+            iconBgColor={COLORS.appDarkGrey}
+            iconColor="white"
+            showPaw={true}
+          />
 
           {/* Received Requests */}
-          <View className="bg-appBgBeige rounded-xl p-6 mb-6 border border-appLightGrey shadow-sm">
-            <View className="flex-row items-center mb-4">
-              <View 
-                style={{ backgroundColor: COLORS.appMediumRed }}
-                className="w-12 h-12 rounded-full items-center justify-center mr-4"
-              >
-                <Ionicons name="mail" size={24} color="white" />
-              </View>
-              <View className="flex-1">
-                <Text className="text-lg font-nunito-bold text-appBlack">
-                  {t('friends.receivedRequests')}
-                </Text>
-                <Text className="text-sm font-nunito-regular text-appMediumGrey">
-                  {t('friends.receivedRequestsDescription')}
-                </Text>
-              </View>
-            </View>
-            <TouchableOpacity
-              onPress={() => router.push('/(private)/friends/requests-received')}
-              style={{ backgroundColor: COLORS.appMediumRed }}
-              className="w-full py-4 px-6 rounded-lg flex-row items-center justify-center"
-            >
-              <Text className="text-base font-nunito-bold text-white mr-2">
-                {t('friends.viewReceivedRequests')}
-              </Text>
-              <Ionicons name="arrow-forward" size={16} color="white" />
-            </TouchableOpacity>
-          </View>
+          <MenuCard
+            icon="mail"
+            title={t('friends.receivedRequests')}
+            description={t('friends.receivedRequestsDescription')}
+            onPress={() => router.push('/(private)/friends/requests-received')}
+            bgColor={COLORS.appBgBeige}
+            iconBgColor={COLORS.appRed}
+            iconColor="white"
+            showPaw={true}
+          />
 
           {/* Sent Requests */}
-          <View className="bg-appBgBeige rounded-xl p-6 mb-6 border border-appLightGrey shadow-sm">
-            <View className="flex-row items-center mb-4">
-              <View 
-                style={{ backgroundColor: COLORS.testblue }}
-                className="w-12 h-12 rounded-full items-center justify-center mr-4"
-              >
-                <Ionicons name="send" size={24} color="white" />
-              </View>
-              <View className="flex-1">
-                <Text className="text-lg font-nunito-bold text-appBlack">
-                  {t('friends.sentRequests')}
-                </Text>
-                <Text className="text-sm font-nunito-regular text-appMediumGrey">
-                  {t('friends.sentRequestsDescription')}
-                </Text>
-              </View>
-            </View>
-            <TouchableOpacity
-              onPress={() => router.push('/(private)/friends/requests-sent')}
-              style={{ backgroundColor: COLORS.testblue }}
-              className="w-full py-4 px-6 rounded-lg flex-row items-center justify-center"
-            >
-              <Text className="text-base font-nunito-bold text-white mr-2">
-                {t('friends.viewSentRequests')}
-              </Text>
-              <Ionicons name="arrow-forward" size={16} color="white" />
-            </TouchableOpacity>
-          </View>
+          <MenuCard
+            icon="send"
+            title={t('friends.sentRequests')}
+            description={t('friends.sentRequestsDescription')}
+            onPress={() => router.push('/(private)/friends/requests-sent')}
+            bgColor={COLORS.appLightGrey}
+            iconBgColor={COLORS.appDarkGrey}
+            iconColor="white"
+            showPaw={true}
+          />
 
-          <View className="bg-appBgBeige rounded-xl p-6 mb-6 border border-appLightGrey shadow-sm">
-            <View className="flex-row items-center mb-4">
-              <View 
-                style={{ backgroundColor: COLORS.appYellow }}
-                className="w-12 h-12 rounded-full items-center justify-center mr-4"
-              >
-                <Ionicons name="game-controller" size={24} color={COLORS.appDarkGrey} />
-              </View>
-              <View className="flex-1">
-                <Text className="text-lg font-nunito-bold text-appBlack">
-                  Convites de Jogo
-                </Text>
-                <Text className="text-sm font-nunito-regular text-appMediumGrey">
-                  Ver e gerenciar convites de jogo
-                </Text>
-              </View>
-            </View>
-            <TouchableOpacity
-              onPress={() => router.push('/(private)/game-invites')}
-              style={{ backgroundColor: COLORS.appYellow }}
-              className="w-full py-4 px-6 rounded-lg flex-row items-center justify-center mb-2"
-            >
-              <Text className="text-base font-nunito-bold text-appDarkGrey mr-2">
-                Ver Convites
-              </Text>
-              <Ionicons name="arrow-forward" size={16} color={COLORS.appDarkGrey} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => router.push('/(private)/game-invites/send')}
-              style={{ backgroundColor: COLORS.appDarkGrey }}
-              className="w-full py-4 px-6 rounded-lg flex-row items-center justify-center"
-            >
-              <Text className="text-base font-nunito-bold text-appBgBeige mr-2">
-                {t('friends.inviteFriendToPlay')}
-              </Text>
-              <Ionicons name="arrow-forward" size={16} color={COLORS.appBgBeige} />
-            </TouchableOpacity>
+          <View className="items-center mt-4 mb-6">
+            <Text className="text-2xl">🐾</Text>
+            <Text className="text-xs font-nunito-regular text-appMediumGrey mt-1">
+              {t('friends.manageYourFriends')}
+            </Text>
           </View>
-
-          <View className="h-4" />
         </ScrollView>
       </SafeAreaView>
       

@@ -1,4 +1,7 @@
 {
+  "general": {
+    "noLanguages": "No languages informed"
+  },
   "common": {
     "play": "Play",
     "back": "Back",
@@ -414,6 +417,7 @@
   "friends": {
     "friends": "Friends",
     "searchUsers": "Search users",
+    "searching": "Searching...",
     "searchByUsername": "Search by name or username",
     "enterUsername": "Enter name or username",
     "search": "Search",
@@ -433,6 +437,7 @@
     "viewFriends": "View friends",
     "loadingRequests": "Loading requests...",
     "noReceivedRequests": "No received requests",
+    "noReceivedRequestsDescription": "Received friendship requests will appear here",
     "noSentRequests": "No sent requests",
     "noSentRequestsDescription": "Your sent friendship requests will appear here",
     "failedToLoadRequests": "Failed to load requests",
@@ -442,6 +447,7 @@
     "cancelRequestConfirm": "Are you sure you want to cancel this request?",
     "requestSent": "Sent",
     "requestReceived": "Received",
+    "alreadyFriend": "Already friend",
     "requestSentSuccess": "Request sent to {name}!",
     "sentOn": "Sent on",
     "pending": "Pending",
@@ -452,6 +458,7 @@
     "searchFriendsPlaceholder": "Enter friend's name...",
     "noFriendsFound": "No friends found",
     "noFriends": "No friends yet",
+    "nofriendDescription": "Add friends to practice languages together",
     "startChat": "Start chat",
     "inviteToGame": "Invite to Play",
     "calling": "Calling...",
@@ -494,7 +501,10 @@
     "justNow": "just now",
     "minutesAgo": "{{minutes}} minutes ago",
     "hoursAgo": "{{hours}} hours ago",
-    "daysAgo": "{{days}} days ago"
+    "daysAgo": "{{days}} days ago",
+    "manageYourFriends": "Manage your friends and connections",
+    "gameInvites": "Game Invites",
+    "gameInvitesDescription": "View and manage your game invites"
   },
   "chat": {
     "isTyping": "is typing",

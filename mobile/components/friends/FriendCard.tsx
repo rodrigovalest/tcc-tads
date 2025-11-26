@@ -24,23 +24,26 @@ export const FriendCard: React.FC<FriendCardProps> = ({
   const isRemoving = removing === friendship.friend.id;
 
   return (
-    <View className="bg-appLightGrey rounded-xl p-5 mb-4">
+    <View className="bg-white rounded-xl p-5 mb-4 border border-appLightGrey shadow-sm">
       <View className="flex-row items-center mb-4">
-        <View className="w-14 h-14 bg-appMediumGrey rounded-full items-center justify-center mr-4">
+        <View className="w-16 h-16 bg-appLightGrey rounded-full items-center justify-center mr-4 border-2 border-white shadow-sm">
           {friendship.friend.photoUri ? (
             <Image
               source={{ uri: friendship.friend.photoUri }}
-              className="w-14 h-14 rounded-full"
+              className="w-16 h-16 rounded-full"
               resizeMode="cover"
             />
           ) : (
-            <Ionicons name="person" size={24} color="white" />
+            <Ionicons name="person" size={28} color={COLORS.appMediumGrey} />
           )}
         </View>
         <View className="flex-1">
-          <Text className="text-lg font-nunito-bold text-appBlack">
-            {friendship.friend.name}
-          </Text>
+          <View className="flex-row items-center">
+            <Text className="text-lg font-nunito-bold text-appBlack flex-1">
+              {friendship.friend.name}
+            </Text>
+            <Text className="text-sm">🐾</Text>
+          </View>
           <Text className="text-sm font-nunito-medium text-appMediumGrey mb-1">
             @{friendship.friend.username}
           </Text>
@@ -59,10 +62,11 @@ export const FriendCard: React.FC<FriendCardProps> = ({
       <View className="flex-row">
         <TouchableOpacity
           onPress={() => onStartChat(friendship.friend.id)}
-          className="flex-1 bg-appBlack py-3 px-4 rounded-xl flex-row items-center justify-center mr-2"
+          className="flex-1 bg-appDarkGrey py-3 px-4 rounded-xl flex-row items-center justify-center mr-2 shadow-sm"
+          activeOpacity={0.8}
         >
           <Ionicons name="chatbubble-ellipses" size={18} color="white" />
-          <Text className="text-white font-nunito-bold text-base ml-2">
+          <Text className="text-white font-nunito-semibold text-base ml-2">
             {t('friends.startChat')}
           </Text>
         </TouchableOpacity>
@@ -70,15 +74,16 @@ export const FriendCard: React.FC<FriendCardProps> = ({
         <TouchableOpacity
           onPress={() => onRemoveFriend(friendship.friend.id, friendship.friend.username)}
           disabled={isRemoving}
-          className="flex-1 bg-appMediumRed py-3 px-4 rounded-xl flex-row items-center justify-center ml-2"
+          className="flex-1 bg-white py-3 px-4 rounded-xl flex-row items-center justify-center ml-2 shadow-sm border-2 border-appMediumGrey"
           style={{ opacity: isRemoving ? 0.5 : 1 }}
+          activeOpacity={0.8}
         >
           {isRemoving ? (
-            <ActivityIndicator size="small" color="white" />
+            <ActivityIndicator size="small" color={COLORS.appDarkGrey} />
           ) : (
             <>
-              <Ionicons name="person-remove" size={18} color="white" />
-              <Text className="text-white font-nunito-bold text-base ml-2">
+              <Ionicons name="person-remove" size={18} color={COLORS.appDarkGrey} />
+              <Text className="text-appDarkGrey font-nunito-semibold text-base ml-2">
                 {t('friends.remove')}
               </Text>
             </>

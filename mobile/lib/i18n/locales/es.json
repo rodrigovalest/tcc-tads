@@ -373,6 +373,7 @@
     "viewFriends": "Ver amigos",
     "loadingRequests": "Cargando solicitudes...",
     "noReceivedRequests": "No hay solicitudes recibidas",
+    "noReceivedRequestsDescription": "Las solicitudes de amistad recibidas aparecerán aquí",
     "noSentRequests": "No hay solicitudes enviadas",
     "noSentRequestsDescription": "Tus solicitudes de amistad enviadas aparecerán aquí",
     "failedToLoadRequests": "Error al cargar solicitudes",
@@ -382,6 +383,7 @@
     "cancelRequestConfirm": "¿Estás seguro de que quieres cancelar esta solicitud?",
     "requestSent": "Enviado",
     "requestReceived": "Recibido",
+    "alreadyFriend": "Ya es amigo",
     "requestSentSuccess": "¡Solicitud enviada a {name}!",
     "sentOn": "Enviado el",
     "pending": "Pendiente",
@@ -434,7 +436,10 @@
     "justNow": "ahora mismo",
     "minutesAgo": "hace {{minutes}} minutos",
     "hoursAgo": "hace {{hours}} horas",
-    "daysAgo": "hace {{days}} días"
+    "daysAgo": "hace {{days}} días",
+    "manageYourFriends": "Gestiona tus amigos y conexiones",
+    "gameInvites": "Invitaciones de Juego",
+    "gameInvitesDescription": "Ver y gestionar tus invitaciones de juego"
   },
   "profile": {
     "title": "Perfil",

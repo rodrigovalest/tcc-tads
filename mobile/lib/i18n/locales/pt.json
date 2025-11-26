@@ -1,4 +1,7 @@
 {
+  "general": {
+    "noLanguages": "Nenhum idioma informado"
+  },
   "common": {
     "play": "Jogar",
     "back": "Voltar",
@@ -415,6 +418,7 @@
   "friends": {
     "friends": "Amigos",
     "searchUsers": "Buscar usuários",
+    "searching": "Procurando...",
     "searchByUsername": "Buscar por nome ou nome de usuário",
     "enterUsername": "Digite o nome ou nome de usuário",
     "search": "Buscar",
@@ -434,6 +438,7 @@
     "viewFriends": "Ver amigos",
     "loadingRequests": "Carregando solicitações...",
     "noReceivedRequests": "Nenhuma solicitação recebida",
+    "noReceivedRequestsDescription": "As solicitações de amizade recebidas aparecerão aqui",
     "noSentRequests": "Nenhuma solicitação enviada",
     "noSentRequestsDescription": "Suas solicitações de amizade enviadas aparecerão aqui",
     "failedToLoadRequests": "Falha ao carregar solicitações",
@@ -443,6 +448,7 @@
     "cancelRequestConfirm": "Tem certeza que deseja cancelar esta solicitação?",
     "requestSent": "Enviado",
     "requestReceived": "Recebido",
+    "alreadyFriend": "Já é amigo",
     "requestSentSuccess": "Solicitação enviada para {name}!",
     "sentOn": "Enviado em",
     "pending": "Pendente",
@@ -453,6 +459,7 @@
     "searchFriendsPlaceholder": "Digite o nome do amigo...",
     "noFriendsFound": "Nenhum amigo encontrado",
     "noFriends": "Nenhum amigo ainda",
+    "nofriendDescription": "Adicione amigos para praticar idiomas juntos",
     "startChat": "Iniciar conversa",
     "inviteToGame": "Convidar para Jogar",
     "calling": "Chamando...",
@@ -495,7 +502,10 @@
     "justNow": "agora mesmo",
     "minutesAgo": "há {{minutes}} minutos",
     "hoursAgo": "há {{hours}} horas",
-    "daysAgo": "há {{days}} dias"
+    "daysAgo": "há {{days}} dias",
+    "manageYourFriends": "Gerencie seus amigos e conexões",
+    "gameInvites": "Convites de Jogo",
+    "gameInvitesDescription": "Veja e gerencie seus convites de jogo"
   },
   "chat": {
     "isTyping": "está digitando",
