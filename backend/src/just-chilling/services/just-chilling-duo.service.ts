@@ -53,6 +53,56 @@ export class JustChillingDuoService {
       });
     }
   }
+
+  async startDirectMatch(
+    user1Id: number,
+    user2Id: number,
+    user1SocketId: string,
+    user2SocketId: string,
+    user1Username: string,
+    user2Username: string,
+    user1Nationality: string,
+    user2Nationality: string,
+    language: MatchLanguage,
+  ): Promise<void> {
+    this.logger.log(
+      `Starting direct just-chilling match between users ${user1Id} and ${user2Id}`,
+    );
+
+    const userQueue1 = new UserQueue(
+      user1Id,
+      user1Username,
+      user1Nationality as any,
+      user1SocketId,
+      MatchMode.JUST_CHILLING,
+      MatchFormat.DUO,
+      language,
+    );
+
+    const userQueue2 = new UserQueue(
+      user2Id,
+      user2Username,
+      user2Nationality as any,
+      user2SocketId,
+      MatchMode.JUST_CHILLING,
+      MatchFormat.DUO,
+      language,
+    );
+
+    const match: Match = await this.matchService.createMatch(
+      MatchMode.JUST_CHILLING,
+      MatchFormat.DUO,
+      language,
+      [userQueue1, userQueue2],
+    );
+
+    this.eventEmitter.emit('just-chilling:duo:match-started', {
+      user1: userQueue1,
+      user2: userQueue2,
+      language: language,
+      match,
+    });
+  }
   
   async handleDisconnect(socketId: string): Promise<void> {
     const userQueue = await this.queueService.findUserBySocketId(socketId);

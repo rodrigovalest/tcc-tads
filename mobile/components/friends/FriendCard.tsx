@@ -10,13 +10,15 @@ interface FriendCardProps {
   removing: number | null;
   onStartChat: (friendId: number) => void;
   onRemoveFriend: (friendId: number, friendName: string) => void;
+  onInviteToGame?: (friendId: number) => void;
 }
 
 export const FriendCard: React.FC<FriendCardProps> = ({
   friendship,
   removing,
   onStartChat,
-  onRemoveFriend
+  onRemoveFriend,
+  onInviteToGame,
 }) => {
   const { t } = useI18n();
   const isRemoving = removing === friendship.friend.id;

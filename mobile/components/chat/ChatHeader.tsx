@@ -3,17 +3,22 @@ import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import useI18n from '../../hooks/useI18n';
+import { COLORS } from '../../constants/colors';
 
 interface ChatHeaderProps {
   friendName: string;
   friendPhoto: string | null;
   isOnline: boolean;
+  friendId?: number;
+  onInviteToGame?: () => void;
 }
 
 export const ChatHeader: React.FC<ChatHeaderProps> = ({
   friendName,
   friendPhoto,
-  isOnline
+  isOnline,
+  friendId,
+  onInviteToGame,
 }) => {
   const { t } = useI18n();
 
@@ -53,9 +58,15 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
         </Text>
       </View>
 
-      <TouchableOpacity className="w-10 h-10 rounded-full bg-appLightGrey items-center justify-center">
-        <Ionicons name="ellipsis-vertical" size={18} color="#262B2A" />
-      </TouchableOpacity>
+      {onInviteToGame && (
+        <TouchableOpacity
+          onPress={onInviteToGame}
+          className="w-10 h-10 rounded-full bg-appYellow items-center justify-center mr-2"
+        >
+          <Ionicons name="game-controller" size={20} color={COLORS.appDarkGrey} />
+        </TouchableOpacity>
+      )}
+
     </View>
   );
 };

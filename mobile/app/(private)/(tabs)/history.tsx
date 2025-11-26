@@ -72,7 +72,6 @@ export default function History() {
           if (!item) return null;
           return (
             <MatchHistoryItem
-              key={item.id}
               startTime={item.startTime}
               endTime={item.endTime}
               mode={item.mode}

@@ -182,6 +182,34 @@ export class WhoAmIDuoGateway implements OnGatewayDisconnect {
     await this.whoAmIDuoService.handleDisconnect(client.id);
   }
 
+  @OnEvent('game-invite:start-direct-match')
+  async handleDirectMatchStart(payload: {
+    inviterId: number;
+    inviteeId: number;
+    inviterUsername: string;
+    inviteeUsername: string;
+    inviterNationality: string;
+    inviteeNationality: string;
+    inviterSocketId: string;
+    inviteeSocketId: string;
+    matchMode: MatchMode;
+    matchLanguage: MatchLanguage;
+  }) {
+    if (payload.matchMode === MatchMode.WHO_AM_I) {
+      await this.whoAmIDuoService.startDirectMatch(
+        payload.inviterId,
+        payload.inviteeId,
+        payload.inviterSocketId,
+        payload.inviteeSocketId,
+        payload.inviterUsername,
+        payload.inviteeUsername,
+        payload.inviterNationality,
+        payload.inviteeNationality,
+        payload.matchLanguage,
+      );
+    }
+  }
+
   @OnEvent('who-am-i:duo:match-started')
   handleMatchStarted(payload: {
     user1: UserQueue,

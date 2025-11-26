@@ -135,6 +135,34 @@ export class GuessWhoDuoGateway implements OnGatewayDisconnect {
     await this.guessWhoDuoService.handleDisconnect(client.id);
   }
 
+  @OnEvent('game-invite:start-direct-match')
+  async handleDirectMatchStart(payload: {
+    inviterId: number;
+    inviteeId: number;
+    inviterUsername: string;
+    inviteeUsername: string;
+    inviterNationality: string;
+    inviteeNationality: string;
+    inviterSocketId: string;
+    inviteeSocketId: string;
+    matchMode: MatchMode;
+    matchLanguage: MatchLanguage;
+  }) {
+    if (payload.matchMode === MatchMode.GUESS_WHO) {
+      await this.guessWhoDuoService.startDirectMatch(
+        payload.inviterId,
+        payload.inviteeId,
+        payload.inviterSocketId,
+        payload.inviteeSocketId,
+        payload.inviterUsername,
+        payload.inviteeUsername,
+        payload.inviterNationality,
+        payload.inviteeNationality,
+        payload.matchLanguage,
+      );
+    }
+  }
+
   @OnEvent('guess-who:duo:match-started')
   handleDuoMatchStarted(payload: {
     userQueue1: UserQueue;

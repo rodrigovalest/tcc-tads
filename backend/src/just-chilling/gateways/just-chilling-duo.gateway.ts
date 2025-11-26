@@ -91,6 +91,34 @@ export class JustChillingDuoGateway implements OnGatewayDisconnect {
     await this.justChillingDuoService.handleDisconnect(client.id);
   }
 
+  @OnEvent('game-invite:start-direct-match')
+  async handleDirectMatchStart(payload: {
+    inviterId: number;
+    inviteeId: number;
+    inviterUsername: string;
+    inviteeUsername: string;
+    inviterNationality: string;
+    inviteeNationality: string;
+    inviterSocketId: string;
+    inviteeSocketId: string;
+    matchMode: MatchMode;
+    matchLanguage: MatchLanguage;
+  }) {
+    if (payload.matchMode === MatchMode.JUST_CHILLING) {
+      await this.justChillingDuoService.startDirectMatch(
+        payload.inviterId,
+        payload.inviteeId,
+        payload.inviterSocketId,
+        payload.inviteeSocketId,
+        payload.inviterUsername,
+        payload.inviteeUsername,
+        payload.inviterNationality,
+        payload.inviteeNationality,
+        payload.matchLanguage,
+      );
+    }
+  }
+
   @OnEvent('just-chilling:duo:match-started')
   handleMatchStarted(payload: {
     user1: UserQueue,

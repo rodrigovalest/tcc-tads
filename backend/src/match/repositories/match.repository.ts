@@ -51,40 +51,57 @@ export class MatchRepositoryImpl implements IMatchRepository {
     page: number;
     limit: number;
   }> {
-    const qb = this.repository
+    const matchIdsQuery = this.repository
       .createQueryBuilder('match')
+      .select('match.id')
       .innerJoin('match.userMatches', 'userMatch', 'userMatch.userId = :userId', { userId })
+      .orderBy('match.startTime', 'DESC')
+      .skip((page - 1) * limit)
+      .take(limit);
+
+    const matchIds = (await matchIdsQuery.getRawMany()).map(row => row.match_id);
+
+    if (matchIds.length === 0) {
+      const total = await this.repository
+        .createQueryBuilder('match')
+        .innerJoin('match.userMatches', 'userMatch', 'userMatch.userId = :userId', { userId })
+        .getCount();
+
+      return { data: [], total, page, limit };
+    }
+
+    const matches = await this.repository
+      .createQueryBuilder('match')
+      .where('match.id IN (:...matchIds)', { matchIds })
       .leftJoinAndSelect('match.userMatches', 'allUserMatches')
       .leftJoinAndSelect('allUserMatches.user', 'user')
-      .leftJoin(
-        MatchRate,
-        'rate',
-        'rate.matchId = match.id AND rate.reviewedId = :userId',
-        { userId },
-      )
+      .orderBy('match.startTime', 'DESC')
+      .getMany();
+    const matchRates = await this.repository.manager
+      .createQueryBuilder(MatchRate, 'rate')
+      .innerJoin('rate.match', 'match')
+      .innerJoin('rate.reviewed', 'reviewed')
+      .select('match.id', 'matchId')
       .addSelect('AVG(rate.fluencyScore)', 'averageFluencyScore')
+      .where('match.id IN (:...matchIds)', { matchIds })
+      .andWhere('reviewed.id = :userId', { userId })
       .groupBy('match.id')
-      .addGroupBy('allUserMatches.id')
-      .addGroupBy('user.id')
-      .orderBy('match.startTime', 'DESC');
+      .getRawMany();
+    const rateMap = new Map<string, number>();
+    matchRates.forEach((rate) => {
+      if (rate.averageFluencyScore !== null) {
+        rateMap.set(rate.matchId, parseFloat(rate.averageFluencyScore));
+      }
+    });
 
-    // Paginação
-    qb.skip((page - 1) * limit).take(limit);
-
-    // Total de matches (sem paginação)
     const total = await this.repository
       .createQueryBuilder('match')
       .innerJoin('match.userMatches', 'userMatch', 'userMatch.userId = :userId', { userId })
       .getCount();
 
-    const rawResults = await qb.getRawAndEntities();
-
-    const data = rawResults.entities.map((match, idx) => ({
+    const data = matches.map((match) => ({
       match,
-      averageFluencyScore:
-        rawResults.raw[idx].averageFluencyScore !== null
-          ? parseFloat(rawResults.raw[idx].averageFluencyScore)
-          : null,
+      averageFluencyScore: rateMap.get(match.id) || null,
     }));
 
     return {

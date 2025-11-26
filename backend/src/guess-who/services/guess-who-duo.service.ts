@@ -117,6 +117,88 @@ export class GuessWhoDuoService {
     }
   }
 
+  async startDirectMatch(
+    user1Id: number,
+    user2Id: number,
+    user1SocketId: string,
+    user2SocketId: string,
+    user1Username: string,
+    user2Username: string,
+    user1Nationality: string,
+    user2Nationality: string,
+    language: MatchLanguage,
+  ): Promise<void> {
+    this.logger.log(
+      `Starting direct guess-who match between users ${user1Id} and ${user2Id}`,
+    );
+
+    const user1 = await this.userService.findById(user1Id);
+    const user2 = await this.userService.findById(user2Id);
+
+    const userQueue1 = new UserQueue(
+      user1Id,
+      user1Username,
+      user1Nationality as any,
+      user1SocketId,
+      MatchMode.GUESS_WHO,
+      MatchFormat.DUO,
+      language,
+    );
+
+    const userQueue2 = new UserQueue(
+      user2Id,
+      user2Username,
+      user2Nationality as any,
+      user2SocketId,
+      MatchMode.GUESS_WHO,
+      MatchFormat.DUO,
+      language,
+    );
+
+    const match: Match = await this.matchService.createMatch(
+      MatchMode.GUESS_WHO,
+      MatchFormat.DUO,
+      language,
+      [userQueue1, userQueue2],
+    );
+
+    this.eventEmitter.emit('guess-who:duo:match-started', {
+      userQueue1,
+      userQueue2,
+      user1PhotoUri: user1!.photo ?? null,
+      user2PhotoUri: user2!.photo ?? null,
+      language: language,
+      match,
+    });
+
+    const shuffled = this.shuffle([...GUESS_WHO_CHARACTERS]);
+    const characters = shuffled.slice(0, 16);
+    const characterUser1 = this.pickRandom(characters);
+    const characterUser2 = this.pickRandom(characters);
+
+    this.guessWhoMatchRepository.create(
+      match.id,
+      user1Id,
+      user2Id,
+      user1SocketId,
+      user2SocketId,
+      characters,
+      characterUser1,
+      characterUser2,
+      user1Id,
+    );
+
+    this.eventEmitter.emit('guess-who:duo:characters-selected', {
+      userQueue1,
+      userQueue2,
+      characters,
+      characterUser1,
+      characterUser2,
+    });
+
+    this.roundStart(user1SocketId, user2SocketId, match.id);
+  }
+
   async roundStart(
     userSocketId1: string,
     userSocketId2: string,

@@ -146,7 +146,45 @@ export default function FriendsHub() {
             </TouchableOpacity>
           </View>
 
-          {/* Add some bottom padding for better scrolling */}
+          <View className="bg-appBgBeige rounded-xl p-6 mb-6 border border-appLightGrey shadow-sm">
+            <View className="flex-row items-center mb-4">
+              <View 
+                style={{ backgroundColor: COLORS.appYellow }}
+                className="w-12 h-12 rounded-full items-center justify-center mr-4"
+              >
+                <Ionicons name="game-controller" size={24} color={COLORS.appDarkGrey} />
+              </View>
+              <View className="flex-1">
+                <Text className="text-lg font-nunito-bold text-appBlack">
+                  Convites de Jogo
+                </Text>
+                <Text className="text-sm font-nunito-regular text-appMediumGrey">
+                  Ver e gerenciar convites de jogo
+                </Text>
+              </View>
+            </View>
+            <TouchableOpacity
+              onPress={() => router.push('/(private)/game-invites')}
+              style={{ backgroundColor: COLORS.appYellow }}
+              className="w-full py-4 px-6 rounded-lg flex-row items-center justify-center mb-2"
+            >
+              <Text className="text-base font-nunito-bold text-appDarkGrey mr-2">
+                Ver Convites
+              </Text>
+              <Ionicons name="arrow-forward" size={16} color={COLORS.appDarkGrey} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => router.push('/(private)/game-invites/send')}
+              style={{ backgroundColor: COLORS.appDarkGrey }}
+              className="w-full py-4 px-6 rounded-lg flex-row items-center justify-center"
+            >
+              <Text className="text-base font-nunito-bold text-appBgBeige mr-2">
+                {t('friends.inviteFriendToPlay')}
+              </Text>
+              <Ionicons name="arrow-forward" size={16} color={COLORS.appBgBeige} />
+            </TouchableOpacity>
+          </View>
+
           <View className="h-4" />
         </ScrollView>
       </SafeAreaView>

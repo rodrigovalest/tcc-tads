@@ -9,6 +9,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Toast from "react-native-toast-message";
 import { requestPermissions } from "../utils/request-permissions";
 import { Platform } from "react-native";
+import { GlobalInviteListener } from "../components/GlobalInviteListener";
+import { useGameInviteMatchListener } from "../hooks/useGameInviteMatchListener";
+import webSocketService from "../services/web-socket-service";
 
 // Initialize i18n
 import "../lib/i18n";
@@ -63,8 +66,33 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <GlobalInviteListenerWrapper />
       <Slot />
       <Toast />
     </QueryClientProvider>
   );
+}
+
+function GlobalInviteListenerWrapper() {
+  useGameInviteMatchListener();
+  const token = useAuthStore((state) => state.token);
+  
+  useEffect(() => {
+    if (token) {
+      if (!webSocketService.isConnected()) {
+        webSocketService.connect(token);
+      }
+      const checkInterval = setInterval(() => {
+        if (!webSocketService.isConnected()) {
+          webSocketService.connect(token);
+        }
+      }, 4000); 
+      
+      return () => {
+        clearInterval(checkInterval);
+      };
+    }
+  }, [token]);
+
+  return <GlobalInviteListener />;
 }
