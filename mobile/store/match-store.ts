@@ -13,6 +13,9 @@ type MatchState = {
   matchId: string | null;
   isOfferer: boolean | null;
   buddy: IUserBuddy | null;
+  timerStartTimestamp: number | null;
+  timerDurationMs: number;
+  timerServerOffset: number; // Offset entre o relógio do servidor e do cliente
 
   setMatchMode: (mode: MatchMode) => Promise<void>;
   setMatchFormat: (format: MatchFormat) => Promise<void>;
@@ -21,6 +24,7 @@ type MatchState = {
   setMatchId: (matchId: string) => Promise<void>;
   setIsOfferer: (isOfferer: boolean) => Promise<void>;
   setUserBuddy: (buddy: IUserBuddy) => Promise<void>;
+  setTimer: (startTimestamp: number, durationMs: number, serverOffset?: number) => Promise<void>;
   resetMatch: () => Promise<void>;
 };
 
@@ -32,6 +36,9 @@ const useMatchStore = create<MatchState>((set, get) => ({
   matchId: null,
   isOfferer: null,
   buddy: null,
+  timerStartTimestamp: null,
+  timerDurationMs: 120000, // 120 segundos padrão
+  timerServerOffset: 0, // Offset inicial
 
   setMatchMode: async (matchMode) => {
     set({ matchMode });
@@ -61,6 +68,14 @@ const useMatchStore = create<MatchState>((set, get) => ({
     set({ buddy });
   },
 
+  setTimer: async (startTimestamp: number, durationMs: number, serverOffset?: number) => {
+    set({ 
+      timerStartTimestamp: startTimestamp, 
+      timerDurationMs: durationMs,
+      timerServerOffset: serverOffset ?? 0,
+    });
+  },
+
   resetMatch: async () => {
     set({
       matchMode: null,
@@ -70,6 +85,9 @@ const useMatchStore = create<MatchState>((set, get) => ({
       matchId: null,
       isOfferer: null,
       buddy: null,
+      timerStartTimestamp: null,
+      timerDurationMs: 120000,
+      timerServerOffset: 0,
     });
   },
 }));

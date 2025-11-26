@@ -25,8 +25,6 @@ import { getCountryData } from "../../../../utils/country-language-utils";
 import useI18n from "../../../../hooks/useI18n";
 import VideoCallControlsComponent from "../../../../components/VideoCallControls";
 
-const TIMER_DURATION = 120;
-
 export default function WhoAmI() {
   const { t } = useI18n();
   const { user: loggedUser } = useAuthStore();
@@ -47,9 +45,26 @@ export default function WhoAmI() {
   const [adversaryIsGiveUp, setAdversaryIsGiveUp] = useState<boolean>(false);
   const [adversaryIsImageRole, setAdversaryIsImageRole] =
     useState<boolean>(false);
-  const [timeLeft, setTimeLeft] = useState(TIMER_DURATION);
+  const [timeLeft, setTimeLeft] = useState(100); 
+  const [currentRound, setCurrentRound] = useState<number>(1); 
+  const currentRoundRef = useRef<number>(1); // Ref para ter acesso ao valor mais atualizado do currentRound
+  const [shouldEndGame, setShouldEndGame] = useState<boolean>(false); // Flag para encerrar o jogo após modais fecharem
+  const MAX_ROUNDS = 6; 
+  
+  
+  useEffect(() => {
+    console.log("[ROUND_COUNTER] Rodada atual:", currentRound, "de", MAX_ROUNDS);
+    currentRoundRef.current = currentRound;
+  }, [currentRound]);
+
+  useEffect(() => {
+    if (shouldEndGame && !showCorrectAnswer && !showAdversaryCorrect) {
+      console.log("[GAME_ENDED] Modais fecharam, encerrando jogo agora");
+      setShouldEndGame(false);
+      endCall();
+    }
+  }, [shouldEndGame, showCorrectAnswer, showAdversaryCorrect]);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const endTimeRef = useRef<number>(0);
   const characterImageRef = useRef<ImageSourcePropType | null>(null);
   const characterNameRef = useRef<string | null>(null);
 
@@ -66,6 +81,7 @@ export default function WhoAmI() {
     opponentCharacter,
     generateNewCharacter,
     notifyCorrectAnswer,
+    notifyGameEnded,
     usedCharacters,
     myCharacterImage,
     opponentCharacterImage,
@@ -74,6 +90,9 @@ export default function WhoAmI() {
     switchRoles,
     myCharacterHints,
     opponentCharacterHints,
+    timerStartTimestamp,
+    timerDurationMs,
+    serverOffset,
   } = useWhoAmIDuo(
     () => {
       router.replace("/(private)/match-rate-duo");
@@ -122,17 +141,30 @@ export default function WhoAmI() {
 
       setAdversaryCorrectImage(imageToShow);
       setAdversaryCorrectCharacterName(characterNameToShow);
-      // Se o adversário desistiu, precisamos saber qual era o papel dele para mostrar a mensagem correta
-      // Se adversaryIsImageRole é true, significa que o adversário tinha a imagem, então eu tinha as dicas
-      // Se adversaryIsImageRole é false, significa que o adversário tinha as dicas, então eu tinha a imagem
       setAdversaryIsGiveUp(adversaryIsGiveUp);
       setAdversaryIsImageRole(adversaryIsImageRole);
       setShowAdversaryCorrect(true);
 
       setTimeout(() => {
         setShowAdversaryCorrect(false);
-        // Não chama generateNewCharacter aqui - o outro jogador que acertou vai fazer isso
+     
       }, 1000);
+    },
+    () => {
+     
+      setCurrentRound((prev) => {
+        const newRound = prev + 1;
+        console.log("[GAME] Nova rodada iniciada - rodada", newRound, "de", MAX_ROUNDS, "(anterior era", prev, ")");
+        
+        
+        return newRound;
+      });
+    },
+    () => {
+   
+      console.log("[GAME_ENDED] Recebido callback de encerramento do oponente");
+      setShouldEndGame(true);
+      
     }
   );
 
@@ -147,35 +179,65 @@ export default function WhoAmI() {
 
   useEffect(() => {
     start();
+  }, []);
 
-    // Inicia o timer
-    const currentTime = Date.now();
-    endTimeRef.current = currentTime + TIMER_DURATION * 1000;
-    setTimeLeft(TIMER_DURATION);
+  // Timer sincronizado baseado no timestamp do servidor
+  useEffect(() => {
+    if (timerStartTimestamp === null || timerDurationMs === 0) {
+      console.log("[TIMER] Timer não inicializado ainda - timestamp:", timerStartTimestamp, "duration:", timerDurationMs);
+      return;
+    }
 
-    timerRef.current = setInterval(() => {
-      const remainingMs = endTimeRef.current - Date.now();
+    console.log("[TIMER] Inicializando timer sincronizado - timestamp:", timerStartTimestamp, "duration:", timerDurationMs);
+
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+    }
+
+    const calculateTimeLeft = () => {
+      const clientNow = Date.now();
+      
+      const serverNow = clientNow - serverOffset;
+      const elapsed = serverNow - timerStartTimestamp;
+      const remainingMs = timerDurationMs - elapsed;
+      
+      if (Math.random() < 0.01) { 
+        console.log("[TIMER_CALC] timestamp:", timerStartTimestamp, "clientNow:", clientNow, "serverNow:", serverNow, "offset:", serverOffset, "elapsed:", elapsed, "remaining:", remainingMs);
+      }
+      
       if (remainingMs <= 0) {
         setTimeLeft(0);
         if (timerRef.current) {
           clearInterval(timerRef.current);
         }
-        handleGiveUp(); // chama ao zerar (tempo acabou = give up)
+       
+        const roundAtTimerEnd = currentRoundRef.current;
+        console.log("[TIMER] Timer chegou a zero na rodada", roundAtTimerEnd, "- considerando como rodada completada");
+        console.log("[TIMER] Verificando se deve encerrar - currentRound:", roundAtTimerEnd, "MAX_ROUNDS:", MAX_ROUNDS);
+  
+        handleGiveUp(); 
         return;
       }
+      
       const timeLeftSeconds = Math.max(0, remainingMs / 1000);
       setTimeLeft(timeLeftSeconds);
-    }, 100);
+    };
+
+   
+    calculateTimeLeft();
+
+   
+    timerRef.current = setInterval(calculateTimeLeft, 100);
 
     return () => {
-      endCall();
       if (timerRef.current) {
         clearInterval(timerRef.current);
       }
     };
-  }, []);
+   
+  }, [timerStartTimestamp, timerDurationMs, serverOffset]);
 
-  // Debug: monitora mudanças no personagem e papel
+ 
   useEffect(() => {
     console.log("[GAME] myCharacter mudou:", myCharacter?.name);
     console.log("[GAME] myCharacter hints:", myCharacter?.hints?.length || 0);
@@ -208,7 +270,7 @@ export default function WhoAmI() {
     console.log("[NAILED_IT] isImageRole:", isImageRole);
     console.log("[NAILED_IT] myCharacter hints:", myCharacter?.hints);
 
-    // Mostra a imagem do personagem atual (que ambos estão tentando adivinhar)
+   
     const imageToShow =
       myCharacterImage ||
       myCharacter?.image ||
@@ -227,11 +289,22 @@ export default function WhoAmI() {
 
     notifyCorrectAnswer(false);
 
-    // Reseta o timer (inicia novamente do valor total)
-    const currentTime = Date.now();
-    endTimeRef.current = currentTime + TIMER_DURATION * 1000;
-    setTimeLeft(TIMER_DURATION);
+    
+    const roundNow = currentRoundRef.current;
+    console.log("[NAILED_IT] Verificando limite - rodada atual (estado):", currentRound, "rodada atual (ref):", roundNow, "máximo:", MAX_ROUNDS);
+    console.log("[NAILED_IT] Condição de verificação:", roundNow, ">=", MAX_ROUNDS, "=", roundNow >= MAX_ROUNDS);
+    if (roundNow >= MAX_ROUNDS) {
+      console.log("[GAME] Limite de rodadas atingido na rodada", roundNow, ", encerrando jogo automaticamente");
+      notifyGameEnded();
+      setShouldEndGame(true);
+      setTimeout(() => {
+        setShowCorrectAnswer(false);
+      }, 1000);
+      return;
+    }
 
+
+    console.log("[NAILED_IT] Gerando nova rodada - próxima será a rodada", currentRound + 1);
     setTimeout(() => {
       setShowCorrectAnswer(false);
       generateNewCharacter();
@@ -239,12 +312,11 @@ export default function WhoAmI() {
   };
 
   const handleGiveUp = () => {
-    // Debug: verificar os personagens no momento do clique
+   
     console.log("[GIVE_UP] myCharacter:", myCharacter?.name);
     console.log("[GIVE_UP] isImageRole:", isImageRole);
     console.log("[GIVE_UP] myCharacter hints:", myCharacter?.hints);
 
-    // Mostra a imagem do personagem atual (que ambos estão tentando adivinhar)
     const imageToShow =
       myCharacterImage ||
       myCharacter?.image ||
@@ -263,11 +335,25 @@ export default function WhoAmI() {
 
     notifyCorrectAnswer(true);
 
-    // Reseta o timer (inicia novamente do valor total)
-    const currentTime = Date.now();
-    endTimeRef.current = currentTime + TIMER_DURATION * 1000;
-    setTimeLeft(TIMER_DURATION);
+   
+    const roundNow = currentRoundRef.current;
+    console.log("[GIVE_UP] Verificando limite - rodada atual (estado):", currentRound, "rodada atual (ref):", roundNow, "máximo:", MAX_ROUNDS);
+    console.log("[GIVE_UP] Condição de verificação:", roundNow, ">=", MAX_ROUNDS, "=", roundNow >= MAX_ROUNDS);
+    
+  
+    if (roundNow >= MAX_ROUNDS) {
+      console.log("[GAME] Limite de rodadas atingido na rodada", roundNow, ", encerrando jogo automaticamente");
+      notifyGameEnded();
+      setShouldEndGame(true);
+      setTimeout(() => {
+        setShowCorrectAnswer(false);
+      }, 1000);
+      return;
+    }
 
+  
+
+    console.log("[GIVE_UP] Gerando nova rodada - próxima será a rodada", currentRound + 1);
     setTimeout(() => {
       setShowCorrectAnswer(false);
       generateNewCharacter();
