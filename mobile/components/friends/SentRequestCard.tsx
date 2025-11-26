@@ -61,16 +61,16 @@ export const SentRequestCard: React.FC<SentRequestCardProps> = ({
       <TouchableOpacity
         onPress={() => onCancel(request.id)}
         disabled={isCanceling}
-        className="bg-appRed py-3 px-4 rounded-xl flex-row items-center justify-center shadow-sm"
+        className="bg-white py-3 px-4 rounded-xl flex-row items-center justify-center shadow-sm border-2 border-appMediumGrey"
         style={{ opacity: isCanceling ? 0.5 : 1 }}
         activeOpacity={0.8}
       >
         {isCanceling ? (
-          <ActivityIndicator size="small" color="white" />
+          <ActivityIndicator size="small" color={COLORS.appDarkGrey} />
         ) : (
           <>
-            <Ionicons name="close-circle" size={18} color="white" />
-            <Text className="text-white font-nunito-semibold text-base ml-2">
+            <Ionicons name="close-circle" size={18} color={COLORS.appDarkGrey} />
+            <Text className="text-appDarkGrey font-nunito-semibold text-base ml-2">
               {t('friends.cancelRequest')}
             </Text>
           </>
