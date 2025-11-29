@@ -84,7 +84,7 @@ export class MatchService {
     }
   }
 
-  async completeMatch(socketId: string): Promise<void> {
+  async completeMatch(socketId: string): Promise<Match | void> {
     const userMatch = await this.userMatchRepository.findBySocketId(socketId);
 
     if (!userMatch) {
@@ -92,16 +92,18 @@ export class MatchService {
       return;
     }
 
-    const match = userMatch.match;
+    let match = userMatch.match;
 
     if (match.status !== MatchStatus.COMPLETED) {
       match.status = MatchStatus.COMPLETED;
       match.endTime = new Date();
-      await this.matchRepository.save(match);
+      match = await this.matchRepository.save(match);
       this.logger.log(
         `Match ${match.id} completed due to disconnection of user ${userMatch.user.id}`,
       );
     }
+
+    return match;
   }
 
   async findAllMatchesWithAverageScore(

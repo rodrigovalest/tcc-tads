@@ -26,7 +26,12 @@ import { GuessWhoStage } from '../entities/guess-who-stage.enum';
 
 @UsePipes(new WsValidationPipe())
 @UseFilters(new WsExceptionFilter())
-@WebSocketGateway()
+@WebSocketGateway({
+  cors: {
+    origin: '*',
+  },
+  transports: ['websocket'],
+})
 export class GuessWhoDuoGateway implements OnGatewayDisconnect {
   constructor(private readonly guessWhoDuoService: GuessWhoDuoService) {}
 
@@ -58,9 +63,7 @@ export class GuessWhoDuoGateway implements OnGatewayDisconnect {
     payload: { matchId: string; offer: RTCSessionDescriptionInit },
     @ConnectedSocket() client: Socket,
   ) {
-    this.logger.log(
-      `[webrtc:offer] User ${user.sub} sent offer for match ${payload.matchId}`,
-    );
+    this.logger.log(`[webrtc:offer][recv] userId=${user.sub} matchId=${payload.matchId} socketId=${client.id} | offer received`);
 
     client.to(payload.matchId).emit('guess-who:duo:webrtc:offer', {
       from: client.id,
@@ -76,9 +79,7 @@ export class GuessWhoDuoGateway implements OnGatewayDisconnect {
     payload: { matchId: string; answer: RTCSessionDescriptionInit },
     @ConnectedSocket() client: Socket,
   ) {
-    this.logger.log(
-      `[webrtc:answer] User ${user.sub} sent answer for match ${payload.matchId}`,
-    );
+    this.logger.log(`[webrtc:answer][recv] userId=${user.sub} matchId=${payload.matchId} socketId=${client.id} | answer received`);
 
     client.to(payload.matchId).emit('guess-who:duo:webrtc:answer', {
       from: client.id,
@@ -93,9 +94,7 @@ export class GuessWhoDuoGateway implements OnGatewayDisconnect {
     @MessageBody() payload: { matchId: string; candidate: RTCIceCandidate },
     @ConnectedSocket() client: Socket,
   ) {
-    this.logger.log(
-      `[webrtc:ice-candidate] User ${user.sub} sent ICE candidate for match ${payload.matchId}`,
-    );
+    this.logger.log(`[webrtc:ice][recv] userId=${user.sub} matchId=${payload.matchId} socketId=${client.id} | ICE candidate received`);
 
     client.to(payload.matchId).emit('guess-who:duo:webrtc:ice-candidate', {
       from: client.id,
@@ -109,7 +108,8 @@ export class GuessWhoDuoGateway implements OnGatewayDisconnect {
     @CurrentWsUser() user: IUserJwtPayload,
     @MessageBody() payload: { matchId: string; answer: boolean },
   ) {
-    this.logger.log(`[answer] User ${user.sub} answered in match ${payload.matchId}`);
+    this.logger.log(`[answer][recv] userId=${user.sub} matchId=${payload.matchId} | answer=${payload.answer}`);
+
     this.guessWhoDuoService.handleAnswer(
       payload.matchId,
       payload.answer,
@@ -122,7 +122,7 @@ export class GuessWhoDuoGateway implements OnGatewayDisconnect {
     @CurrentWsUser() user: IUserJwtPayload,
     @MessageBody() payload: { matchId: string; guessCharacter: GuessWhoCharacter },
   ) {
-    this.logger.log(`[guess] User ${user.sub} guessed in match ${payload.matchId}`);
+    this.logger.log(`[guess][recv] userId=${user.sub} matchId=${payload.matchId} guessCharacter=${payload.guessCharacter.id}`);
 
     this.guessWhoDuoService.handleGuess(
       payload.matchId,
@@ -132,6 +132,7 @@ export class GuessWhoDuoGateway implements OnGatewayDisconnect {
   }
 
   async handleDisconnect(client: Socket) {
+    this.logger.warn(`[disconnect] socketId=${client.id} | client disconnected`);
     await this.guessWhoDuoService.handleDisconnect(client.id);
   }
 
@@ -184,7 +185,10 @@ export class GuessWhoDuoGateway implements OnGatewayDisconnect {
     characters: GuessWhoCharacter[];
     characterUser1: GuessWhoCharacter;
     characterUser2: GuessWhoCharacter;
+    matchId: string;
   }) {
+    this.logger.log(`[emit][characters-selected] matchId=${payload.matchId}`);
+
     const notifyUser = (
       userSocketId: string,
       characters: GuessWhoCharacter[],
@@ -213,7 +217,10 @@ export class GuessWhoDuoGateway implements OnGatewayDisconnect {
     message: string;
     startTime: Date;
     endTime: Date;
+    matchId: string;
   }) {
+    this.logger.log(`[emit][round-start] matchId=${payload.matchId} start=${payload.startTime.toISOString()}`);
+
     const socket = this.server.sockets.sockets.get(payload.userSocketId);
 
     if (socket) {
@@ -236,7 +243,10 @@ export class GuessWhoDuoGateway implements OnGatewayDisconnect {
     status: string;
     startTime: Date;
     endTime: Date;
+    matchId: string;
   }) {
+    this.logger.log(`[emit][guessing-or-unmarking] matchId=${payload.matchId}`);
+
     const socket = this.server.sockets.sockets.get(payload.socketId);
 
     if (socket) {
@@ -259,7 +269,10 @@ export class GuessWhoDuoGateway implements OnGatewayDisconnect {
     status: string;
     startTime: Date;
     endTime: Date;
+    matchId: string;
   }) {
+    this.logger.log(`[emit][waiting] matchId=${payload.matchId}`);
+
     const socket = this.server.sockets.sockets.get(payload.socketId);
 
     if (socket) {
@@ -279,7 +292,9 @@ export class GuessWhoDuoGateway implements OnGatewayDisconnect {
     message: string;
     timestamp: string;
     status: string;
+    matchId: string;
   }) {
+
     const socket = this.server.sockets.sockets.get(payload.socketId);
 
     if (socket) {
@@ -298,7 +313,10 @@ export class GuessWhoDuoGateway implements OnGatewayDisconnect {
     timestamp: string;
     status: string;
     buddyCharacter: GuessWhoCharacter;
+    matchId: string;
   }) {
+    this.logger.log(`[emit][lose] matchId=${payload.matchId}`);
+
     const socket = this.server.sockets.sockets.get(payload.socketId);
 
     if (socket) {
@@ -318,7 +336,10 @@ export class GuessWhoDuoGateway implements OnGatewayDisconnect {
     timestamp: string;
     status: string;
     guessCharacter: GuessWhoCharacter;
+    matchId: string;
   }) {
+    this.logger.log(`[emit][wrong-guess] matchId=${payload.matchId}`);
+
     const socket = this.server.sockets.sockets.get(payload.socketId);
 
     if (socket) {

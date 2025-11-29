@@ -55,6 +55,8 @@ export class JustChillingDuoService {
   }
   
   async handleDisconnect(socketId: string): Promise<void> {
+    this.logger.log(`just-chilling disconnect (socketId: ${socketId})`);
+
     const userQueue = await this.queueService.findUserBySocketId(socketId);
     
     if (userQueue) {

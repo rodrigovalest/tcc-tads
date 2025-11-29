@@ -20,9 +20,9 @@ services:
     environment:
       - TURN_PORT=3478
       - LISTENING_IP=0.0.0.0
-      - EXTERNAL_IP=192.168.0.108
-      - REALM=webrtc.example.com
-      - USER=webrtcuser:webrctpass
+      - EXTERNAL_IP=192.168.0.101
+      - REALM=192.168.0.101
+      - USER=webrtcuser:webrtcpass
     command:
       - --lt-cred-mech
       - --no-cli
@@ -32,5 +32,5 @@ services:
       - --max-port=65535
       - --fingerprint
       - --verbose
-      - --realm=webrtc.example.com
-      - --user=webrtcuser:webrctpass
+      - --realm=192.168.0.101
+      - --user=webrtcuser:webrtcpass
