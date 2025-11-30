@@ -28,6 +28,6 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalFilters(new WsExceptionFilter());
   app.useGlobalFilters(new QueryFailedErrorFilter());
-  await app.listen(process.env.PORT ?? 3000, '0.0.0.0');
+  await app.listen(process.env.API_PORT ?? 3000, '0.0.0.0');
 }
 bootstrap();

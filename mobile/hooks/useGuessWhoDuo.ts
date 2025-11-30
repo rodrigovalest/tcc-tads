@@ -170,22 +170,30 @@ const useGuessWhoDuo = (redirectOnEnd: () => void) => {
     });
 
     webSocketService.on("guess-who:duo:guessing-or-unmarking", async (data: IGuessWhoGuessingOrUnmarking) => {
+      console.log(data);
+
       setAnswer(data.answer);
       setStatus(data.status);
       setRoundTime(data.startTime, data.endTime);
     });
 
     webSocketService.on("guess-who:duo:waiting", async (data: IGuessWhoWaiting) => {
+      console.log(data);
+
       setStatus(data.status);
       setRoundTime(data.startTime, data.endTime);
     });
 
     webSocketService.on("guess-who:duo:wrong-guess", async (data: IGuessWhoWrongGuess) => {
+      console.log(data);
+
       setStatus(data.status);
       setGuessCharacter(data.guessCharacter);
     });
 
     webSocketService.on("guess-who:duo:win", async (data: IGuessWhoWin) => {
+      console.log(data);
+
       setStatus(data.status);
 
       setTimeout(() => {
@@ -194,6 +202,8 @@ const useGuessWhoDuo = (redirectOnEnd: () => void) => {
     });
 
     webSocketService.on("guess-who:duo:lose", async (data: IGuessWhoLose) => {
+      console.log(data);
+
       setBuddyCharacterWhenLose(data.buddyCharacter);
       setStatus(data.status);
 
@@ -203,6 +213,8 @@ const useGuessWhoDuo = (redirectOnEnd: () => void) => {
     });
 
     webSocketService.on("guess-who:duo:round-start", (data: IGuessWhoRoundStart) => {
+      console.log(data);
+
       resetRound();
       setStatus(data.status);
       setRoundTime(data.startTime, data.endTime);
