@@ -13,7 +13,7 @@ export const useGameInviteMatchListener = () => {
 
   useEffect(() => {
     if (!matchMode || !matchLanguage) return;
-    
+
     const handleGuessWhoMatchStarted = (data: IMatchmakingResponse) => {
       setMatchId(data.matchId);
       setIsOfferer(data.isOfferer);

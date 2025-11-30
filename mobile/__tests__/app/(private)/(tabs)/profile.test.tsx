@@ -178,7 +178,7 @@ describe('Profile Screen', () => {
     const { getByText, queryByTestId } = renderWithProviders(<Profile />);
 
     await waitFor(() => {
-      expect(queryByTestId('spinner')).toBeFalsy();
+      expect(queryByTestId('spinner')).toBeNull();
     });
 
     expect(getByText('Test User')).toBeTruthy();
@@ -192,7 +192,7 @@ describe('Profile Screen', () => {
     const { getByText, queryByTestId } = renderWithProviders(<Profile />);
 
     await waitFor(() => {
-      expect(queryByTestId('spinner')).toBeFalsy();
+      expect(queryByTestId('spinner')).toBeNull();
     });
 
     expect(getByText('Languages')).toBeTruthy();
@@ -206,7 +206,7 @@ describe('Profile Screen', () => {
     const { getByText, queryByTestId } = renderWithProviders(<Profile />);
 
     await waitFor(() => {
-      expect(queryByTestId('spinner')).toBeFalsy();
+      expect(queryByTestId('spinner')).toBeNull();
     });
 
     expect(getByText('Interests')).toBeTruthy();
@@ -218,7 +218,7 @@ describe('Profile Screen', () => {
     const { getByText, queryByTestId } = renderWithProviders(<Profile />);
 
     await waitFor(() => {
-      expect(queryByTestId('spinner')).toBeFalsy();
+      expect(queryByTestId('spinner')).toBeNull();
     });
 
     expect(getByText('Edit Profile')).toBeTruthy();
@@ -230,7 +230,7 @@ describe('Profile Screen', () => {
     const { getByText, queryByTestId } = renderWithProviders(<Profile />);
 
     await waitFor(() => {
-      expect(queryByTestId('spinner')).toBeFalsy();
+      expect(queryByTestId('spinner')).toBeNull();
     });
 
     expect(getByText('Error loading profile')).toBeTruthy();
@@ -244,7 +244,7 @@ describe('Profile Screen', () => {
     const { getByTestId, getByText, queryByTestId } = renderWithProviders(<Profile />);
 
     await waitFor(() => {
-      expect(queryByTestId('spinner')).toBeFalsy();
+      expect(queryByTestId('spinner')).toBeNull();
     });
 
     expect(getByTestId('icon-account')).toBeTruthy();
@@ -255,7 +255,7 @@ describe('Profile Screen', () => {
     const { queryByTestId } = renderWithProviders(<Profile />);
 
     await waitFor(() => {
-      expect(queryByTestId('spinner')).toBeFalsy();
+      expect(queryByTestId('spinner')).toBeNull();
     });
 
     // Check for active status (green indicator)
@@ -269,7 +269,7 @@ describe('Profile Screen', () => {
     const { queryByText, queryByTestId } = renderWithProviders(<Profile />);
 
     await waitFor(() => {
-      expect(queryByTestId('spinner')).toBeFalsy();
+      expect(queryByTestId('spinner')).toBeNull();
     });
 
     expect(queryByText('About me')).toBeFalsy();
@@ -282,7 +282,7 @@ describe('Profile Screen', () => {
     const { queryByText, queryByTestId } = renderWithProviders(<Profile />);
 
     await waitFor(() => {
-      expect(queryByTestId('spinner')).toBeFalsy();
+      expect(queryByTestId('spinner')).toBeNull();
     });
 
     expect(queryByText('Languages')).toBeFalsy();
@@ -295,7 +295,7 @@ describe('Profile Screen', () => {
     const { queryByText, queryByTestId } = renderWithProviders(<Profile />);
 
     await waitFor(() => {
-      expect(queryByTestId('spinner')).toBeFalsy();
+      expect(queryByTestId('spinner')).toBeNull();
     });
 
     expect(queryByText('Interests')).toBeFalsy();
