@@ -17,7 +17,11 @@ import { Match } from 'src/match/entities/match.entity';
 
 @UsePipes(new WsValidationPipe())
 @UseFilters(new WsExceptionFilter())
-@WebSocketGateway()
+@WebSocketGateway({
+  cors: {
+    origin: '*',
+  },
+})
 export class WhoAmIDuoGateway implements OnGatewayDisconnect {
 
   constructor(

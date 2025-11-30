@@ -17,7 +17,11 @@ import { Match } from '../../match/entities/match.entity';
 
 @UsePipes(new WsValidationPipe())
 @UseFilters(new WsExceptionFilter())
-@WebSocketGateway()
+@WebSocketGateway({
+  cors: {
+    origin: '*',
+  },
+})
 export class JustChillingDuoGateway implements OnGatewayDisconnect {
 
   constructor(
