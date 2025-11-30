@@ -12,7 +12,6 @@ import { Platform } from "react-native";
 import { GlobalInviteListener } from "../components/GlobalInviteListener";
 import { useGameInviteMatchListener } from "../hooks/useGameInviteMatchListener";
 import webSocketService from "../services/web-socket-service";
-
 import "../lib/i18n";
 
 export default function RootLayout() {

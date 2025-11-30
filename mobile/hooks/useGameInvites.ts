@@ -29,12 +29,10 @@ export const useGameInvites = () => {
         const merged = [...prev];
         pending.forEach((apiInvite) => {
           if (!merged.some((inv) => inv.id === apiInvite.id)) {
-            console.log('[useGameInvites] Adicionando convite da API:', apiInvite.id);
             merged.push(apiInvite);
           } else {
             const index = merged.findIndex((inv) => inv.id === apiInvite.id);
             if (index !== -1) {
-              console.log('[useGameInvites] Atualizando convite existente:', apiInvite.id);
               merged[index] = apiInvite;
             }
           }
@@ -45,7 +43,6 @@ export const useGameInvites = () => {
             !pending.some((apiInv) => apiInv.id === inv.id)
           )
         );
-        console.log('[useGameInvites] loadInvites - Resultado do merge:', result.length, 'convites');
         return result;
       });
       } else {
@@ -69,10 +66,8 @@ export const useGameInvites = () => {
       try {
         if (!webSocketService.isConnected()) {
           if (!token) {
-            Alert.alert('Erro', 'Você precisa estar logado para enviar convites');
             return null;
           }
-          console.log('[useGameInvites] WebSocket não conectado, conectando...');
           webSocketService.connect(token);
           
           let attempts = 0;
@@ -82,7 +77,6 @@ export const useGameInvites = () => {
           }
           
           if (!webSocketService.isConnected()) {
-            Alert.alert('Erro', 'Não foi possível conectar ao servidor');
             return null;
           }
         }
@@ -100,8 +94,7 @@ export const useGameInvites = () => {
             expiresAt: new Date(Date.now() + 30000).toISOString(),
           };
           setSentInvites((prev) => [tempInvite, ...prev]);
-          console.log('[useGameInvites] 🕐 Convite temporário adicionado:', tempId);
-          
+
           const handleSent = (data: { invite: any }) => {
             webSocketService.off('game-invite:sent', handleSent);
             setSentInvites((prev) => prev.filter((inv) => inv.id !== tempId));
@@ -121,8 +114,6 @@ export const useGameInvites = () => {
           }, 5000);
         });
       } catch (error: any) {
-        console.error('Error sending invite:', error);
-        Alert.alert('Erro', error.message || 'Falha ao enviar convite');
         return null;
       }
     },
@@ -155,16 +146,11 @@ export const useGameInvites = () => {
   const cancelInvite = useCallback(
     async (inviteId: number) => {
       try {
-        // Garante que está conectado
         if (!webSocketService.isConnected()) {
           if (!token) {
-            Alert.alert('Erro', 'Você precisa estar logado para cancelar convites');
             return;
           }
-          console.log('[useGameInvites] WebSocket não conectado, conectando...');
           webSocketService.connect(token);
-          
-          // Aguarda conexão
           let attempts = 0;
           while (!webSocketService.isConnected() && attempts < 30) {
             await new Promise((resolve) => setTimeout(resolve, 100));
@@ -172,7 +158,6 @@ export const useGameInvites = () => {
           }
           
           if (!webSocketService.isConnected()) {
-            Alert.alert('Erro', 'Não foi possível conectar ao servidor');
             return;
           }
         }
@@ -189,26 +174,21 @@ export const useGameInvites = () => {
   useEffect(() => {
     console.log('[useGameInvites] 🚀 Hook montado');
     
+    if (!token) {
+      return;
+    }
+    
     const initialLoad = async () => {
       await loadInvites(false);
     };
     initialLoad();
 
-    // Conecta o WebSocket se não estiver conectado (apenas uma vez)
-    if (!webSocketService.isConnected() && token) {
+    if (!webSocketService.isConnected()) {
       console.log('[useGameInvites] 🔌 Primeira conexão do WebSocket...');
       webSocketService.connect(token);
     }
-    
-    // NÃO faz cleanup - os listeners devem permanecer ativos
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
-
-  // useEffect SEPARADO para registrar os listeners (executa apenas uma vez)
   useEffect(() => {
-    console.log('[useGameInvites] 📝 Registrando listeners (apenas uma vez)...');
-    
-    // ====== DEFINE TODOS OS HANDLERS ======
     const handleInviteReceived = (data: { invite: any }) => {
       console.log('[useGameInvites] 🎯🎯🎯 CONVITE RECEBIDO!!!', data.invite.id);
       const fullInvite: GameInvite = {
@@ -234,25 +214,18 @@ export const useGameInvites = () => {
 
       setPendingInvites((prev) => {
         if (prev.some((inv) => inv.id === fullInvite.id)) {
-          console.log('[useGameInvites] Convite já existe na lista, ignorando duplicata');
           return prev;
         }
-        console.log('[useGameInvites] Adicionando novo convite à lista:', fullInvite.id);
-        console.log('[useGameInvites] Lista antes:', prev.length, 'convites');
         const newList = [fullInvite, ...prev];
-        console.log('[useGameInvites] Lista depois:', newList.length, 'convites');
         return newList;
       });
 
-      // Configura timer para remover convite expirado
       const expiresAt = new Date(fullInvite.expiresAt).getTime();
       const now = Date.now();
       const timeUntilExpiry = expiresAt - now;
       
       if (timeUntilExpiry > 0) {
-        console.log(`[useGameInvites] ⏰ Convite recebido ${fullInvite.id} expira em ${Math.round(timeUntilExpiry / 1000)}s`);
         setTimeout(() => {
-          console.log(`[useGameInvites] ⌛ Convite recebido ${fullInvite.id} EXPIROU`);
           setPendingInvites((prev) => prev.filter((inv) => inv.id !== fullInvite.id));
         }, timeUntilExpiry);
       }
@@ -266,7 +239,6 @@ export const useGameInvites = () => {
     };
 
     const handleInviteSent = (data: { invite: any }) => {
-      console.log('[useGameInvites] 📤 Convite ENVIADO:', data.invite.id);
       const fullInvite: GameInvite = {
         id: data.invite.id,
         inviter: {
@@ -290,22 +262,16 @@ export const useGameInvites = () => {
 
       setSentInvites((prev) => {
         if (prev.some((inv) => inv.id === fullInvite.id)) {
-          console.log('[useGameInvites] Convite enviado já existe, ignorando duplicata');
           return prev;
         }
-        console.log('[useGameInvites] ✅ Adicionando convite enviado à lista:', fullInvite.id);
         return [fullInvite, ...prev];
       });
-      
-      // Configura timer para remover convite expirado
       const expiresAt = new Date(fullInvite.expiresAt).getTime();
       const now = Date.now();
       const timeUntilExpiry = expiresAt - now;
       
       if (timeUntilExpiry > 0) {
-        console.log(`[useGameInvites] ⏰ Convite ${fullInvite.id} expira em ${Math.round(timeUntilExpiry / 1000)}s`);
         setTimeout(() => {
-          console.log(`[useGameInvites] ⌛ Convite ${fullInvite.id} EXPIROU`);
           setSentInvites((prev) => prev.filter((inv) => inv.id !== fullInvite.id));
           Toast.show({
             type: 'info',
@@ -315,9 +281,6 @@ export const useGameInvites = () => {
           });
         }, timeUntilExpiry);
       }
-      
-      // NÃO chama loadInvites aqui - o convite já foi adicionado manualmente ao estado
-      // loadInvites causava um merge que podia remover o convite recém-enviado
     };
     const handleInviteAccepted = (data: {
       inviteId: number;
@@ -335,7 +298,6 @@ export const useGameInvites = () => {
       }
     };
     const handleInviteRejected = (data: { inviteId: number }) => {
-      console.log('[useGameInvites] 🚫 Convite REJEITADO:', data.inviteId);
       setSentInvites((prev) =>
         prev.filter((inv) => inv.id !== data.inviteId),
       );
@@ -383,7 +345,6 @@ export const useGameInvites = () => {
         webSocketService.connect(token);
       }
     };
-    // ====== REGISTRA TODOS OS LISTENERS (uma vez apenas) ======
     webSocketService.on('game-invite:received', handleInviteReceived);
     webSocketService.on('game-invite:sent', handleInviteSent);
     webSocketService.on('game-invite:accepted', handleInviteAccepted);
@@ -391,11 +352,6 @@ export const useGameInvites = () => {
     webSocketService.on('game-invite:accept-success', handleAcceptSuccess);
     webSocketService.on('game-invite:cancel-success', handleCancelSuccess);
     webSocketService.on('game-invite:cancelled', handleInviteCancelled);
-    console.log('[useGameInvites] ✅ Listeners registrados permanentemente!');
-    
-    // NÃO remove os listeners no cleanup
-    // Os listeners devem permanecer ativos durante toda a sessão do app
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {
