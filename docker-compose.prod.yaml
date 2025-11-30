@@ -1,5 +1,12 @@
 name: tcc_project
 
+networks:
+  tcc_net:
+    name: tcc_net
+
+volumes:
+  postgres_data:
+
 services:
   postgres:
     image: postgres:17.5
@@ -10,7 +17,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - backend
+      - tcc_net
 
   backend:
     build:
@@ -25,20 +32,19 @@ services:
     ports:
       - "3000:3000"
     networks:
-      - backend
+      - tcc_net
     command: ["node", "dist/main.js"]
 
   coturn:
     image: instrumentisto/coturn
     container_name: tcc_coturn
     restart: unless-stopped
-    networks:
-      - backend
     env_file:
       - ./.env
     ports:
       - "3478:3478"
       - "3478:3478/udp"
+      - "50000-50001:50000-50001/udp"
     environment:
       - TURN_PORT=3478
       - LISTENING_IP=0.0.0.0
@@ -55,6 +61,8 @@ services:
       - --user=${TURN_USER}:${TURN_PASS}
       - --min-port=50000
       - --max-port=50001
+    networks:
+      - tcc_net
 
   nginx:
     image: nginx:latest
@@ -67,10 +75,4 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     networks:
-      - backend
-
-networks:
-  backend:
-
-volumes:
-  postgres_data:
+      - tcc_net
