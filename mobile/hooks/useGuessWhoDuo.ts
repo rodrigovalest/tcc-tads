@@ -20,10 +20,10 @@ import IGuessWhoRoundStart from "../models/interfaces/guess-who/guess-who-round-
 import IGuessWhoWaiting from "../models/interfaces/guess-who/guess-who-waiting";
 import IGuessWhoWrongGuess from "../models/interfaces/guess-who/guess-who-wrong-guess";
 
-const turnServerUrl = '192.168.0.106';
-const turnServerPort = '3478';
-const turnServerUsername = 'webrtcuser';
-const turnServerCredential = 'webrctpass';
+const turnServerUrl = process.env.EXPO_PUBLIC_TURN_SERVER_URL ?? "192.168.0.101";
+const turnServerPort = process.env.EXPO_PUBLIC_TURN_SERVER_PORT ?? "3478";
+const turnServerUsername = process.env.EXPO_PUBLIC_TURN_SERVER_USERNAME ?? "webrtcuser";
+const turnServerCredential = process.env.EXPO_PUBLIC_TURN_SERVER_CREDENTIAL ?? "webrctpass";
 
 const PEER_CONSTRAINTS = {
   iceServers: [
@@ -170,22 +170,30 @@ const useGuessWhoDuo = (redirectOnEnd: () => void) => {
     });
 
     webSocketService.on("guess-who:duo:guessing-or-unmarking", async (data: IGuessWhoGuessingOrUnmarking) => {
+      console.log(data);
+
       setAnswer(data.answer);
       setStatus(data.status);
       setRoundTime(data.startTime, data.endTime);
     });
 
     webSocketService.on("guess-who:duo:waiting", async (data: IGuessWhoWaiting) => {
+      console.log(data);
+
       setStatus(data.status);
       setRoundTime(data.startTime, data.endTime);
     });
 
     webSocketService.on("guess-who:duo:wrong-guess", async (data: IGuessWhoWrongGuess) => {
+      console.log(data);
+
       setStatus(data.status);
       setGuessCharacter(data.guessCharacter);
     });
 
     webSocketService.on("guess-who:duo:win", async (data: IGuessWhoWin) => {
+      console.log(data);
+
       setStatus(data.status);
 
       setTimeout(() => {
@@ -194,6 +202,8 @@ const useGuessWhoDuo = (redirectOnEnd: () => void) => {
     });
 
     webSocketService.on("guess-who:duo:lose", async (data: IGuessWhoLose) => {
+      console.log(data);
+
       setBuddyCharacterWhenLose(data.buddyCharacter);
       setStatus(data.status);
 
@@ -203,6 +213,8 @@ const useGuessWhoDuo = (redirectOnEnd: () => void) => {
     });
 
     webSocketService.on("guess-who:duo:round-start", (data: IGuessWhoRoundStart) => {
+      console.log(data);
+
       resetRound();
       setStatus(data.status);
       setRoundTime(data.startTime, data.endTime);

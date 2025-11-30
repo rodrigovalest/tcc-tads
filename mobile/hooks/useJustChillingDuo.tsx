@@ -12,21 +12,20 @@ import {
 import webSocketService from "../services/web-socket-service";
 import useMatchStore from "../store/match-store";
 
-const turnServerUrl = process.env.EXPO_PUBLIC_API_URL ?? "192.168.0.101";
+const turnServerUrl = process.env.EXPO_PUBLIC_TURN_SERVER_URL ?? "192.168.0.106";
 const turnServerPort = process.env.EXPO_PUBLIC_TURN_SERVER_PORT ?? "3478";
-const turnServerUsername =
-  process.env.EXPO_PUBLIC_TURN_SERVER_USERNAME ?? "webrtcuser";
-const turnServerCredential =
-  process.env.EXPO_PUBLIC_TURN_SERVER_CREDENTIAL ?? "webrctpass";
+const turnServerUsername = process.env.EXPO_PUBLIC_TURN_SERVER_USERNAME ?? "webrtcuser";
+const turnServerCredential = process.env.EXPO_PUBLIC_TURN_SERVER_CREDENTIAL ?? "webrtcpass";
 
 const PEER_CONSTRAINTS = {
   iceServers: [
     {
-      urls: [`turn:${turnServerUrl}:${turnServerPort}`],
+      urls: `turn:${turnServerUrl}:${turnServerPort}?transport=udp`,
       username: turnServerUsername,
       credential: turnServerCredential,
     },
   ],
+  iceTransportPolicy: "relay",
 };
 
 const MEDIA_CONSTRAINTS: MediaStreamConstraints = {

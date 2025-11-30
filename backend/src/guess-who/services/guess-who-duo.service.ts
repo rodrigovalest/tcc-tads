@@ -37,9 +37,7 @@ export class GuessWhoDuoService {
     socketId: string,
     language: MatchLanguage,
   ): Promise<void> {
-    this.logger.log(
-      `Enqueue requested by user ${user.sub} for ${MatchMode.GUESS_WHO}-${MatchFormat.DUO}-${language}`,
-    );
+    this.logger.log(`[enqueue][request] userId=${user.sub} socketId=${socketId} lang=${language} | enqueue requested`);
 
     await this.queueService.enqueue(
       user.sub,
@@ -75,9 +73,7 @@ export class GuessWhoDuoService {
         usersQueue,
       );
 
-      this.logger.log(
-        `Starting guess-who ${match} with users: ${usersQueue.map((u) => `${u.userId}`).join(', ')}`,
-      );
+      this.logger.log(`[match-start] matchId=${match.id} users=${usersQueue.map(u => u.userId).join(',')} | match created`);
 
       this.eventEmitter.emit('guess-who:duo:match-started', {
         userQueue1: usersQueue[0],
@@ -111,6 +107,7 @@ export class GuessWhoDuoService {
         characters,
         characterUser1,
         characterUser2,
+        matchId: match.id
       });
 
       this.roundStart(usersQueue[0].socketId, usersQueue[1].socketId, match.id);
@@ -204,6 +201,8 @@ export class GuessWhoDuoService {
     userSocketId2: string,
     matchId: string,
   ) {
+    this.logger.log(`[round-start] matchId=${matchId} turnSocket=${userSocketId1} otherSocket=${userSocketId2} | round initiated`);
+
     const now = new Date();
     const end = new Date(now.getTime() + GUESS_WHO_QUESTIONING_DURATION_MS);
 
@@ -212,7 +211,8 @@ export class GuessWhoDuoService {
       status: GuessWhoStatus.QUESTIONING,
       message: 'make a yes or no question trying to guess your character',
       startTime: now,
-      endTime: end
+      endTime: end,
+      matchId
     });
 
     this.eventEmitter.emit('guess-who:duo:round-start', {
@@ -220,7 +220,8 @@ export class GuessWhoDuoService {
       status: GuessWhoStatus.ANSWERING,
       message: 'answer with yes or no the question that your buddy is doing',
       startTime: now,
-      endTime: end
+      endTime: end,
+      matchId
     });
 
     // -------------------------------------------------------
@@ -234,7 +235,7 @@ export class GuessWhoDuoService {
         return;
       }
 
-      this.logger.warn(`Round timeout in match ${matchId}. Switching turn.`);
+      this.logger.warn(`[round-timeout] matchId=${matchId} oldTurn=${match.userIdTurn}`);
 
       const newTurnUserId =
         match.userIdTurn === match.user1Id
@@ -267,14 +268,16 @@ export class GuessWhoDuoService {
     const guessWhoMatch = await this.guessWhoMatchRepository.findByMatchId(matchId);
 
     if (!guessWhoMatch) {
-      this.logger.warn(`GuessWhoMatch not found for matchId ${matchId}`);
+      this.logger.warn(`[answer][match-not-found] matchId=${matchId}`);
       return;
     }
 
     if (guessWhoMatch.stage !== GuessWhoStage.QUESTIONING) {
-      this.logger.warn(`GuessWhoMatch ${matchId} is not in QUESTIONING stage`);
+      this.logger.warn(`[answer][invalid-stage] matchId=${matchId} stage=${guessWhoMatch.stage}`);
       return;
     }
+
+    this.logger.log(`[answer][process] matchId=${matchId} stage=${guessWhoMatch.stage} answer=${answer}`);
 
     const {
       user1Id,
@@ -301,6 +304,7 @@ export class GuessWhoDuoService {
       status: GuessWhoStatus.GUESSING_OR_UNMARKING,
       startTime,
       endTime,
+      matchId: guessWhoMatch.matchId
     });
 
     this.eventEmitter.emit('guess-who:duo:waiting', {
@@ -310,6 +314,7 @@ export class GuessWhoDuoService {
       status: GuessWhoStatus.WAITING,
       startTime,
       endTime,
+      matchId
     });
 
     guessWhoMatch.stage = GuessWhoStage.GUESSING_OR_UNMARKING;
@@ -326,7 +331,7 @@ export class GuessWhoDuoService {
         return;
       }
 
-      this.logger.warn(`Timeout on match ${matchId}. Switching turn.`);
+      this.logger.warn(`[guessing-timeout] matchId=${matchId} prevTurn=${fresh.userIdTurn}`);
 
       const newTurnUserId =
         fresh.userIdTurn === fresh.user1Id ? fresh.user2Id : fresh.user1Id;
@@ -353,14 +358,16 @@ export class GuessWhoDuoService {
     const match = await this.guessWhoMatchRepository.findByMatchId(matchId);
 
     if (!match) {
-      this.logger.warn(`GuessWhoMatch not found for matchId ${matchId}`);
+      this.logger.warn(`[guess][match-not-found] matchId=${matchId}`);
       return;
     }
 
     if (match.stage !== GuessWhoStage.GUESSING_OR_UNMARKING) {
-      this.logger.warn(`GuessWhoMatch ${matchId} is not in GUESSING_OR_UNMARKING stage`);
+      this.logger.warn(`[guess][invalid-stage] matchId=${matchId} stage=${match.stage}`);
       return;
     }
+
+    this.logger.log(`[guess][process] matchId=${matchId} userId=${guessingUserId} guessId=${guessCharacter.id}`);
 
     // Identificação dos dois usuários
     const isUser1Guessing = guessingUserId === match.user1Id;
@@ -382,13 +389,14 @@ export class GuessWhoDuoService {
     //                      ACERTOU
     // ============================================================
     if (isCorrectGuess) {
-      this.logger.log(`User ${guessingUserId} made a CORRECT guess in match ${matchId}`);
+      this.logger.log(`[guess][correct] matchId=${matchId} userId=${guessingUserId} | correct guess`);
 
       this.eventEmitter.emit("guess-who:duo:win", {
         socketId: guessingUserSocket,
         status: GuessWhoStatus.WIN,
         message: "correct guess! you won the match",
         timestamp: new Date().toISOString(),
+        matchId: match.matchId
       });
 
       const losingCharacter =
@@ -400,6 +408,7 @@ export class GuessWhoDuoService {
         message: "your buddy guessed correctly. you lost this match",
         buddyCharacter: losingCharacter,
         timestamp: new Date().toISOString(),
+        matchId: match.matchId
       });
 
       this.guessWhoMatchRepository.deleteById(matchId);
@@ -411,7 +420,7 @@ export class GuessWhoDuoService {
     //                      ERROU
     // ============================================================
 
-    this.logger.log(`User ${guessingUserId} made an INCORRECT guess in match ${matchId}`);
+    this.logger.log(`[guess][correct] matchId=${matchId} userId=${guessingUserId} | incorrect guess`);
 
     this.eventEmitter.emit("guess-who:duo:wrong-guess", {
       socketId: guessingUserSocket,
@@ -419,6 +428,7 @@ export class GuessWhoDuoService {
       message: "incorrect guess",
       guessCharacter: guessCharacter,
       timestamp: new Date().toISOString(),
+      matchId: match.matchId
     });
 
     this.eventEmitter.emit("guess-who:duo:wrong-guess", {
@@ -427,6 +437,7 @@ export class GuessWhoDuoService {
       message: "your buddy guessed incorrectly",
       guessCharacter: guessCharacter,
       timestamp: new Date().toISOString(),
+      matchId: match.matchId
     });
 
     // ============================================================
@@ -453,7 +464,13 @@ export class GuessWhoDuoService {
       return;
     }
 
-    await this.matchService.completeMatch(socketId);
+    const match = await this.matchService.completeMatch(socketId);
+
+    if (match) {
+      this.guessWhoMatchRepository.deleteById(match.id);
+    }
+
+    this.logger.warn(`[disconnect] socketId=${socketId} matchId=${match ? match.id : null} | handle disconnect`);
   }
 
   

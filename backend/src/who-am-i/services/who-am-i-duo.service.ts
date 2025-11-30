@@ -106,6 +106,8 @@ export class WhoAmIDuoService {
   }
   
   async handleDisconnect(socketId: string): Promise<void> {
+    this.logger.log(`who-am-i disconnect (socketId: ${socketId})`);
+
     const userQueue = await this.queueService.findUserBySocketId(socketId);
     
     if (userQueue) {
