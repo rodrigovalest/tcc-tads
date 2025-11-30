@@ -29,8 +29,6 @@ services:
       - ./backend/.env
     depends_on:
       - postgres
-    ports:
-      - "3000:3000"
     networks:
       - tcc_net
     command: ["node", "dist/main.js"]
@@ -60,7 +58,7 @@ services:
       - --realm=${TURN_REALM}
       - --user=${TURN_USER}:${TURN_PASS}
       - --min-port=50000
-      - --max-port=50001
+      - --max-port=50500
     networks:
       - tcc_net
 
