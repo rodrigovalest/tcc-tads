@@ -7,14 +7,19 @@ import { useGameInvites } from '../../../hooks/useGameInvites';
 import { COLORS } from '../../../constants/colors';
 import useI18n from '../../../hooks/useI18n';
 import { AVALIABLE_MATCH_MODES } from '../../../constants/available-match-modes';
+import { useGameInviteMatchListener } from '../../../hooks/useGameInviteMatchListener';
+import useMatchStore from '../../../store/match-store';
 
 export default function WaitingForInviteResponse() {
   const { t } = useI18n();
   const { inviteId, friendName, matchMode } = useLocalSearchParams();
   const { sentInvites, cancelInvite, refreshInvites } = useGameInvites();
+  const { matchMode: storeMatchMode, matchLanguage } = useMatchStore();
   const [invite, setInvite] = useState<any>(null);
   const [isGone, setIsGone] = useState(false);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
+
+  useGameInviteMatchListener();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -31,25 +36,27 @@ export default function WaitingForInviteResponse() {
         setInvite(foundInvite);
         setIsGone(false);
       } else {
-        if (!isGone) {
-          setIsGone(true);
-          setTimeout(() => {
-            router.back();
-          }, 500);
+        if (!storeMatchMode || !matchLanguage) {
+          if (!isGone) {
+            setIsGone(true);
+            setTimeout(() => {
+              router.back();
+            }, 500);
+          }
         }
       }
     } else {
       if (sentInvites.length > 0) {
         setInvite(sentInvites[0]);
         setIsGone(false);
-      } else if (!isGone) {
+      } else if (!isGone && (!storeMatchMode || !matchLanguage)) {
         setIsGone(true);
         setTimeout(() => {
           router.back();
         }, 500);
       }
     }
-  }, [sentInvites, inviteId, refreshInvites, isGone, isInitialLoading]);
+  }, [sentInvites, inviteId, refreshInvites, isGone, isInitialLoading, storeMatchMode, matchLanguage]);
 
   const handleCancel = async () => {
     if (invite) {

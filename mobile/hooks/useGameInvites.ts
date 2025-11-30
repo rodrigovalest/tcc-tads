@@ -329,6 +329,10 @@ export const useGameInvites = () => {
       );
       setMatchMode(data.matchMode);
       setMatchLanguage(data.matchLanguage);
+      setMatchFormat('duo');
+      if (!webSocketService.isConnected() && token) {
+        webSocketService.connect(token);
+      }
     };
     const handleInviteRejected = (data: { inviteId: number }) => {
       console.log('[useGameInvites] 🚫 Convite REJEITADO:', data.inviteId);

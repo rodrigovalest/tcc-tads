@@ -13,7 +13,6 @@ import { GlobalInviteListener } from "../components/GlobalInviteListener";
 import { useGameInviteMatchListener } from "../hooks/useGameInviteMatchListener";
 import webSocketService from "../services/web-socket-service";
 
-// Initialize i18n
 import "../lib/i18n";
 
 export default function RootLayout() {
