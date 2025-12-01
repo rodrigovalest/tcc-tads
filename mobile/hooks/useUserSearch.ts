@@ -1,5 +1,4 @@
 import { useState, useCallback } from 'react';
-import { Alert } from 'react-native';
 import { FriendshipService } from '../services/friendship-service';
 import { BaseUser } from '../types/user.types';
 import { Friendship, FriendshipRequest } from '../types/friendship.types';
@@ -55,7 +54,6 @@ export const useUserSearch = () => {
 
   const handleSearch = useCallback(async () => {
     if (!searchTerm.trim()) {
-      Alert.alert('Error', 'Please enter a username to search');
       return;
     }
 
@@ -72,7 +70,6 @@ export const useUserSearch = () => {
       setHasSearched(true);
     } catch (error: any) {
       console.error('Search error:', error);
-      Alert.alert('Error', 'Failed to search for users');
       setSearchResults([]);
     } finally {
       setSearching(false);
@@ -93,7 +90,6 @@ export const useUserSearch = () => {
       );
     } catch (error: any) {
       const message = error?.message || error?.response?.data?.message || 'Failed to send friendship request';
-      Alert.alert('Error', message);
     } finally {
       setSendingRequests(prev => {
         const newSet = new Set(prev);

@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Alert } from 'react-native';
 import { FriendshipService } from '../services/friendship-service';
 import { FriendshipRequest } from '../types/friendship.types';
 import useI18n from './useI18n';
@@ -22,7 +21,6 @@ export const useFriendshipRequests = (type: 'sent' | 'received') => {
       const errorMessage = type === 'sent' 
         ? t('friends.failedToLoadRequests')
         : 'Failed to load requests';
-      Alert.alert(t('common.error'), error?.response?.data?.message || errorMessage);
     } finally {
       setLoading(false);
     }
@@ -40,7 +38,6 @@ export const useFriendshipRequests = (type: 'sent' | 'received') => {
       await FriendshipService.cancelRequest(requestId);
       await loadRequests();
     } catch (error: any) {
-      Alert.alert(t('common.error'), error?.response?.data?.message || t('friends.failedToCancelRequest'));
     } finally {
       setResponding(null);
     }
@@ -50,10 +47,8 @@ export const useFriendshipRequests = (type: 'sent' | 'received') => {
     setResponding(requestId);
     try {
       await FriendshipService.respondToRequest(requestId, status);
-      Alert.alert('Success', `Request ${status} successfully`);
       await loadRequests();
     } catch (error: any) {
-      Alert.alert('Error', error?.response?.data?.message || `Failed to ${status} request`);
     } finally {
       setResponding(null);
     }

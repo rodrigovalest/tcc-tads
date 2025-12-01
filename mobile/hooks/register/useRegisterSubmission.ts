@@ -1,5 +1,4 @@
 import { useCallback } from "react";
-import { Alert } from "react-native";
 import { SubmitHandler } from "react-hook-form";
 import { useRegister } from "../useRegister";
 import { MultiStepRegisterData, RegisterRequest, RegisterFormData } from "../../models/types/register.types";
@@ -32,8 +31,6 @@ export function useRegisterSubmission() {
       const isValid = await validateCurrentStep();
       if (isValid) {
         submitForm(formData);
-      } else {
-        Alert.alert(t('common.error'), t('register.validation.fillRequired'));
       }
     };
   }, [submitForm, t]);
