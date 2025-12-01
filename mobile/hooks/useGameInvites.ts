@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Alert } from 'react-native';
 import { GameInviteService, GameInvite } from '../services/game-invite-service';
 import webSocketService from '../services/web-socket-service';
 import { MatchMode } from '../models/types/match-mode.type';
@@ -125,7 +124,6 @@ export const useGameInvites = () => {
       try {
         webSocketService.emit('game-invite:accept', { inviteId });
       } catch (error: any) {
-        Alert.alert('Error', error.message || 'Failed to accept invite');
       }
     },
     [],
@@ -137,7 +135,6 @@ export const useGameInvites = () => {
         webSocketService.emit('game-invite:reject', { inviteId });
         setPendingInvites((prev) => prev.filter((inv) => inv.id !== inviteId));
       } catch (error: any) {
-        Alert.alert('Error', error.message || 'Failed to reject invite');
       }
     },
     [],
@@ -164,8 +161,6 @@ export const useGameInvites = () => {
 
         webSocketService.emit('game-invite:cancel', { inviteId });
       } catch (error: any) {
-        console.error('Error cancelling invite:', error);
-        Alert.alert('Erro', error.message || 'Falha ao cancelar convite');
       }
     },
     [token],

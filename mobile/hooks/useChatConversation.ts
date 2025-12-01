@@ -75,7 +75,6 @@ export const useChatConversation = (friendId: number) => {
         [{ text: 'OK', onPress: () => router.back() }]
       );
     } else {
-      Alert.alert(t('chat.error'), error.response?.data?.message || t('chat.failedToLoadMessages'));
     }
     setState(prev => ({ ...prev, loading: false }));
   };
@@ -91,7 +90,6 @@ export const useChatConversation = (friendId: number) => {
       scrollToBottom();
       
     } catch (error: any) {
-      Alert.alert(t('chat.error'), error.response?.data?.message || t('chat.failedToSendMessage'));
       setState(prev => ({ ...prev, sending: false }));
     }
   };

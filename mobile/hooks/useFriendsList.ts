@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Alert } from 'react-native';
 import { router } from 'expo-router';
 import { FriendshipService } from '../services/friendship-service';
 import { Friendship } from '../types/friendship.types';
@@ -19,7 +18,6 @@ export const useFriendsList = () => {
       const data = await FriendshipService.getFriends(search);
       setFriends(data);
     } catch (error: any) {
-      Alert.alert('Error', error.response?.data?.message || 'Failed to load friends');
     } finally {
       setLoading(false);
     }
@@ -43,7 +41,6 @@ export const useFriendsList = () => {
       await FriendshipService.removeFriend(friendId);
       await loadFriends();
     } catch (error: any) {
-      Alert.alert('Error', error.response?.data?.message || 'Failed to remove friend');
     } finally {
       setRemoving(null);
     }
