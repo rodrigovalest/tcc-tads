@@ -31,32 +31,41 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
         <Ionicons name="arrow-back" size={18} color="#262B2A" />
       </TouchableOpacity>
 
-      <View className="relative mr-3">
-        <View className="w-12 h-12 bg-gradient-to-br from-appBlack to-appMediumGrey rounded-full items-center justify-center">
-          {friendPhoto ? (
-            <Image
-              source={{ uri: friendPhoto }}
-              className="w-12 h-12 rounded-full"
-              resizeMode="cover"
-            />
-          ) : (
-            <Ionicons name="person" size={24} color="white" />
-          )}
-        </View>
+      <TouchableOpacity 
+        onPress={() => router.push({
+          pathname: "/(private)/profile/[username]",
+          params: { username: friendName },
+        })}
+        className="flex-row items-center flex-1"
+        activeOpacity={0.7}
+      >
+        <View className="relative mr-3">
+          <View className="w-12 h-12 bg-gradient-to-br from-appBlack to-appMediumGrey rounded-full items-center justify-center">
+            {friendPhoto ? (
+              <Image
+                source={{ uri: friendPhoto }}
+                className="w-12 h-12 rounded-full"
+                resizeMode="cover"
+              />
+            ) : (
+              <Ionicons name="person" size={24} color="white" />
+            )}
+          </View>
 
-        <View className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${
-          isOnline ? 'bg-green-500' : 'bg-gray-400'
-        }`} />
-      </View>
-      
-      <View className="flex-1">
-        <Text className="text-lg font-nunito-bold text-appBlack">
-          {friendName}
-        </Text>
-        <Text className="text-sm font-nunito-regular text-appMediumGrey">
-          {isOnline ? t('friends.online') : t('friends.offline')}
-        </Text>
-      </View>
+          <View className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${
+            isOnline ? 'bg-green-500' : 'bg-gray-400'
+          }`} />
+        </View>
+        
+        <View className="flex-1">
+          <Text className="text-lg font-nunito-bold text-appBlack">
+            {friendName}
+          </Text>
+          <Text className="text-sm font-nunito-regular text-appMediumGrey">
+            {isOnline ? t('friends.online') : t('friends.offline')}
+          </Text>
+        </View>
+      </TouchableOpacity>
 
       {onInviteToGame && (
         <TouchableOpacity

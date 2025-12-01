@@ -41,11 +41,7 @@ export const useChatConversation = (friendId: number) => {
       const friend = friends.find(friendship => friendship.friend.id === friendId);
       
       if (!friend) {
-        Alert.alert(
-          t('chat.error'),
-          t('chat.cannotTalkToUser'),
-          [{ text: 'OK', onPress: () => router.back() }]
-        );
+        router.back();
         return;
       }
 
@@ -69,12 +65,7 @@ export const useChatConversation = (friendId: number) => {
 
   const handleLoadError = (error: any) => {
     if (error.response?.status === 404 || error.response?.data?.message?.includes('not friends')) {
-      Alert.alert(
-        t('chat.error'),
-        t('chat.cannotTalkToUser'),
-        [{ text: 'OK', onPress: () => router.back() }]
-      );
-    } else {
+      router.back();
     }
     setState(prev => ({ ...prev, loading: false }));
   };

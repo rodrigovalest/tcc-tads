@@ -13,8 +13,17 @@ export const useConversations = () => {
 
   const loadConversations = async () => {
     try {
-      const data = await FriendshipService.getConversations();
-      setConversations(data);
+      const [conversationsData, friendsData] = await Promise.all([
+        FriendshipService.getConversations(),
+        FriendshipService.getFriends()
+      ]);
+      
+      const friendIds = new Set(friendsData.map(f => f.friend.id));
+      const filteredConversations = conversationsData.filter(
+        conv => friendIds.has(conv.friend.id)
+      );
+      
+      setConversations(filteredConversations);
     } catch (error: any) {
       Alert.alert(
         t('friends.error'),

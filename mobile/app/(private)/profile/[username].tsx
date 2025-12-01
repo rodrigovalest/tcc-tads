@@ -83,17 +83,17 @@ export default function SeeUserProfile() {
   return (
     <SafeAreaView className="flex-1 bg-appBgWhite">
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-        {/* Header com gradiente */}
         <LinearGradient
           colors={['#1a1a1a', '#2d2d2d']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
-          className="pt-4 pb-8"
+          className="pt-16 pb-8"
         >
           <TouchableOpacity
-            className="px-4 mb-4"
+            className="px-4 mb-6"
             onPress={onBack}
             activeOpacity={0.7}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
           >
             <Ionicons name="chevron-back" size={28} color="white" />
           </TouchableOpacity>
