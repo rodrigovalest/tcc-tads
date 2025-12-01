@@ -7,6 +7,8 @@ import useJustChillingDuo from '../../../../hooks/useJustChillingDuo';
 import { RTCView } from 'react-native-webrtc';
 import { useEffect } from 'react';
 import useMatchStore from '../../../../store/match-store';
+import { getCountryData } from '../../../../utils/country-language-utils';
+import ImmersiveMode from "react-native-immersive-mode";
 
 export default function JustChillingDuoGame() {
   const { user: loggedUser } = useAuthStore();
@@ -33,17 +35,15 @@ export default function JustChillingDuoGame() {
     }
   }, []);
 
-  const onMute = () => {
-    switchAudio();
-  };
+  useEffect(() => {
+    ImmersiveMode.fullLayout(true);
+    ImmersiveMode.setBarMode("BottomSticky");
 
-  const onVideoOff = () => {
-    switchVideo();
-  };
-
-  const onEndCall = () => {
-    endCall();
-  }
+    return () => {
+      ImmersiveMode.fullLayout(false);
+      ImmersiveMode.setBarMode("Normal");
+    };
+  }, []);
 
   return (
     <SafeAreaView className='w-full h-full bg-appBgWhite'>
@@ -56,9 +56,9 @@ export default function JustChillingDuoGame() {
       )}
 
       <Text
-        className="absolute top-14 right-6 bg-appBgWhite rounded-3xl py-1 px-4 border-appBlack border-2 flex items-center justify-center text-lg font-nunito-semibold text-appBlack"
+        className="absolute top-14 right-6 bg-appBgWhite rounded-3xl py-1 px-4 border-appBlack border-2 items-center justify-center text-lg font-nunito-semibold text-appBlack"
       >
-        {buddy!.username}
+        {`${getCountryData(buddy!.nationality)?.flag || "🏳️"} ${buddy!.username}`}
       </Text>
 
       <View className="absolute bottom-40 right-6 bg-appBgWhite w-40 h-48 rounded-2xl border-appBlack border-2 flex items-center justify-center">
@@ -81,7 +81,7 @@ export default function JustChillingDuoGame() {
       <View className="absolute bottom-0 left-0 right-0 bg-appBlack px-10 pt-8 pb-10 flex-row justify-between items-center rounded-t-3xl">
         <TouchableOpacity
           className="bg-[#4F4F47] rounded-full p-4"
-          onPress={onMute}
+          onPress={switchAudio}
         >
           <Feather
             name={isMicMuted ? "mic" : "mic-off"}
@@ -92,7 +92,7 @@ export default function JustChillingDuoGame() {
 
         <TouchableOpacity
           className="bg-[#4F4F47] rounded-full p-4"
-          onPress={onVideoOff}
+          onPress={switchVideo}
         >
           <Feather
             name={isVideoMuted ? "video" : "video-off"}
@@ -101,7 +101,7 @@ export default function JustChillingDuoGame() {
           />
         </TouchableOpacity>
 
-        <TouchableOpacity className="bg-appMediumRed rounded-full p-4" onPress={onEndCall}>
+        <TouchableOpacity className="bg-appMediumRed rounded-full p-4" onPress={endCall}>
           <MaterialIcons name="call-end" size={26} color="#FEFBF4" />
         </TouchableOpacity>
       </View>

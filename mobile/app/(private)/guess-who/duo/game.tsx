@@ -32,6 +32,7 @@ import GuessWhoAnswerModal from "../../../../components/guess-who/GuessWhoAnswer
 import GuessWhoResultModal from "../../../../components/guess-who/GuessWhoResultModal";
 import useI18n from "../../../../hooks/useI18n";
 import { getCountryData } from "../../../../utils/country-language-utils";
+import ImmersiveMode from "react-native-immersive-mode";
 
 export default function GuessWhoDuoGame() {
   const { t } = useI18n();
@@ -90,6 +91,16 @@ export default function GuessWhoDuoGame() {
     if (status === "lose") return ["#4F2241", "#870E0E"] as const;
     return ["#501E3F", "#49AA8F"] as const;
   })();
+
+  useEffect(() => {
+    ImmersiveMode.fullLayout(true);
+    ImmersiveMode.setBarMode("BottomSticky");
+
+    return () => {
+      ImmersiveMode.fullLayout(false);
+      ImmersiveMode.setBarMode("Normal");
+    };
+  }, []);
 
   return (
     <LinearGradient

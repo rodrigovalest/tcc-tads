@@ -12,7 +12,7 @@ export default function TabsLayout() {
         headerShown: false,
         tabBarStyle: {
           backgroundColor: COLORS.appDarkGrey,
-          height: 135,
+          height: 130,
           paddingTop: 15,
           borderTopLeftRadius: 30,
           borderTopRightRadius: 30
