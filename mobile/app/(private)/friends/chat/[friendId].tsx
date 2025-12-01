@@ -19,6 +19,7 @@ export default function ChatScreen() {
     loading,
     sending,
     friendName,
+    friendUsername,
     friendPhoto,
     isOnline,
     typingUser,
@@ -47,6 +48,7 @@ export default function ChatScreen() {
       >
         <ChatHeader
           friendName={friendName}
+          friendUsername={friendUsername}
           friendPhoto={friendPhoto}
           isOnline={isOnline}
         />
