@@ -33,6 +33,7 @@ export default function Register() {
         className="px-8"
         contentContainerStyle={{ paddingBottom: 40 }}
         keyboardShouldPersistTaps="handled"
+        nestedScrollEnabled={true}
       >
         <View className="flex-row justify-between items-center mt-2 mb-4">
           <TouchableOpacity onPress={handleLogin} testID="go-to-login-button">
