@@ -34,41 +34,44 @@ export const ConversationCard: React.FC<ConversationCardProps> = ({
   return (
     <TouchableOpacity
       onPress={() => onPress(conversation.friend.id)}
-      className="bg-appLightGrey rounded-xl p-5 mb-4"
+      className="bg-white rounded-xl p-5 mb-4 border border-appLightGrey shadow-sm"
+      activeOpacity={0.7}
     >
       <View className="flex-row items-center">
         <View className="relative mr-4">
-          <View className="w-14 h-14 bg-appMediumGrey rounded-full items-center justify-center">
+          <View className="w-16 h-16 bg-appLightGrey rounded-full items-center justify-center border-2 border-white shadow-sm">
             {conversation.friend.photoUri ? (
               <Image
                 source={{ uri: conversation.friend.photoUri }}
-                className="w-14 h-14 rounded-full"
+                className="w-16 h-16 rounded-full"
                 resizeMode="cover"
               />
             ) : (
-              <Ionicons name="person" size={24} color="white" />
+              <Ionicons name="person" size={28} color={COLORS.appMediumGrey} />
             )}
           </View>
+          {hasUnread && (
+            <View className="absolute -top-1 -right-1 bg-appRed rounded-full w-5 h-5 items-center justify-center border-2 border-white">
+              <Text className="text-xs font-nunito-bold text-white">
+                {conversation.unreadCount > 9 ? '9+' : conversation.unreadCount}
+              </Text>
+            </View>
+          )}
         </View>
 
         <View className="flex-1">
-          <View className="flex-row items-center justify-between">
+          <View className="flex-row items-center justify-between mb-1">
             <View className="flex-1">
-              <Text className="text-lg font-nunito-bold text-appBlack">
-                {conversation.friend.name}
-              </Text>
-              <Text className="text-sm font-nunito-medium text-appMediumGrey mb-1">
+              <View className="flex-row items-center">
+                <Text className="text-lg font-nunito-bold text-appBlack flex-1">
+                  {conversation.friend.name}
+                </Text>
+                <Text className="text-sm ml-1">🐾</Text>
+              </View>
+              <Text className="text-sm font-nunito-medium text-appMediumGrey">
                 @{conversation.friend.username}
               </Text>
             </View>
-            
-            {hasUnread && (
-              <View className="bg-appMediumRed rounded-full w-6 h-6 items-center justify-center">
-                <Text className="text-xs font-nunito-bold text-white">
-                  {conversation.unreadCount > 9 ? '9+' : conversation.unreadCount}
-                </Text>
-              </View>
-            )}
           </View>
 
           <View className="flex-row items-center justify-between">

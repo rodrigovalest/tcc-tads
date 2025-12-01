@@ -20,23 +20,26 @@ export const ReceivedRequestCard: React.FC<ReceivedRequestCardProps> = ({
   const isResponding = responding === request.id;
 
   return (
-    <View className="bg-appLightGrey rounded-xl p-5 mb-4">
+    <View className="bg-white rounded-xl p-5 mb-4 border border-appLightGrey shadow-sm">
       <View className="flex-row items-center mb-4">
-        <View className="w-14 h-14 bg-appMediumGrey rounded-full items-center justify-center mr-4">
+        <View className="w-16 h-16 bg-appLightGrey rounded-full items-center justify-center mr-4 border-2 border-white shadow-sm">
           {request.requester.photoUri ? (
             <Image
               source={{ uri: request.requester.photoUri }}
-              className="w-14 h-14 rounded-full"
+              className="w-16 h-16 rounded-full"
               resizeMode="cover"
             />
           ) : (
-            <Ionicons name="person-add" size={24} color="white" />
+            <Ionicons name="person-add" size={28} color={COLORS.appMediumGrey} />
           )}
         </View>
         <View className="flex-1">
-          <Text className="text-lg font-nunito-bold text-appBlack">
-            {request.requester.name}
-          </Text>
+          <View className="flex-row items-center">
+            <Text className="text-lg font-nunito-bold text-appBlack flex-1">
+              {request.requester.name}
+            </Text>
+            <Text className="text-sm">🐾</Text>
+          </View>
           <Text className="text-sm font-nunito-medium text-appMediumGrey mb-1">
             @{request.requester.username}
           </Text>
@@ -53,14 +56,15 @@ export const ReceivedRequestCard: React.FC<ReceivedRequestCardProps> = ({
         <TouchableOpacity
           onPress={() => onRespond(request.id, 'accepted')}
           disabled={isResponding}
-          className="flex-1 bg-appBlack py-3 px-4 rounded-xl flex-row items-center justify-center mr-2"
+          className="flex-1 bg-appDarkGrey py-3 px-4 rounded-xl flex-row items-center justify-center mr-2 shadow-sm"
+          activeOpacity={0.8}
         >
           {isResponding ? (
             <ActivityIndicator size="small" color="white" />
           ) : (
             <>
               <Ionicons name="checkmark-circle" size={18} color="white" />
-              <Text className="text-white font-nunito-bold text-base ml-2">
+              <Text className="text-white font-nunito-semibold text-base ml-2">
                 {t('friends.accept')}
               </Text>
             </>
@@ -70,14 +74,15 @@ export const ReceivedRequestCard: React.FC<ReceivedRequestCardProps> = ({
         <TouchableOpacity
           onPress={() => onRespond(request.id, 'rejected')}
           disabled={isResponding}
-          className="flex-1 bg-appMediumRed py-3 px-4 rounded-xl flex-row items-center justify-center ml-2"
+          className="flex-1 bg-white py-3 px-4 rounded-xl flex-row items-center justify-center ml-2 shadow-sm border-2 border-appMediumGrey"
+          activeOpacity={0.8}
         >
           {isResponding ? (
-            <ActivityIndicator size="small" color="white" />
+            <ActivityIndicator size="small" color={COLORS.appDarkGrey} />
           ) : (
             <>
-              <Ionicons name="close-circle" size={18} color="white" />
-              <Text className="text-white font-nunito-bold text-base ml-2">
+              <Ionicons name="close-circle" size={18} color={COLORS.appDarkGrey} />
+              <Text className="text-appDarkGrey font-nunito-semibold text-base ml-2">
                 {t('friends.reject')}
               </Text>
             </>
