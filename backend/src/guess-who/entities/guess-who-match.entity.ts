@@ -2,6 +2,7 @@ import { GuessWhoCharacter } from "./guess-who-character.entity";
 import { GuessWhoStage } from "./guess-who-stage.enum";
 
 export class GuessWhoMatch {
+  roundCounter: number;
   matchId: string;
   user1Id: number;
   user2Id: number;
@@ -24,6 +25,7 @@ export class GuessWhoMatch {
     user2Character: GuessWhoCharacter,
     userIdTurn: number,
   ) {
+    this.roundCounter = 0;
     this.matchId = matchId;
     this.user1Id = user1Id;
     this.user2Id = user2Id;

@@ -24,6 +24,7 @@ import VideoCardComponent from "../../../../components/VideoCard";
 import { getCountryData } from "../../../../utils/country-language-utils";
 import useI18n from "../../../../hooks/useI18n";
 import VideoCallControlsComponent from "../../../../components/VideoCallControls";
+import ImmersiveMode from "react-native-immersive-mode";
 
 export default function WhoAmI() {
   const { t } = useI18n();
@@ -263,6 +264,16 @@ export default function WhoAmI() {
     opponentCharacterImage,
     isImageRole,
   ]);
+
+  useEffect(() => {
+    ImmersiveMode.fullLayout(true);
+    ImmersiveMode.setBarMode("BottomSticky");
+
+    return () => {
+      ImmersiveMode.fullLayout(false);
+      ImmersiveMode.setBarMode("Normal");
+    };
+  }, []);
 
   const handleNailedIt = () => {
     // Debug: verificar os personagens no momento do clique
