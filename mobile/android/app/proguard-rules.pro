@@ -14,3 +14,8 @@
 # Add any project specific keep options here:
 -keep class com.oney.WebRTCModule.** { *; }
 -keep class org.webrtc.** { *; }
+
+# Keep OkHttp/Okio used by React Native WebSocket (avoid striping)
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+-keep class okio.** { *; }
