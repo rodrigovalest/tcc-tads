@@ -79,6 +79,7 @@ const MultiStepRegisterForm: React.FC = () => {
         className="flex-1"
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
+        nestedScrollEnabled={true}
       >
         <StepContent
           currentStep={currentStep}
