@@ -6,6 +6,12 @@ export type ApiError = {
   message: string;
 };
 
+console.log(process.env.EXPO_PUBLIC_API_URL)
+console.log(process.env.EXPO_PUBLIC_WS_API_URL)
+console.log(process.env.EXPO_PUBLIC_API_URL)
+console.log(process.env.EXPO_PUBLIC_API_URL)
+console.log(process.env.EXPO_PUBLIC_API_URL)
+
 const api = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
   timeout: 30000,

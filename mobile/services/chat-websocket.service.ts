@@ -27,7 +27,7 @@ class ChatWebSocketServiceImpl implements ChatWebSocketService {
   private readonly baseUrl: string;
 
   constructor() {
-    this.baseUrl = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:3001';
+    this.baseUrl = process.env.EXPO_PUBLIC_API_URL;
   }
 
   connect(token: string): void {

@@ -45,16 +45,16 @@ function cacheWord(lang: MatchLanguage, w: string, v: boolean) {
 // IMPORTANT: manter caminhos estáticos para o bundler
 const DICT_FILES: Record<MatchLanguage, { aff: number; dic: number }> = {
   en: {
-    aff: require("../../assets/dictionaries/en.aff"),
-    dic: require("../../assets/dictionaries/en.dic"),
+    aff: require("../../assets/dictionaries/en_aff.aff"),
+    dic: require("../../assets/dictionaries/en_dic.dic"),
   },
   pt: {
-    aff: require("../../assets/dictionaries/pt.aff"),
-    dic: require("../../assets/dictionaries/pt.dic"),
+    aff: require("../../assets/dictionaries/pt_aff.aff"),
+    dic: require("../../assets/dictionaries/pt_dic.dic"),
   },
   es: {
-    aff: require("../../assets/dictionaries/es.aff"),
-    dic: require("../../assets/dictionaries/es.dic"),
+    aff: require("../../assets/dictionaries/es_aff.aff"),
+    dic: require("../../assets/dictionaries/es_dic.dic"),
   },
 };
 
