@@ -28,8 +28,8 @@ module.exports = (async () => {
     },
     resolver: {
       ...nativeWindConfig.resolver,
-      assetExts: [...new Set([...newAssetExts, "aff", "dic"])],
-      sourceExts: [...sourceExts, "svg"],
+      assetExts: assetExts.filter((ext) => !["aff", "dic", "svg"].includes(ext)),
+      sourceExts: [...new Set([...sourceExts, "aff", "dic", "svg"])],
     },
   };
 })();
