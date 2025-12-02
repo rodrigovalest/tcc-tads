@@ -25,11 +25,12 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
   return (
     <View className="mb-6">
-      <View className="flex-row items-center bg-appLightGrey rounded-lg px-4 py-3">
+      <View className="flex-row items-center bg-white rounded-xl px-4 py-3 border border-appLightGrey shadow-sm">
         <Ionicons name="search" size={20} color={COLORS.appMediumGrey} />
         <TextInput
           className="flex-1 ml-3 text-base font-nunito-regular text-appBlack"
           placeholder={placeholder || t('friends.enterUsername')}
+          placeholderTextColor={COLORS.appMediumGrey}
           value={searchTerm}
           onChangeText={onSearchTermChange}
           autoCapitalize="none"
@@ -40,11 +41,12 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         <TouchableOpacity
           onPress={onSearch}
           disabled={searching || !searchTerm.trim()}
-          className="w-10 h-10 rounded-full bg-appBlack items-center justify-center ml-2"
+          className="w-10 h-10 rounded-full bg-appDarkGrey items-center justify-center ml-2 shadow-sm"
           style={{ 
             opacity: (searching || !searchTerm.trim()) ? 0.5 : 1,
             backgroundColor: COLORS.appDarkGrey 
           }}
+          activeOpacity={0.7}
         >
           {searching ? (
             <ActivityIndicator size="small" color="white" />

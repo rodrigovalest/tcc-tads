@@ -6,16 +6,25 @@ import useI18n from '../../hooks/useI18n';
 
 interface ChatHeaderProps {
   friendName: string;
+  friendUsername: string;
   friendPhoto: string | null;
   isOnline: boolean;
 }
 
 export const ChatHeader: React.FC<ChatHeaderProps> = ({
   friendName,
+  friendUsername,
   friendPhoto,
   isOnline
 }) => {
   const { t } = useI18n();
+
+  const handleOpenProfile = () => {
+    router.push({
+      pathname: "/(private)/profile/[username]",
+      params: { username: friendUsername },
+    });
+  };
 
   return (
     <View className="flex-row items-center px-6 py-4 bg-white border-b border-appLighterGray shadow-sm">
@@ -26,7 +35,10 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
         <Ionicons name="arrow-back" size={18} color="#262B2A" />
       </TouchableOpacity>
 
-      <View className="relative mr-3">
+      <TouchableOpacity 
+        onPress={handleOpenProfile}
+        className="relative mr-3"
+      >
         <View className="w-12 h-12 bg-gradient-to-br from-appBlack to-appMediumGrey rounded-full items-center justify-center">
           {friendPhoto ? (
             <Image
@@ -42,16 +54,19 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
         <View className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${
           isOnline ? 'bg-green-500' : 'bg-gray-400'
         }`} />
-      </View>
+      </TouchableOpacity>
       
-      <View className="flex-1">
+      <TouchableOpacity 
+        onPress={handleOpenProfile}
+        className="flex-1"
+      >
         <Text className="text-lg font-nunito-bold text-appBlack">
           {friendName}
         </Text>
         <Text className="text-sm font-nunito-regular text-appMediumGrey">
           {isOnline ? t('friends.online') : t('friends.offline')}
         </Text>
-      </View>
+      </TouchableOpacity>
 
       <TouchableOpacity className="w-10 h-10 rounded-full bg-appLightGrey items-center justify-center">
         <Ionicons name="ellipsis-vertical" size={18} color="#262B2A" />

@@ -12,6 +12,7 @@ interface ChatConversationState {
   loading: boolean;
   sending: boolean;
   friendName: string;
+  friendUsername: string;
   friendPhoto: string | null;
   isTyping: boolean;
   typingUser: string | null;
@@ -29,6 +30,7 @@ export const useChatConversation = (friendId: number) => {
     loading: true,
     sending: false,
     friendName: '',
+    friendUsername: '',
     friendPhoto: null,
     isTyping: false,
     typingUser: null,
@@ -55,6 +57,7 @@ export const useChatConversation = (friendId: number) => {
         ...prev,
         messages: data,
         friendName: friend.friend.username,
+        friendUsername: friend.friend.username,
         friendPhoto: friend.friend.photoUri || null,
         loading: false
       }));

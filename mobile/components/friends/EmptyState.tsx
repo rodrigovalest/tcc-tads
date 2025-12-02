@@ -20,7 +20,8 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   return (
     <View className="flex-1 justify-center items-center py-20">
       <Ionicons name={icon} size={64} color={iconColor} />
-      <Text className="text-lg font-nunito-medium text-appMediumGrey mt-4 text-center">
+      <Text className="text-2xl mt-4">🐾</Text>
+      <Text className="text-lg font-nunito-medium text-appDarkGrey mt-4 text-center">
         {title}
       </Text>
       <Text className="text-sm font-nunito-regular text-appMediumGrey mt-2 text-center px-8">
