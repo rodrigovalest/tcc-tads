@@ -20,6 +20,7 @@ import {
   getLanguageData,
 } from "../../../utils/country-language-utils";
 import Spinner from "../../../components/Spinner";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function Profile() {
   const { t } = useI18n();
@@ -88,60 +89,76 @@ export default function Profile() {
   return (
     <SafeAreaView className="flex-1 bg-appBgWhite">
       <ScrollView
-        contentContainerStyle={{ padding: 20, paddingBottom: 0 }}
+        contentContainerStyle={{ paddingBottom: 20 }}
+        showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={isLoading} onRefresh={() => refetch()} />
         }
       >
-        <View className="items-center mb-6">
-          <View className="relative">
-            {fullUser?.photoUri ? (
-              <Image
-                source={{ uri: fullUser.photoUri }}
-                className="w-32 h-32 rounded-full"
-                resizeMode="cover"
-              />
-            ) : (
-              <View className="w-32 h-32 rounded-full bg-appLightGrey items-center justify-center">
-                <MaterialCommunityIcons
-                  name="account"
-                  size={60}
-                  color={COLORS.appMediumGrey}
+        <LinearGradient
+          colors={[COLORS.appBgBeige, COLORS.appBgWhite]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          className="pt-6 pb-8 px-5"
+        >
+          <View className="items-center">
+            <View className="relative mb-5">
+              {fullUser?.photoUri ? (
+                <Image
+                  source={{ uri: fullUser.photoUri }}
+                  className="w-36 h-36 rounded-full border-4 border-white shadow-xl"
+                  resizeMode="cover"
                 />
-              </View>
-            )}
-            <View
-              className={`absolute bottom-2 right-2 w-6 h-6 rounded-full border-2 border-white ${
-                fullUser?.isActive ? "bg-green-500" : "bg-gray-400"
-              }`}
-            />
-          </View>
+              ) : (
+                <View className="w-36 h-36 rounded-full bg-appLightGrey items-center justify-center border-4 border-white shadow-xl">
+                  <MaterialCommunityIcons
+                    name="account"
+                    size={70}
+                    color={COLORS.appMediumGrey}
+                  />
+                </View>
+              )}
 
-          <Text className="text-2xl font-nunito-bold mt-4 text-appDarkGrey">
-            {fullUser?.name}
-          </Text>
-          <Text className="text-appMediumGrey font-nunito-semibold mt-1">
-            @{fullUser?.username || authUser?.username}
-          </Text>
-          <Text className="text-appMediumGrey font-nunito-medium mt-1">
-            {fullUser?.email || authUser?.email}
-          </Text>
-
-          {countryData && (
-            <View className="flex-row items-center mt-2">
-              <Text className="text-2xl mr-2">{countryData.flag}</Text>
-              <Text className="text-appMediumGrey font-nunito-medium">
-                {countryData.name}
-              </Text>
+              <View
+                className={`absolute bottom-1 right-1 w-7 h-7 rounded-full border-3 border-white shadow-lg ${
+                  fullUser?.isActive ? "bg-green-500" : "bg-gray-400"
+                }`}
+              />
             </View>
-          )}
-        </View>
+
+            <View className="items-center w-full">
+              <Text className="text-2xl font-nunito-bold text-appDarkGrey">
+                {fullUser?.name}
+              </Text>
+              <Text className="text-appMediumGrey font-nunito-semibold mt-1">
+                @{fullUser?.username || authUser?.username}
+              </Text>
+              <Text className="text-appMediumGrey font-nunito-medium mt-1 text-sm">
+                {fullUser?.email || authUser?.email}
+              </Text>
+
+              {countryData && (
+                <View className="flex-row items-center mt-4 bg-white px-5 py-2.5 rounded-full shadow-sm border border-appLightGrey">
+                  <Text className="text-2xl mr-2">{countryData.flag}</Text>
+                  <Text className="text-appDarkGrey font-nunito-medium">
+                    {countryData.name}
+                  </Text>
+                </View>
+              )}
+            </View>
+          </View>
+        </LinearGradient>
+
+        <View className="px-5">
 
         {fullUser?.personalDescription && (
-          <View className="mb-6 bg-white rounded-2xl p-5 border border-appLightGrey">
-            <Text className="text-lg font-nunito-bold mb-3 text-appDarkGrey">
+          <View className="mb-6 bg-white rounded-2xl p-5 border border-appLightGrey shadow-sm">
+            <View className="flex-row items-center mb-3">
+              <Text className="text-lg font-nunito-bold text-appDarkGrey flex-1">
               {t("profile.aboutMe")}
-            </Text>
+              </Text>
+              <Text className="text-lg">🐾</Text>
+            </View>
             <Text className="text-appDarkGrey font-nunito-regular leading-6">
               {fullUser.personalDescription}
             </Text>
@@ -149,10 +166,13 @@ export default function Profile() {
         )}
 
         {fullUser?.languages && fullUser.languages.length > 0 && (
-          <View className="mb-6 bg-white rounded-2xl p-5 border border-appLightGrey">
-            <Text className="text-lg font-nunito-bold mb-4 text-appDarkGrey">
-              {t("profile.languages")}
-            </Text>
+          <View className="mb-6 bg-white rounded-2xl p-5 border border-appLightGrey shadow-sm">
+            <View className="flex-row items-center mb-4">
+              <Text className="text-lg font-nunito-bold text-appDarkGrey flex-1">
+                {t("profile.languages")}
+              </Text>
+              <Text className="text-lg">🐾</Text>
+            </View>
             <View>
               {fullUser.languages.map((language, index) => {
                 const languageData = getLanguageData(language.languageCode);
@@ -203,10 +223,13 @@ export default function Profile() {
         )}
 
         {fullUser?.interestTopics && fullUser.interestTopics.length > 0 && (
-          <View className="mb-6 bg-white rounded-2xl p-5 border border-appLightGrey">
-            <Text className="text-lg font-nunito-bold mb-4 text-appDarkGrey">
-              {t("profile.interests")}
-            </Text>
+          <View className="mb-6 bg-white rounded-2xl p-5 border border-appLightGrey shadow-sm">
+            <View className="flex-row items-center mb-4">
+              <Text className="text-lg font-nunito-bold text-appDarkGrey flex-1">
+                {t("profile.interests")}
+              </Text>
+              <Text className="text-lg">🐾</Text>
+            </View>
             <View className="flex-row flex-wrap">
               {fullUser.interestTopics.map((topic) => (
                 <View
@@ -222,19 +245,28 @@ export default function Profile() {
           </View>
         )}
 
-        <Link href="../../../profile-edit" asChild>
-          <TouchableOpacity className="bg-appDarkGrey rounded-xl py-4 items-center flex-row justify-center">
-            <Ionicons
-              name="create-outline"
-              size={20}
-              color="white"
-              style={{ marginRight: 8 }}
-            />
-            <Text className="text-white font-nunito-semibold">
-              {t("profile.editProfile")}
+          <Link href="../../../profile-edit" asChild>
+            <TouchableOpacity className="bg-appDarkGrey rounded-xl py-4 items-center flex-row justify-center shadow-md mb-4">
+              <Ionicons
+                name="create-outline"
+                size={20}
+                color="white"
+                style={{ marginRight: 8 }}
+              />
+              <Text className="text-white font-nunito-semibold">
+                {t("profile.editProfile")}
+              </Text>
+              <Text className="text-white text-lg ml-2">🐾</Text>
+            </TouchableOpacity>
+          </Link>
+
+          <View className="items-center mt-4 mb-2">
+            <Text className="text-2xl">🐾</Text>
+            <Text className="text-xs font-nunito-regular text-appMediumGrey mt-1">
+              Calle - Aprenda idiomas de forma divertida
             </Text>
-          </TouchableOpacity>
-        </Link>
+          </View>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

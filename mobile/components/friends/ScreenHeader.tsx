@@ -28,14 +28,18 @@ export const ScreenHeader: React.FC<ScreenHeaderProps> = ({
       {showBackButton && (
         <TouchableOpacity
           onPress={handleBack}
-          className="w-12 h-12 rounded-full bg-appLightGrey items-center justify-center mr-4"
+          className="w-12 h-12 rounded-full bg-appLightGrey items-center justify-center mr-4 shadow-sm"
+          activeOpacity={0.7}
         >
           <Ionicons name="arrow-back" size={20} color={COLORS.appDarkGrey} />
         </TouchableOpacity>
       )}
-      <Text className="text-2xl font-nunito-bold text-appBlack">
-        {title}
-      </Text>
+      <View className="flex-row items-center flex-1">
+        <Text className="text-2xl font-nunito-bold text-appBlack flex-1">
+          {title}
+        </Text>
+        <Text className="text-xl ml-2">🐾</Text>
+      </View>
     </View>
   );
 };
