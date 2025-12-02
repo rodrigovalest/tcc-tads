@@ -130,6 +130,18 @@ android {
         jniLibs {
             useLegacyPackaging (findProperty('expo.useLegacyPackaging')?.toBoolean() ?: false)
         }
+
+        resources {
+            pickFirsts += [
+                "raw/assets_dictionaries_en.aff",
+                "raw/assets_dictionaries_en.dic",
+                "raw/assets_dictionaries_pt.aff",
+                "raw/assets_dictionaries_pt.dic",
+                "raw/assets_dictionaries_es.aff",
+                "raw/assets_dictionaries_es.dic",
+                "**/assets_dictionaries_*.*"
+            ]
+        }
     }
     androidResources {
         ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~'
