@@ -11,12 +11,11 @@ Key aspects:
 - Development followed agile practices (Scrum/Kanban), with user stories, prototypes, UML diagrams and incremental sprints.
 
 ## Screenshots
-Add screenshots or short GIFs showing the app running here.
 
-![Home screen](./docs/screenshots/homepage.jpg)
-![Guess Who game](./docs/screenshots/guess_who.png)
-![Match rate](./docs/screenshots/match_rate.png)
-![Time attack vocab](./docs/screenshots/time_attack_vocab.jpg)
+<img src="./docs/screenshots/homepage.jpg" alt="Home screen" width="200" />
+<img src="./docs/screenshots/guess_who.png" alt="Guess Who game" width="200" />
+<img src="./docs/screenshots/match_rate.png" alt="Match rate" width="200" />
+<img src="./docs/screenshots/time_attack_vocab.jpg" alt="Time attack vocab" width="200" />
 
 ## Features
 - Real-time video chat (peer-to-peer)
