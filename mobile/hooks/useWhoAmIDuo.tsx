@@ -11,6 +11,7 @@ import useMatchStore from "../store/match-store";
 import { WhoAmICharacter, WhoAmICharacterPair } from "../models/types/who-am-i-character.interface";
 import { getWhoAmICharacters } from "../constants/who-am-i-characters";
 import { MatchLanguage } from "../models/types/match-language.type";
+import { Audio } from "expo-av";
 
 
 const turnServerUrl = process.env.EXPO_PUBLIC_TURN_SERVER_URL ?? "192.168.0.101";
@@ -275,6 +276,18 @@ const useWhoAmIDuo = (redirectOnEnd: () => void, onAdversaryCorrect?: (isGiveUp:
     if (!matchId || isOfferer === null) {
       console.log("[INIT] Condições não atendidas, saindo");
       return;
+    }
+
+    try {
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: true,
+        playsInSilentModeIOS: true,
+        shouldDuckAndroid: true,
+        staysActiveInBackground: true,
+        playThroughEarpieceAndroid: false,
+      });
+    } catch (e) {
+      console.error("[INIT] Error setting audio mode:", e);
     }
 
     const pc = new RTCPeerConnection(PEER_CONSTRAINTS);

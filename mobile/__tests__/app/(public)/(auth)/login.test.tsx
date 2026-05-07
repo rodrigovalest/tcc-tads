@@ -107,7 +107,7 @@ describe("Login screen", () => {
     expect(getByTestId("login-screen-safe-area-view")).toBeTruthy();
     expect(getByText("Calle")).toBeTruthy();
     expect(getByText("Log in or sign up")).toBeTruthy();
-    expect(getByText("Login with Google")).toBeTruthy();
+    // expect(getByText("Login with Google")).toBeTruthy();
     expect(getByText("Create account")).toBeTruthy();
     expect(getByTestId("login-form")).toBeTruthy();
     expect(getByTestId("language-selector")).toBeTruthy();
@@ -126,21 +126,21 @@ describe("Login screen", () => {
     });
   });
 
-  it("calls Google login when Google login button is pressed", () => {
-    const { getByTestId } = renderWithQueryClient(<Login />);
-    const googleLoginButton = getByTestId("google-login-button");
+  // it("calls Google login when Google login button is pressed", () => {
+  //   const { getByTestId } = renderWithQueryClient(<Login />);
+  //   const googleLoginButton = getByTestId("google-login-button");
 
-    fireEvent.press(googleLoginButton);
+  //   fireEvent.press(googleLoginButton);
 
-    expect(googleLoginButton).toBeTruthy();
-  });
+  //   expect(googleLoginButton).toBeTruthy();
+  // });
 
   it("should display translated texts correctly", () => {
     renderWithQueryClient(<Login />);
 
     expect(mockT).toHaveBeenCalledWith("auth.loginOrSignUp");
-    expect(mockT).toHaveBeenCalledWith("auth.or");
-    expect(mockT).toHaveBeenCalledWith("auth.loginWithGoogle");
+    // expect(mockT).toHaveBeenCalledWith("auth.or");
+    // expect(mockT).toHaveBeenCalledWith("auth.loginWithGoogle");
     expect(mockT).toHaveBeenCalledWith("auth.createAccount");
   });
 
@@ -150,9 +150,9 @@ describe("Login screen", () => {
     expect(getByTestId("login-screen-safe-area-view")).toBeTruthy();
   });
 
-  it("should have Google login button with correct testID", () => {
-    const { getByTestId } = renderWithQueryClient(<Login />);
+  // it("should have Google login button with correct testID", () => {
+  //   const { getByTestId } = renderWithQueryClient(<Login />);
 
-    expect(getByTestId("google-login-button")).toBeTruthy();
-  });
+  //   expect(getByTestId("google-login-button")).toBeTruthy();
+  // });
 });

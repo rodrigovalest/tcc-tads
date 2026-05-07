@@ -72,66 +72,6 @@ export default function Settings() {
           <LanguageSelector showLabel={false} variant="compact" />
         </View>
 
-        <View className="px-6 py-4 bg-white border-b border-gray-100">
-          <View className="flex-row items-center mb-3">
-            <Ionicons
-              name="logo-google"
-              size={24}
-              color="#000000ff"
-              style={{ marginRight: 12 }}
-            />
-            <Text className="text-lg text-appBlack font-nunito-bold mr-3">
-              {t("profile.googleAccount.title")}
-            </Text>
-            {googleEmail && (
-              <View className="px-2 py-1 rounded-full bg-green-100 border border-green-200">
-                <Text className="text-[11px] text-green-700 font-nunito-semibold">
-                  {t("profile.googleAccount.linkedStatus")}
-                </Text>
-              </View>
-            )}
-          </View>
-          {checkingGoogle ? (
-            <View className="flex-row items-center">
-              <ActivityIndicator size="small" color={COLORS.appDarkGrey} />
-              <Text className="ml-3 text-appMediumGrey font-nunito-regular">
-                {t("common.loading")}
-              </Text>
-            </View>
-          ) : googleEmail ? (
-            <View>
-              <View className="flex-row items-center mb-2">
-                <Ionicons name="checkmark-circle" size={18} color="#10B981" />
-                <Text className="ml-2 text-appDarkGrey font-nunito-medium">
-                  {t("profile.googleAccount.linkedTo")}: {googleEmail}
-                </Text>
-              </View>
-              <Text className="text-xs text-appMediumGrey font-nunito-regular">
-                {t("profile.googleAccount.linkDescription")}
-              </Text>
-            </View>
-          ) : (
-            <View>
-              <Text className="text-appMediumGrey font-nunito-regular mb-3">
-                {t("profile.googleAccount.linkDescription")}
-              </Text>
-              <TouchableOpacity
-                onPress={handleLinkGoogle}
-                disabled={linkingGoogle}
-                className="flex-row items-center justify-center rounded-full px-4 py-3 bg-black"
-                style={{ opacity: linkingGoogle ? 0.7 : 1 }}
-              >
-                <Ionicons name="logo-google" size={18} color="white" />
-                <Text className="ml-2 text-white font-nunito-semibold">
-                  {linkingGoogle
-                    ? t("common.loading")
-                    : t("profile.googleAccount.link")}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        </View>
-
         <TouchableOpacity
           onPress={() => logout()}
           className="flex-row items-center px-6 py-4 bg-white border-b border-gray-100"
