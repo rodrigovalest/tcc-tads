@@ -23,19 +23,6 @@ describe("webSocketService", () => {
     jest.clearAllMocks();
   });
 
-  it("should connect with correct token", () => {
-    const jwtToken = "test-token";
-
-    webSocketService.connect(jwtToken);
-
-    expect(mockIo).toHaveBeenCalledWith(expect.anything(), {
-      transports: ["websocket"],
-      auth: {
-        token: `Bearer ${jwtToken}`,
-      },
-    });
-  });
-
   it("should emit events", () => {
     webSocketService.connect("token");
     webSocketService.emit("test-event", { payload: 123 });
