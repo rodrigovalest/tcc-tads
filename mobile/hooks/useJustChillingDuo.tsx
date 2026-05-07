@@ -11,6 +11,7 @@ import {
 } from "react-native-webrtc";
 import webSocketService from "../services/web-socket-service";
 import useMatchStore from "../store/match-store";
+import { Audio } from "expo-av";
 
 const turnServerUrl = process.env.EXPO_PUBLIC_TURN_SERVER_URL ?? "192.168.0.106";
 const turnServerPort = process.env.EXPO_PUBLIC_TURN_SERVER_PORT ?? "3478";
@@ -84,6 +85,18 @@ const useJustChillingDuo = (redirectOnEnd: () => void) => {
 
   const initializeConnection = async () => {
     if (!matchId || isOfferer === null) return;
+
+    try {
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: true,
+        playsInSilentModeIOS: true,
+        shouldDuckAndroid: true,
+        staysActiveInBackground: true,
+        playThroughEarpieceAndroid: false,
+      });
+    } catch (e) {
+      console.error("[INIT] Error setting audio mode:", e);
+    }
 
     const pc = new RTCPeerConnection(PEER_CONSTRAINTS);
     peerConnection.current = pc;
