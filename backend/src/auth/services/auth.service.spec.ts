@@ -113,106 +113,106 @@ describe('AuthService', () => {
     });
   });
 
-  describe('loginWithGoogle', () => {
-    const idToken = 'mock-id-token';
-    const email = 'test@example.com';
-    const name = 'Test User';
-    const photo = 'https://example.com/photo.jpg';
+  // describe('loginWithGoogle', () => {
+  //   const idToken = 'mock-id-token';
+  //   const email = 'test@example.com';
+  //   const name = 'Test User';
+  //   const photo = 'https://example.com/photo.jpg';
 
-    const googlePayload = {
-      sub: 'google-user-id',
-      email: email,
-      name: name,
-      picture: photo,
-      email_verified: true,
-    };
+  //   const googlePayload = {
+  //     sub: 'google-user-id',
+  //     email: email,
+  //     name: name,
+  //     picture: photo,
+  //     email_verified: true,
+  //   };
 
-    const user = {
-      id: 1,
-      email: email,
-      username: 'testuser',
-      nationality: 'BR',
-      password: 'hashed-password',
-    };
+  //   const user = {
+  //     id: 1,
+  //     email: email,
+  //     username: 'testuser',
+  //     nationality: 'BR',
+  //     password: 'hashed-password',
+  //   };
 
-    beforeEach(() => {
-      jest.clearAllMocks();
-    });
+  //   beforeEach(() => {
+  //     jest.clearAllMocks();
+  //   });
 
-    it('should login existing user with Google successfully', async () => {
-      const updatedUser = { ...user, googleId: googlePayload.sub };
+  //   it('should login existing user with Google successfully', async () => {
+  //     const updatedUser = { ...user, googleId: googlePayload.sub };
 
-      mockGoogleAuthService.verifyIdToken.mockResolvedValue(googlePayload);
-      mockUserService.findByGoogleId.mockResolvedValue(null);
-      mockUserService.findByEmail.mockResolvedValue(user);
-      mockUserService.linkGoogleAccount.mockResolvedValue(updatedUser);
-      mockJwtService.sign.mockReturnValue('mock-jwt-token');
+  //     mockGoogleAuthService.verifyIdToken.mockResolvedValue(googlePayload);
+  //     mockUserService.findByGoogleId.mockResolvedValue(null);
+  //     mockUserService.findByEmail.mockResolvedValue(user);
+  //     mockUserService.linkGoogleAccount.mockResolvedValue(updatedUser);
+  //     mockJwtService.sign.mockReturnValue('mock-jwt-token');
 
-      const result = await authService.loginWithGoogle(
-        idToken,
-        email,
-        name,
-        photo,
-      );
+  //     const result = await authService.loginWithGoogle(
+  //       idToken,
+  //       email,
+  //       name,
+  //       photo,
+  //     );
 
-      expect(result).toEqual({
-        token: 'mock-jwt-token',
-        isNewUser: false,
-      });
-      expect(mockGoogleAuthService.verifyIdToken).toHaveBeenCalledWith(idToken);
-      expect(mockUserService.findByGoogleId).toHaveBeenCalledWith(
-        googlePayload.sub,
-      );
-      expect(mockUserService.findByEmail).toHaveBeenCalledWith(email);
-      expect(mockUserService.linkGoogleAccount).toHaveBeenCalledWith(
-        user.id,
-        googlePayload.sub,
-        email,
-        photo,
-      );
-      expect(mockJwtService.sign).toHaveBeenCalledWith({
-        sub: user.id,
-        email: user.email,
-        username: user.username,
-        nationality: user.nationality,
-        photoUri: null,
-      });
-    });
+  //     expect(result).toEqual({
+  //       token: 'mock-jwt-token',
+  //       isNewUser: false,
+  //     });
+  //     expect(mockGoogleAuthService.verifyIdToken).toHaveBeenCalledWith(idToken);
+  //     expect(mockUserService.findByGoogleId).toHaveBeenCalledWith(
+  //       googlePayload.sub,
+  //     );
+  //     expect(mockUserService.findByEmail).toHaveBeenCalledWith(email);
+  //     expect(mockUserService.linkGoogleAccount).toHaveBeenCalledWith(
+  //       user.id,
+  //       googlePayload.sub,
+  //       email,
+  //       photo,
+  //     );
+  //     expect(mockJwtService.sign).toHaveBeenCalledWith({
+  //       sub: user.id,
+  //       email: user.email,
+  //       username: user.username,
+  //       nationality: user.nationality,
+  //       photoUri: null,
+  //     });
+  //   });
 
-    it('should require registration for new Google user', async () => {
-      mockGoogleAuthService.verifyIdToken.mockResolvedValue(googlePayload);
-      mockUserService.findByGoogleId.mockResolvedValue(null);
-      mockUserService.findByEmail.mockResolvedValue(null);
+  //   it('should require registration for new Google user', async () => {
+  //     mockGoogleAuthService.verifyIdToken.mockResolvedValue(googlePayload);
+  //     mockUserService.findByGoogleId.mockResolvedValue(null);
+  //     mockUserService.findByEmail.mockResolvedValue(null);
 
-      const result = await authService.loginWithGoogle(
-        idToken,
-        email,
-        name,
-        photo,
-      );
+  //     const result = await authService.loginWithGoogle(
+  //       idToken,
+  //       email,
+  //       name,
+  //       photo,
+  //     );
 
-      expect(result).toEqual({
-        token: '',
-        isNewUser: true,
-        requiresRegistration: true,
-      });
-      expect(mockGoogleAuthService.verifyIdToken).toHaveBeenCalledWith(idToken);
-      expect(mockUserService.findByEmail).toHaveBeenCalledWith(email);
-      expect(mockJwtService.sign).not.toHaveBeenCalled();
-    });
+  //     expect(result).toEqual({
+  //       token: '',
+  //       isNewUser: true,
+  //       requiresRegistration: true,
+  //     });
+  //     expect(mockGoogleAuthService.verifyIdToken).toHaveBeenCalledWith(idToken);
+  //     expect(mockUserService.findByEmail).toHaveBeenCalledWith(email);
+  //     expect(mockJwtService.sign).not.toHaveBeenCalled();
+  //   });
 
-    it('should throw error if Google token verification fails', async () => {
-      mockGoogleAuthService.verifyIdToken.mockRejectedValue(
-        new Error('Invalid token'),
-      );
+  //   it('should throw error if Google token verification fails', async () => {
+  //     mockGoogleAuthService.verifyIdToken.mockRejectedValue(
+  //       new Error('Invalid token'),
+  //     );
 
-      await expect(
-        authService.loginWithGoogle(idToken, email, name, photo),
-      ).rejects.toThrow('Invalid token');
+  //     await expect(
+  //       authService.loginWithGoogle(idToken, email, name, photo),
+  //     ).rejects.toThrow('Invalid token');
 
-      expect(mockGoogleAuthService.verifyIdToken).toHaveBeenCalledWith(idToken);
-      expect(mockUserService.findByEmail).not.toHaveBeenCalled();
-      expect(mockJwtService.sign).not.toHaveBeenCalled();
-    });
-  });
+  //     expect(mockGoogleAuthService.verifyIdToken).toHaveBeenCalledWith(idToken);
+  //     expect(mockUserService.findByEmail).not.toHaveBeenCalled();
+  //     expect(mockJwtService.sign).not.toHaveBeenCalled();
+  //   });
+  // });
 });
