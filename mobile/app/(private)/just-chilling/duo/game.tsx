@@ -84,7 +84,7 @@ export default function JustChillingDuoGame() {
           onPress={switchAudio}
         >
           <Feather
-            name={isMicMuted ? "mic" : "mic-off"}
+            name={isMicMuted ? "mic-off" : "mic"}
             size={26}
             color="#FEFBF4"
           />
@@ -95,7 +95,7 @@ export default function JustChillingDuoGame() {
           onPress={switchVideo}
         >
           <Feather
-            name={isVideoMuted ? "video" : "video-off"}
+            name={isVideoMuted ? "video-off" : "video"}
             size={26}
             color="#FEFBF4"
           />

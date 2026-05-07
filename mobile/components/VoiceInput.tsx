@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import Voice, { SpeechResultsEvent } from "@react-native-voice/voice";
+import { Audio } from "expo-av";
 import { COLORS } from "../constants/colors";
 import useI18n from "../hooks/useI18n";
 
@@ -38,34 +39,34 @@ const VoiceInput: React.FC<VoiceInputProps> = ({
       .replace(/[^a-zA-ZáéíóúàèìòùâêîôûãõñçÁÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕÑÇ\s]/g, "")
       .trim();
 
-    // Separa em palavras individuais
     const newWords = fullText.split(/\s+/).filter((word) => word.length > 0);
 
     if (newWords.length > 0) {
       setWords((prevWords) => [...prevWords, ...newWords]);
+      try {
+        await Voice.stop();
+      } catch (e) {
+      }
       setIsListening(false);
-      await Voice.stop();
     }
   }
 
   function onSpeechError(error: any) {
-    const errorCode = error.error?.code || error.error?.message || "unknown";
+    const errorCode = String(error.error?.code || error.error?.message || "unknown");
 
-    // Ignora erros 5 (Client side error) e 7 (No match) pois são comuns e não críticos
-    // O erro 5 geralmente ocorre quando o reconhecimento termina abruptamente mas ainda captura a palavra
+    setIsListening(false);
+
     if (
       errorCode === "5" ||
       errorCode === "7" ||
-      errorCode === "5/Client side error" ||
-      errorCode === "7/No match"
+      errorCode.includes("5") ||
+      errorCode.includes("7")
     ) {
       console.log("Voice recognition: Non-critical error ignored:", errorCode);
       return;
     }
 
     console.error("Voice recognition error:", error);
-    // Desliga o microfone apenas para erros críticos
-    setIsListening(false);
   }
 
   function onSpeechEnd() {
@@ -79,6 +80,22 @@ const VoiceInput: React.FC<VoiceInputProps> = ({
         await Voice.stop();
         setIsListening(false);
       } else {
+        try {
+          await Voice.destroy();
+          Voice.onSpeechResults = onSpeechResults;
+          Voice.onSpeechError = onSpeechError;
+          Voice.onSpeechEnd = onSpeechEnd;
+        } catch (e) {
+        }
+
+        await Audio.setAudioModeAsync({
+          allowsRecordingIOS: true,
+          playsInSilentModeIOS: true,
+          shouldDuckAndroid: true,
+          staysActiveInBackground: true,
+          playThroughEarpieceAndroid: false,
+        });
+
         await Voice.start(language || "pt-BR");
         setIsListening(true);
       }
@@ -113,7 +130,6 @@ const VoiceInput: React.FC<VoiceInputProps> = ({
 
   function handleSubmit() {
     if (words.length > 0 && isGameActive) {
-      // Envia todas as palavras como uma única string
       const finalText = words.join(" ").toLowerCase();
       onSubmitWord(finalText);
       setWords([]);
