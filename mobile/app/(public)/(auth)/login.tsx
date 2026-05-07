@@ -58,28 +58,6 @@ export default function Login() {
 
         <LoginForm />
 
-        <Text className="text-center text-2xl text-black font-medium my-8">
-          {t("auth.or")}
-        </Text>
-
-        <Button
-          title={t("auth.loginWithGoogle")}
-          onPress={handleGoogleLogin}
-          className="mb-4"
-          loading={isGoogleLoading}
-          textColor="text-black"
-          textColorActivate="text-white"
-          textSize="2xl"
-          bgColor="bg-white"
-          bgColorActivate="bg-black"
-          borderColor="border-appLightGrey"
-          borderColorActivate="border-black"
-          iconLeft="logo-google"
-          iconLeftColor="black"
-          iconLeftColorActivate="white"
-          testID="google-login-button"
-        />
-
         <Button
           title={t("auth.createAccount")}
           onPress={handleSignUp}

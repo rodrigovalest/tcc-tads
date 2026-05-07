@@ -57,6 +57,8 @@ export class AuthService {
     isNewUser: boolean;
     requiresRegistration?: boolean;
   }> {
+    throw new BadRequestException('Google authentication is disabled');
+    /*
     const googlePayload = await this.googleAuthService.verifyIdToken(idToken);
 
     if (googlePayload.email !== email) {
@@ -104,9 +106,12 @@ export class AuthService {
       token,
       isNewUser: false,
     };
+    */
   }
 
   async linkGoogleAccount(userId: number, idToken: string): Promise<void> {
+    throw new BadRequestException('Google authentication is disabled');
+    /*
     const googlePayload = await this.googleAuthService.verifyIdToken(idToken);
     const user = await this.userService.findById(userId);
 
@@ -132,6 +137,7 @@ export class AuthService {
       googlePayload.sub,
       googlePayload.email,
     );
+    */
   }
 
   async unlinkGoogleAccount(userId: number): Promise<void> {
