@@ -72,7 +72,7 @@
     "react-native-toast-message": "^2.3.0",
     "react-native-vector-icons": "^10.2.0",
     "react-native-web": "~0.20.0",
-    "react-native-webrtc": "1.94.2",
+    "react-native-webrtc": "124.0.7",
     "socket.io-client": "^4.8.1",
     "tailwindcss": "^3.4.17",
     "yup": "^1.6.1",
